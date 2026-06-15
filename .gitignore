@@ -1,1 +1,7 @@
 digest.txt
+scripts/node_modules
+code/diffusion/data
+code/diffusion/samples
+code/diffusion/.venv/
+code/diffusion/docs/
+*.pdf
