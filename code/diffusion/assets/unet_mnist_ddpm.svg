@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="940" viewBox="0 0 1800 940" role="img" aria-labelledby="title desc">
+  <title id="title">MNIST DDPM UNet architecture</title>
+  <desc id="desc">Clear U-Net style architecture diagram for train_mnist_ddpm.py with channels, dimensions, pooling, upsampling, skip connections, and timestep conditioning.</desc>
+  <defs>
+    <marker id="blue-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#09108f"/>
+    </marker>
+    <marker id="gray-arrow" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#b0b0b0"/>
+    </marker>
+    <marker id="red-arrow" markerWidth="7" markerHeight="9" refX="3.5" refY="8" orient="auto">
+      <path d="M0,0 L7,0 L3.5,9 Z" fill="#a00000"/>
+    </marker>
+    <marker id="green-arrow" markerWidth="7" markerHeight="9" refX="3.5" refY="1" orient="auto">
+      <path d="M0,9 L7,9 L3.5,0 Z" fill="#008000"/>
+    </marker>
+    <marker id="teal-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#008b8b"/>
+    </marker>
+    <style>
+      .bg { fill: #fff; }
+      .feat { fill: #74a5d8; stroke: #2a5f99; stroke-width: 1.4; }
+      .feat-light { fill: #f6f9ff; stroke: #2a5f99; stroke-width: 1.4; }
+      .feat-dash { fill: #74a5d8; stroke: #2a5f99; stroke-width: 2.5; stroke-dasharray: 7 5; }
+      .conv { stroke: #09108f; stroke-width: 4.5; marker-end: url(#blue-arrow); }
+      .skip { stroke: #b0b0b0; stroke-width: 7; marker-end: url(#gray-arrow); }
+      .pool { stroke: #a00000; stroke-width: 7; marker-end: url(#red-arrow); }
+      .up { stroke: #008000; stroke-width: 7; marker-end: url(#green-arrow); }
+      .one { stroke: #008b8b; stroke-width: 4.5; marker-end: url(#teal-arrow); }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #111; font-size: 30px; font-weight: 650; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #111; font-size: 25px; }
+      .stage { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #202020; font-size: 21px; font-weight: 650; text-anchor: middle; }
+      .chan { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #6f6f6f; font-size: 22px; text-anchor: middle; }
+      .dim { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #777; font-size: 18px; text-anchor: middle; }
+      .note { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #666; font-size: 18px; text-anchor: middle; }
+      .tiny { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #666; font-size: 16px; }
+      .legend { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; fill: #111; font-size: 23px; }
+      .orange { fill: #d17a00; stroke: #d17a00; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1800" height="940"/>
+  <text class="title" x="900" y="42" text-anchor="middle">UNet in train_mnist_ddpm.py</text>
+
+  <!-- Input label -->
+  <text class="label" x="86" y="164" text-anchor="middle">noisy</text>
+  <text class="label" x="86" y="194" text-anchor="middle">image</text>
+  <text class="note" x="86" y="228">x_t</text>
+  <text class="tiny" x="38" y="258">B x 1 x 28 x 28</text>
+
+  <!-- enc1 -->
+  <text class="stage" x="285" y="78">enc1 ConvBlock</text>
+  <text class="chan" x="210" y="108">1</text>
+  <rect class="feat-light" x="200" y="124" width="22" height="170"/>
+  <text class="dim" transform="translate(184 222) rotate(-90)">28 x 28</text>
+  <line class="conv" x1="238" y1="209" x2="280" y2="209"/>
+  <text class="chan" x="320" y="108">64</text>
+  <rect class="feat" x="304" y="124" width="32" height="170"/>
+  <text class="dim" transform="translate(288 222) rotate(-90)">28 x 28</text>
+  <line class="conv" x1="352" y1="209" x2="394" y2="209"/>
+  <text class="chan" x="432" y="108">64</text>
+  <rect class="feat-dash" x="416" y="124" width="32" height="170"/>
+  <text class="dim" transform="translate(465 222) rotate(-90)">28 x 28</text>
+  <text class="note" x="330" y="326">1 -> 64, two 3x3 convs</text>
+
+  <!-- pool to enc2 -->
+  <line class="pool" x1="432" y1="314" x2="432" y2="386"/>
+
+  <!-- enc2 -->
+  <text class="stage" x="485" y="404">enc2 ConvBlock</text>
+  <text class="chan" x="414" y="438">64</text>
+  <rect class="feat-light" x="404" y="454" width="22" height="112"/>
+  <text class="dim" transform="translate(389 523) rotate(-90)">14 x 14</text>
+  <line class="conv" x1="442" y1="510" x2="484" y2="510"/>
+  <text class="chan" x="524" y="438">128</text>
+  <rect class="feat" x="506" y="454" width="36" height="112"/>
+  <text class="dim" transform="translate(490 523) rotate(-90)">14 x 14</text>
+  <line class="conv" x1="558" y1="510" x2="600" y2="510"/>
+  <text class="chan" x="640" y="438">128</text>
+  <rect class="feat-dash" x="622" y="454" width="36" height="112"/>
+  <text class="dim" transform="translate(675 523) rotate(-90)">14 x 14</text>
+  <text class="note" x="535" y="594">64 -> 128</text>
+
+  <!-- pool to enc3 -->
+  <line class="pool" x1="640" y1="584" x2="640" y2="630"/>
+
+  <!-- enc3 -->
+  <text class="stage" x="685" y="640">enc3 ConvBlock</text>
+  <text class="chan" x="618" y="674">128</text>
+  <rect class="feat-light" x="606" y="690" width="24" height="74"/>
+  <text class="dim" transform="translate(591 742) rotate(-90)">7 x 7</text>
+  <line class="conv" x1="646" y1="727" x2="688" y2="727"/>
+  <text class="chan" x="730" y="674">256</text>
+  <rect class="feat" x="710" y="690" width="40" height="74"/>
+  <text class="dim" transform="translate(694 742) rotate(-90)">7 x 7</text>
+  <line class="conv" x1="766" y1="727" x2="808" y2="727"/>
+  <text class="chan" x="850" y="674">256</text>
+  <rect class="feat-dash" x="830" y="690" width="40" height="74"/>
+  <text class="dim" transform="translate(887 742) rotate(-90)">7 x 7</text>
+
+  <!-- bottleneck -->
+  <line class="pool" x1="850" y1="780" x2="850" y2="820"/>
+  <text class="stage" x="980" y="858">bottleneck ConvBlock</text>
+  <text class="chan" x="910" y="765">256</text>
+  <rect class="feat-light" x="896" y="782" width="28" height="45"/>
+  <text class="dim" transform="translate(880 817) rotate(-90)">3 x 3</text>
+  <line class="conv" x1="942" y1="805" x2="984" y2="805"/>
+  <text class="chan" x="1028" y="765">256</text>
+  <rect class="feat" x="1008" y="782" width="40" height="45"/>
+  <line class="conv" x1="1065" y1="805" x2="1107" y2="805"/>
+  <text class="chan" x="1150" y="765">256</text>
+  <rect class="feat-dash" x="1130" y="782" width="40" height="45"/>
+  <text class="dim" transform="translate(1187 817) rotate(-90)">3 x 3</text>
+
+  <!-- up to dec3 -->
+  <line class="up" x1="1150" y1="766" x2="1150" y2="642"/>
+
+  <!-- dec3 -->
+  <text class="stage" x="1180" y="640">dec3 ConvBlock</text>
+  <text class="chan" x="1065" y="674">512</text>
+  <rect class="feat-light" x="1048" y="690" width="34" height="74"/>
+  <rect class="feat" x="1082" y="690" width="34" height="74"/>
+  <text class="dim" transform="translate(1031 742) rotate(-90)">7 x 7</text>
+  <line class="conv" x1="1132" y1="727" x2="1174" y2="727"/>
+  <text class="chan" x="1216" y="674">128</text>
+  <rect class="feat" x="1198" y="690" width="36" height="74"/>
+  <line class="conv" x1="1250" y1="727" x2="1292" y2="727"/>
+  <text class="chan" x="1334" y="674">128</text>
+  <rect class="feat" x="1316" y="690" width="36" height="74"/>
+  <text class="dim" transform="translate(1369 742) rotate(-90)">7 x 7</text>
+
+  <!-- up to dec2 -->
+  <line class="up" x1="1334" y1="674" x2="1334" y2="586"/>
+
+  <!-- dec2 -->
+  <text class="stage" x="1340" y="404">dec2 ConvBlock</text>
+  <text class="chan" x="1240" y="438">256</text>
+  <rect class="feat-light" x="1223" y="454" width="34" height="112"/>
+  <rect class="feat" x="1257" y="454" width="34" height="112"/>
+  <text class="dim" transform="translate(1206 523) rotate(-90)">14 x 14</text>
+  <line class="conv" x1="1307" y1="510" x2="1349" y2="510"/>
+  <text class="chan" x="1390" y="438">64</text>
+  <rect class="feat" x="1374" y="454" width="32" height="112"/>
+  <line class="conv" x1="1422" y1="510" x2="1464" y2="510"/>
+  <text class="chan" x="1504" y="438">64</text>
+  <rect class="feat" x="1488" y="454" width="32" height="112"/>
+  <text class="dim" transform="translate(1538 523) rotate(-90)">14 x 14</text>
+
+  <!-- up to dec1 -->
+  <line class="up" x1="1504" y1="438" x2="1504" y2="315"/>
+
+  <!-- dec1 -->
+  <text class="stage" x="1392" y="78">dec1 ConvBlock</text>
+  <text class="chan" x="1260" y="108">128</text>
+  <rect class="feat-light" x="1243" y="124" width="34" height="170"/>
+  <rect class="feat" x="1277" y="124" width="34" height="170"/>
+  <text class="dim" transform="translate(1226 222) rotate(-90)">28 x 28</text>
+  <line class="conv" x1="1327" y1="209" x2="1369" y2="209"/>
+  <text class="chan" x="1410" y="108">64</text>
+  <rect class="feat" x="1394" y="124" width="32" height="170"/>
+  <line class="conv" x1="1442" y1="209" x2="1484" y2="209"/>
+  <text class="chan" x="1524" y="108">64</text>
+  <rect class="feat" x="1508" y="124" width="32" height="170"/>
+  <text class="dim" transform="translate(1557 222) rotate(-90)">28 x 28</text>
+  <line class="one" x1="1556" y1="209" x2="1590" y2="209"/>
+  <text class="chan" x="1623" y="108">1</text>
+  <rect class="feat-light" x="1615" y="124" width="18" height="170"/>
+
+  <!-- Output label -->
+  <text class="label" x="1670" y="184" text-anchor="middle">predicted</text>
+  <text class="label" x="1670" y="214" text-anchor="middle">noise εθ</text>
+  <text class="tiny" x="1620" y="244">B x 1 x 28 x 28</text>
+
+  <!-- skip connections -->
+  <line class="skip" x1="452" y1="185" x2="1220" y2="185"/>
+  <text class="note" x="836" y="166">skip s1: B x 64 x 28 x 28</text>
+  <line class="skip" x1="662" y1="490" x2="1200" y2="490"/>
+  <text class="note" x="930" y="471">skip s2: B x 128 x 14 x 14</text>
+  <line class="skip" x1="872" y1="710" x2="1025" y2="710"/>
+  <text class="note" x="948" y="676">skip s3: B x 256 x 7 x 7</text>
+
+  <!-- timestep conditioning note -->
+  <rect x="520" y="70" width="560" height="66" rx="12" fill="#fff7e8" stroke="#d17a00" stroke-width="2.5"/>
+  <text class="stage" x="800" y="98">timestep conditioning</text>
+  <text class="note" x="800" y="122">t -> SinusoidalPosEmb(128); Linear(128, out_ch) is added inside each ConvBlock</text>
+  <circle class="orange" cx="430" cy="309" r="5"/>
+  <circle class="orange" cx="640" cy="582" r="5"/>
+  <circle class="orange" cx="850" cy="778" r="5"/>
+  <circle class="orange" cx="1150" cy="768" r="5"/>
+  <circle class="orange" cx="1334" cy="672" r="5"/>
+  <circle class="orange" cx="1504" cy="436" r="5"/>
+
+  <!-- legend -->
+  <g transform="translate(92 666)">
+    <line class="conv" x1="0" y1="0" x2="52" y2="0"/>
+    <text class="legend" x="72" y="8">conv 3x3 + SiLU</text>
+    <line class="skip" x1="0" y1="44" x2="52" y2="44"/>
+    <text class="legend" x="72" y="52">skip concat</text>
+    <line class="pool" x1="26" y1="72" x2="26" y2="112"/>
+    <text class="legend" x="72" y="108">max pool 2x2</text>
+    <line class="up" x1="26" y1="160" x2="26" y2="120"/>
+    <text class="legend" x="72" y="150">nearest upsample</text>
+    <line class="one" x1="0" y1="190" x2="52" y2="190"/>
+    <text class="legend" x="72" y="198">conv 1x1</text>
+    <circle class="orange" cx="26" cy="232" r="6"/>
+    <text class="legend" x="72" y="240">time embedding add</text>
+  </g>
+</svg>

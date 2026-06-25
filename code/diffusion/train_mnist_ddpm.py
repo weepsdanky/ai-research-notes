@@ -14,20 +14,59 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torchvision.utils import save_image
+import csv
 import os
+import random
+import time
+
+import numpy as np
 
 # ---------- config ----------
+SEED = 42
 IMG_SIZE = 28
 IN_CHANNELS = 1
 BATCH_SIZE = 128
-EPOCHS = 20
+EPOCHS = 100
 LR = 1e-3
 NUM_TIMESTEPS = 1000
 BETA_START = 1e-4
 BETA_END = 0.02
 DEVICE = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
 OUT_DIR = "samples"
+LOG_CSV = os.path.join(OUT_DIR, "training_log.csv")
+LOSS_PLOT = os.path.join(OUT_DIR, "training_loss.png")
 os.makedirs(OUT_DIR, exist_ok=True)
+
+
+def save_loss_plot(history):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    epochs = [row["epoch"] for row in history]
+    mean_losses = [row["loss_mean"] for row in history]
+    last_losses = [row["loss_last"] for row in history]
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(epochs, mean_losses, marker="o", linewidth=2, label="epoch mean loss")
+    plt.plot(epochs, last_losses, alpha=0.35, linewidth=1, label="last batch loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("MSE loss")
+    plt.title("DDPM MNIST training loss")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(LOSS_PLOT, dpi=150)
+    plt.close()
+
+
+def write_training_log(history):
+    fieldnames = ["epoch", "global_step", "loss_mean", "loss_last", "learning_rate", "epoch_seconds"]
+    with open(LOG_CSV, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(history)
 
 
 # ---------- noise schedule ----------
@@ -46,7 +85,7 @@ class NoiseSchedule:
         self.alpha = alpha
         self.alpha_bar = alpha_bar
 
-    def to(self, device):
+    def to(self, device): # load tensor to GPU
         self.beta = self.beta.to(device)
         self.alpha = self.alpha.to(device)
         self.alpha_bar = self.alpha_bar.to(device)
@@ -156,19 +195,42 @@ def sample(model, noise_schedule, num_images=64):
 
 # ---------- training ----------
 def train():
-    tf = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize([0.5], [0.5]),
-    ])
-    dataset = datasets.MNIST(root="./data", train=True, download=True, transform=tf)
-    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
+    os.environ["PYTHONHASHSEED"] = str(SEED)
+    random.seed(SEED)
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(SEED)
+    if torch.backends.mps.is_available():
+        torch.mps.manual_seed(SEED)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
 
-    model = UNet().to(DEVICE)
+    tf = transforms.Compose([
+        transforms.ToTensor(), # convert to tensor
+        transforms.Normalize([0.5], [0.5]), # normalize to [-1, 1]
+    ]) # transforms for MNIST dataset
+    dataset = datasets.MNIST(root="./data", train=True, download=True, transform=tf)
+    loader_generator = torch.Generator()
+    loader_generator.manual_seed(SEED)
+    loader = DataLoader(
+        dataset,
+        batch_size=BATCH_SIZE,
+        shuffle=True,
+        num_workers=4,
+        generator=loader_generator,
+    )
+
+    model = UNet().to(DEVICE) # initialize the model
     noise_schedule = NoiseSchedule(NUM_TIMESTEPS).to(DEVICE)
     optimizer = torch.optim.Adam(model.parameters(), lr=LR)
     global_step = 0
+    history = []
 
     for epoch in range(EPOCHS):
+        epoch_start = time.perf_counter()
+        epoch_loss_sum = 0.0
+        epoch_batches = 0
         for x0, _ in loader:
             x0 = x0.to(DEVICE)
             t = torch.randint(0, NUM_TIMESTEPS, (x0.size(0),), device=DEVICE)
@@ -180,15 +242,33 @@ def train():
             loss.backward()
             optimizer.step()
             global_step += 1
+            epoch_loss_sum += loss.item()
+            epoch_batches += 1
 
-        print(f"epoch {epoch+1}/{EPOCHS}  loss={loss.item():.6f}")
+        epoch_row = {
+            "epoch": epoch + 1,
+            "global_step": global_step,
+            "loss_mean": epoch_loss_sum / epoch_batches,
+            "loss_last": loss.item(),
+            "learning_rate": optimizer.param_groups[0]["lr"],
+            "epoch_seconds": time.perf_counter() - epoch_start,
+        }
+        history.append(epoch_row)
+        write_training_log(history)
+        save_loss_plot(history)
+
+        print(
+            f"epoch {epoch+1}/{EPOCHS}  "
+            f"loss_mean={epoch_row['loss_mean']:.6f}  "
+            f"loss_last={epoch_row['loss_last']:.6f}"
+        )
 
         if (epoch + 1) % 5 == 0 or epoch == EPOCHS - 1:
             samples = sample(model, noise_schedule, num_images=64)
             save_image(samples, os.path.join(OUT_DIR, f"epoch_{epoch+1}.png"), nrow=8, normalize=True, value_range=(-1, 1))
 
     torch.save(model.state_dict(), os.path.join(OUT_DIR, "ddpm_mnist.pt"))
-    print(f"done — samples saved to {OUT_DIR}/")
+    print(f"done — samples, log, and loss plot saved to {OUT_DIR}/")
 
 
 if __name__ == "__main__":

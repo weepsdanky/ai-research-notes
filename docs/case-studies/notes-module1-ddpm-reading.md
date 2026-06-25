@@ -2,6 +2,12 @@
 
 ## DDPM (Denoising Diffusion Probabilistic Models)
 
+* Deep generative models - GAN, autoregressive, RNN (flows), variational autoencoders (VAE), diffusion probablisitc models 
+* A diffusion probablistic model is a parametrised markov chain
+* Relevant to QFT, annealed Langevin dynamics during sampling
+
+
+
 ## Improved DDPM
 
 

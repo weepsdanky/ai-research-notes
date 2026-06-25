@@ -1,4 +1,6 @@
 digest.txt
+.DS_Store
+__pycache__/
 scripts/node_modules
 code/diffusion/data
 code/diffusion/samples
