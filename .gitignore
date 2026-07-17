@@ -6,4 +6,8 @@ code/diffusion/data
 code/diffusion/samples
 code/diffusion/.venv/
 code/diffusion/docs/
+code/dit/.venv/
+code/dit/.pytest_cache/
+code/dit/samples_dit/
+tmp/
 *.pdf

@@ -62,6 +62,12 @@ if (!inputFile) {
 
 const outputFile = process.argv[3] || inputFile.replace(/\.md$/, '.pdf');
 const markdown = fs.readFileSync(inputFile, 'utf8');
+const documentTitle = path.basename(inputFile, path.extname(inputFile));
+const escapedDocumentTitle = documentTitle
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
 
 console.log(`[render] Input:  ${inputFile}`);
 console.log(`[render] Output: ${outputFile}`);
@@ -90,6 +96,7 @@ const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
+<title>${escapedDocumentTitle}</title>
 <link href="${googleFontsUrl}" rel="stylesheet">
 <style>
 ${katexCss}
@@ -142,6 +149,9 @@ ${body}
       format: 'A4',
       margin: { top: '20mm', bottom: '20mm', left: '20mm', right: '20mm' },
       printBackground: true,
+      displayHeaderFooter: true,
+      headerTemplate: `<div style="width:100%;font-size:8px;color:#777;text-align:right;padding:0 20mm;">${escapedDocumentTitle}</div>`,
+      footerTemplate: '<div style="width:100%;font-size:8px;color:#777;text-align:center;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
     });
 
     console.log(`[render] Done: ${path.resolve(outputFile)}`);
