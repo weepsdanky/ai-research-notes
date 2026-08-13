@@ -6,6 +6,7 @@ from commons_import import (
     fetch_candidate,
     normalize_clip,
     search_candidates,
+    category_candidates,
 )
 
 
@@ -216,3 +217,79 @@ def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
         "File:Cat runs.webm", "File:Second cat.ogv",
     ]
     assert "gsroffset=2" in requested_urls[1]
+
+
+def test_category_candidates_reads_files_from_subcategories(monkeypatch):
+    calls = []
+
+    def fake_json(parameters):
+        calls.append(parameters)
+        if parameters.get("list") == "categorymembers" and parameters["cmtitle"] == "Category:Videos of cats":
+            return {"query": {"categorymembers": [
+                {"ns": 14, "title": "Category:Videos of jumping cats"},
+                {"ns": 6, "title": "File:Cat walking.webm"},
+            ]}}
+        if parameters.get("list") == "categorymembers":
+            return {"query": {"categorymembers": [
+                {"ns": 6, "title": "File:Cat jumping.webm"},
+            ]}}
+        titles = parameters["titles"].split("|")
+        return {"query": {"pages": {str(index): {
+                "title": title, "imageinfo": [{
+                "url": "https://upload.wikimedia.org/cat.webm",
+                "descriptionurl": "https://commons.wikimedia.org/cat",
+                "mime": "video/webm",
+                "extmetadata": {
+                    "Artist": {"value": "Author"},
+                    "LicenseShortName": {"value": "CC0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/publicdomain/zero/1.0"},
+                },
+                }],
+        } for index, title in enumerate(titles)}}}
+
+    monkeypatch.setattr("commons_import._api_json", fake_json)
+    rows = category_candidates(
+        "Videos of cats", subject="cat", max_depth=1, limit=10,
+    )
+    assert {row.title for row in rows} == {
+        "File:Cat walking.webm", "File:Cat jumping.webm",
+    }
+    assert any(call.get("cmtitle") == "Category:Videos of jumping cats" for call in calls)
+    metadata_calls = [call for call in calls if call.get("prop") == "imageinfo"]
+    assert len(metadata_calls) == 2
+    queried_titles = "|".join(call["titles"] for call in metadata_calls)
+    assert "File:Cat walking.webm" in queried_titles
+    assert "File:Cat jumping.webm" in queried_titles
+
+
+def test_category_limit_counts_videos_after_mime_filter(monkeypatch):
+    pages = iter([
+        {"query": {"categorymembers": [
+            {"ns": 6, "title": "File:Photo.jpg"},
+            {"ns": 6, "title": "File:First.webm"},
+        ]}, "continue": {"cmcontinue": "next"}},
+        {"query": {"categorymembers": [
+            {"ns": 6, "title": "File:Second.webm"},
+        ]}},
+    ])
+
+    def fake_json(parameters):
+        if parameters.get("list") == "categorymembers":
+            return next(pages)
+        result = {}
+        for index, title in enumerate(parameters["titles"].split("|")):
+            mime = "image/jpeg" if title.endswith(".jpg") else "video/webm"
+            result[str(index)] = {"title": title, "imageinfo": [{
+                "url": "https://upload.wikimedia.org/media", "mime": mime,
+                "descriptionurl": "https://commons.wikimedia.org/media",
+                "extmetadata": {
+                    "Artist": {"value": "Author"},
+                    "LicenseShortName": {"value": "CC0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/publicdomain/zero/1.0"},
+                },
+            }]}
+        return {"query": {"pages": result}}
+
+    monkeypatch.setattr("commons_import._api_json", fake_json)
+    rows = category_candidates("Cats", subject="cat", max_depth=0, limit=2)
+    assert [row.title for row in rows] == ["File:First.webm", "File:Second.webm"]

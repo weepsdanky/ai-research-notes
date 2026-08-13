@@ -35,6 +35,23 @@ class CommonsCandidate:
     start_seconds: float = 0.0
 
 
+def _api_json(parameters: dict[str, object]) -> dict[str, object]:
+    request = urllib.request.Request(
+        "https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode(parameters),
+        headers={"User-Agent": "ai-research-notes-video-dit/0.1 research"},
+    )
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.loads(response.read())
+        except urllib.error.HTTPError as error:
+            if error.code != 429 or attempt == 5:
+                raise
+            retry_after = error.headers.get("Retry-After") if error.headers else None
+            time.sleep(float(retry_after) if retry_after else 2 ** attempt)
+    raise RuntimeError("unreachable")
+
+
 def _plain(value: str) -> str:
     return re.sub(r"<[^>]+>", "", html.unescape(value)).strip()
 
@@ -103,12 +120,7 @@ def fetch_candidate(
             "titles": title,
         }
     )
-    request = urllib.request.Request(
-        f"https://commons.wikimedia.org/w/api.php?{parameters}",
-        headers={"User-Agent": "ai-research-notes-video-dit/0.1 research"},
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        payload = json.loads(response.read())
+    payload = _api_json(dict(urllib.parse.parse_qsl(parameters)))
     return candidate_from_api(
         payload,
         subject=subject,
@@ -148,21 +160,7 @@ def search_candidates(
             "iiprop": "url|mime|extmetadata",
             **continuation,
         }
-        request = urllib.request.Request(
-            "https://commons.wikimedia.org/w/api.php?"
-            + urllib.parse.urlencode(parameters),
-            headers={"User-Agent": "ai-research-notes-video-dit/0.1 research"},
-        )
-        for attempt in range(6):
-            try:
-                with urllib.request.urlopen(request, timeout=30) as response:
-                    payload = json.loads(response.read())
-                break
-            except urllib.error.HTTPError as error:
-                if error.code != 429 or attempt == 5:
-                    raise
-                retry_after = error.headers.get("Retry-After") if error.headers else None
-                time.sleep(float(retry_after) if retry_after else 2 ** attempt)
+        payload = _api_json(parameters)
         pages = payload.get("query", {}).get("pages", {})
         for page in pages.values():
             info = page.get("imageinfo", [{}])[0]
@@ -184,6 +182,71 @@ def search_candidates(
         continuation = payload.get("continue", {})
         if not continuation:
             break
+    return candidates
+
+
+def category_candidates(
+    category: str,
+    *,
+    subject: str,
+    max_depth: int = 1,
+    limit: int = 500,
+) -> list[CommonsCandidate]:
+    """Enumerate video files from a Commons category tree for human review."""
+
+    if max_depth < 0 or limit < 1:
+        raise ValueError("max_depth must be non-negative and limit positive")
+    queue = [(f"Category:{category.removeprefix('Category:')}", 0)]
+    visited_categories: set[str] = set()
+    visited_titles: set[str] = set()
+    candidates: list[CommonsCandidate] = []
+    while queue and len(candidates) < limit:
+        current, depth = queue.pop(0)
+        if current in visited_categories:
+            continue
+        visited_categories.add(current)
+        continuation: dict[str, object] = {}
+        while len(candidates) < limit:
+            payload = _api_json({
+                "action": "query", "format": "json", "list": "categorymembers",
+                "cmtitle": current, "cmtype": "subcat|file", "cmlimit": 500,
+                **continuation,
+            })
+            page_titles: list[str] = []
+            for member in payload.get("query", {}).get("categorymembers", []):
+                if member.get("ns") == 6:
+                    title = str(member["title"])
+                    if title not in visited_titles:
+                        visited_titles.add(title)
+                        page_titles.append(title)
+                elif member.get("ns") == 14 and depth < max_depth:
+                    queue.append((str(member["title"]), depth + 1))
+            for offset in range(0, len(page_titles), 50):
+                batch = page_titles[offset:offset + 50]
+                metadata = _api_json({
+                    "action": "query", "format": "json", "prop": "imageinfo",
+                    "iiprop": "url|mime|extmetadata", "titles": "|".join(batch),
+                })
+                for page_id, page in metadata.get("query", {}).get("pages", {}).items():
+                    info = page.get("imageinfo", [{}])[0]
+                    if not str(info.get("mime", "")).startswith("video/"):
+                        continue
+                    try:
+                        candidates.append(candidate_from_api(
+                            {"query": {"pages": {str(page_id): page}}},
+                            subject=subject, action="review_required",
+                            scene="review_required",
+                            prompt=f"review the {subject} action and scene",
+                        ))
+                    except ValueError:
+                        continue
+                    if len(candidates) == limit:
+                        break
+                if len(candidates) == limit:
+                    break
+            continuation = payload.get("continue", {})
+            if not continuation:
+                break
     return candidates
 
 

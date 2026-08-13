@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import json
 from pathlib import Path
 import urllib.parse
 
 from commons_import import (
-    CommonsCandidate, candidate_sample_id, normalize_clip, search_candidates,
+    CommonsCandidate, candidate_sample_id, category_candidates, normalize_clip,
+    search_candidates,
 )
 
 
@@ -20,6 +21,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     search.add_argument("specs", type=Path)
     search.add_argument("output", type=Path)
     search.add_argument("--state", type=Path)
+    category = commands.add_parser("category")
+    category.add_argument("category")
+    category.add_argument("subject")
+    category.add_argument("output", type=Path)
+    category.add_argument("--max-depth", type=int, default=1)
+    category.add_argument("--limit", type=int, default=500)
     download = commands.add_parser("download")
     download.add_argument("candidates", type=Path)
     download.add_argument("clips", type=Path)
@@ -46,6 +53,22 @@ def _read_jsonl(path: Path) -> list[dict[str, object]]:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.command == "category":
+        rows = _read_jsonl(args.output) if args.output.is_file() else []
+        seen = {str(row["title"]) for row in rows}
+        for candidate in category_candidates(
+            args.category, subject=args.subject, max_depth=args.max_depth,
+            limit=args.limit,
+        ):
+            if candidate.title in seen:
+                continue
+            seen.add(candidate.title)
+            rows.append({
+                **asdict(candidate), "query": f"category:{args.category}",
+                "review_status": "pending", "review_notes": "",
+            })
+        _write_jsonl(args.output, rows)
+        return 0
     if args.command == "search":
         specs = json.loads(args.specs.read_text(encoding="utf-8"))
         if not isinstance(specs, list):
@@ -94,6 +117,11 @@ def main(argv: list[str] | None = None) -> int:
             continue
         row.pop("review_notes", None)
         row.pop("query", None)
+        preview_url = row.pop("review_preview_url", None)
+        row.pop("duration_seconds", None)
+        row.pop("review_media_error", None)
+        if preview_url:
+            row["media_url"] = preview_url
         if "review_required" in (row.get("action"), row.get("scene")):
             raise ValueError("approved candidate still contains placeholder labels")
         media = urllib.parse.urlparse(str(row.get("media_url", "")))
@@ -109,6 +137,18 @@ def main(argv: list[str] | None = None) -> int:
         record = normalize_clip(
             candidate, args.clips, frames=args.frames, fps=args.fps, size=args.size,
         )
+        if hasattr(record, "clip_path"):
+            clip_path = Path(record.clip_path)
+            try:
+                relative_clip = clip_path.resolve().relative_to(
+                    args.manifest.parent.resolve()
+                )
+            except ValueError:
+                raise ValueError(
+                    "normalized clips must be inside the manifest directory"
+                )
+            else:
+                record = replace(record, clip_path=str(relative_clip))
         approved.append(asdict(record))
         completed_ids.add(expected_sample_id)
         _write_jsonl(args.manifest, approved)

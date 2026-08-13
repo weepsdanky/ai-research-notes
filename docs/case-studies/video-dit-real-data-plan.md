@@ -152,14 +152,21 @@ scene   = grass/field | forest | beach | snow | indoor/home
   metadata 候选量，不能代替视频级人工确认。
 - 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
   显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
-- Wikimedia Commons 类别检索取得 54 个猫、59 个狗候选，另有 27 个动作检索候选。
-  初查发现关键词搜索存在明显误命中，因此管线强制先生成 `pending` 候选清单，人工
-  查看原页面和视频后才可改为 `approved` 并下载。
+- Wikimedia Commons 搜索与分类树检索共取得 275 个候选。已通过本地审核 UI 播放
+  官方低码率 derivative，并用五帧时间联系表辅助检查；100 条猫狗自然视频已人工
+  标为 `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 133 条 pending、
+  42 条 rejected，不以标题或搜索命中直接代替视频审核。
+- G0 的 100 条记录已全部写入可追溯 manifest，并按 source、显式 duplicate group 与
+  感知 hash 的传递闭包完成分组；冻结 OpenAI CLIP ViT-B/32 文本向量已缓存 100/100。
+  MPS 真实 batch 冒烟训练完成 1 次更新（loss 1.0128），验证了解码、自然文本条件、
+  扩散损失、反向传播、EMA、日志与 checkpoint 链路。
 - split validator 现在按 source/duplicate/近重复感知 hash 的传递闭包统计独立来源，正式 CLI 默认每个
   C1 triple 至少 50 个独立来源；同时检查每个 C1 pair 在训练中的来源覆盖、IID triple
   的训练覆盖，并输出完整 coverage table。
 
-因此当前状态是：数据检索和防泄漏代码路径已经闭环，但仍须在实际数据上做人工身份/
-拍摄事件审计；G0 的 100 个**人工确认真实 clip**
-尚未集齐，也尚未开始能回答组合泛化问题的训练。不能把已有单 clip smoke test 或三段
-合成动画当作该问题的结果。
+因此当前状态是：G0 的像素空间数据与单步训练链路已经闭合，但 G0 gate 尚未通过；
+下一步是对 100 clips 做小集合过拟合、多 seed 文本推理和训练集最近邻审计，并补齐
+冻结 VAE latent 的编码与推理解码闭环。G0 不用于回答组合泛化：其中有少量多动物画面，
+且每个组合远未达到 C1 所需的 50 个独立来源。G1--G4 仍需更大规模、严格单主体/同一
+身份与拍摄事件人工审计的数据；在 C1/C2 实验完成前，不能把合成动画、单 clip smoke
+test 或 G0 结果称为“训练期未见组合泛化”。

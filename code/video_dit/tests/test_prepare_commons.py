@@ -1,6 +1,7 @@
 import json
 
 from commons_import import CommonsCandidate, candidate_sample_id
+from real_data import RealVideoRecord
 from prepare_commons import main
 
 
@@ -135,6 +136,92 @@ def test_download_persists_each_success_and_resumes(tmp_path, monkeypatch):
     )
     main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
     assert calls.count("File:one.webm") == 1
+
+
+def test_download_uses_reviewed_derivative_and_accepts_enriched_fields(tmp_path, monkeypatch):
+    row = {
+        "title": "File:Cat.webm",
+        "media_url": "https://upload.wikimedia.org/original.webm",
+        "review_preview_url": "https://upload.wikimedia.org/240p.webm",
+        "duration_seconds": 12.0,
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "Cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "walking", "scene": "indoors",
+        "prompt": "a cat walking indoors", "start_seconds": 2,
+        "review_status": "approved", "review_notes": "watched", "query": "cats",
+    }
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps(row) + "\n")
+    captured = {}
+
+    def fake_normalize(candidate, *args, **kwargs):
+        captured["candidate"] = candidate
+        return {"sample_id": candidate_sample_id(candidate.title)}
+
+    monkeypatch.setattr("prepare_commons.normalize_clip", fake_normalize)
+    monkeypatch.setattr("prepare_commons.asdict", lambda value: value)
+    main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl")])
+    assert captured["candidate"].media_url.endswith("240p.webm")
+
+
+def test_download_writes_clip_path_relative_to_manifest(tmp_path, monkeypatch):
+    row = {
+        "title": "File:Cat.webm", "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "Cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "walking", "scene": "indoors",
+        "prompt": "a cat walking indoors", "start_seconds": 0,
+        "review_status": "approved",
+    }
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps(row) + "\n")
+    clips = tmp_path / "dataset" / "clips"
+    manifest = tmp_path / "dataset" / "source.jsonl"
+    clip = clips / "cat.mp4"
+    clip.parent.mkdir(parents=True)
+    clip.write_bytes(b"video")
+    record = RealVideoRecord(
+        sample_id="cat", source_id="commons:cat", clip_path=str(clip),
+        prompt="a cat walking indoors", subject="cat", action="walking",
+        scene="indoors", source_url=row["description_url"], license="CC0",
+        attribution="Author", sha256="a" * 64, perceptual_hash="0" * 16,
+    )
+    monkeypatch.setattr("prepare_commons.normalize_clip", lambda *args, **kwargs: record)
+
+    main(["download", str(candidates), str(clips), str(manifest)])
+
+    assert json.loads(manifest.read_text())["clip_path"] == "clips/cat.mp4"
+
+
+def test_download_rejects_clip_outside_manifest_tree(tmp_path, monkeypatch):
+    row = {
+        "title": "File:Cat.webm", "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "Cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "walking", "scene": "indoors",
+        "prompt": "a cat walking indoors", "start_seconds": 0,
+        "review_status": "approved",
+    }
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps(row) + "\n")
+    outside = tmp_path / "outside.mp4"
+    record = RealVideoRecord(
+        sample_id="cat", source_id="commons:cat", clip_path=str(outside),
+        prompt="a cat walking indoors", subject="cat", action="walking",
+        scene="indoors", source_url=row["description_url"], license="CC0",
+        attribution="Author", sha256="a" * 64, perceptual_hash="0" * 16,
+    )
+    monkeypatch.setattr("prepare_commons.normalize_clip", lambda *args, **kwargs: record)
+
+    import pytest
+    with pytest.raises(ValueError, match="inside the manifest directory"):
+        main([
+            "download", str(candidates), str(tmp_path / "clips"),
+            str(tmp_path / "dataset" / "source.jsonl"),
+        ])
 
 
 def test_download_rejects_unreviewed_placeholder_labels(tmp_path):

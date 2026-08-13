@@ -243,12 +243,25 @@ Wikimedia Commons 的许可可审计候选采用“搜索→人工审核→下�
 uv run python prepare_commons.py search \
   configs/commons_g0_search.json data/commons_g0/candidates.jsonl
 
+# 可选：按 Commons 分类树扩展候选，再批量补齐时长和官方 240p derivative：
+uv run python prepare_commons.py category "Videos of cats" cat \
+  data/commons_g0/candidates.jsonl --max-depth 1
+uv run python commons_review.py enrich data/commons_g0/candidates.jsonl
+
+# 在浏览器逐条播放官方低码率 derivative，填写真实标签和最佳 2 秒起点：
+uv run python commons_review_ui.py data/commons_g0/candidates.jsonl \
+  --server-port 7862
+
 # 人工检查原页面与视频，把正确的 subject/action/scene/prompt 改好，
 # 仅将确认样本的 review_status 改为 approved。
 uv run python prepare_commons.py download \
   data/commons_g0/candidates.jsonl data/commons_g0/clips \
   data/commons_g0/source.jsonl
 ```
+
+下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
+官方低清 derivative，训练预处理会使用同一 derivative。输出 clip 路径相对于 manifest，
+因此移动整个数据目录后仍可加载。
 
 下载会保留原页面、逐条许可、署名、SHA-256 和感知 hash。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝；网络 429 后可重复运行搜索，已经完成的 query 不会
