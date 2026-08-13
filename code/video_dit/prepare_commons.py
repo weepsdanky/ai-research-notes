@@ -11,7 +11,7 @@ import urllib.parse
 
 from commons_import import (
     CommonsCandidate, candidate_sample_id, category_candidates, normalize_clip,
-    search_candidates,
+    fetch_candidate, search_candidates,
 )
 from commons_review import verify_provenance_sidecar
 
@@ -23,6 +23,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     search.add_argument("specs", type=Path)
     search.add_argument("output", type=Path)
     search.add_argument("--state", type=Path)
+    exact = commands.add_parser("exact")
+    exact.add_argument("specs", type=Path)
+    exact.add_argument("output", type=Path)
     category = commands.add_parser("category")
     category.add_argument("category")
     category.add_argument("subject")
@@ -73,6 +76,71 @@ def _has_commons_provenance(row: dict[str, object]) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.command == "exact":
+        if args.specs.resolve() == args.output.resolve():
+            raise ValueError("exact spec and candidate output paths must differ")
+        specs = json.loads(args.specs.read_text(encoding="utf-8"))
+        if not isinstance(specs, list) or not specs:
+            raise ValueError("exact specs must be a non-empty JSON list")
+        titles: set[str] = set()
+        normalized: list[dict[str, str]] = []
+        for index, spec in enumerate(specs):
+            if not isinstance(spec, dict) or set(spec) != {"title", "subject", "query"}:
+                raise ValueError(
+                    f"exact spec {index} requires only title, subject, query"
+                )
+            if not all(isinstance(spec[name], str) for name in ("title", "subject", "query")):
+                raise ValueError("exact spec title, subject, and query must be strings")
+            title = str(spec["title"]).strip()
+            subject = str(spec["subject"]).strip()
+            query = str(spec["query"]).strip()
+            if not title.startswith("File:") or not title.casefold().endswith(
+                (".webm", ".ogv", ".mp4", ".mpeg", ".mpg", ".mov")
+            ):
+                raise ValueError("exact Commons title must be a File: video title")
+            if title in titles:
+                raise ValueError("exact Commons titles must be unique")
+            if subject not in {"cat", "dog", "person"}:
+                raise ValueError("exact Commons subject must be cat, dog, or person")
+            if not query:
+                raise ValueError("exact Commons query intent must be non-empty")
+            titles.add(title)
+            normalized.append({"title": title, "subject": subject, "query": query})
+
+        rows = _read_jsonl(args.output) if args.output.is_file() else []
+        existing = {str(row.get("title", "")): row for row in rows}
+        if len(existing) != len(rows):
+            raise ValueError("candidate output contains duplicate titles")
+        for spec in normalized:
+            if spec["title"] in existing:
+                old = existing[spec["title"]]
+                expected_query = f"exact:{spec['query']}"
+                if (
+                    str(old.get("subject", "")) != spec["subject"]
+                    or str(old.get("query", "")) != expected_query
+                ):
+                    raise ValueError(
+                        f"existing candidate contract differs for {spec['title']}"
+                    )
+                continue
+            candidate = fetch_candidate(
+                spec["title"], subject=spec["subject"], action="review_required",
+                scene="review_required",
+                prompt=f"review the {spec['subject']} action and scene",
+            )
+            if candidate.title != spec["title"]:
+                raise ValueError(
+                    f"Commons exact title mismatch: requested {spec['title']!r}, "
+                    f"received {candidate.title!r}"
+                )
+            row = {
+                **asdict(candidate), "query": f"exact:{spec['query']}",
+                "review_status": "pending", "review_notes": "",
+            }
+            rows.append(row)
+            existing[candidate.title] = row
+            _write_jsonl(args.output, rows)
+        return 0
     if args.command == "category":
         rows = _read_jsonl(args.output) if args.output.is_file() else []
         seen = {str(row["title"]) for row in rows}

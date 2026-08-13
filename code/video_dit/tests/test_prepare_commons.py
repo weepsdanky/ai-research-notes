@@ -31,6 +31,82 @@ def test_search_writes_pending_review_candidates(tmp_path, monkeypatch):
     assert row["query"] == "cat running"
 
 
+def test_exact_import_appends_one_locked_pending_candidate(tmp_path, monkeypatch):
+    specs = tmp_path / "exact.json"
+    specs.write_text(json.dumps([{
+        "title": "File:Puppies.webm", "subject": "dog",
+        "query": "official description: puppies playing on kitchen floor",
+    }]))
+    output = tmp_path / "candidates.jsonl"
+    candidate = CommonsCandidate(
+        title="File:Puppies.webm", media_url="https://upload.wikimedia.org/puppies.webm",
+        description_url="https://commons.wikimedia.org/wiki/File:Puppies.webm",
+        description="Puppies playing on the kitchen floor", attribution="Archive",
+        license="CC BY-SA 3.0",
+        license_url="https://creativecommons.org/licenses/by-sa/3.0",
+        subject="dog", action="review_required", scene="review_required",
+        prompt="review the dog action and scene", source_revision="123",
+        original_media_url="https://upload.wikimedia.org/puppies.webm",
+        original_media_sha1="a" * 40,
+        original_media_timestamp="2017-01-01T00:00:00Z",
+    )
+    monkeypatch.setattr("prepare_commons.fetch_candidate", lambda *a, **k: candidate)
+
+    assert main(["exact", str(specs), str(output)]) == 0
+
+    row = json.loads(output.read_text())
+    assert row["title"] == candidate.title
+    assert row["query"].startswith("exact:")
+    assert row["review_status"] == "pending"
+    assert row["action"] == row["scene"] == "review_required"
+
+
+def test_exact_import_fails_closed_on_duplicate_spec_or_title_mismatch(tmp_path, monkeypatch):
+    output = tmp_path / "candidates.jsonl"
+    specs = tmp_path / "exact.json"
+    row = {"title": "File:Expected.webm", "subject": "dog", "query": "q"}
+    specs.write_text(json.dumps([row, row]))
+    with pytest.raises(ValueError, match="unique"):
+        main(["exact", str(specs), str(output)])
+
+    specs.write_text(json.dumps([row]))
+    mismatch = CommonsCandidate(
+        title="File:Other.webm", media_url="https://upload.wikimedia.org/other.webm",
+        description_url="https://commons.wikimedia.org/wiki/File:Other.webm",
+        description="Other", attribution="Author", license="CC BY 4.0",
+        license_url="https://creativecommons.org/licenses/by/4.0",
+        subject="dog", action="review_required", scene="review_required",
+        prompt="review the dog action and scene",
+    )
+    monkeypatch.setattr("prepare_commons.fetch_candidate", lambda *a, **k: mismatch)
+    with pytest.raises(ValueError, match="title mismatch"):
+        main(["exact", str(specs), str(output)])
+
+
+def test_exact_import_rejects_output_alias_and_existing_contract_drift(tmp_path):
+    specs = tmp_path / "exact.json"
+    spec = {"title": "File:Puppies.webm", "subject": "dog", "query": "kitchen"}
+    specs.write_text(json.dumps([spec]))
+    with pytest.raises(ValueError, match="must differ"):
+        main(["exact", str(specs), str(specs)])
+
+    output = tmp_path / "candidates.jsonl"
+    output.write_text(json.dumps({
+        "title": spec["title"], "subject": "cat", "query": "exact:kitchen",
+    }) + "\n")
+    with pytest.raises(ValueError, match="existing candidate contract"):
+        main(["exact", str(specs), str(output)])
+
+
+def test_exact_import_requires_string_fields(tmp_path):
+    specs = tmp_path / "exact.json"
+    specs.write_text(json.dumps([{
+        "title": "File:Puppies.webm", "subject": ["dog"], "query": "kitchen",
+    }]))
+    with pytest.raises(ValueError, match="strings"):
+        main(["exact", str(specs), str(tmp_path / "out.jsonl")])
+
+
 def test_category_persists_batches_and_resumes_traversal_state(tmp_path, monkeypatch):
     output = tmp_path / "candidates.jsonl"
     state = tmp_path / "category-state.json"

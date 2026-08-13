@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,096 个候选中的 834 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 831 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -689,6 +689,93 @@ GET https://archive.org/advancedsearch.php?
 # dog 侧将三组语义词替换为：
 # (dog OR puppy) AND (play OR playing) AND (indoors OR inside OR house OR room)
 ```
+
+### 下一条可审计路线：Commons 全文索引差集，而不是新的大数据集
+
+2026-08-14 用 Commons 官方 Action API 的 File namespace 全文搜索按页面创建时间倒序扫描，并
+与当前 1,096 条 candidates 做标题连接。该路线比继续递归静态分类更可能发现近期上传，但仍是
+metadata recall，不是标签器；`timestamp` 是 Commons 页面/索引时间，也不是拍摄时间。
+
+当前精确响应为：`cat playing filetype:video` 221 hits，其中 118 个标题不在 candidates；
+`dog playing filetype:video` 41 hits，其中 12 个标题不在 candidates；`puppy playing
+filetype:video` 9 hits，其中 3 个标题不在 candidates；`playing indoors filetype:video` 仅 2
+hits。差集数仍不能称为动物视频数：cat 查询的新标题大多是电影、政治讲话、人物演奏、游戏或
+动画；dog 查询的新标题大多是军犬示范、历史片和动物无关正文。`playing in house` 的索引命中
+更达 9,406，因 House/playing 多义而不再采用。
+
+可复现请求如下；必须分页，并把 API page ID 作为主键、原媒体 SHA-1 作为内容键：
+
+```text
+action=query&list=search&srnamespace=6&
+srsearch=puppy%20playing%20filetype%3Avideo&srlimit=500&
+srinfo=totalhits&srprop=timestamp|snippet&srsort=create_timestamp_desc&
+format=json&formatversion=2
+
+action=query&pageids=<page-id-list>&prop=imageinfo|categories&
+iiprop=mime|sha1|url|size|extmetadata&cllimit=max&format=json&formatversion=2
+```
+
+#### `playing × indoors`：唯一值得优先复核的新差集
+
+[`Een mooie collectie jonge witte poedels-512309.ogv`](https://commons.wikimedia.org/wiki/File:Een_mooie_collectie_jonge_witte_poedels-512309.ogv)
+（page ID 35108948）是本轮最强新方向。官方 description 明确为幼年白色贵宾犬在围栏后、并在
+**kitchen floor** 上和多个物体玩耍；原媒体 SHA-1 为
+`09e05106c5c1e92bd9fb0bdc7a3e912bf5d6b4f2`，`application/ogg`、5,755,150 bytes，许可为 CC
+BY-SA 3.0 NL，署名/管理来源为 Polygoon-Profilti 与 Nederlands Instituut voor Beeld en Geluid。
+检索当时它不在 1,096 条 candidates 的 title 集合中，是可合法逐文件审核的 metadata hit；
+下段记录随后完成的导入和最终人工决定。
+
+该 page-ID 命中随后通过新增的 `prepare_commons.py exact` 精确导入：spec 固定完整 `File:`
+title、subject 和查询意图；API 回传 title、既有 subject/query contract、重复 spec 或输入输出
+路径任一漂移都会 fail-closed。新行先保持 `review_required/pending`，再用同一批次 sidecar
+锁定 page revision、原媒体 SHA-1/timestamp、CC BY-SA 3.0 NL 许可、署名和官方 240p
+derivative。全长 2 fps 联系表确认它确实在厨房地板拍摄，但始终出现多只幼犬且有新闻剪辑，
+没有稳定的单一主要犬主体两秒窗口，因此拒绝，不能贡献 `playing×indoors`。
+
+同一轮还把现有 pending 中三个最强 dog-play 标题做了视觉发现，而不是继续依赖 metadata：
+
+- `Labrador retriever with her 4 puppies`：母犬、四只幼犬和人物同时出现，拒绝；
+- `Puppiesplaying-tokyoarea`：全长和 1 fps 密集检查均是两只幼犬互动，拒绝；
+- `Ashley. Alaskan Malamute playing in the snow`：单犬雪地，但五个密集两秒窗口表现为牵引绳
+  下奔跑/嗅闻且人物持续参与，无法把 playing 与 running/walking 清晰分开，拒绝。
+
+四条审核已绑定 candidate snapshot `98693bb651cea6102d5df9f82abe5495c3a81f0a85709a6a06a435c887781da6`
+和逐条原媒体 SHA-1。当前池为 **1,097 = 119 approved + 831 pending + 147 rejected**；v3
+manifest、91 个独立组、held 16/50、训练 pairs 28/5/5 和 0 eligible C1 均不变。这是视觉门禁
+排除高似然假阳性的负结果，不把标题里的 “playing” 当标签，也不据此启动训练。
+
+审核前的风险已经明确：description 使用复数 puppies，新闻片可能有多段/剪辑。已经完成的
+全长审核确认了这两项风险，因此不再分段或批准。即使当时存在合格窗口，也只能贡献同一
+Polygoon/Open Beelden 拍摄事件的一个 group。
+
+两个容易误判的新差集不建议导入：`Hoela-hond-517783.ogv`（35089168；SHA-1
+`95d719222165578b1bfc4247597cea2852c0d0ee`）的官方描述是女孩玩呼啦圈、狗观看后拾起自行车圈，
+地点为农场，主体/动作/场景均不满足 indoor pair；`Landbouwpaard kan koorddansen-520075.ogv`
+（35089141；`796a92e39ca6d2f88f8d86a6b8054638d9d492a8`）是马走钢丝并与狗踢球，既非单狗主体也没有
+indoor 证据。军犬示范 `31 SFS K-9 Demo` 虽标 public domain，但官方描述是工作犬训练，且带
+`Milimedia files ... review needed`，不是 play 数据。
+
+此前 MediaSearch 看似较新的两条实际已在 candidates，不能算新增：两幼犬 Tokyo 文件
+`Puppiesplaying-tokyoarea-jan7-2020`（85691731；SHA-1
+`8fa5a1a067a488b821f74db02c96c88258a0739e`；CC BY 4.0）仍是 pending 且明确多狗；泡泡狗
+（15446135；`b6c1fd97f257c36d04941cdaeed6e3d34d23fe8f`）已经 approved。后者也说明不能仅按 page
+ID 的文本形式查本地 JSON；须用规范化 title/description URL 与 provenance page ID 联合连接。
+
+#### `cat × playing` 非 indoor：近期索引没有新的强正例
+
+全文搜索的结构化复核仍只回到已审核的 lizard/Lotti outdoor。近期上传
+`2023-12-16 at Kitten Academy-0nNV51d0vZk`（197214178；SHA-1
+`4b0c3db023bad0848cd6b692900ada7a356d5ccc`；CC BY 3.0）也已在 candidates；官方描述是多只寄养
+猫与照护者玩耍/拥抱，scene 未说明，并带 `License review needed (video)`，不能作为 outdoor 或
+许可已通过的样本。`cat playing grass` 的两条命中分别是已拒绝的多猫 Somaliland 与历史家庭
+影片；`cat playing garden` 除已知 lizard 外是历史电影和兽医病例。因此本轮没有新的高精度
+cat-playing-outdoor page ID，继续全文扩词的边际收益低。
+
+审核前唯一推荐动作是把 page ID 35108948 作为 **pending metadata hit** 导入 provenance
+sidecar、核验许可页与原媒体版本，再做全时长/密集窗口人工审核；该动作现已完成并以拒绝结束。不要导入
+上述两个历史新闻片假阳性，不要重复导入已在 candidates 的 Tokyo/泡泡狗/Kitten Academy，亦
+不要把 118/12/3 个词面差集批量写入候选。本阶段没有批准 clip、没有改动 119-record manifest 或
+coverage；当前仍为 0 eligible C1，正式训练继续不启动。
 
 ### 为什么不是直接训练 800 GB
 

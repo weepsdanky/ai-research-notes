@@ -292,6 +292,11 @@ uv run python prepare_commons.py search \
   data/commons_g1/candidates.jsonl \
   --state data/commons_g1/pair-deficit-search.state.json
 
+# 把官方 API 审计得到的精确 File: title 可恢复地追加为 pending；
+# API 回传 title 或既有 subject/query contract 不一致时会拒绝：
+uv run python prepare_commons.py exact \
+  configs/commons_pair_exact_candidates.json data/commons_g1/candidates.jsonl
+
 # Internet Archive 只接受人工列出的精确 item ID；输出仍是 metadata-only pending，
 # 许可、creator、唯一 original 视频以及 size/MD5/SHA-1 任一不完整都会拒绝：
 uv run python prepare_archive.py configs/archive_pair_candidate_specs.json \
@@ -316,7 +321,7 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,096 条，目前 119 条 approved、834 条 pending、143 条 rejected；pending 绝不
+候选池为 1,097 条，目前 119 条 approved、831 条 pending、147 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条
