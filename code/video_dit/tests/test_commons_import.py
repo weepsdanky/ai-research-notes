@@ -293,3 +293,41 @@ def test_category_limit_counts_videos_after_mime_filter(monkeypatch):
     monkeypatch.setattr("commons_import._api_json", fake_json)
     rows = category_candidates("Cats", subject="cat", max_depth=0, limit=2)
     assert [row.title for row in rows] == ["File:First.webm", "File:Second.webm"]
+
+
+def test_category_resume_keeps_unconsumed_titles_from_a_partially_used_page(monkeypatch):
+    payloads = []
+
+    def fake_json(parameters):
+        payloads.append(parameters)
+        if parameters.get("list") == "categorymembers":
+            return {"query": {"categorymembers": [
+                {"ns": 6, "title": "File:One.webm"},
+                {"ns": 6, "title": "File:Two.webm"},
+            ]}}
+        pages = {}
+        for index, title in enumerate(parameters["titles"].split("|")):
+            pages[str(index)] = {"title": title, "imageinfo": [{
+                "url": "https://upload.wikimedia.org/media", "mime": "video/webm",
+                "descriptionurl": "https://commons.wikimedia.org/media",
+                "extmetadata": {
+                    "Artist": {"value": "Author"},
+                    "LicenseShortName": {"value": "CC0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/publicdomain/zero/1.0"},
+                },
+            }]}
+        return {"query": {"pages": pages}}
+
+    monkeypatch.setattr("commons_import._api_json", fake_json)
+    states = []
+    first = category_candidates(
+        "People", subject="person", max_depth=0, limit=1,
+        on_batch=lambda rows, state: states.append(state),
+    )
+    second = category_candidates(
+        "People", subject="person", max_depth=0, limit=1, state=states[-1],
+    )
+
+    assert [row.title for row in first] == ["File:One.webm"]
+    assert [row.title for row in second] == ["File:Two.webm"]
+    assert len([p for p in payloads if p.get("list") == "categorymembers"]) == 1

@@ -201,62 +201,113 @@ def category_candidates(
     subject: str,
     max_depth: int = 1,
     limit: int = 500,
+    state: dict[str, object] | None = None,
+    on_batch: Callable[
+        [list[CommonsCandidate], dict[str, object]], None
+    ] | None = None,
 ) -> list[CommonsCandidate]:
     """Enumerate video files from a Commons category tree for human review."""
 
     if max_depth < 0 or limit < 1:
         raise ValueError("max_depth must be non-negative and limit positive")
-    queue = [(f"Category:{category.removeprefix('Category:')}", 0)]
-    visited_categories: set[str] = set()
-    visited_titles: set[str] = set()
+    initial = f"Category:{category.removeprefix('Category:')}"
+    if state is None:
+        queue = [(initial, 0)]
+        visited_categories: set[str] = set()
+        visited_titles: set[str] = set()
+        pending_titles: list[str] = []
+        current: tuple[str, int, dict[str, object]] | None = None
+    else:
+        queue = [(str(item[0]), int(item[1])) for item in state.get("queue", [])]
+        visited_categories = {str(item) for item in state.get("visited_categories", [])}
+        visited_titles = {str(item) for item in state.get("visited_titles", [])}
+        pending_titles = [str(item) for item in state.get("pending_titles", [])]
+        saved_current = state.get("current")
+        current = None if not saved_current else (
+            str(saved_current["category"]), int(saved_current["depth"]),
+            dict(saved_current.get("continuation", {})),
+        )
+
+    def snapshot() -> dict[str, object]:
+        return {
+            "queue": [[name, depth] for name, depth in queue],
+            "visited_categories": sorted(visited_categories),
+            "visited_titles": sorted(visited_titles),
+            "pending_titles": pending_titles,
+            "current": None if current is None else {
+                "category": current[0], "depth": current[1],
+                "continuation": current[2],
+            },
+        }
+
     candidates: list[CommonsCandidate] = []
-    while queue and len(candidates) < limit:
-        current, depth = queue.pop(0)
-        if current in visited_categories:
+    while (pending_titles or current is not None or queue) and len(candidates) < limit:
+        if pending_titles:
+            batch = pending_titles[:50]
+            metadata = _api_json({
+                "action": "query", "format": "json", "prop": "imageinfo",
+                "iiprop": "url|mime|extmetadata", "titles": "|".join(batch),
+            })
+            pages_by_title = {
+                str(page["title"]): (str(page_id), page)
+                for page_id, page in metadata.get("query", {}).get("pages", {}).items()
+            }
+            batch_candidates: list[CommonsCandidate] = []
+            consumed = 0
+            for title in batch:
+                consumed += 1
+                visited_titles.add(title)
+                entry = pages_by_title.get(title)
+                if entry is None:
+                    continue
+                page_id, page = entry
+                info = page.get("imageinfo", [{}])[0]
+                if not str(info.get("mime", "")).startswith("video/"):
+                    continue
+                try:
+                    candidate = candidate_from_api(
+                        {"query": {"pages": {page_id: page}}}, subject=subject,
+                        action="review_required", scene="review_required",
+                        prompt=f"review the {subject} action and scene",
+                    )
+                except ValueError:
+                    continue
+                candidates.append(candidate)
+                batch_candidates.append(candidate)
+                if len(candidates) == limit:
+                    break
+            del pending_titles[:consumed]
+            if on_batch is not None:
+                on_batch(batch_candidates, snapshot())
             continue
-        visited_categories.add(current)
-        continuation: dict[str, object] = {}
-        while len(candidates) < limit:
+        if current is None:
+            name, depth = queue.pop(0)
+            if name in visited_categories:
+                continue
+            visited_categories.add(name)
+            current = (name, depth, {})
+        name, depth, continuation = current
+        while len(candidates) < limit and current is not None:
             payload = _api_json({
                 "action": "query", "format": "json", "list": "categorymembers",
-                "cmtitle": current, "cmtype": "subcat|file", "cmlimit": 500,
+                "cmtitle": name, "cmtype": "subcat|file", "cmlimit": 500,
                 **continuation,
             })
-            page_titles: list[str] = []
             for member in payload.get("query", {}).get("categorymembers", []):
                 if member.get("ns") == 6:
                     title = str(member["title"])
-                    if title not in visited_titles:
-                        visited_titles.add(title)
-                        page_titles.append(title)
+                    if title not in visited_titles and title not in pending_titles:
+                        pending_titles.append(title)
                 elif member.get("ns") == 14 and depth < max_depth:
                     queue.append((str(member["title"]), depth + 1))
-            for offset in range(0, len(page_titles), 50):
-                batch = page_titles[offset:offset + 50]
-                metadata = _api_json({
-                    "action": "query", "format": "json", "prop": "imageinfo",
-                    "iiprop": "url|mime|extmetadata", "titles": "|".join(batch),
-                })
-                for page_id, page in metadata.get("query", {}).get("pages", {}).items():
-                    info = page.get("imageinfo", [{}])[0]
-                    if not str(info.get("mime", "")).startswith("video/"):
-                        continue
-                    try:
-                        candidates.append(candidate_from_api(
-                            {"query": {"pages": {str(page_id): page}}},
-                            subject=subject, action="review_required",
-                            scene="review_required",
-                            prompt=f"review the {subject} action and scene",
-                        ))
-                    except ValueError:
-                        continue
-                    if len(candidates) == limit:
-                        break
-                if len(candidates) == limit:
-                    break
-            continuation = payload.get("continue", {})
-            if not continuation:
-                break
+            continuation_value = payload.get("continue")
+            if isinstance(continuation_value, dict) and continuation_value:
+                continuation = dict(continuation_value)
+                current = (name, depth, continuation)
+            else:
+                current = None
+            if on_batch is not None:
+                on_batch([], snapshot())
     return candidates
 
 

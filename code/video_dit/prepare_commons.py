@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import asdict, replace
+import hashlib
 import json
 from pathlib import Path
 import urllib.parse
@@ -27,6 +28,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     category.add_argument("output", type=Path)
     category.add_argument("--max-depth", type=int, default=1)
     category.add_argument("--limit", type=int, default=500)
+    category.add_argument("--state", type=Path)
     download = commands.add_parser("download")
     download.add_argument("candidates", type=Path)
     download.add_argument("clips", type=Path)
@@ -63,18 +65,64 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "category":
         rows = _read_jsonl(args.output) if args.output.is_file() else []
         seen = {str(row["title"]) for row in rows}
-        for candidate in category_candidates(
-            args.category, subject=args.subject, max_depth=args.max_depth,
-            limit=args.limit,
-        ):
-            if candidate.title in seen:
-                continue
-            seen.add(candidate.title)
-            rows.append({
-                **asdict(candidate), "query": f"category:{args.category}",
-                "review_status": "pending", "review_notes": "",
+        state_key = hashlib.sha256(json.dumps({
+            "category": args.category, "subject": args.subject,
+            "max_depth": args.max_depth, "limit": args.limit,
+        }, sort_keys=True).encode()).hexdigest()[:12]
+        state_path = args.state or args.output.with_suffix(
+            args.output.suffix + f".category-{state_key}.state.json"
+        )
+        saved = json.loads(state_path.read_text()) if state_path.is_file() else {}
+        contract = {
+            "category": args.category, "subject": args.subject,
+            "max_depth": args.max_depth, "limit": args.limit,
+        }
+        if saved and saved.get("contract") != contract:
+            raise ValueError("category state contract does not match this traversal")
+        if saved.get("completed"):
+            return 0
+        traversal = saved.get("traversal")
+
+        def persist_batch(
+            candidates: list[CommonsCandidate], next_state: dict[str, object],
+        ) -> None:
+            for candidate in candidates:
+                if candidate.title in seen:
+                    continue
+                seen.add(candidate.title)
+                rows.append({
+                    **asdict(candidate), "query": f"category:{args.category}",
+                    "category_traversal_id": state_key,
+                    "review_status": "pending", "review_notes": "",
+                })
+            _write_jsonl(args.output, rows)
+            _write_state(state_path, {
+                "completed": False, "contract": contract, "traversal": next_state,
             })
-        _write_jsonl(args.output, rows)
+
+        durable_count = sum(
+            1 for row in rows if row.get("category_traversal_id") == state_key
+        )
+        while durable_count < args.limit:
+            returned = category_candidates(
+                args.category, subject=args.subject, max_depth=args.max_depth,
+                limit=args.limit - durable_count, state=traversal,
+                on_batch=persist_batch,
+            )
+            if returned and any(candidate.title not in seen for candidate in returned):
+                persist_batch(returned, {})
+            durable_count = sum(
+                1 for row in rows if row.get("category_traversal_id") == state_key
+            )
+            progress = json.loads(state_path.read_text())["traversal"]
+            traversal = progress
+            if not any((progress.get("pending_titles"), progress.get("current"),
+                        progress.get("queue"))):
+                break
+        _write_state(state_path, {
+            "completed": True, "contract": contract,
+            "traversal": traversal or {},
+        })
         return 0
     if args.command == "search":
         specs = json.loads(args.specs.read_text(encoding="utf-8"))

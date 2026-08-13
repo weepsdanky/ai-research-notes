@@ -266,9 +266,9 @@ uv run python prepare_commons.py download \
 下载会保留原页面、逐条许可、署名、SHA-256 和感知 hash。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 798 条，目前 101 条 approved、650 条 pending、47 条 rejected；pending 绝不
+候选池为 799 条，目前 101 条 approved、651 条 pending、47 条 rejected；pending 绝不
 计作训练数据或组合覆盖。首批人物审核仅批准 1 条单人海滩行走片段，另 5 条因多人、主体
-不可见/离场或裁切问题拒绝；person 仍有 110 条 pending。可用筛选队列逐条审核，例如
+不可见/离场或裁切问题拒绝；person 仍有 111 条 pending。可用筛选队列逐条审核，例如
 优先处理 person 并在保存后自动前进：
 
 ```bash

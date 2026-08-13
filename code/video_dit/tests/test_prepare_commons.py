@@ -29,6 +29,140 @@ def test_search_writes_pending_review_candidates(tmp_path, monkeypatch):
     assert row["query"] == "cat running"
 
 
+def test_category_persists_batches_and_resumes_traversal_state(tmp_path, monkeypatch):
+    output = tmp_path / "candidates.jsonl"
+    state = tmp_path / "category-state.json"
+    candidate = CommonsCandidate(
+        title="File:Runner.webm", media_url="https://upload/runner.webm",
+        description_url="https://commons/runner", description="Runner",
+        attribution="Author", license="CC0", license_url="https://cc0",
+        subject="person", action="review_required", scene="review_required",
+        prompt="review the person action and scene",
+    )
+
+    def interrupted_category(*args, **kwargs):
+        kwargs["on_batch"]([candidate], {"queue": [["Category:Next", 1]]})
+        raise RuntimeError("rate limited")
+
+    monkeypatch.setattr("prepare_commons.category_candidates", interrupted_category)
+    import pytest
+    with pytest.raises(RuntimeError, match="rate limited"):
+        main(["category", "People running", "person", str(output),
+              "--max-depth", "2", "--state", str(state)])
+    assert json.loads(output.read_text())["title"] == candidate.title
+    assert json.loads(state.read_text())["traversal"] == {
+        "queue": [["Category:Next", 1]],
+    }
+
+    captured = []
+    def resumed_category(*args, **kwargs):
+        captured.append(kwargs["state"])
+        kwargs["on_batch"]([], {"queue": []})
+        return []
+
+    monkeypatch.setattr("prepare_commons.category_candidates", resumed_category)
+    main(["category", "People running", "person", str(output),
+          "--max-depth", "2", "--state", str(state)])
+    assert captured == [{"queue": [["Category:Next", 1]]}]
+    saved = json.loads(state.read_text())
+    assert saved["completed"] is True
+    assert saved["traversal"] == {"queue": []}
+
+
+def test_category_rejects_state_from_a_different_traversal_contract(tmp_path):
+    output = tmp_path / "candidates.jsonl"
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({
+        "completed": False,
+        "contract": {"category": "Cats", "subject": "cat", "max_depth": 1,
+                     "limit": 100},
+        "traversal": {},
+    }))
+    import pytest
+    with pytest.raises(ValueError, match="category state contract"):
+        main(["category", "People running", "person", str(output),
+              "--max-depth", "2", "--limit", "100", "--state", str(state)])
+
+
+def test_category_continues_when_global_duplicates_leave_limit_unfilled(
+    tmp_path, monkeypatch,
+):
+    output = tmp_path / "candidates.jsonl"
+    output.write_text(json.dumps({
+        "title": "File:Duplicate.webm", "query": "category:Old",
+    }) + "\n")
+    duplicate = CommonsCandidate(
+        title="File:Duplicate.webm", media_url="https://upload/duplicate.webm",
+        description_url="https://commons/duplicate", description="Duplicate",
+        attribution="Author", license="CC0", license_url="https://cc0",
+        subject="person", action="review_required", scene="review_required",
+        prompt="review the person action and scene",
+    )
+    fresh = CommonsCandidate(
+        title="File:Fresh.webm", media_url="https://upload/fresh.webm",
+        description_url="https://commons/fresh", description="Fresh",
+        attribution="Author", license="CC0", license_url="https://cc0",
+        subject="person", action="review_required", scene="review_required",
+        prompt="review the person action and scene",
+    )
+    calls = []
+
+    def category(*args, **kwargs):
+        calls.append(kwargs["limit"])
+        if len(calls) == 1:
+            kwargs["on_batch"]([duplicate], {"queue": [["Category:Next", 1]]})
+        else:
+            kwargs["on_batch"]([fresh], {"queue": []})
+        return []
+
+    monkeypatch.setattr("prepare_commons.category_candidates", category)
+    main(["category", "People", "person", str(output), "--limit", "1"])
+
+    assert calls == [1, 1]
+    assert [json.loads(line)["title"] for line in output.read_text().splitlines()] == [
+        "File:Duplicate.webm", "File:Fresh.webm",
+    ]
+
+
+def test_category_default_state_is_scoped_to_the_traversal(tmp_path, monkeypatch):
+    output = tmp_path / "candidates.jsonl"
+
+    def empty_category(*args, **kwargs):
+        kwargs["on_batch"]([], {"queue": []})
+        return []
+
+    monkeypatch.setattr("prepare_commons.category_candidates", empty_category)
+    main(["category", "Cats", "cat", str(output)])
+    main(["category", "People running", "person", str(output)])
+
+    states = sorted(tmp_path.glob("candidates.jsonl.category-*.state.json"))
+    assert len(states) == 2
+    assert {json.loads(path.read_text())["contract"]["category"] for path in states} == {
+        "Cats", "People running",
+    }
+
+
+def test_category_does_not_count_same_category_rows_from_another_contract(
+    tmp_path, monkeypatch,
+):
+    output = tmp_path / "candidates.jsonl"
+    output.write_text(json.dumps({
+        "title": "File:Old.webm", "query": "category:Shared",
+        "category_traversal_id": "different-contract",
+    }) + "\n")
+    calls = []
+
+    def empty_category(*args, **kwargs):
+        calls.append(kwargs["limit"])
+        kwargs["on_batch"]([], {"queue": []})
+        return []
+
+    monkeypatch.setattr("prepare_commons.category_candidates", empty_category)
+    main(["category", "Shared", "person", str(output), "--limit", "1"])
+
+    assert calls == [1]
+
+
 def test_search_resumes_completed_queries(tmp_path, monkeypatch):
     specs = tmp_path / "specs.json"
     specs.write_text(json.dumps([

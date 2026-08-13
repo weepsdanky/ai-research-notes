@@ -152,12 +152,12 @@ scene   = grass/field | forest | beach | snow | indoor/home
   metadata 候选量，不能代替视频级人工确认。
 - 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
   显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
-- Wikimedia Commons 搜索与分类树检索当前共取得 798 个候选。已通过本地审核 UI 播放
+- Wikimedia Commons 搜索与分类树检索当前共取得 799 个候选。已通过本地审核 UI 播放
   官方低码率 derivative，并用多帧时间联系表辅助检查；101 条自然视频已人工标为
-  `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 650 条 pending、47 条
+  `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 651 条 pending、47 条
   rejected，不以标题或搜索命中直接代替视频审核。approved 为 cat 59、dog 41、person 1；
   这条 person 是 `walking|beach`，其 3--5 秒单主体区间经完整播放和逐秒帧核验后进入
-  manifest。person 仍有 110 条 pending，不能计入主体覆盖。
+  manifest。person 仍有 111 条 pending，不能计入主体覆盖。
 - G0 的 100 条记录已全部写入可追溯 manifest，并按 source、显式 duplicate group 与
   感知 hash 的传递闭包完成分组；冻结 OpenAI CLIP ViT-B/32 文本向量已缓存 100/100。
   MPS 真实 batch 冒烟训练完成 1 次更新（loss 1.0128），验证了解码、自然文本条件、
@@ -236,9 +236,13 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   文本三因子仍不稳定。可以开始 G1 数据准备，但不得把它称为 C1 或 unseen composition。
 - G1 数据准备已开始。Commons 搜索现已按 API page 原子写入候选与 continuation token，
   限流或进程中断后可从该页继续；恢复此前中断搜索并加入 person 查询后，本地可复核的
-  再从 `Videos of people walking` 分类树加入 88 条后，本地权威候选数为 798。现有集合为
-  101 approved、650 pending、47 rejected，其中 625 条 pending 仍是 action/scene
-  placeholder；approved 为 cat 59、dog 41、person 1，person pending 110。审核 UI 支持
+  再从 `Videos of people walking` 分类树加入 88 条、可恢复地检查 `People running` 树后，
+  本地权威候选数为 799。现有集合为 101 approved、651 pending、47 rejected，其中 626 条
+  pending 仍是 action/scene placeholder；approved 为 cat 59、dog 41、person 1，person
+  pending 111。分类遍历现逐 batch 原子保存 category queue、continuation、未处理 titles 与
+  visited 集合，绑定 category/subject/depth/limit 契约；429 或中断后不会丢掉页内剩余文件。
+  真实运行检查 411 个 `People running` 文件仅新增 1 个视频（跑步技术访谈），两个明确的
+  first-person/背影视角分支均为 0，说明 Commons 分类树无法单独补足 running 覆盖。审核 UI 支持
   subject/status 队列和保存后自动前进。首批六条人物视频中，单人沿海滩行走的 3--5 秒
   区间通过；多人接力、几乎不可见主体、主体离开画面、裁切多人腿部等五条被拒绝。批准
   样本已规范化并写入 101-record manifest，核验为 H.264 96×96、8 fps、16 帧、2 秒，
