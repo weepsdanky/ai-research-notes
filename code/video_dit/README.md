@@ -371,7 +371,32 @@ uv run python train.py \
 11.99M/10k capacity 对照也已完成；之后的全时间 velocity 10k 运行将多 seed prompt
 检索提升到 17/30，并生成了有真实跨帧变化的动物/场景视频。因此 G0 的基础运动/小集合
 拟合 gate 有条件通过，但文本三因子门禁仍未通过。结果、混淆项与失败边界记录在学习计划。
-目前只开始 G1 数据准备，没有启动 G1 正式训练；VideoUFO 最小官方分片仍未取得。
+目前只开始 G1 数据准备，没有启动 G1 正式训练。固定 revision 的 VideoUFO 完整 CSV
+已校验并扫描 1,091,712 行，得到 4,234 条待审核三因子候选；最小官方视频分片也已取得，
+197 个 MP4 的 member basename 可与 CSV ID 精确关联，但只命中 1 条候选。猫组合 coverage
+尤其稀疏，人工审核与 pHash 分组后尚不可能满足 C1 门禁，因此没有启动 1K 训练。
+
+复现 metadata 扫描与 tar 解析（原始文件位于仓库外/ignored 的 `data/raw/videoufo`）：
+
+```bash
+cd code/video_dit
+uv run --offline python prepare_videoufo.py scan \
+  ../../data/raw/videoufo/VideoUFO.csv \
+  ../../data/raw/videoufo/candidates.jsonl \
+  ../../data/raw/videoufo/coverage.json \
+  --expected-sha256 a456192ca88a320080f840c5ec007b0ce6c1852a98e27d0dfad61e2b1f357b52
+uv run --offline python prepare_videoufo.py resolve \
+  ../../data/raw/videoufo/candidates.jsonl \
+  ../../data/raw/videoufo/coverage.json \
+  ../../data/raw/videoufo/resolved-200.jsonl \
+  ../../data/raw/videoufo/resolved-200-report.json \
+  --shard-checksums ../../data/raw/videoufo/shard-checksums.json \
+  ../../data/raw/videoufo/VideoUFO_tar/VideoUFO_200.tar
+```
+
+`shard-checksums.json` 是 `{文件名: 官方 SHA-256}` 的 JSON object；resolve 缺少它或
+hash 不符会直接失败。`source_id` 使用去掉末尾 `.clip-index` 的原始视频 ID，避免同一
+YouTube 源的 sibling clips 被拆到不同 split。
 
 官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为
 `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`；其中

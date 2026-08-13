@@ -12,6 +12,76 @@
 
 如果只做一轮实验，推荐 **VATEX 6K 做管线基准 + VideoUFO 12K 做猫/狗/人物组合泛化**。这比全量 WebVid/HD-VILA 更标准、更可审计，也更符合单机预算。
 
+## 2026-08-14 官方访问审计：VideoUFO 与 FineVideo
+
+本节核查的是 Hugging Face 官方数据仓库在该日期公开的文件树、API 元数据和 dataset card。为保证后续可复现，下载时不要写 `main`，应固定下列 full revision；文件下载后再计算本地 SHA-256 并写入实验 manifest。
+
+### VideoUFO：首选，但先下载 CSV 再决定 tar
+
+- 官方 HF API 显示仓库**非 gated**，固定 revision 为 `683425832ad5b35d57d213963ecec18d5b689652`；匿名访问文件成立。[文件树](https://huggingface.co/datasets/WenhaoWang/VideoUFO/tree/main) · [提交历史](https://huggingface.co/datasets/WenhaoWang/VideoUFO/commits/main)
+- 最小的完整 metadata-only 入口是根目录 `VideoUFO.csv`：1,234,455,730 bytes，SHA-256 `a456192ca88a320080f840c5ec007b0ce6c1852a98e27d0dfad61e2b1f357b52`。它包含 ID、topic、brief/detailed caption、起止时间和六个质量分数，不含视频 bytes。[CSV 文件页](https://huggingface.co/datasets/WenhaoWang/VideoUFO/blob/main/VideoUFO.csv)
+- `data/Full-00000-of-00093.parquet` 到 `Full-00092-of-00093.parquet` 共 93 片、合计 45,817,998,470 bytes；dataset card 的 schema 包含 `Middle_Frame`，不是 MP4 视频列。因此 `load_dataset(..., streaming=True)` 可以流式筛 metadata/中间帧，却**不能代替下载视频 tar**。例如 `Full-00000-of-00093.parquet` 为 496,124,145 bytes，SHA-256 `2f8aa7efb3642d81fb7c4a7eed8b72772d8251838564ad714b4a55e45eb7b4a2`。[Parquet 文件树](https://huggingface.co/datasets/WenhaoWang/VideoUFO/tree/main/data) · [dataset card schema](https://huggingface.co/datasets/WenhaoWang/VideoUFO/blob/main/README.md)
+- 真正视频在 `VideoUFO_tar/VideoUFO_1.tar` 到 `VideoUFO_200.tar`，共 200 片、合计 864,111,237,120 bytes。多数约 4.1--4.5 GB；最小尾片 `VideoUFO_200.tar` 为 166,451,200 bytes。`VideoUFO_1.tar` 为 4,091,576,320 bytes，SHA-256 `19d0871cd5307e73b71152d2f8197eb86044781b0162c4292402ba1c50c137b8`。[视频 tar 文件树](https://huggingface.co/datasets/WenhaoWang/VideoUFO/tree/main/VideoUFO_tar)
+
+```bash
+# metadata；先筛 ID，不要先下载 864 GB
+hf download WenhaoWang/VideoUFO VideoUFO.csv \
+  --repo-type dataset \
+  --revision 683425832ad5b35d57d213963ecec18d5b689652 \
+  --local-dir data/raw/videoufo
+
+# 仅下载经 pilot 确认包含所需 ID 的 tar 分片
+hf download WenhaoWang/VideoUFO VideoUFO_tar/VideoUFO_1.tar \
+  --repo-type dataset \
+  --revision 683425832ad5b35d57d213963ecec18d5b689652 \
+  --local-dir data/raw/videoufo
+
+sha256sum data/raw/videoufo/VideoUFO.csv \
+  data/raw/videoufo/VideoUFO_tar/VideoUFO_1.tar
+```
+
+官方 card 没有发布“ID → tar shard”的独立小索引；这是当前可执行性缺口。**推断**：在不知道目标 ID 所处分片时，先下载最小尾片只适合验证解包/解码，不能保证含猫狗。正式 12K 选样前，应先向维护者确认映射，或逐片读取远端 tar header 建立索引；不要盲下 200 片。
+
+许可方面，官方 card 明确把 VideoUFO 视频标为 CC BY 4.0。该许可证允许分享和改编（包括商业使用），条件是适当署名、提供许可证链接并标明修改；因此从该数据训练并发布 checkpoint **原则上属于可进行的改编利用**。这是对 CC BY 4.0 与 card 声明的解释，而不是作者对 checkpoint 的单独保证；发布时仍应附数据引用、revision、attribution/修改说明，并进行记忆泄漏检查。[官方 license 声明](https://huggingface.co/datasets/WenhaoWang/VideoUFO/blob/main/README.md#license) · [CC BY 4.0 正文](https://creativecommons.org/licenses/by/4.0/legalcode)
+
+### FineVideo：访问更方便地流式取视频，但权利管理更严格
+
+- 官方 HF API 显示 `gated: auto`，固定 revision 为 `84c74091e1c6ee7a5dffabfafb5c9033e4718883`。仓库页面可匿名列文件，但必须登录 HF、在网页接受条款并同意把用户名/邮箱提供给维护者，随后用有读取权限的 token 才能访问内容。[仓库与门禁条款](https://huggingface.co/datasets/HuggingFaceFV/finevideo)
+- 数据只有 `data/train-00000-of-01357.parquet` 到 `train-01356-of-01357.parquet` 共 1,357 片，合计 673,393,341,968 bytes；每行的 `mp4` 是 binary，因此这些 Parquet 同时承载 metadata 和视频，**不存在单独的小型完整 metadata 文件**。当前最小分片 `train-00797-of-01357.parquet` 仍有 274,313,133 bytes；`train-00000-of-01357.parquet` 为 493,919,884 bytes，SHA-256 `607bc6f45f6c4dcf27950abaf81eea58d7d50e2defd077efd0740647cf88baed`。[数据文件树](https://huggingface.co/datasets/HuggingFaceFV/finevideo/tree/main/data) · [字段与流式示例](https://huggingface.co/datasets/HuggingFaceFV/finevideo/blob/main/README.md#how-to-download-and-use-finevideo)
+
+```bash
+# 1. 先在网页接受 FineVideo 条款；2. 本机登录
+hf auth login
+
+# 真流式读取：只按需拉取含 mp4 bytes 的 row，不做 673 GB snapshot
+python - <<'PY'
+from datasets import load_dataset
+
+revision = "84c74091e1c6ee7a5dffabfafb5c9033e4718883"
+ds = load_dataset(
+    "HuggingFaceFV/finevideo",
+    split="train",
+    streaming=True,
+    revision=revision,
+    token=True,
+)
+for sample in ds.take(10):
+    print(sample["json"]["original_video_filename"], len(sample["mp4"]))
+PY
+```
+
+FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署名条件、跟随维护者指定的最新可用版本处理删除请求；若重新托管/分享 FineVideo，还必须附带相同条款并要求接收者同意。仓库的笼统 `license: cc` **不是统一的 CC BY 授权**。官方条款没有明确禁止发布训练 checkpoint，也没有明确给予覆盖全部原视频的统一 checkpoint 授权。因此“checkpoint 通常不等同于重发视频”只能作为工程/法律**推断**，不能当作官方许可；公开 checkpoint 前应保留逐样本 provenance、执行删除清单、做训练样本提取/记忆测试，并向维护者确认允许的发布方式。[FineVideo Terms of Use](https://huggingface.co/datasets/HuggingFaceFV/finevideo#terms-of-use-for-finevideo) · [维护者更新线程](https://huggingface.co/datasets/HuggingFaceFV/finevideo/discussions/2)
+
+### 对 24 GB Mac 的最终选择
+
+**先用 VideoUFO，不把 FineVideo 混入第一版训练。** 理由不是 VideoUFO 更小，而是它有可离线筛选的 1.23 GB CSV、短 clip、明确 CC BY 4.0 和独立 tar；FineVideo 的每个 metadata row 都和长视频 bytes 绑定，流式扫描 43K 长视频仍会产生大量下载，而且需要持续响应版本/删除要求。
+
+具体先做两步：下载并校验 VideoUFO CSV，生成不含媒体的候选/组合 coverage 报告；确认 ID→tar 映射后只取约 3--8 个相关 tar 做 100-clip 与 1K-clip pilot。未经索引确认，不启动原计划的 12K 下载。FineVideo 只在 VideoUFO 的猫/狗某些组合 coverage 不足时，以 gated streaming 定向补样，并单独记录数据来源与条款，避免把两套许可混成一个不可审计 checkpoint。
+
+这两项前置验证已实际完成：固定 revision 的 CSV 已完整下载，本地 SHA-256 与上述官方值一致；`prepare_videoufo.py scan` 以约 30--40 MB 常驻内存扫描全部 1,091,712 行，按明确词边界、2 秒时长和六项质量阈值生成 4,234 条**待审核**候选。当前三元组候选中，人物组合普遍充足；狗的 `running|grass=111`、`walking|grass=104`、`running|snow=27`；猫最稀疏，只有 `walking|grass=54` 达到 50，其他猫组合均低于 50。这里的数字仍是 caption 规则命中，不是独立 source group 的最终数量。
+
+最小尾片 `VideoUFO_200.tar` 也已实际下载并校验：166,451,200 bytes，SHA-256 `8dbadeedfd0489638bb3bddeafcb9788af7e4a54547d356aca77085d60682b15`，包含 197 个 MP4。tar member 形如 `VideoUFO/<CSV ID>.mp4`，因此 CSV ID 可以精确连接实际视频；4,234 个候选中该尾片命中 1 条 `person|running|forest`。代码已支持只枚举 regular MP4、不做路径式解包，并要求 resolve 使用官方 shard checksum manifest；CSV 候选文件的 hash/count 也与 coverage report 绑定。用于 split 的 `source_id` 去掉末尾 `.clip-index`，确保同一原视频的 sibling clips 始终属于一个 source group。下一步仍是下载 3--8 个固定分片、形成可播放审核队列并计算真实 pHash/source-group coverage；**当前不满足 C1 门禁，也没有启动 G1 训练**。
+
 ## 候选数据集逐项核查
 
 | 数据集 | 官方规模与文本 | 视频实际在哪里 | 使用条件与稳定性 | 对本项目的判断 |
@@ -150,8 +220,9 @@ scene   = grass/field | forest | beach | snow | indoor/home
   `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`。
   caption 粗筛得到 cat 1,415、dog 600、cat+snow 25、dog+snow 71；这些数字只是
   metadata 候选量，不能代替视频级人工确认。
-- 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
-  显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
+- 当前机器没有 Hugging Face 登录令牌；FineVideo 需显式接受 gated 条款，暂不使用。
+  VideoUFO 是匿名可访问的；固定 revision 的完整 CSV 与最小尾部视频 tar 已在 2026-08-14
+  下载并通过 SHA-256 校验，但 resolved 视频尚未经过逐条人工审核，因此未写进训练 manifest。
 - Wikimedia Commons 搜索与分类树检索当前共取得 799 个候选。已通过本地审核 UI 播放
   官方低码率 derivative，并用多帧时间联系表辅助检查；101 条自然视频已人工标为
   `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 651 条 pending、47 条
@@ -253,6 +324,11 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   集合仍远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
   官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
   VATEX-1K。后续必须扩充 person 候选并逐条人工审核，任何 pending 都不能进入训练。
+- VideoUFO metadata-first 路径已经落地：全量 1,091,712 行 CSV 扫描得到 4,234 条
+  bounded pending 候选与完整 3×3×4 coverage；最小 `VideoUFO_200.tar` 的 197 个 MP4
+  已证明 member basename 与 CSV ID 可精确关联，并命中 1 个候选。当前猫组合稀疏，只有
+  `cat|walking|grass=54` 达到 50 个 metadata 命中；经视频审核、pHash 合并后只会更少。
+  所以当前证据要求先扩大 3--8 个分片并审核，不能提前构造 C1 或启动 1K 正式训练。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新
