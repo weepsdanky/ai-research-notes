@@ -192,9 +192,36 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   500-step loss 降至约 0.05。固定 seed 的 10-way 检索由小模型随机水平提高到 EMA
   3/10、raw 5/10，但平均 margin 仍为负；所有生成视频的 CLIP 最近训练邻居仍为同一
   clip。中帧已是自然场景低频结构而非纯噪声，但动物轮廓模糊，未通过条件门禁。
+- latent 采样审计发现旧实现把预测 clean latent 错误裁剪到 `[-1,1]`；真实缓存范围约为
+  `[-4.93, 5.77]`，约 18.4% 元素绝对值超过 1。修复为 latent no-clip 后，10-clip raw
+  的单 seed 检索达到 6/10，固定三 seed 汇总为 18/30（60%），视频中猫狗及雪地、水面、
+  室内等结构明显可辨；这仍是训练集记忆诊断，不能算泛化。
+- 新 100-clip token 模型：11.99M 参数、10,000 updates、batch 8、EMA 0.99。训练视频
+  teacher-forced 条件检索在跨 t=100/500/900 聚合后 raw/EMA 均为 100/100，证明 cross-attention
+  已绑定文本；但 t=999 的 EMA 仅 9/100。默认 t=999 自由生成的 10 prompts × 3 seeds
+  只有 10/30（33.3%，Wilson 95% `[19.2%, 51.2%]`），mean margin -0.0060；最近训练
+  邻居多数坍缩到同一 forest-dog clip，因此 G0 仍失败。
+- 从 t=900 启动的配对诊断只有 11/30（36.7%，Wilson 95% `[21.9%, 54.5%]`），mean
+  margin -0.0048，且最近邻相似度没有下降；这排除了“仅修改 sampler 起点”作为修复。
+  随后从上述 EMA 初始化、重置优化器，完成 2,000-step 高噪声 curriculum（75% 概率
+  强制取 t=900--999，其余仍均匀采样）。t=999 teacher-forced 的 raw/EMA 分别为 2/100
+  与 13/100，margin 仍为负；该 epsilon 模型的尾部条件问题没有解决，因此没有把低 loss
+  误报为成功，也没有继续浪费计算生成 30 条失败视频。下一项应测试 velocity target：
+  epsilon target 在 t≈999 几乎等于输入噪声，文本相关的 x0 项被极小的 sqrt(alpha_bar)
+  压制，而 velocity target 在高噪声处近似 -x0。对应的 2,000-step velocity 微调把
+  t=999 teacher-forced raw/EMA 提升到 93/100 与 94/100，margin 约 +0.28，支持这一机制；
+  但默认从 t=999 的自由生成仍只有 10/30（33.3%，Wilson 95% `[19.2%, 51.2%]`），
+  mean margin -0.0053，最近训练邻居均值 0.8843。目视联系表能分出室内、雪地、水面、
+  森林、草地等低频场景，但动物主体模糊且 prompt 排名没有提升。因此单步高噪声条件
+  梯度已修复，完整反向轨迹仍失败；G0 继续判失败，下一步应查多步误差累积、训练目标
+  全时间权重与容量，而不是启动 1K/6K 数据或宣称 unseen composition。两次微调是在
+  initialization SHA 契约加入前运行，旧产物只能以父路径、配置和运行日志旁证来源；
+  当前代码已把父 checkpoint SHA、所选权重、step 与 prediction type 写入新 checkpoint。
 
-所有 run 均保留逐 step `step_log.csv`、checkpoint、推理 MP4 与独立的去噪诊断 GIF；
-最新 10-clip 大模型同时保留 EMA/raw 及 `condition-alignment.json`。训练内诊断固定
+所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
+推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新
+velocity 实验只生成了 EMA 三 seed 面板；失败的 epsilon 高噪声微调只做 teacher-forced
+门禁，没有生成 MP4。训练内诊断固定
 同一 seed；正式多 seed 评估要求每个 seed 使用完全相同的唯一 prompt 集合，先在 seed
 内做正确 prompt 检索与循环打乱对照，再跨 seed 汇总准确率、margin 和 Wilson 95% 区间。
 评估目录还锁定 checkpoint hash、权重、训练/采样 step、CFG 和 encoder。CLIP 及最近邻

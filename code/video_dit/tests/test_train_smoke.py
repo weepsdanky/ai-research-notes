@@ -5,7 +5,7 @@ import shutil
 import torch
 
 from dataset import MOTIONS
-from train import horizontal_flip_batch, parse_args, train
+from train import horizontal_flip_batch, parse_args, sample_timesteps, train
 from real_data import RealVideoRecord, write_manifest
 
 
@@ -107,6 +107,9 @@ def test_cpu_dry_run_performs_an_update_and_writes_a_complete_checkpoint(tmp_pat
         "learning_rate": 1e-4,
         "weight_decay": 0.0,
         "max_grad_norm": 1.0,
+        "timestep_sampling": "uniform",
+        "high_noise_start": 900,
+        "high_noise_fraction": 0.75,
     }
     assert summary["curriculum"] == "canonical"
     assert (output_dir / "step_log.csv").is_file()
@@ -123,6 +126,37 @@ def test_default_training_profile_matches_the_documented_first_quality_run():
     assert args.sample_every == 1_000
     assert args.checkpoint_every == 1_000
     assert args.prediction_type == "epsilon"
+    assert args.timestep_sampling == "uniform"
+
+
+def test_high_noise_timestep_sampler_forces_the_requested_tail_mixture():
+    generator = torch.Generator().manual_seed(7)
+    sampled = sample_timesteps(
+        2_000, 1_000, strategy="high-noise", high_noise_start=900,
+        high_noise_fraction=0.75, device=torch.device("cpu"), generator=generator,
+    )
+
+    tail_fraction = sampled.ge(900).float().mean().item()
+    assert 0.72 < tail_fraction < 0.78
+    assert sampled.min() >= 0
+    assert sampled.max() < 1_000
+
+
+def test_high_noise_timestep_sampler_rejects_tail_outside_effective_schedule():
+    with __import__("pytest").raises(ValueError, match="high_noise_start"):
+        sample_timesteps(
+            2, 8, strategy="high-noise", high_noise_start=900,
+            high_noise_fraction=0.75, device=torch.device("cpu"),
+        )
+
+
+def test_uniform_sampler_ignores_unused_high_noise_bounds():
+    args = _small_training_args(Path("unused"), max_steps=1)
+    args.timesteps = 8
+    args.high_noise_start = 900
+    args.timestep_sampling = "uniform"
+    from train import _validate_args
+    _validate_args(args)
 
 
 def test_real_training_rejects_legacy_structured_periodic_sampler(tmp_path):
@@ -211,6 +245,22 @@ def test_resume_rejects_mode_mismatch(tmp_path):
 
     with __import__("pytest").raises(ValueError, match="mode"):
         train(args)
+
+
+def test_initialize_from_starts_a_new_run_with_pinned_weights(tmp_path):
+    source = train(_small_training_args(tmp_path / "source", max_steps=1))
+    args = _small_training_args(tmp_path / "fine-tune", max_steps=1)
+    args.initialize_from = Path(source["inference_checkpoint"])
+    args.initial_weights = "ema"
+    args.timestep_sampling = "high-noise"
+
+    summary = train(args)
+
+    assert summary["steps"] == 1
+    assert summary["initialized_from"]["checkpoint"] == str(args.initialize_from)
+    assert len(summary["initialized_from"]["checkpoint_sha256"]) == 64
+    checkpoint = torch.load(summary["inference_checkpoint"], weights_only=True)
+    assert checkpoint["initialization_contract"] == summary["initialized_from"]
 
 
 def test_resume_rejects_diffusion_schedule_mismatch(tmp_path):

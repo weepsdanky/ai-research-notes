@@ -75,6 +75,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
     parser.add_argument("--output-dir", type=Path, default=Path("runs/video_dit"))
     parser.add_argument("--resume", type=Path)
+    parser.add_argument("--initialize-from", type=Path)
+    parser.add_argument("--initial-weights", choices=("model", "ema"), default="ema")
     parser.add_argument("--max-steps", type=int, default=3_000)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
@@ -90,6 +92,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--num-pairs", type=int, default=4)
     parser.add_argument("--mlp-ratio", type=float, default=4.0)
     parser.add_argument("--timesteps", type=int, default=1000)
+    parser.add_argument(
+        "--timestep-sampling", choices=("uniform", "high-noise"), default="uniform",
+        help="training timestep distribution; high-noise is a diagnostic curriculum",
+    )
+    parser.add_argument("--high-noise-start", type=int, default=900)
+    parser.add_argument("--high-noise-fraction", type=float, default=0.75)
     parser.add_argument(
         "--prediction-type",
         choices=("epsilon", "velocity"),
@@ -225,6 +233,7 @@ def save_checkpoint(
     prediction_type: str,
     data_contract: dict[str, object],
     optimization_contract: dict[str, object],
+    initialization_contract: dict[str, object] | None = None,
 ) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(
@@ -244,6 +253,7 @@ def save_checkpoint(
             "prediction_type": prediction_type,
             "data_contract": data_contract,
             "optimization_contract": optimization_contract,
+            "initialization_contract": initialization_contract,
             "rng_state": _rng_state(),
         },
         path,
@@ -262,6 +272,7 @@ def save_inference_checkpoint(
     curriculum: str,
     prediction_type: str,
     data_contract: dict[str, object] | None = None,
+    initialization_contract: dict[str, object] | None = None,
 ) -> Path:
     """Write a weights-only-safe checkpoint without optimizer or RNG objects."""
 
@@ -281,6 +292,7 @@ def save_inference_checkpoint(
             "curriculum": curriculum,
             "prediction_type": prediction_type,
             "data_contract": data_contract or {},
+            "initialization_contract": initialization_contract,
         },
         path,
     )
@@ -345,12 +357,20 @@ def _validate_args(args: argparse.Namespace) -> None:
             raise ValueError(f"{name.replace('_', '-')} must be positive")
     if args.sample_every < 0 or args.checkpoint_every < 0:
         raise ValueError("sample-every and checkpoint-every must be non-negative")
+    if args.resume is not None and args.initialize_from is not None:
+        raise ValueError("--resume and --initialize-from are mutually exclusive")
     if args.learning_rate <= 0 or args.max_grad_norm <= 0:
         raise ValueError("learning-rate and max-grad-norm must be positive")
     if not 0 <= args.ema_decay < 1:
         raise ValueError("ema-decay must be in [0, 1)")
     if not 0 <= args.horizontal_flip_prob <= 1:
         raise ValueError("horizontal-flip-prob must be in [0, 1]")
+    if args.timestep_sampling == "high-noise" and not 0 <= args.high_noise_start < (
+        8 if args.dry_run else args.timesteps
+    ):
+        raise ValueError("high-noise-start must be inside the diffusion schedule")
+    if not 0 <= args.high_noise_fraction <= 1:
+        raise ValueError("high-noise-fraction must be in [0, 1]")
     if args.dataset == "real":
         if args.manifest is None or not args.manifest.is_file():
             raise ValueError("--dataset real requires an existing --manifest")
@@ -423,6 +443,42 @@ def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
     )
 
 
+def sample_timesteps(
+    batch_size: int,
+    timesteps: int,
+    *,
+    strategy: str,
+    high_noise_start: int,
+    high_noise_fraction: float,
+    device: torch.device,
+    generator: torch.Generator | None = None,
+) -> torch.Tensor:
+    """Sample diffusion times, optionally emphasizing the hardest noisy tail."""
+
+    if strategy == "uniform":
+        return torch.randint(
+            0, timesteps, (batch_size,), device=device, generator=generator
+        )
+    if strategy != "high-noise":
+        raise ValueError(f"unknown timestep sampling strategy: {strategy}")
+    if not 0 <= high_noise_start < timesteps:
+        raise ValueError("high_noise_start must be inside the effective schedule")
+    if not 0 <= high_noise_fraction <= 1:
+        raise ValueError("high_noise_fraction must be in [0, 1]")
+    tail = (
+        torch.rand(batch_size, device=device, generator=generator)
+        < high_noise_fraction
+    )
+    sampled = torch.randint(
+        0, timesteps, (batch_size,), device=device, generator=generator
+    )
+    tail_count = int(tail.sum().item())
+    sampled[tail] = torch.randint(
+        high_noise_start, timesteps, (tail_count,), device=device, generator=generator,
+    )
+    return sampled
+
+
 def train(args: argparse.Namespace) -> dict[str, object]:
     _validate_args(args)
     seed_everything(args.seed)
@@ -445,6 +501,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
     )
     global_step = 0
     resumed_from: str | None = None
+    initialization_contract: dict[str, object] | None = None
     data_contract: dict[str, object] = {
         "device_type": device.type,
         "seed": args.seed,
@@ -496,7 +553,34 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         "learning_rate": args.learning_rate,
         "weight_decay": args.weight_decay,
         "max_grad_norm": args.max_grad_norm,
+        "timestep_sampling": args.timestep_sampling,
+        "high_noise_start": args.high_noise_start,
+        "high_noise_fraction": args.high_noise_fraction,
     }
+    if args.initialize_from is not None:
+        source = torch.load(args.initialize_from, map_location=device, weights_only=True)
+        if source.get("config") != asdict(config):
+            raise ValueError("initial checkpoint config does not match CLI config")
+        if source.get("diffusion") != {
+            "timesteps": schedule.timesteps,
+            "beta_start": schedule.beta_start,
+            "beta_end": schedule.beta_end,
+        }:
+            raise ValueError("initial checkpoint diffusion schedule does not match CLI")
+        if source.get("data_contract") != data_contract:
+            raise ValueError("initial checkpoint data contract does not match CLI")
+        state = source.get(args.initial_weights)
+        if not isinstance(state, dict):
+            raise ValueError(f"initial checkpoint lacks {args.initial_weights} weights")
+        model.load_state_dict(state)
+        ema.load_state_dict(state)
+        initialization_contract = {
+            "checkpoint": str(args.initialize_from),
+            "checkpoint_sha256": hashlib.sha256(args.initialize_from.read_bytes()).hexdigest(),
+            "weights": args.initial_weights,
+            "training_step": int(source.get("step", 0)),
+            "prediction_type": str(source.get("prediction_type", "epsilon")),
+        }
     if args.resume is not None:
         checkpoint = torch.load(
             args.resume, map_location=device, weights_only=False
@@ -519,7 +603,11 @@ def train(args: argparse.Namespace) -> dict[str, object]:
             raise ValueError("resume checkpoint prediction type does not match CLI")
         if checkpoint.get("data_contract") != data_contract:
             raise ValueError("resume checkpoint data contract does not match CLI")
-        if checkpoint.get("optimization_contract") != optimization_contract:
+        checkpoint_optimization = dict(checkpoint.get("optimization_contract", {}))
+        checkpoint_optimization.setdefault("timestep_sampling", "uniform")
+        checkpoint_optimization.setdefault("high_noise_start", 900)
+        checkpoint_optimization.setdefault("high_noise_fraction", 0.75)
+        if checkpoint_optimization != optimization_contract:
             raise ValueError(
                 "resume checkpoint optimization contract does not match CLI"
             )
@@ -603,10 +691,11 @@ def train(args: argparse.Namespace) -> dict[str, object]:
                     videos, conditions = horizontal_flip_batch(
                         videos, conditions, args.horizontal_flip_prob
                     )
-                timesteps = torch.randint(
-                    0,
-                    schedule.timesteps,
-                    (videos.shape[0],),
+                timesteps = sample_timesteps(
+                    videos.shape[0], schedule.timesteps,
+                    strategy=args.timestep_sampling,
+                    high_noise_start=args.high_noise_start,
+                    high_noise_fraction=args.high_noise_fraction,
                     device=device,
                 )
                 optimizer.zero_grad(set_to_none=True)
@@ -684,6 +773,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
                         args.prediction_type,
                         data_contract,
                         optimization_contract,
+                        initialization_contract,
                     )
     finally:
         log_file.close()
@@ -701,6 +791,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         args.prediction_type,
         data_contract,
         optimization_contract,
+        initialization_contract,
     )
     inference_checkpoint_path = save_inference_checkpoint(
         output_dir / "video_dit_inference.pt",
@@ -713,6 +804,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         curriculum,
         args.prediction_type,
         data_contract,
+        initialization_contract,
     )
     summary: dict[str, object] = {
         "device": str(device),
@@ -729,6 +821,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         "data_contract": data_contract,
         "optimization_contract": optimization_contract,
         "resumed_from": resumed_from,
+        "initialized_from": initialization_contract,
         "elapsed_seconds": time.perf_counter() - started,
     }
     (output_dir / "summary.json").write_text(

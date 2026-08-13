@@ -1,6 +1,6 @@
 import torch
 
-from diffusion import DiffusionSchedule, ddim_sample_loop, diffusion_loss
+from diffusion import DiffusionSchedule, ddim_sample_loop, diffusion_loss, p_sample
 from video_dit import VideoDiT, VideoDiTConfig
 
 
@@ -90,6 +90,54 @@ def test_ddim_is_deterministic_at_eta_zero_and_returns_denoising_diagnostics():
     assert len(trajectory) == 3
     assert trajectory[0][1].shape == initial_noise.shape
     assert model.training is True
+
+
+class _ZeroPrediction(torch.nn.Module):
+    def forward(self, noisy, timesteps, condition_ids):
+        return torch.zeros_like(noisy)
+
+
+def test_samplers_can_preserve_unbounded_latent_predictions():
+    model = _ZeroPrediction()
+    schedule = DiffusionSchedule(timesteps=8)
+    initial = torch.full((1, 3, 4, 8, 8), 2.0)
+    conditions = torch.zeros(1, 4, dtype=torch.long)
+    timesteps = torch.zeros(1, dtype=torch.long)
+
+    clipped = p_sample(
+        model, schedule, initial, timesteps, conditions, clip_denoised=True,
+    )
+    latent = p_sample(
+        model, schedule, initial, timesteps, conditions, clip_denoised=False,
+    )
+    ddim_clipped = ddim_sample_loop(
+        model, schedule, initial.shape, conditions, "cpu", initial_noise=initial,
+        sampling_steps=1, clip_denoised=True,
+    )
+    ddim_latent = ddim_sample_loop(
+        model, schedule, initial.shape, conditions, "cpu", initial_noise=initial,
+        sampling_steps=1, clip_denoised=False,
+    )
+
+    assert clipped.abs().max() <= 1
+    assert latent.abs().max() > 1
+    assert ddim_clipped.abs().max() <= 1
+    assert ddim_latent.abs().max() > 1
+
+
+def test_ddim_can_start_from_an_explicit_earlier_timestep():
+    model = _ZeroPrediction()
+    schedule = DiffusionSchedule(timesteps=8)
+    initial = torch.randn(1, 3, 4, 8, 8)
+    conditions = torch.zeros(1, 4, dtype=torch.long)
+
+    _, trajectory = ddim_sample_loop(
+        model, schedule, initial.shape, conditions, "cpu",
+        initial_noise=initial, sampling_steps=3, start_timestep=5,
+        trajectory_frames=2,
+    )
+
+    assert trajectory[0][0] == 6
 
 
 def test_velocity_parameterization_recovers_clean_video_and_noise():

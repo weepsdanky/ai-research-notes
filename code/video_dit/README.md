@@ -297,6 +297,10 @@ uv run python inference.py runs/latent/video_dit_inference.pt \
   --vae-model stabilityai/sd-vae-ft-mse \
   --vae-revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79
 
+# 只用于诊断最高噪声区间；正式结果仍应从默认 t=999 开始：
+uv run python inference.py runs/latent/video_dit_inference.pt \
+  --prompt "a dog swimming in a pond" --start-timestep 900 # 其余参数同上
+
 # 固定同一 seed 生成至少两个 prompt 后，测 CLIP 检索与训练集最近邻：
 uv run python condition_alignment.py runs/latent/inference \
   --checkpoint /path/to/ViT-B-32.pt \
@@ -308,10 +312,24 @@ gate 的 cross-attention；encoder ID 的 `#tokens-v2` 表示 padding hidden sta
 `condition_alignment.py` 要求每个 seed 都有完全相同且唯一的 prompt 集合；它先在
 每个 seed 内做 matched 检索和循环打乱 prompt 对照，再跨 seed 汇总 Wilson 95% 区间，
 防止把随机噪声差异误算成 prompt 效果。目录内 checkpoint hash、权重种类、训练 step、
-采样 steps、CFG、prediction type 和文本 encoder 也必须一致。CLIP 检索与最近邻只是
+采样 steps、起始 timestep、latent/pixel 裁剪策略、CFG、prediction type 和文本 encoder
+也必须一致。CLIP 检索与最近邻只是
 诊断代理，不替代对主体、动作和时间连续性的目视审核。
 旧推理 metadata 若没有生成时写入的 `checkpoint_sha256`，会被明确视为不可验证，不能
 混入 locked comparison；请用当前 `inference.py` 重新生成。
+
+latent 采样不会把预测的 clean latent 裁剪到 `[-1,1]`；该裁剪只适用于归一化 pixel。
+训练视频上的条件绑定可用 `teacher_forced_alignment.py` 在固定噪声/时间步下诊断，但它
+不代表从纯噪声自由生成成功。若该诊断只在最高噪声尾部失败，可做显式、可审计的实验：
+
+```bash
+uv run python train.py ... --initialize-from runs/latent/video_dit_inference.pt \
+  --initial-weights ema --timestep-sampling high-noise \
+  --high-noise-start 900 --high-noise-fraction 0.75
+```
+
+`--initialize-from` 仅加载 safe inference checkpoint 的指定权重，并重置 optimizer 和
+step；它不同于严格恢复训练的 `--resume`。timestep 分布会写入 optimization contract。
 
 真实像素视频训练入口：
 

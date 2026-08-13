@@ -78,6 +78,8 @@ def test_checkpoint_prompt_becomes_reproducible_temporal_video_and_separate_diag
     }
     assert metadata["elapsed_seconds"] >= 0
     assert len(metadata["checkpoint_sha256"]) == 64
+    assert metadata["clip_denoised"] is True
+    assert metadata["start_timestep"] == 5
 
 
 def test_dataset_preview_is_explicitly_labelled_as_renderer_not_model_output(tmp_path):
@@ -314,6 +316,8 @@ def test_latent_checkpoint_requires_matching_decoder_and_decodes_sample(tmp_path
         trajectory_frames=2,
     )
     assert result.video.shape == (3, 4, 16, 16)
+    metadata = json.loads(result.metadata_path.read_text())
+    assert metadata["clip_denoised"] is False
 
 
 def test_text_token_checkpoint_accepts_sequence_encoder(tmp_path):

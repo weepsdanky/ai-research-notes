@@ -263,6 +263,7 @@ class VideoDiTInference:
         cfg_scale: float = 2.5,
         trajectory_frames: int = 8,
         fps: float = 8,
+        start_timestep: int | None = None,
     ) -> GenerationResult:
         """Generate one temporal clip plus a separate denoising diagnostic."""
 
@@ -272,7 +273,10 @@ class VideoDiTInference:
             raise ValueError("seed must be non-negative")
         if cfg_scale < 0:
             raise ValueError("cfg_scale must be non-negative")
-        steps = min(sampling_steps, self.schedule.timesteps)
+        start = self.schedule.timesteps - 1 if start_timestep is None else start_timestep
+        if not 0 <= start < self.schedule.timesteps:
+            raise ValueError("start_timestep must be inside the diffusion schedule")
+        steps = min(sampling_steps, start + 1)
         if steps < 1:
             raise ValueError("sampling_steps must be positive")
         diagnostics = min(trajectory_frames, steps + 1)
@@ -341,6 +345,8 @@ class VideoDiTInference:
             eta=0.0,
             trajectory_frames=diagnostics,
             prediction_type=self.prediction_type,
+            clip_denoised=self.space == "pixel",
+            start_timestep=start,
         )
         video = sampled[0].detach().cpu()
         diagnostic_states = [state[0] for _, state in trajectory]
@@ -390,6 +396,7 @@ class VideoDiTInference:
             "text_encoder_id": self.text_encoder_id,
             "seed": seed,
             "sampling_steps": steps,
+            "start_timestep": start,
             "requested_cfg_scale": cfg_scale,
             "effective_cfg_scale": effective_cfg_scale,
             "cfg_note": (
@@ -408,6 +415,7 @@ class VideoDiTInference:
             "training_step": self.training_step,
             "weights": self.weights_name,
             "prediction_type": self.prediction_type,
+            "clip_denoised": self.space == "pixel",
             "elapsed_seconds": time.perf_counter() - started,
             "artifact_semantics": {
                 "video_mp4": "temporal frames of the generated animation",
@@ -432,6 +440,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="cpu")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--sampling-steps", type=int, default=50)
+    parser.add_argument("--start-timestep", type=int)
     parser.add_argument("--cfg-scale", type=float, default=2.5)
     parser.add_argument("--trajectory-frames", type=int, default=8)
     parser.add_argument("--fps", type=float, default=8)
@@ -476,6 +485,7 @@ def main(argv: list[str] | None = None) -> GenerationResult:
         args.output_dir,
         seed=args.seed,
         sampling_steps=args.sampling_steps,
+        start_timestep=args.start_timestep,
         cfg_scale=args.cfg_scale,
         trajectory_frames=args.trajectory_frames,
         fps=args.fps,

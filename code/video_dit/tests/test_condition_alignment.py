@@ -12,6 +12,8 @@ def _metadata(path, prompt):
         "mode": "trained Video DiT checkpoint", "prompt": prompt, "seed": 42,
         "checkpoint": str(path.parent / "model.pt"), "training_step": 10,
         "weights": "ema", "prediction_type": "epsilon", "sampling_steps": 50,
+        "start_timestep": 999,
+        "clip_denoised": False,
         "effective_cfg_scale": 2.5, "condition_mode": "text_tokens",
         "text_encoder_id": "clip@sha256:test#tokens-v2",
         "checkpoint_sha256": hashlib.sha256(b"checkpoint").hexdigest(),

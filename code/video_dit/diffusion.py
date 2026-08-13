@@ -318,6 +318,7 @@ def p_sample(
     cfg_scale: float = 1.0,
     generator: torch.Generator | None = None,
     prediction_type: str = "epsilon",
+    clip_denoised: bool = True,
 ) -> torch.Tensor:
     prediction = _model_prediction(
         model, noisy, timesteps, condition_ids, cfg_scale
@@ -341,7 +342,8 @@ def p_sample(
         )
     else:
         raise ValueError("prediction_type must be 'epsilon' or 'velocity'")
-    predicted_clean = predicted_clean.clamp(-1, 1)
+    if clip_denoised:
+        predicted_clean = predicted_clean.clamp(-1, 1)
     posterior_mean, fixed_variance = schedule.q_posterior(
         predicted_clean, noisy, timesteps
     )
@@ -366,6 +368,7 @@ def sample_loop(
     trajectory_frames: int = 0,
     generator: torch.Generator | None = None,
     prediction_type: str = "epsilon",
+    clip_denoised: bool = True,
 ) -> torch.Tensor | tuple[torch.Tensor, list[tuple[int, torch.Tensor]]]:
     """Reference ancestral DDPM sampler."""
 
@@ -410,6 +413,7 @@ def sample_loop(
                 cfg_scale,
                 generator,
                 prediction_type,
+                clip_denoised,
             )
             if step in captures:
                 trajectory.append((step, video.detach().cpu()))
@@ -432,11 +436,16 @@ def ddim_sample_loop(
     trajectory_frames: int = 0,
     generator: torch.Generator | None = None,
     prediction_type: str = "epsilon",
+    clip_denoised: bool = True,
+    start_timestep: int | None = None,
 ) -> torch.Tensor | tuple[torch.Tensor, list[tuple[int, torch.Tensor]]]:
     """Respaced DDIM; ``eta=0`` is deterministic for fixed initial noise."""
 
-    if not 1 <= sampling_steps <= schedule.timesteps:
-        raise ValueError("sampling_steps must be between 1 and diffusion timesteps")
+    start = schedule.timesteps - 1 if start_timestep is None else start_timestep
+    if not 0 <= start < schedule.timesteps:
+        raise ValueError("start_timestep must be inside the diffusion schedule")
+    if not 1 <= sampling_steps <= start + 1:
+        raise ValueError("sampling_steps must be between 1 and start_timestep + 1")
     if eta < 0:
         raise ValueError("eta must be non-negative")
     if trajectory_frames and not 2 <= trajectory_frames <= sampling_steps + 1:
@@ -454,7 +463,7 @@ def ddim_sample_loop(
     if tuple(video.shape) != shape:
         raise ValueError("initial_noise must match shape")
     steps = torch.linspace(
-        schedule.timesteps - 1,
+        start,
         0,
         sampling_steps,
         dtype=torch.float64,
@@ -462,7 +471,7 @@ def ddim_sample_loop(
     trajectory: list[tuple[int, torch.Tensor]] = []
     capture_indices: set[int] = set()
     if trajectory_frames:
-        trajectory.append((schedule.timesteps, video.detach().cpu()))
+        trajectory.append((start + 1, video.detach().cpu()))
         remaining = trajectory_frames - 1
         capture_indices = (
             {sampling_steps - 1}
@@ -495,7 +504,8 @@ def ddim_sample_loop(
                 ) / torch.sqrt(alpha_bar)
             else:
                 raise ValueError("prediction_type must be 'epsilon' or 'velocity'")
-            predicted_clean = predicted_clean.clamp(-1, 1)
+            if clip_denoised:
+                predicted_clean = predicted_clean.clamp(-1, 1)
             if index + 1 < len(steps):
                 previous_timesteps = torch.full(
                     (shape[0],),

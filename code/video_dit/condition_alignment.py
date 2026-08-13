@@ -55,7 +55,8 @@ def discover_generations(directory: Path) -> list[Generation]:
             raise ValueError(f"generation checkpoint hash mismatch: {metadata_path}")
         keys = (
             "training_step", "weights", "prediction_type", "sampling_steps",
-            "effective_cfg_scale", "condition_mode", "text_encoder_id",
+            "start_timestep", "clip_denoised", "effective_cfg_scale",
+            "condition_mode", "text_encoder_id",
         )
         if any(key not in metadata for key in keys):
             raise ValueError(f"generation metadata lacks evaluation contract: {metadata_path}")
