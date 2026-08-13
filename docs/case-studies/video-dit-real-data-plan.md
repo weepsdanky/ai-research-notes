@@ -153,10 +153,11 @@ scene   = grass/field | forest | beach | snow | indoor/home
 - 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
   显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
 - Wikimedia Commons 搜索与分类树检索当前共取得 798 个候选。已通过本地审核 UI 播放
-  官方低码率 derivative，并用五帧时间联系表辅助检查；100 条猫狗自然视频已人工
-  标为 `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 655 条 pending、
-  43 条 rejected，不以标题或搜索命中直接代替视频审核；115 条 person 候选尚未通过，
-  不能计入主体覆盖。
+  官方低码率 derivative，并用多帧时间联系表辅助检查；101 条自然视频已人工标为
+  `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 650 条 pending、47 条
+  rejected，不以标题或搜索命中直接代替视频审核。approved 为 cat 59、dog 41、person 1；
+  这条 person 是 `walking|beach`，其 3--5 秒单主体区间经完整播放和逐秒帧核验后进入
+  manifest。person 仍有 110 条 pending，不能计入主体覆盖。
 - G0 的 100 条记录已全部写入可追溯 manifest，并按 source、显式 duplicate group 与
   感知 hash 的传递闭包完成分组；冻结 OpenAI CLIP ViT-B/32 文本向量已缓存 100/100。
   MPS 真实 batch 冒烟训练完成 1 次更新（loss 1.0128），验证了解码、自然文本条件、
@@ -236,11 +237,16 @@ test 或 G0 结果称为“训练期未见组合泛化”。
 - G1 数据准备已开始。Commons 搜索现已按 API page 原子写入候选与 continuation token，
   限流或进程中断后可从该页继续；恢复此前中断搜索并加入 person 查询后，本地可复核的
   再从 `Videos of people walking` 分类树加入 88 条后，本地权威候选数为 798。现有集合为
-  100 approved、655 pending、43 rejected，其中 630 条 pending 仍是 action/scene
-  placeholder；approved 为 cat 59、dog 41、person 0，person pending 115。649 条 pending
-  已有至少 2 秒的官方低码率预览；审核 UI 支持 subject/status 队列和保存后自动前进。
-  首条实际播放的人物候选因多人接力、不满足单主体约束而 rejected，说明搜索命中不会
-  自动转成标签。集合仍远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
+  101 approved、650 pending、47 rejected，其中 625 条 pending 仍是 action/scene
+  placeholder；approved 为 cat 59、dog 41、person 1，person pending 110。审核 UI 支持
+  subject/status 队列和保存后自动前进。首批六条人物视频中，单人沿海滩行走的 3--5 秒
+  区间通过；多人接力、几乎不可见主体、主体离开画面、裁切多人腿部等五条被拒绝。批准
+  样本已规范化并写入 101-record manifest，核验为 H.264 96×96、8 fps、16 帧、2 秒，
+  SHA-256 `62326cb042fb8baa5c8930105a639273b53ecbe9c90252820614a2bbdeaa15d0`
+  与记录一致。source/duplicate/pHash 分组验证通过；先以 91 train / 10 validation / 0 IID
+  生成数据完整性 split。尝试 10% IID 会因多个只有 1--3 个来源的稀疏 triple 被 validator
+  拒绝，正说明当前集合连可靠 IID 都不足，更不能构造每个 triple ≥50 来源的 C1。
+  集合仍远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
   官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
   VATEX-1K。后续必须扩充 person 候选并逐条人工审核，任何 pending 都不能进入训练。
 
