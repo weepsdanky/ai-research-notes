@@ -357,11 +357,31 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   集合仍远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
   官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
   VATEX-1K。后续必须扩充 person 候选并逐条人工审核，任何 pending 都不能进入训练。
+- 为避免 enrichment 与运行中的审核 UI 同时原子替换候选 JSONL，新增只读候选、逐 batch
+  原子写独立 sidecar 的 `commons_review.py provenance`。真实运行已补齐 799/799 条：每条
+  固化 Commons 描述页 revision、原媒体 URL/SHA-1/timestamp、时长和审核 derivative URL。
+  下载前会再次查询并比对原媒体版本，发生覆盖就 fail-closed；sidecar 与候选 title 必须
+  一一对应。101 个 approved 已重新下载到**新的** provenance-complete 数据树，全部实际
+  使用审核 derivative，并分别记录实际下载 URL/kind/SHA-256 与 UTC 时间；101 个 clip
+  文件存在，规范化 SHA-256 实算零 mismatch。
+  第一版迁移随后又发现许可快照应与 page revision 同次获取，而不能沿用更早候选字段；
+  最终 v2 sidecar 因此在同一个 API 响应中锁定 page revision、许可 URL/署名/描述页和
+  原媒体版本，再重新生成 101 条数据树。v2 manifest SHA-256 为
+  `e9ead4a166edf47d4da3c328a08f75aa03737769c48b3059ddbb3e44d1043c4f`，字段零缺失、101/101
+  clip 文件存在、规范化 SHA-256 实算零 mismatch；许可分布为 CC BY-SA 4.0 43、CC BY
+  3.0 18、CC BY 4.0 11、CC0 10、CC BY 2.0 8、CC BY-SA 3.0 6、CC BY-SA 2.0 4、
+  CC BY-SA 3.0 es 1。旧 manifest 不与
+  新契约混写。新的 `prepare_real_data.py coverage` 复用 split validator 的传递
+  source/duplicate/pHash 分组；报告为 101 records / 101 independent groups / 0 eligible
+  C1 triples。最接近门槛的是 `cat|sitting|indoors=13`（距 50 还差 37），其次
+  `cat|playing|indoors=10`（差 40）、`cat|walking|outdoors=8`（差 42）。这证明当前不可
+  构造 C1；下一步应按 deficit 排序审核/补搜，而不是启动训练。
 - VideoUFO metadata-first 路径已经落地：全量 1,091,712 行 CSV 扫描得到 4,234 条
   bounded pending 候选与完整 3×3×4 coverage；最小 `VideoUFO_200.tar` 的 197 个 MP4
   已证明 member basename 与 CSV ID 可精确关联，并命中 1 个候选。当前猫组合稀疏，只有
   `cat|walking|grass=54` 达到 50 个 metadata 命中；经视频审核、pHash 合并后只会更少。
-  所以当前证据要求先扩大 3--8 个分片并审核，不能提前构造 C1 或启动 1K 正式训练。
+  三分片 pilot 随后证明随机扩片无法形成平衡动物覆盖；这一历史下一步已被否决。当前不再
+  扩大 VideoUFO 分片，只推进 Commons-1K 审核/补搜；同样不能提前构造 C1 或启动正式训练。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新

@@ -12,6 +12,7 @@ from real_data import (
     split_manifest,
     validate_split,
     write_manifest,
+    independent_coverage,
 )
 
 
@@ -54,6 +55,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     validate.add_argument("--min-iid-source-groups", type=int, default=1)
     validate.add_argument("--min-train-pair-source-groups", type=int, default=1)
     validate.add_argument("--report", type=Path)
+    coverage = subparsers.add_parser("coverage")
+    coverage.add_argument("source", type=Path)
+    coverage.add_argument("--target-per-triple", type=int, default=50)
+    coverage.add_argument("--near-duplicate-hamming", type=int, default=4)
+    coverage.add_argument("--report", type=Path)
     return parser.parse_args(argv)
 
 
@@ -84,6 +90,13 @@ def _write_report(path: Path | None, report: dict[str, object]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.command == "coverage":
+        report = independent_coverage(
+            load_manifest(args.source), target_per_triple=args.target_per_triple,
+            near_duplicate_hamming=args.near_duplicate_hamming,
+        )
+        _write_report(args.report, report)
+        return 0
     policy = _policy(args)
     if args.command == "split":
         records = split_manifest(load_manifest(args.source), policy)

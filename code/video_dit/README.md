@@ -248,6 +248,10 @@ uv run python prepare_commons.py category "Videos of cats" cat \
   data/commons_g0/candidates.jsonl --max-depth 1
 uv run python commons_review.py enrich data/commons_g0/candidates.jsonl
 
+# 候选正被审核 UI 使用时，改写独立 sidecar，不与 UI 竞争同一 JSONL：
+uv run python commons_review.py provenance \
+  data/commons_g1/candidates.jsonl data/commons_g1/provenance-v2.jsonl
+
 # 在浏览器逐条播放官方低码率 derivative，填写真实标签和最佳 2 秒起点：
 uv run python commons_review_ui.py data/commons_g0/candidates.jsonl \
   --server-port 7862
@@ -257,13 +261,23 @@ uv run python commons_review_ui.py data/commons_g0/candidates.jsonl \
 uv run python prepare_commons.py download \
   data/commons_g0/candidates.jsonl data/commons_g0/clips \
   data/commons_g0/source.jsonl
+
+# 新 provenance 契约写入全新的数据树；下载前会重新验证媒体 SHA-1/timestamp：
+uv run python prepare_commons.py download \
+  data/commons_g1/candidates.jsonl data/commons_g1_provenance_v2/clips \
+  data/commons_g1_provenance_v2/source.jsonl \
+  --provenance data/commons_g1/provenance-v2.jsonl
+
+uv run python prepare_real_data.py coverage \
+  data/commons_g1_provenance_v2/source.jsonl --target-per-triple 50 \
+  --report data/commons_g1_provenance_v2/coverage.json
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
 官方低清 derivative，训练预处理会使用同一 derivative。输出 clip 路径相对于 manifest，
 因此移动整个数据目录后仍可加载。
 
-新的下载会 fail-closed 要求 `enrich` 写入 Commons 描述页 revision 以及原媒体的
+新的下载会 fail-closed 要求 `enrich`/`provenance` 写入 Commons 描述页 revision 以及原媒体的
 timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license URL、署名、下载 UTC
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会

@@ -16,7 +16,48 @@ from real_data import (
     split_manifest,
     validate_split,
     write_manifest,
+    independent_coverage,
 )
+
+
+def test_independent_coverage_counts_phash_groups_not_rows():
+    rows = [
+        _record("cat-a", "cat", "running", "snow", source_id="a"),
+        _record("cat-b", "cat", "running", "snow", source_id="b"),
+        _record("dog-a", "dog", "walking", "grass", source_id="c"),
+    ]
+    rows[0] = __import__("dataclasses").replace(rows[0], perceptual_hash="0000000000000000")
+    rows[1] = __import__("dataclasses").replace(rows[1], perceptual_hash="0000000000000001")
+    rows[2] = __import__("dataclasses").replace(rows[2], perceptual_hash="ffffffffffffffff")
+
+    report = independent_coverage(rows, target_per_triple=2, near_duplicate_hamming=1)
+
+    assert report["triple_source_groups"] == {
+        "cat|running|snow": 1, "dog|walking|grass": 1,
+    }
+    assert report["triple_deficits"] == {
+        "cat|running|snow": 1, "dog|walking|grass": 1,
+    }
+    assert report["eligible_c1_triples"] == []
+
+
+def test_independent_coverage_rejects_isolated_triple_even_when_target_is_met():
+    rows = [
+        __import__("dataclasses").replace(
+            _record(f"cat-{index}", "cat", "running", "snow", source_id=f"source-{index}"),
+            perceptual_hash=f"{index * 1000:016x}",
+        )
+        for index in range(2)
+    ]
+
+    report = independent_coverage(rows, target_per_triple=2, near_duplicate_hamming=0)
+
+    assert report["meets_target_triples"] == ["cat|running|snow"]
+    assert report["eligible_c1_triples"] == []
+    assert report["c1_blockers"]["cat|running|snow"] == {
+        "missing_train_atoms": ["cat", "running", "snow"],
+        "missing_train_pairs": ["cat|running", "cat|snow", "running|snow"],
+    }
 
 
 def _record(

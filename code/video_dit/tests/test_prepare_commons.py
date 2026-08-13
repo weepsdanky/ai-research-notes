@@ -571,6 +571,65 @@ def test_download_rejects_appending_to_legacy_manifest(tmp_path):
         main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
 
 
+def test_download_joins_provenance_sidecar_without_rewriting_candidates(tmp_path, monkeypatch):
+    candidate = {
+        "title": "File:Cat.webm", "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "Cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "walking", "scene": "indoors",
+        "prompt": "a cat walking indoors", "start_seconds": 0, "review_status": "approved",
+    }
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps(candidate) + "\n")
+    sidecar = tmp_path / "provenance.jsonl"
+    sidecar.write_text(json.dumps({
+        "title": "File:Cat.webm", "source_revision": "1",
+        "original_media_url": candidate["media_url"], "original_media_sha1": "abc",
+        "original_media_timestamp": "now",
+        "review_preview_url": "https://upload.wikimedia.org/cat-240.webm",
+        "duration_seconds": 4.0,
+        "description_url": candidate["description_url"], "attribution": "Current Author",
+        "license": "CC BY 4.0", "license_url": "https://creativecommons.org/licenses/by/4.0",
+    }) + "\n")
+    captured = {}
+    monkeypatch.setattr("prepare_commons.verify_provenance_sidecar", lambda *args: None)
+    monkeypatch.setattr("prepare_commons.normalize_clip", lambda row, *args, **kwargs:
+                        captured.setdefault("candidate", row) or {"sample_id": "unused"})
+    monkeypatch.setattr("prepare_commons.asdict", lambda value: {"sample_id": "cat"})
+
+    main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl"),
+          "--provenance", str(sidecar)])
+
+    assert candidates.read_text() == json.dumps(candidate) + "\n"
+    assert captured["candidate"].source_revision == "1"
+    assert captured["candidate"].media_url.endswith("cat-240.webm")
+    assert captured["candidate"].attribution == "Current Author"
+    assert captured["candidate"].license == "CC BY 4.0"
+
+
+def test_download_rejects_incomplete_provenance_sidecar(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({"title": "File:A.webm", "review_status": "approved"}) + "\n")
+    sidecar = tmp_path / "provenance.jsonl"
+    sidecar.write_text("")
+
+    with pytest.raises(ValueError, match="provenance sidecar"):
+        main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl"),
+              "--provenance", str(sidecar)])
+
+
+def test_download_rejects_sidecar_titles_not_in_candidate_snapshot(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({"title": "File:A.webm", "review_status": "pending"}) + "\n")
+    sidecar = tmp_path / "provenance.jsonl"
+    sidecar.write_text(json.dumps({"title": "File:B.webm"}) + "\n")
+
+    with pytest.raises(ValueError, match="unknown candidate titles"):
+        main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl"),
+              "--provenance", str(sidecar)])
+
+
 @pytest.mark.parametrize("field", ["license_url", "attribution", "original_media_url"])
 def test_download_rejects_incomplete_approved_provenance(tmp_path, field):
     row = {

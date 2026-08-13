@@ -328,6 +328,70 @@ def _coverage_by_triple(
     return coverage
 
 
+def independent_coverage(
+    records: Iterable[RealVideoRecord], *, target_per_triple: int = 50,
+    near_duplicate_hamming: int = 4, min_train_pair_source_groups: int = 1,
+) -> dict[str, object]:
+    """Report C1 readiness using the same transitive groups as split validation."""
+
+    if target_per_triple < 1:
+        raise ValueError("target_per_triple must be at least 1")
+    materialized = list(records)
+    missing = [record.sample_id for record in materialized if record.perceptual_hash is None]
+    if missing:
+        raise ValueError(f"coverage requires perceptual_hash: {missing[:3]}")
+    group_ids = _independent_group_ids(materialized, near_duplicate_hamming)
+    coverage: dict[TRIPLE, set[int]] = {}
+    for index, record in enumerate(materialized):
+        coverage.setdefault(record.triple, set()).add(group_ids[index])
+    counts = _json_coverage(coverage)
+    all_triples = set(coverage)
+    atoms_by_group: dict[str, set[int]] = {}
+    pairs_by_group: dict[PAIR, set[int]] = {}
+    blockers: dict[str, dict[str, list[str]]] = {}
+    eligible: list[str] = []
+    meets_target = sorted(
+        triple for triple, groups in coverage.items() if len(groups) >= target_per_triple
+    )
+    for held in meets_target:
+        train_triples = all_triples - {held}
+        for triple in train_triples:
+            groups = coverage[triple]
+            for atom in triple:
+                atoms_by_group.setdefault(atom, set()).update(groups)
+            for pair in _pair_projections(triple):
+                pairs_by_group.setdefault(pair, set()).update(groups)
+        missing_atoms = sorted(atom for atom in held if not atoms_by_group.get(atom))
+        missing_pairs = sorted(
+            "|".join(pair) for pair in _pair_projections(held)
+            if len(pairs_by_group.get(pair, set())) < min_train_pair_source_groups
+        )
+        key = "|".join(held)
+        if missing_atoms or missing_pairs:
+            blockers[key] = {
+                "missing_train_atoms": missing_atoms,
+                "missing_train_pairs": missing_pairs,
+            }
+        else:
+            eligible.append(key)
+        atoms_by_group.clear()
+        pairs_by_group.clear()
+    return {
+        "records": len(materialized),
+        "independent_source_groups": len(set(group_ids.values())),
+        "near_duplicate_hamming": near_duplicate_hamming,
+        "target_per_triple": target_per_triple,
+        "triple_source_groups": counts,
+        "triple_deficits": {
+            triple: max(0, target_per_triple - count)
+            for triple, count in counts.items()
+        },
+        "meets_target_triples": ["|".join(triple) for triple in meets_target],
+        "eligible_c1_triples": eligible,
+        "c1_blockers": blockers,
+    }
+
+
 def _coverage_by_pair(
     records: list[RealVideoRecord], group_ids: dict[int, int], split: str,
 ) -> dict[PAIR, set[int]]:

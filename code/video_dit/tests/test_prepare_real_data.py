@@ -54,3 +54,21 @@ def test_cli_assigns_and_validates_a_manifest(tmp_path):
     assert result == 0
     assert json.loads(report.read_text())["valid"] is True
     assert {record.split for record in load_manifest(output)} == {"train", "c1"}
+
+
+def test_cli_reports_independent_coverage_without_assigning_splits(tmp_path):
+    source = tmp_path / "source.jsonl"
+    source.write_text(json.dumps({
+        "sample_id": "cat", "source_id": "source-cat", "clip_path": "clips/cat.mp4",
+        "prompt": "a cat running in snow", "subject": "cat", "action": "running",
+        "scene": "snow", "source_url": "https://example.test/cat", "license": "CC0",
+        "attribution": "Author", "sha256": "a" * 64, "perceptual_hash": "0" * 16,
+    }) + "\n")
+    report = tmp_path / "coverage.json"
+
+    assert main(["coverage", str(source), "--target-per-triple", "50",
+                 "--report", str(report)]) == 0
+
+    saved = json.loads(report.read_text())
+    assert saved["triple_source_groups"] == {"cat|running|snow": 1}
+    assert saved["triple_deficits"] == {"cat|running|snow": 49}

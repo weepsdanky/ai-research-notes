@@ -13,6 +13,7 @@ from commons_import import (
     CommonsCandidate, candidate_sample_id, category_candidates, normalize_clip,
     search_candidates,
 )
+from commons_review import verify_provenance_sidecar
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -33,6 +34,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     download.add_argument("candidates", type=Path)
     download.add_argument("clips", type=Path)
     download.add_argument("manifest", type=Path)
+    download.add_argument("--provenance", type=Path)
     download.add_argument("--frames", type=int, default=16)
     download.add_argument("--fps", type=int, default=8)
     download.add_argument("--size", type=int, default=96)
@@ -244,9 +246,33 @@ def main(argv: list[str] | None = None) -> int:
             "legacy Commons records cannot be extended; choose a new output manifest"
         )
     completed_ids = {str(record["sample_id"]) for record in approved}
-    for row in _read_jsonl(args.candidates):
+    candidate_rows = _read_jsonl(args.candidates)
+    provenance_by_title: dict[str, dict[str, object]] = {}
+    if args.provenance is not None:
+        provenance_rows = _read_jsonl(args.provenance)
+        titles = [str(row.get("title", "")) for row in provenance_rows]
+        if any(not title for title in titles) or len(titles) != len(set(titles)):
+            raise ValueError("provenance sidecar requires unique non-empty titles")
+        provenance_by_title = {str(row["title"]): row for row in provenance_rows}
+        candidate_titles = {str(row.get("title", "")) for row in candidate_rows}
+        if not set(provenance_by_title) <= candidate_titles:
+            raise ValueError("provenance sidecar contains unknown candidate titles")
+        approved_titles = {
+            str(row.get("title", "")) for row in candidate_rows
+            if row.get("review_status") == "approved"
+        }
+        if not approved_titles <= set(provenance_by_title):
+            raise ValueError("provenance sidecar is missing approved candidate titles")
+        pending_download_titles = sorted(
+            title for title in approved_titles
+            if candidate_sample_id(title) not in completed_ids
+        )
+        verify_provenance_sidecar(args.provenance, pending_download_titles)
+    for row in candidate_rows:
         if row.pop("review_status", None) != "approved":
             continue
+        if args.provenance is not None:
+            row.update(provenance_by_title[str(row["title"])])
         row.pop("review_notes", None)
         row.pop("query", None)
         preview_url = row.pop("review_preview_url", None)

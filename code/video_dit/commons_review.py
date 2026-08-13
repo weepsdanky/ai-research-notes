@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import html
 import hashlib
 import json
 from pathlib import Path
@@ -15,10 +16,15 @@ import time
 import shutil
 import subprocess
 import tempfile
+import re
 from PIL import Image, ImageDraw
 
 
 REVIEW_STATUSES = {"pending", "approved", "rejected"}
+
+
+def _plain(value: str) -> str:
+    return re.sub(r"<[^>]+>", "", html.unescape(value)).strip()
 
 
 def choose_review_derivative(derivatives: Iterable[dict[str, object]]) -> str:
@@ -45,8 +51,9 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
     if not 1 <= len(titles) <= 50:
         raise ValueError("videoinfo batch requires 1 to 50 titles")
     parameters = urllib.parse.urlencode({
-        "action": "query", "format": "json", "prop": "videoinfo|revisions",
+        "action": "query", "format": "json", "prop": "videoinfo|imageinfo|revisions",
         "viprop": "derivatives|dimensions|url|timestamp|sha1", "rvprop": "ids",
+        "iiprop": "url|extmetadata",
         "titles": "|".join(titles),
     })
     request = urllib.request.Request(
@@ -71,6 +78,20 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
         revision = str((page.get("revisions") or [{}])[0].get("revid", ""))
         if not revision:
             raise ValueError(f"Commons response lacks source revision for: {title}")
+        image_info = (page.get("imageinfo") or [{}])[0]
+        metadata = image_info.get("extmetadata", {})
+
+        def metadata_field(name: str) -> str:
+            return _plain(str(metadata.get(name, {}).get("value", "")))
+
+        license_fields = {
+            "description_url": str(image_info.get("descriptionurl", "")),
+            "attribution": metadata_field("Attribution") or metadata_field("Artist"),
+            "license": metadata_field("LicenseShortName"),
+            "license_url": metadata_field("LicenseUrl"),
+        }
+        if not all(license_fields.values()):
+            raise ValueError(f"Commons response lacks license provenance for: {title}")
         try:
             preview_url = choose_review_derivative(info.get("derivatives", []))
         except ValueError as error:
@@ -80,6 +101,7 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
                 "original_media_url": str(info.get("url", "")),
                 "original_media_sha1": str(info.get("sha1", "")),
                 "original_media_timestamp": str(info.get("timestamp", "")),
+                **license_fields,
             }
         else:
             result[title] = {
@@ -88,6 +110,7 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
                 "original_media_url": str(info.get("url", "")),
                 "original_media_sha1": str(info.get("sha1", "")),
                 "original_media_timestamp": str(info.get("timestamp", "")),
+                **license_fields,
             }
     missing = set(titles) - set(result)
     if missing:
@@ -229,6 +252,84 @@ def enrich_review_metadata(path: Path) -> dict[str, object]:
     return summarize_reviews(rows)
 
 
+def enrich_provenance_sidecar(candidates_path: Path, sidecar_path: Path) -> dict[str, int]:
+    """Enrich an immutable candidate snapshot into a resumable provenance sidecar."""
+
+    candidates = load_rows(candidates_path)
+    titles = [str(row.get("title", "")) for row in candidates]
+    if any(not title for title in titles) or len(titles) != len(set(titles)):
+        raise ValueError("candidate titles must be non-empty and unique")
+    existing = load_rows(sidecar_path) if sidecar_path.is_file() else []
+    existing_titles = [str(row.get("title", "")) for row in existing]
+    if len(existing_titles) != len(set(existing_titles)):
+        raise ValueError("provenance sidecar contains duplicate titles")
+    if not set(existing_titles) <= set(titles):
+        raise ValueError("provenance sidecar contains unknown titles")
+    rows_by_title = {str(row["title"]): row for row in existing}
+    required_fields = (
+        "source_revision", "original_media_url", "original_media_sha1",
+        "original_media_timestamp", "description_url", "attribution", "license",
+        "license_url", "duration_seconds",
+    )
+    remaining = [
+        title for title in titles
+        if title not in rows_by_title
+        or not all(str(rows_by_title[title].get(name, "")).strip() for name in required_fields)
+    ]
+    for offset in range(0, len(remaining), 50):
+        batch = remaining[offset:offset + 50]
+        media_by_title = fetch_review_media_batch(batch)
+        for title in batch:
+            media = media_by_title[title]
+            row = {
+                "title": title,
+                "duration_seconds": float(media["duration"]),
+                "source_revision": str(media["source_revision"]),
+                "original_media_url": str(media["original_media_url"]),
+                "original_media_sha1": str(media["original_media_sha1"]),
+                "original_media_timestamp": str(media["original_media_timestamp"]),
+                "description_url": str(media["description_url"]),
+                "attribution": str(media["attribution"]),
+                "license": str(media["license"]),
+                "license_url": str(media["license_url"]),
+            }
+            required = (
+                "source_revision", "original_media_url", "original_media_sha1",
+                "original_media_timestamp", "description_url", "attribution",
+                "license", "license_url",
+            )
+            if not all(str(row[name]).strip() for name in required):
+                raise ValueError(f"Commons API returned incomplete provenance for: {title}")
+            if media.get("preview_url"):
+                row["review_preview_url"] = str(media["preview_url"])
+            else:
+                row["review_media_error"] = str(media["error"])
+            rows_by_title[title] = row
+        write_rows(sidecar_path, [rows_by_title[title] for title in titles if title in rows_by_title])
+    return {
+        "candidates": len(titles),
+        "enriched": len(rows_by_title),
+        "remaining": len(titles) - len(rows_by_title),
+    }
+
+
+def verify_provenance_sidecar(sidecar_path: Path, titles: list[str]) -> None:
+    """Fail if a Commons media revision changed since enrichment."""
+
+    rows = {str(row["title"]): row for row in load_rows(sidecar_path)}
+    for offset in range(0, len(titles), 50):
+        batch = titles[offset:offset + 50]
+        current = fetch_review_media_batch(batch)
+        for title in batch:
+            locked = rows.get(title)
+            if locked is None:
+                raise ValueError(f"provenance sidecar lacks title: {title}")
+            fields = ("original_media_url", "original_media_sha1", "original_media_timestamp")
+            if any(str(locked.get(field, "")) != str(current[title].get(field, ""))
+                   for field in fields):
+                raise ValueError(f"Commons media revision changed since enrichment: {title}")
+
+
 def save_review(
     path: Path,
     title: str,
@@ -302,11 +403,16 @@ def summarize_reviews(rows: Iterable[dict[str, object]]) -> dict[str, object]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("enrich", "summary"))
+    parser.add_argument("command", choices=("enrich", "provenance", "summary"))
     parser.add_argument("candidates", type=Path)
+    parser.add_argument("output", type=Path, nargs="?")
     args = parser.parse_args(argv)
     if args.command == "enrich":
         report = enrich_review_metadata(args.candidates)
+    elif args.command == "provenance":
+        if args.output is None:
+            parser.error("provenance requires an output sidecar path")
+        report = enrich_provenance_sidecar(args.candidates, args.output)
     else:
         report = summarize_reviews(load_rows(args.candidates))
     print(json.dumps(report, indent=2, sort_keys=True))

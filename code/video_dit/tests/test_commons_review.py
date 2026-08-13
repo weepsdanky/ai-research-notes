@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from commons_review import (
     choose_review_derivative,
     fetch_review_media,
@@ -11,6 +13,8 @@ from commons_review import (
     build_contact_sheet,
     review_queue,
     next_review_title,
+    enrich_provenance_sidecar,
+    verify_provenance_sidecar,
 )
 
 
@@ -37,6 +41,11 @@ def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
             {"src": "https://upload.wikimedia.org/240.webm", "width": 426,
              "height": 240, "type": "video/webm"},
         ],
+    }], "imageinfo": [{
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat_runs.webm",
+        "extmetadata": {"Artist": {"value": "Author"},
+                        "LicenseShortName": {"value": "CC BY 4.0"},
+                        "LicenseUrl": {"value": "https://creativecommons.org/licenses/by/4.0"}},
     }]}}}}
     captured = {}
 
@@ -56,7 +65,10 @@ def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
                      "source_revision": "123",
                      "original_media_url": "https://upload.wikimedia.org/original.webm",
                      "original_media_sha1": "abc",
-                     "original_media_timestamp": "2026-08-14T00:00:00Z"}
+                     "original_media_timestamp": "2026-08-14T00:00:00Z",
+                     "description_url": "https://commons.wikimedia.org/wiki/File:Cat_runs.webm",
+                     "attribution": "Author", "license": "CC BY 4.0",
+                     "license_url": "https://creativecommons.org/licenses/by/4.0"}
 
 
 def test_cache_review_preview_uses_stable_path_and_user_agent(tmp_path, monkeypatch):
@@ -241,15 +253,100 @@ def test_enrich_review_metadata_persists_duration_without_downloading_video(tmp_
     assert rows[0]["original_media_sha1"] == "abc"
 
 
+def test_provenance_sidecar_is_resumable_and_never_rewrites_candidates(tmp_path, monkeypatch):
+    candidates = tmp_path / "candidates.jsonl"
+    original = "".join(json.dumps({"title": title, "review_status": "pending"}) + "\n"
+                       for title in ("File:A.webm", "File:B.webm"))
+    candidates.write_text(original)
+    sidecar = tmp_path / "provenance.jsonl"
+    sidecar.write_text(json.dumps({
+        "title": "File:A.webm", "source_revision": "1",
+        "original_media_url": "https://upload.wikimedia.org/a.webm",
+        "original_media_sha1": "aaa", "original_media_timestamp": "old",
+        "review_preview_url": "https://upload.wikimedia.org/a-240.webm",
+        "duration_seconds": 3.0,
+        "description_url": "https://commons.wikimedia.org/wiki/File:A.webm",
+        "attribution": "Author", "license": "CC0", "license_url": "https://cc0",
+    }) + "\n")
+    calls = []
+    monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
+        title: calls.append(title) or {
+            "source_revision": "2", "original_media_url": "https://upload.wikimedia.org/b.webm",
+            "original_media_sha1": "bbb", "original_media_timestamp": "now",
+            "preview_url": "https://upload.wikimedia.org/b-240.webm", "duration": 4.0,
+            "description_url": "https://commons.wikimedia.org/wiki/File:B.webm",
+            "attribution": "Author", "license": "CC0", "license_url": "https://cc0",
+        } for title in titles
+    })
+
+    report = enrich_provenance_sidecar(candidates, sidecar)
+
+    assert candidates.read_text() == original
+    assert calls == ["File:B.webm"]
+    rows = [json.loads(line) for line in sidecar.read_text().splitlines()]
+    assert [row["title"] for row in rows] == ["File:A.webm", "File:B.webm"]
+    assert report == {"candidates": 2, "enriched": 2, "remaining": 0}
+
+
+def test_provenance_sidecar_rejects_unknown_or_duplicate_titles(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({"title": "File:A.webm"}) + "\n")
+    sidecar = tmp_path / "provenance.jsonl"
+    duplicate = {"title": "File:B.webm"}
+    sidecar.write_text(json.dumps(duplicate) + "\n" + json.dumps(duplicate) + "\n")
+
+    with pytest.raises(ValueError, match="duplicate|unknown"):
+        enrich_provenance_sidecar(candidates, sidecar)
+
+
+def test_provenance_sidecar_rejects_incomplete_api_provenance(tmp_path, monkeypatch):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({"title": "File:A.webm"}) + "\n")
+    monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
+        "File:A.webm": {
+            "duration": 3, "preview_url": "https://upload.wikimedia.org/a.webm",
+            "source_revision": "1", "original_media_url": "https://upload.wikimedia.org/a.webm",
+            "original_media_sha1": "", "original_media_timestamp": "now",
+            "description_url": "https://commons.wikimedia.org/wiki/File:A.webm",
+            "attribution": "Author", "license": "CC0", "license_url": "https://cc0",
+        }
+    })
+
+    with pytest.raises(ValueError, match="incomplete provenance"):
+        enrich_provenance_sidecar(candidates, tmp_path / "provenance.jsonl")
+
+
+def test_verify_provenance_sidecar_detects_media_replacement(tmp_path, monkeypatch):
+    sidecar = tmp_path / "provenance.jsonl"
+    sidecar.write_text(json.dumps({
+        "title": "File:A.webm", "source_revision": "1",
+        "original_media_url": "https://upload.wikimedia.org/a.webm",
+        "original_media_sha1": "old", "original_media_timestamp": "yesterday",
+    }) + "\n")
+    monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
+        "File:A.webm": {
+            "duration": 3, "preview_url": "https://upload.wikimedia.org/a-240.webm",
+            "source_revision": "2", "original_media_url": "https://upload.wikimedia.org/a.webm",
+            "original_media_sha1": "new", "original_media_timestamp": "today",
+        }
+    })
+
+    with pytest.raises(ValueError, match="media revision changed"):
+        verify_provenance_sidecar(sidecar, ["File:A.webm"])
+
+
 def test_fetch_review_media_batch_uses_one_request_for_multiple_titles(monkeypatch):
     captured = {}
+    imageinfo = [{"descriptionurl": "https://commons.wikimedia.org/wiki/File:X.webm",
+        "extmetadata": {"Artist": {"value": "Author"},
+        "LicenseShortName": {"value": "CC0"}, "LicenseUrl": {"value": "https://cc0"}}}]
     payload = {"query": {"pages": {
         "1": {"title": "File:A.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/a.webm",
-                             "width": 320, "height": 240, "type": "video/webm"}]}]},
+                             "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
         "2": {"title": "File:B.webm", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
             "derivatives": [{"src": "https://upload.wikimedia.org/b.webm",
-                             "width": 320, "height": 240, "type": "video/webm"}]}]},
+                             "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
     }}}
 
     class Response:
@@ -268,12 +365,15 @@ def test_fetch_review_media_batch_uses_one_request_for_multiple_titles(monkeypat
 
 
 def test_batch_records_missing_derivative_without_losing_other_rows(monkeypatch):
+    imageinfo = [{"descriptionurl": "https://commons.wikimedia.org/wiki/File:X.webm",
+        "extmetadata": {"Artist": {"value": "Author"},
+        "LicenseShortName": {"value": "CC0"}, "LicenseUrl": {"value": "https://cc0"}}}]
     payload = {"query": {"pages": {
         "1": {"title": "File:Good.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/good.webm",
-                             "width": 320, "height": 240, "type": "video/webm"}]}]},
+                             "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
         "2": {"title": "File:Broken.ogg", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
-            "derivatives": []}]},
+            "derivatives": []}], "imageinfo": imageinfo},
     }}}
 
     class Response:
