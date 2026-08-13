@@ -38,6 +38,15 @@ class RealVideoRecord:
     license: str
     attribution: str
     sha256: str
+    license_url: str | None = None
+    original_media_url: str | None = None
+    page_revision: str | None = None
+    original_media_sha1: str | None = None
+    original_media_timestamp: str | None = None
+    downloaded_media_url: str | None = None
+    downloaded_media_kind: str | None = None
+    downloaded_media_sha256: str | None = None
+    downloaded_at: str | None = None
     duplicate_group: str | None = None
     perceptual_hash: str | None = None
     text_embedding_path: str | None = None
@@ -61,6 +70,11 @@ class RealVideoRecord:
             character not in "0123456789abcdefABCDEF" for character in self.sha256
         ):
             raise ValueError("sha256 must contain exactly 64 hexadecimal characters")
+        if self.downloaded_media_sha256 is not None and (
+            len(self.downloaded_media_sha256) != 64
+            or any(character not in "0123456789abcdefABCDEF" for character in self.downloaded_media_sha256)
+        ):
+            raise ValueError("downloaded_media_sha256 must contain exactly 64 hexadecimal characters")
         if self.split is not None and self.split not in SPLITS:
             raise ValueError(f"split must be one of {sorted(SPLITS)}")
         if self.perceptual_hash is not None and (

@@ -1,5 +1,8 @@
 from pathlib import Path
 
+import hashlib
+import pytest
+
 from commons_import import (
     CommonsCandidate,
     candidate_from_api,
@@ -63,6 +66,10 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
         scene="grass",
         prompt="a cat jumping on grass",
         start_seconds=1.0,
+        source_revision="12345",
+        original_media_url="https://upload.wikimedia.org/cat.webm",
+        original_media_sha1="abc123",
+        original_media_timestamp="2026-08-14T00:00:00Z",
     )
 
     class Completed:
@@ -86,6 +93,27 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
     assert record.source_id == "commons:File:Cat jump.webm"
     assert record.license == "CC BY 4.0"
     assert record.perceptual_hash is not None
+    assert record.license_url == candidate.license_url
+    assert record.original_media_url == candidate.media_url
+    assert record.page_revision == "12345"
+    assert record.original_media_sha1 == "abc123"
+    assert record.downloaded_media_url == candidate.media_url
+    assert record.downloaded_media_kind == "original"
+    assert record.downloaded_media_sha256 == hashlib.sha256(b"source").hexdigest()
+    assert record.downloaded_at.endswith("Z")
+
+
+def test_normalize_clip_rejects_candidate_without_source_revision(tmp_path):
+    candidate = CommonsCandidate(
+        title="File:Legacy.webm", media_url="https://upload.wikimedia.org/legacy.webm",
+        description_url="https://commons.wikimedia.org/wiki/File:Legacy.webm",
+        description="legacy", attribution="Author", license="CC0",
+        license_url="https://creativecommons.org/publicdomain/zero/1.0",
+        subject="cat", action="walking", scene="grass", prompt="a cat walking",
+    )
+
+    with pytest.raises(ValueError, match="source revision"):
+        normalize_clip(candidate, tmp_path)
 
 
 def test_fetch_candidate_uses_exact_commons_title(monkeypatch):
@@ -235,7 +263,7 @@ def test_category_candidates_reads_files_from_subcategories(monkeypatch):
             ]}}
         titles = parameters["titles"].split("|")
         return {"query": {"pages": {str(index): {
-                "title": title, "imageinfo": [{
+                "title": title, "revisions": [{"revid": index + 1}], "imageinfo": [{
                 "url": "https://upload.wikimedia.org/cat.webm",
                 "descriptionurl": "https://commons.wikimedia.org/cat",
                 "mime": "video/webm",
@@ -255,7 +283,7 @@ def test_category_candidates_reads_files_from_subcategories(monkeypatch):
         "File:Cat walking.webm", "File:Cat jumping.webm",
     }
     assert any(call.get("cmtitle") == "Category:Videos of jumping cats" for call in calls)
-    metadata_calls = [call for call in calls if call.get("prop") == "imageinfo"]
+    metadata_calls = [call for call in calls if call.get("prop") == "imageinfo|revisions"]
     assert len(metadata_calls) == 2
     queried_titles = "|".join(call["titles"] for call in metadata_calls)
     assert "File:Cat walking.webm" in queried_titles

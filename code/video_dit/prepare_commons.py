@@ -60,6 +60,15 @@ def _write_state(path: Path, state: dict[str, object]) -> None:
     temporary.replace(path)
 
 
+def _has_commons_provenance(row: dict[str, object]) -> bool:
+    required = (
+        "license_url", "attribution", "original_media_url", "page_revision",
+        "original_media_sha1", "original_media_timestamp", "downloaded_media_url",
+        "downloaded_media_kind", "downloaded_media_sha256", "downloaded_at",
+    )
+    return all(isinstance(row.get(name), str) and str(row[name]).strip() for name in required)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     if args.command == "category":
@@ -226,6 +235,14 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     approved = _read_jsonl(args.manifest) if args.manifest.is_file() else []
+    if any(
+        str(record.get("source_id", "")).startswith("commons:")
+        and not _has_commons_provenance(record)
+        for record in approved
+    ):
+        raise ValueError(
+            "legacy Commons records cannot be extended; choose a new output manifest"
+        )
     completed_ids = {str(record["sample_id"]) for record in approved}
     for row in _read_jsonl(args.candidates):
         if row.pop("review_status", None) != "approved":
@@ -235,10 +252,18 @@ def main(argv: list[str] | None = None) -> int:
         preview_url = row.pop("review_preview_url", None)
         row.pop("duration_seconds", None)
         row.pop("review_media_error", None)
+        row.setdefault("original_media_url", row.get("media_url", ""))
         if preview_url:
             row["media_url"] = preview_url
         if "review_required" in (row.get("action"), row.get("scene")):
             raise ValueError("approved candidate still contains placeholder labels")
+        if not str(row.get("source_revision", "")).strip():
+            raise ValueError("approved candidate requires a locked Commons source revision")
+        if not all(str(row.get(name, "")).strip() for name in (
+            "license_url", "attribution", "original_media_url",
+            "original_media_sha1", "original_media_timestamp",
+        )):
+            raise ValueError("approved candidate has incomplete Commons provenance")
         media = urllib.parse.urlparse(str(row.get("media_url", "")))
         if media.scheme != "https" or media.hostname != "upload.wikimedia.org":
             raise ValueError("approved candidate requires an HTTPS Wikimedia upload URL")
@@ -252,6 +277,13 @@ def main(argv: list[str] | None = None) -> int:
         record = normalize_clip(
             candidate, args.clips, frames=args.frames, fps=args.fps, size=args.size,
         )
+        serialized_record = asdict(record)
+        if (
+            isinstance(serialized_record, dict)
+            and str(serialized_record.get("source_id", "")).startswith("commons:")
+            and not _has_commons_provenance(serialized_record)
+        ):
+            raise ValueError("normalized Commons record has incomplete provenance")
         if hasattr(record, "clip_path"):
             clip_path = Path(record.clip_path)
             try:

@@ -28,7 +28,10 @@ def test_choose_review_derivative_prefers_smallest_usable_video():
 
 
 def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
-    payload = {"query": {"pages": {"7": {"title": "File:Cat runs.webm", "videoinfo": [{
+    payload = {"query": {"pages": {"7": {"title": "File:Cat runs.webm",
+        "revisions": [{"revid": 123}], "videoinfo": [{
+        "url": "https://upload.wikimedia.org/original.webm", "sha1": "abc",
+        "timestamp": "2026-08-14T00:00:00Z",
         "duration": 12.5,
         "derivatives": [
             {"src": "https://upload.wikimedia.org/240.webm", "width": 426,
@@ -49,7 +52,11 @@ def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
     monkeypatch.setattr("commons_review.urllib.request.urlopen", fake_open)
     media = fetch_review_media("File:Cat runs.webm")
     assert "prop=videoinfo" in captured["url"]
-    assert media == {"preview_url": "https://upload.wikimedia.org/240.webm", "duration": 12.5}
+    assert media == {"preview_url": "https://upload.wikimedia.org/240.webm", "duration": 12.5,
+                     "source_revision": "123",
+                     "original_media_url": "https://upload.wikimedia.org/original.webm",
+                     "original_media_sha1": "abc",
+                     "original_media_timestamp": "2026-08-14T00:00:00Z"}
 
 
 def test_cache_review_preview_uses_stable_path_and_user_agent(tmp_path, monkeypatch):
@@ -214,12 +221,15 @@ def test_enrich_review_metadata_persists_duration_without_downloading_video(tmp_
     path.write_text("\n".join(json.dumps(row) for row in [
         {"title": "File:A.webm", "review_status": "pending"},
         {"title": "File:B.webm", "review_status": "pending", "duration_seconds": 3.0,
-         "review_preview_url": "https://upload.wikimedia.org/b.webm"},
+         "review_preview_url": "https://upload.wikimedia.org/b.webm", "source_revision": "9"},
     ]) + "\n")
     calls = []
     monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
         title: calls.append(title) or {
             "preview_url": "https://upload.wikimedia.org/240.webm", "duration": 4.5,
+            "source_revision": "123",
+            "original_media_url": "https://upload.wikimedia.org/original.webm",
+            "original_media_sha1": "abc", "original_media_timestamp": "now",
         } for title in titles
     })
     enrich_review_metadata(path)
@@ -227,15 +237,17 @@ def test_enrich_review_metadata_persists_duration_without_downloading_video(tmp_
     assert calls == ["File:A.webm"]
     assert rows[0]["duration_seconds"] == 4.5
     assert rows[0]["review_preview_url"].endswith("240.webm")
+    assert rows[0]["source_revision"] == "123"
+    assert rows[0]["original_media_sha1"] == "abc"
 
 
 def test_fetch_review_media_batch_uses_one_request_for_multiple_titles(monkeypatch):
     captured = {}
     payload = {"query": {"pages": {
-        "1": {"title": "File:A.webm", "videoinfo": [{"duration": 2,
+        "1": {"title": "File:A.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/a.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}]},
-        "2": {"title": "File:B.webm", "videoinfo": [{"duration": 3,
+        "2": {"title": "File:B.webm", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
             "derivatives": [{"src": "https://upload.wikimedia.org/b.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}]},
     }}}
@@ -257,10 +269,10 @@ def test_fetch_review_media_batch_uses_one_request_for_multiple_titles(monkeypat
 
 def test_batch_records_missing_derivative_without_losing_other_rows(monkeypatch):
     payload = {"query": {"pages": {
-        "1": {"title": "File:Good.webm", "videoinfo": [{"duration": 2,
+        "1": {"title": "File:Good.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/good.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}]},
-        "2": {"title": "File:Broken.ogg", "videoinfo": [{"duration": 3,
+        "2": {"title": "File:Broken.ogg", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
             "derivatives": []}]},
     }}}
 

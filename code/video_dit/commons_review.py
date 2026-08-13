@@ -45,8 +45,9 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
     if not 1 <= len(titles) <= 50:
         raise ValueError("videoinfo batch requires 1 to 50 titles")
     parameters = urllib.parse.urlencode({
-        "action": "query", "format": "json", "prop": "videoinfo",
-        "viprop": "derivatives|dimensions", "titles": "|".join(titles),
+        "action": "query", "format": "json", "prop": "videoinfo|revisions",
+        "viprop": "derivatives|dimensions|url|timestamp|sha1", "rvprop": "ids",
+        "titles": "|".join(titles),
     })
     request = urllib.request.Request(
         f"https://commons.wikimedia.org/w/api.php?{parameters}",
@@ -67,15 +68,26 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
     for page in pages.values():
         info = page.get("videoinfo", [{}])[0]
         title = str(page["title"])
+        revision = str((page.get("revisions") or [{}])[0].get("revid", ""))
+        if not revision:
+            raise ValueError(f"Commons response lacks source revision for: {title}")
         try:
             preview_url = choose_review_derivative(info.get("derivatives", []))
         except ValueError as error:
             result[title] = {
                 "duration": float(info.get("duration", 0)), "error": str(error),
+                "source_revision": revision,
+                "original_media_url": str(info.get("url", "")),
+                "original_media_sha1": str(info.get("sha1", "")),
+                "original_media_timestamp": str(info.get("timestamp", "")),
             }
         else:
             result[title] = {
                 "preview_url": preview_url, "duration": float(info.get("duration", 0)),
+                "source_revision": revision,
+                "original_media_url": str(info.get("url", "")),
+                "original_media_sha1": str(info.get("sha1", "")),
+                "original_media_timestamp": str(info.get("timestamp", "")),
             }
     missing = set(titles) - set(result)
     if missing:
@@ -196,6 +208,7 @@ def enrich_review_metadata(path: Path) -> dict[str, object]:
     pending = [
         row for row in rows
         if "duration_seconds" not in row or not row.get("review_preview_url")
+        or not row.get("source_revision")
     ]
     for offset in range(0, len(pending), 50):
         batch = pending[offset:offset + 50]
@@ -203,6 +216,10 @@ def enrich_review_metadata(path: Path) -> dict[str, object]:
         for row in batch:
             media = media_by_title[str(row["title"])]
             row["duration_seconds"] = float(media["duration"])
+            row["source_revision"] = str(media["source_revision"])
+            row["original_media_url"] = str(media["original_media_url"])
+            row["original_media_sha1"] = str(media["original_media_sha1"])
+            row["original_media_timestamp"] = str(media["original_media_timestamp"])
             if media.get("preview_url"):
                 row["review_preview_url"] = str(media["preview_url"])
                 row.pop("review_media_error", None)

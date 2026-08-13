@@ -6,11 +6,12 @@
 
 可以做，而且应当做；但不建议“随便从网上搜猫狗视频然后下载”。对于当前 24 GB Apple Silicon Mac，最稳妥的路线是：
 
-1. **方法学基准：VATEX 子集**。VATEX 有 41,250 个视频、825K/826K 量级的英中人工描述，每个视频各有 10 条英文和 10 条中文描述，caption 质量远好于 ASR；annotation 采用 CC BY 4.0。先取 4K--8K 个可获得 clip，验证真实视频的数据管线、冻结文本编码器和严格 split。[VATEX 官网](https://eric-xw.github.io/vatex-website/) · [ICCV 论文](https://openaccess.thecvf.com/content_ICCV_2019/html/Wang_VaTeX_A_Large-Scale_High-Quality_Multilingual_Dataset_for_Video-and-Language_Research_ICCV_2019_paper.html) · [官方下载页](https://eric-xw.github.io/vatex-website/download.html)
-2. **自然场景猫狗主实验：VideoUFO 的许可过滤子集，必要时辅以 FineVideo**。VideoUFO 官方 Hugging Face 数据卡声明 1,091,712 clips、1,291 topics、brief/detailed captions，视频为 CC BY 4.0，并直接提供约 800 GB、200 个 tar 分片；不要全量下载，只取包含 cat/dog/person 和目标动作、场景的 8K--20K clips。FineVideo 可作为较小但长视频丰富的补充源：43,751 个视频、约 600 GB，视频 bytes 直接托管并支持 streaming，但属于 gated 数据，必须接受其 Creative Commons、署名、删除请求和版本更新条款。[VideoUFO 数据卡](https://huggingface.co/datasets/WenhaoWang/VideoUFO) · [VideoUFO 论文](https://arxiv.org/abs/2503.01739) · [FineVideo 数据卡与条款](https://huggingface.co/datasets/HuggingFaceFV/finevideo) · [FineVideo 官方说明](https://huggingface.co/blog/fine-video)
-3. **不要把 WebVid-10M 当新实验首选**。官方仓库明确写明自 2024-02-23 起因 cease-and-desist 已不能发布 URL 和 captions；其条款也只授予研究者 12 个月、不可转让的严格非商业研究许可，并要求期满删除。第三方镜像不能自动恢复合法来源或可复现性。[官方仓库](https://github.com/m-bain/webvid) · [官方条款](https://github.com/m-bain/webvid/blob/main/TERMS.md)
+1. **方法学参考：VATEX annotation；实际训练媒体先用逐文件可审计的 Commons**。VATEX 有 41,250 个视频、825K/826K 量级的英中人工描述，每个视频各有 10 条英文和 10 条中文描述，caption 质量远好于 ASR；annotation 采用 CC BY 4.0，但官方不分发视频本体。它适合定义 caption 和 split 基准，不应把第三方取得的 YouTube 视频自动视为同一许可。[VATEX 官网](https://eric-xw.github.io/vatex-website/) · [ICCV 论文](https://openaccess.thecvf.com/content_ICCV_2019/html/Wang_VaTeX_A_Large-Scale_High-Quality_Multilingual_Dataset_for_Video-and-Language_Research_ICCV_2019_paper.html) · [官方下载页](https://eric-xw.github.io/vatex-website/download.html)
+2. **自然场景猫狗/人物主实验：继续扩充 Wikimedia Commons 审核集**。Commons 接受自由许可或公有领域媒体；API 能返回直接文件 URL、作者、署名和逐文件 `LicenseUrl`。这不保证搜索结果天然适合训练，但能让每个进入 manifest 的 clip 都有可核验权利链。[Commons 收录范围](https://commons.wikimedia.org/wiki/Commons:Project_scope) · [CommonsMetadata 官方文档](https://www.mediawiki.org/wiki/Extension:CommonsMetadata)
+3. **VideoUFO 暂停扩容，不以 OpenVid/Panda/InternVid 替代**。VideoUFO 三分片 pilot 证明随机 shard 对动物覆盖极差；OpenVid 虽直接托管视频但混合上游来源许可，Panda 与 InternVid 则主要发布外部网页视频 metadata 且有非商业限制。下文 2026-08-14 的补充审计给出精确边界。
+4. **不要把 WebVid-10M 当新实验首选**。官方仓库明确写明自 2024-02-23 起因 cease-and-desist 已不能发布 URL 和 captions；其条款也只授予研究者 12 个月、不可转让的严格非商业研究许可，并要求期满删除。第三方镜像不能自动恢复合法来源或可复现性。[官方仓库](https://github.com/m-bain/webvid) · [官方条款](https://github.com/m-bain/webvid/blob/main/TERMS.md)
 
-如果只做一轮实验，推荐 **VATEX 6K 做管线基准 + VideoUFO 12K 做猫/狗/人物组合泛化**。这比全量 WebVid/HD-VILA 更标准、更可审计，也更符合单机预算。
+如果只做一轮实验，推荐先把 **Commons-1K 审核集**做实，再决定是否扩大到 6K/12K。当前任何来源都不足以支持“已经完成严格组合泛化数据集”的说法。
 
 ## 2026-08-14 官方访问审计：VideoUFO 与 FineVideo
 
@@ -72,11 +73,11 @@ PY
 
 FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署名条件、跟随维护者指定的最新可用版本处理删除请求；若重新托管/分享 FineVideo，还必须附带相同条款并要求接收者同意。仓库的笼统 `license: cc` **不是统一的 CC BY 授权**。官方条款没有明确禁止发布训练 checkpoint，也没有明确给予覆盖全部原视频的统一 checkpoint 授权。因此“checkpoint 通常不等同于重发视频”只能作为工程/法律**推断**，不能当作官方许可；公开 checkpoint 前应保留逐样本 provenance、执行删除清单、做训练样本提取/记忆测试，并向维护者确认允许的发布方式。[FineVideo Terms of Use](https://huggingface.co/datasets/HuggingFaceFV/finevideo#terms-of-use-for-finevideo) · [维护者更新线程](https://huggingface.co/datasets/HuggingFaceFV/finevideo/discussions/2)
 
-### 对 24 GB Mac 的最终选择
+### 当时的 VideoUFO pilot 选择（已被后续审计取代）
 
-**先用 VideoUFO，不把 FineVideo 混入第一版训练。** 理由不是 VideoUFO 更小，而是它有可离线筛选的 1.23 GB CSV、短 clip、明确 CC BY 4.0 和独立 tar；FineVideo 的每个 metadata row 都和长视频 bytes 绑定，流式扫描 43K 长视频仍会产生大量下载，而且需要持续响应版本/删除要求。
+这一阶段曾选择**先用 VideoUFO，不把 FineVideo 混入第一版训练**。理由不是 VideoUFO 更小，而是它有可离线筛选的 1.23 GB CSV、短 clip、明确 CC BY 4.0 和独立 tar；FineVideo 的每个 metadata row 都和长视频 bytes 绑定，流式扫描 43K 长视频仍会产生大量下载，而且需要持续响应版本/删除要求。这个选择后来被三分片覆盖实验和替代源审计否决；当前执行路线见下文“Commons-first”。
 
-具体先做两步：下载并校验 VideoUFO CSV，生成不含媒体的候选/组合 coverage 报告；确认 ID→tar 映射后只取约 3--8 个相关 tar 做 100-clip 与 1K-clip pilot。未经索引确认，不启动原计划的 12K 下载。FineVideo 只在 VideoUFO 的猫/狗某些组合 coverage 不足时，以 gated streaming 定向补样，并单独记录数据来源与条款，避免把两套许可混成一个不可审计 checkpoint。
+当时的两步假设是：下载并校验 VideoUFO CSV，生成不含媒体的候选/组合 coverage 报告；确认 ID→tar 映射后只取约 3--8 个相关 tar 做 100-clip 与 1K-clip pilot。未经索引确认，不启动原计划的 12K 下载。后续证据表明随机 tar 无法形成平衡动物覆盖，且没有官方 ID→shard sidecar，因此本项目不再执行这条扩容路线，也不再以 FineVideo 补样。
 
 这两项前置验证已实际完成：固定 revision 的 CSV 已完整下载，本地 SHA-256 与上述官方值一致；`prepare_videoufo.py scan` 以约 30--40 MB 常驻内存扫描全部 1,091,712 行，按明确词边界、2 秒时长和六项质量阈值生成 4,234 条**待审核**候选。当前三元组候选中，人物组合普遍充足；狗的 `running|grass=111`、`walking|grass=104`、`running|snow=27`；猫最稀疏，只有 `walking|grass=54` 达到 50，其他猫组合均低于 50。这里的数字仍是 caption 规则命中，不是独立 source group 的最终数量。
 
@@ -92,20 +93,38 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 下一步应取得维护者的 ID→shard 索引或构建全量远端 tar-header 索引，定向下载动物候选，
 而不是继续随机拉分片。
 
+## 2026-08-14 替代源审计：VideoUFO shard-index 失败之后
+
+本节只回答“能否在 24 GB Mac 上定向取得猫/狗/人物 × 动作 × 场景视频，并合法用于训练/发布”。“数据集卡有 license 标签”“视频能下载”和“底层视频权利可审计”是三件不同的事。以下版本、大小和字段是官方仓库在审计日公开的事实；适用到 checkpoint 的结论均明确标为推断。
+
+| 来源 | 官方访问与最小入口（事实） | 视频与字段（事实） | 许可与 checkpoint 边界 | 本项目决定 |
+|---|---|---|---|---|
+| **OpenVid-1M / OpenVidHD** | 官方 HF 仓库非 gated；固定 revision `d8a63bd22989c80b5734ec2bb989f4e1b61a5807`。完整仓库约 12.40 TB；最小完整 metadata 为 `data/train/OpenVid-1M.csv`（856,907,992 B，SHA-256 `b7d3176c32fac18989c05a428fc5e466ee5cb511d4afd916b06fd995930f7c6e`），OpenVidHD metadata 为 `OpenVidHD.csv`（299,852,057 B，`c635b5c05a1a21d0435425d7333b18586b9f095fae3426af67447bdddc193dfb`），另有 15,284,572 B 的 `OpenVidHD/OpenVidHD.json` 分片映射（`2292ffafc71ae6937998cd03e8d8bfab5dba1132afdf52515972bb466cd49db6`）。[官方数据卡](https://huggingface.co/datasets/nkp37/OpenVid-1M) · [官方项目仓库](https://github.com/NJU-PCALab/OpenVid-1M) | HF 直接托管 `OpenVid_part*.zip` / `OpenVidHD*.zip`；OpenVid 主集最小 ZIP 也约 31.57 GB，常见单片为 20--50 GB。表中有 `video`、`caption`、aesthetic/motion/temporal scores、camera motion、frames、fps、seconds；项目 README 给出文件名到 ZIP 的 mapping。 | card 顶部标 CC BY 4.0，但正文同时要求遵守 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等原始来源许可，并把 CelebV-HQ 标作 unknown。**推断**：顶层标签不能清除底层权利，也不能据此保证可公开或商用的派生 checkpoint。 | 工程上可“先筛 caption、再按 mapping 下 ZIP”，但不通过本项目逐 clip 权利门禁；**不采用**。 |
+| **Panda-70M** | 官方仓库提供 CSV 与下载代码；2M/10M/full metadata 分别约 118 MB/504 MB/2.73 GB，对应约 1.6/8/36 TB 预估视频量。[官方仓库](https://github.com/snap-research/Panda-70M) · [论文](https://arxiv.org/abs/2402.19479) | metadata 的核心字段为 `videoID`、`url`、`timestamp`、`caption`、`matching_score`；视频不在 metadata 内，须按 YouTube URL 和时间段抓取。 | Snap 官方 LICENSE 明确只许非商业研究；README 还要求视频样本遵守 HD-VILA 的 Microsoft R-UDA。后者不保证提供者拥有底层视频权利，并限制 Results 用于商业产品。[Panda LICENSE](https://github.com/snap-research/Panda-70M/blob/main/LICENSE) · [HD-VILA R-UDA](https://github.com/microsoft/XPretrain/blob/main/hd-vila-100m/LICENSE) **推断**：研究 checkpoint 也不能被写成权利无负担，更不能商用。 | metadata 定向筛选便宜，但 URL 漂移且权利不可逐条从清单证明；**不采用**。 |
+| **InternVid** | 官方 HF 为 auto-gated，须登录、提供联系信息并接受“不伤害人类受试者”的条件；固定 revision `8f8e0138bd89103a914e8c97ae124ab0c4a78fcf`，约 13.39 GB metadata。最小发布文件 `InternVid-10M-DIV.jsonl` 仍为 1,691,991,951 B。[官方数据卡](https://huggingface.co/datasets/OpenGVLab/InternVid) · [官方代码](https://github.com/OpenGVLab/InternVideo/tree/main/Data/InternVid) · [论文](https://arxiv.org/abs/2307.06942) | 发布的是 `videoID`、`timestamps`、generated caption、UMT similarity 等 JSONL；card 描述来源为公开网页视频，没有直接托管 MP4 bytes。 | card 标 CC BY-NC-SA 4.0；这约束 annotation 层，并不证明每个网页视频可训练/再分发。**推断**：即便非商业研究，也应另审底层视频；公开 checkpoint 不可仅凭 card 放行。 | gate、NC-SA、13.39 GB 元数据和不透明取视频链均不利于本机 pilot；**不采用**。 |
+
+### 可执行选择：Commons-first，而不是“大数据集 first”
+
+当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
+
+24 GB Mac 的下一步保持小而可审计：先把现有 101 approved 扩到 1K，优先补 `person`、`cat` 稀疏组合；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入新 manifest；旧 101 条历史 manifest 不与新契约混写。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+
+这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
+
 ## 候选数据集逐项核查
 
 | 数据集 | 官方规模与文本 | 视频实际在哪里 | 使用条件与稳定性 | 对本项目的判断 |
 |---|---|---|---|---|
 | **WebVid-10M** | 约 10M 个 stock-footage video-text pairs | 原作者不拥有视频；现在连 URL/caption 都不再提供 | 严格非商业研究、许可 12 个月、不可转让；官方明确撤下 | **排除**。历史 T2V 常用，但今天无法从官方入口构造可复现实验 |
 | **MSR-VTT** | 10K clips、41.2 小时、200K clip-sentence pairs；每 clip 约 20 条人工句子 | 微软论文页目前提供论文信息，未发现同页直接托管 raw videos 的稳定官方下载入口 | 原论文能证明规模与标注，不能据此推断当前 raw-video 许可和镜像合法性 | **可作评估参考，不作首选训练源**；只有在官方授权下载入口重新确认后使用 |
-| **VATEX** | 41.25K clips、825K+ 英中人工 captions；覆盖 600 个细粒度人类活动 | 官网发布 annotations；官方明确因法律/隐私不能分发 YouTube clips，需按 ID 自行取得，部分会失效 | 官网声明数据集 CC BY 4.0；但视频本体仍受原来源权利约束 | **首选标准 caption 基准**，但要固化成功下载清单和 hash，不能假定 41K 全部可用 |
+| **VATEX** | 41.25K clips、825K+ 英中人工 captions；覆盖 600 个细粒度人类活动 | 官网发布 annotations；官方明确因法律/隐私不能分发 YouTube clips，需按 ID 自行取得，部分会失效 | 官网声明数据集 CC BY 4.0；但视频本体仍受原来源权利约束 | **caption/split 方法学参考**；视频本体不进入当前 Commons-first 训练线 |
 | **YouCook2** | 2,000 个长视频、89 种菜谱，步骤有时间边界和祈使句描述；约 176 小时 | YouTube 来源；官网称可下载视频/特征，但可获取率会随原视频变化 | 官方页面未给出足以支持“视频可自由再分发”的清晰通用许可证 | **不适合猫狗/自然场景**；适合另做 person × cooking-action × kitchen-object 组合实验 |
 | **Kinetics-400/600/700** | 最多约 650K、400/600/700 类人类动作；每 clip 约 10 秒，只有单一动作类标签 | CVDF 目前明确托管 K400 和 K700-2020 archives；官方也提醒不同版本之间有 split 重叠 | 比 YouTube URL-only 稳定；标签不是自然 caption，版本交叉会造成评估泄漏 | **动作预训练/对照很好，T2V 文本主集不够**。可把标签模板化，但不能称人工自然描述。[官方仓库](https://github.com/cvdfoundation/kinetics-dataset)
 | **Something-Something V2** | 220,847 clips、174 类、19.4 GB；train/val/test 为 168,913/24,777/27,157；另有对象实例描述 | Qualcomm 直接提供分卷 archive，VP9 webm，240p | Research Use agreement；研究用途，不应公开再分发派生数据包 | **Mac 上最稳定的动作/组合辅助集**，但主体是手和日常物体，不是自然猫狗，也不是开放 caption。[官网](https://www.qualcomm.com/developer/software/something-something-v-2-dataset)
 | **ActivityNet Captions** | 20K videos、849 小时、100K 带起止时间的描述 | 官方需填表获得 Drive 的 7 天访问；历史上视频来自外部来源，缺失需单独处理 | 可获得性优于纯 URL 清单但仍需授权流程；长视频预处理成本高 | **可做人物活动 dense-caption 扩展**，不适合第一轮猫狗实验。[官方任务页](https://activity-net.org/challenges/2021/tasks/anet_captioning.html) · [官方下载](https://activity-net.org/download.html)
 | **HD-VILA-100M** | 3.3M source videos、100M clips、371.5K 小时、720p；文本是 ASR，平均 13.4 秒/32.5 words | 官方只发 YouTube URLs、timestamps、metadata，要求用户自己下载/裁剪 | R-UDA：只允许 computational、非商业研究；不保证数据权利；外链会漂移。官方材料也承认 ASR 有噪声且没有 validation split | **不适合 Mac 首轮，也不适合视觉 caption 精确监督**；仅在需要大规模预训练且能承担 URL 失效与清洗时考虑。[官方仓库](https://github.com/microsoft/XPretrain/tree/main/hd-vila-100m) · [R-UDA](https://github.com/microsoft/XPretrain/blob/main/hd-vila-100m/LICENSE) · [CVPR 论文](https://arxiv.org/abs/2111.10337)
-| **FineVideo（HF 官方团队）** | 43,751 个长视频、约 3.4K 小时；有结构化场景、活动和描述 | HF Parquet 内含 `mp4` binary，约 600 GB，支持 streaming | gated；Creative Commons 原许可逐条适用，要求保留 provenance、响应删除请求并跟随可用版本 | **可执行的小流式替代/补充**，但要从 scene timestamps 切短 clip，不能把语音转写当视觉描述 |
-| **VideoUFO** | 1.09M clips、1,291 topics，含 brief/detailed caption 和质量分数 | HF 直接托管约 800 GB 的 200 个 tar 分片 | 官方数据卡声明视频 CC BY 4.0；仍应随样本保留 attribution/provenance | **自然场景主实验首选**，但必须做按 metadata 选样、按分片下载，而非全量镜像 |
+| **FineVideo（HF 官方团队）** | 43,751 个长视频、约 3.4K 小时；有结构化场景、活动和描述 | HF Parquet 内含 `mp4` binary，约 600 GB，支持 streaming | gated；Creative Commons 原许可逐条适用，要求保留 provenance、响应删除请求并跟随可用版本 | **本阶段不采用**；没有逐 clip 许可审核前不混入 Commons checkpoint |
+| **VideoUFO** | 1.09M clips、1,291 topics，含 brief/detailed caption 和质量分数 | HF 直接托管约 800 GB 的 200 个 tar 分片 | 官方数据卡声明视频 CC BY 4.0；仍应随样本保留 attribution/provenance | **metadata coverage 参考，媒体扩容暂停**；随机三分片 pilot 已证明动物覆盖不足 |
 
 ### 关于“下载稳定性”的事实边界
 
@@ -116,14 +135,14 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 ## 24 GB Mac 的实际子集
 
-### Phase A：VATEX-6K，先证明训练链路
+### 历史候选 Phase A：VATEX-6K（不再执行）
 
 - 从官方 train/val annotation 出发，记录 `source_id`、全部 captions、下载状态、原 URL、下载时间和 SHA-256。
 - 成功视频中抽取 6,000 个：train 4,800、validation 600、test 600；**同一 source video 只能在一个 split**。
 - 每个样本取单镜头 2 秒、8 fps、16 帧，先中心裁剪到 96×96；保留一条短 caption，其他人工 captions 用于语义等价评估而不是复制成 10 个视频样本。
 - 原始下载预计几十 GB；规范化后的 H.264 clips 目标控制在约 5--12 GB。该数值是工程预算估计，不是 VATEX 官方统计。
 
-### Phase B：VideoUFO-12K，自然猫狗/人物主实验
+### 历史候选 Phase B：VideoUFO-12K（不再执行）
 
 先只下载 metadata，用 topic、brief/detailed caption 和质量指标筛选。目标因子：
 
@@ -135,7 +154,11 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 人工复核候选的 10% 和全部 test；排除多主体冲突、幻灯片、强剪辑、水印遮挡、caption 与画面不一致、动物主体过小的 clip。目标 12K clips，最低每个保留组合 120 个；不足的组合宁可缩小矩阵，也不要靠重复采样伪装平衡。
 
-预处理建议：2 秒、8 fps、16 帧、96×96 或 128×128，去音轨，H.264；保存原 caption、规范化三元组、source ID、许可、attribution、时间段、SHA-256、感知 hash 和预处理版本。12K 个这种短 clip 通常可以控制在约 10--25 GB；同样，这是需由 pilot 实测的预算估计。
+预处理建议曾是：2 秒、8 fps、16 帧、96×96 或 128×128，去音轨，H.264；保存原 caption、规范化三元组、source ID、许可、attribution、时间段、SHA-256、感知 hash 和预处理版本。12K 个这种短 clip 通常可以控制在约 10--25 GB；同样，这是未执行旧方案的预算估计，不是当前数据规模。
+
+### 当前 Phase：Commons-1K → coverage gate
+
+从现有 101 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 799 个候选中的 651 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 为什么不是直接训练 800 GB
 
@@ -217,9 +240,9 @@ scene   = grass/field | forest | beach | snow | indoor/home
 | 关卡 | 数据 | 成功标准 | 失败时停止点 |
 |---|---|---|---|
 | G0 | 100 clips | 单 batch/小集合可过拟合，MP4 有真实运动 | 解码、VAE、text condition 未闭环就不扩容 |
-| G1 | 1K VATEX | source-group split 无泄漏；prompt 与输出主体/动作相关 | caption alignment 无提升则先修文本条件 |
-| G2 | VATEX-6K | ID-test 明显优于无条件基线；日志与 manifest 完整 | 普通泛化失败则不做组合宣称 |
-| G3 | VideoUFO-12K | C1 三因子正确率显著高于打乱 prompt 对照；最近邻非复制 | 仅随机 split 好看则报告内插，不叫组合泛化 |
+| G1 | Commons-1K | 逐文件 provenance 完整，source/pHash split 无泄漏；prompt 与输出主体/动作相关 | coverage 或 caption alignment 不足就继续审核/补搜，不训练 6K |
+| G2 | Commons 扩展集（上限 6K，按 G1 coverage 决定） | ID-test 明显优于无条件基线；日志与 manifest 完整 | 普通泛化失败则不做组合宣称 |
+| G3 | Commons C1 子集 | 每个留出 triple ≥50 独立 source groups；三因子正确率显著高于打乱 prompt，最近邻非复制 | 覆盖不足就缩小矩阵；仅随机 split 好看只报告内插 |
 | G4 | C2 pair holdout | 独立报告更强的二元留出结果和失败案例 | 不用扩大数据掩盖 split 缺陷 |
 
 最终目标不是生成一个“看起来像猫”的 cherry-picked MP4，而是能回答：模型是否在没有见过某个 `subject × action × scene` 三元组、也没有见过同源和近重复视频的情况下，仍能按照文本同时满足三个条件。

@@ -263,7 +263,12 @@ uv run python prepare_commons.py download \
 官方低清 derivative，训练预处理会使用同一 derivative。输出 clip 路径相对于 manifest，
 因此移动整个数据目录后仍可加载。
 
-下载会保留原页面、逐条许可、署名、SHA-256 和感知 hash。错误搜索命中（例如机器人
+新的下载会 fail-closed 要求 `enrich` 写入 Commons 描述页 revision 以及原媒体的
+timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license URL、署名、下载 UTC
+时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
+SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
+混称为“原始媒体 hash”。当前 101 条是早期历史 manifest，缺少其中若干独立字段；它们不能
+被冒充为满足新契约，扩到 1K 前须重新 enrich 候选并按新 manifest 重新生成。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
 候选池为 799 条，目前 101 条 approved、651 条 pending、47 条 rejected；pending 绝不
@@ -375,6 +380,15 @@ uv run python train.py \
 已校验并扫描 1,091,712 行，得到 4,234 条待审核三因子候选；最小官方视频分片也已取得，
 197 个 MP4 的 member basename 可与 CSV ID 精确关联，但只命中 1 条候选。猫组合 coverage
 尤其稀疏，人工审核与 pHash 分组后尚不可能满足 C1 门禁，因此没有启动 1K 训练。
+
+替代源审计也已完成：OpenVid 的官方文件名到 ZIP 映射让定向取媒体在工程上可行，但其
+视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
+仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
+metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
+当前 checkpoint。训练主线改为 Commons-first：把现有 101 approved、逐文件记录许可和
+署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
+source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
+见学习计划。
 
 复现 metadata 扫描与 tar 解析（原始文件位于仓库外/ignored 的 `data/raw/videoufo`）：
 

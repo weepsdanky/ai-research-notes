@@ -15,6 +15,7 @@ import urllib.error
 import urllib.request
 import uuid
 import time
+from datetime import datetime, timezone
 from typing import Callable
 
 from real_data import RealVideoRecord, decode_video_clip, perceptual_hash
@@ -34,6 +35,10 @@ class CommonsCandidate:
     scene: str
     prompt: str
     start_seconds: float = 0.0
+    source_revision: str = ""
+    original_media_url: str = ""
+    original_media_sha1: str = ""
+    original_media_timestamp: str = ""
 
 
 def _api_json(parameters: dict[str, object]) -> dict[str, object]:
@@ -98,6 +103,10 @@ def candidate_from_api(
         scene=scene,
         prompt=prompt,
         start_seconds=start_seconds,
+        source_revision=str((page.get("revisions") or [{}])[0].get("revid", "")),
+        original_media_url=info["url"],
+        original_media_sha1=str(info.get("sha1", "")),
+        original_media_timestamp=str(info.get("timestamp", "")),
     )
 
 
@@ -116,8 +125,9 @@ def fetch_candidate(
         {
             "action": "query",
             "format": "json",
-            "prop": "imageinfo",
-            "iiprop": "url|extmetadata",
+            "prop": "imageinfo|revisions",
+            "iiprop": "url|sha1|timestamp|extmetadata",
+            "rvprop": "ids",
             "titles": title,
         }
     )
@@ -161,8 +171,9 @@ def search_candidates(
             "gsrsearch": query,
             "gsrnamespace": 6,
             "gsrlimit": min(50, limit - len(candidates)),
-            "prop": "imageinfo",
-            "iiprop": "url|mime|extmetadata",
+            "prop": "imageinfo|revisions",
+            "iiprop": "url|mime|sha1|timestamp|extmetadata",
+            "rvprop": "ids",
             **next_page,
         }
         payload = _api_json(parameters)
@@ -245,8 +256,9 @@ def category_candidates(
         if pending_titles:
             batch = pending_titles[:50]
             metadata = _api_json({
-                "action": "query", "format": "json", "prop": "imageinfo",
-                "iiprop": "url|mime|extmetadata", "titles": "|".join(batch),
+                "action": "query", "format": "json", "prop": "imageinfo|revisions",
+                "iiprop": "url|mime|sha1|timestamp|extmetadata", "rvprop": "ids",
+                "titles": "|".join(batch),
             })
             pages_by_title = {
                 str(page["title"]): (str(page_id), page)
@@ -330,6 +342,10 @@ def normalize_clip(
 
     if frames < 2 or fps <= 0 or size <= 0:
         raise ValueError("frames, fps, and size must be positive")
+    if not candidate.source_revision.strip():
+        raise ValueError("Commons candidate requires a source revision")
+    if not candidate.original_media_sha1.strip() or not candidate.original_media_timestamp.strip():
+        raise ValueError("Commons candidate requires a locked original media revision")
     duration = frames / fps
     ffmpeg = shutil.which("ffmpeg")
     if ffmpeg is None:
@@ -363,6 +379,8 @@ def normalize_clip(
     ]
     try:
         subprocess.run(download, check=True)
+        downloaded_media_digest = hashlib.sha256(source.read_bytes()).hexdigest()
+        downloaded_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         subprocess.run(command, check=True)
         probe = subprocess.run(
             [
@@ -401,5 +419,17 @@ def normalize_clip(
         license=candidate.license,
         attribution=f"{candidate.attribution}; {candidate.license_url}",
         sha256=digest,
+        license_url=candidate.license_url,
+        original_media_url=candidate.original_media_url or candidate.media_url,
+        page_revision=candidate.source_revision,
+        original_media_sha1=candidate.original_media_sha1,
+        original_media_timestamp=candidate.original_media_timestamp,
+        downloaded_media_url=candidate.media_url,
+        downloaded_media_kind=(
+            "original" if candidate.media_url == (candidate.original_media_url or candidate.media_url)
+            else "review_derivative"
+        ),
+        downloaded_media_sha256=downloaded_media_digest,
+        downloaded_at=downloaded_at,
         perceptual_hash=fingerprint,
     )
