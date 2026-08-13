@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass, replace
 import hashlib
 import json
 from pathlib import Path
+import math
 import shutil
 import subprocess
 import tempfile
@@ -75,6 +76,10 @@ class RealVideoRecord:
             value is not None for value in latent_fields
         ):
             raise ValueError("latent_path, vae_id, and vae_scaling must be provided together")
+        if self.vae_scaling is not None and (
+            not math.isfinite(self.vae_scaling) or self.vae_scaling <= 0
+        ):
+            raise ValueError("vae_scaling must be positive and finite")
 
     @property
     def triple(self) -> TRIPLE:
@@ -598,6 +603,8 @@ class RealVideoDataset(Dataset[dict[str, torch.Tensor | str]]):
         expected = (4, self.frames, self.size, self.size)
         if not isinstance(latent, torch.Tensor) or tuple(latent.shape) != expected:
             raise ValueError(f"latent for {record.sample_id} must have shape {expected}")
+        if not torch.isfinite(latent).all():
+            raise ValueError(f"latent for {record.sample_id} must be finite")
         return latent.float()
 
     def _load_text_embedding(self, record: RealVideoRecord) -> torch.Tensor:

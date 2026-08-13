@@ -76,6 +76,14 @@ def test_manifest_round_trip_preserves_provenance_and_rejects_missing_license(tm
         load_manifest(path)
 
 
+def test_manifest_rejects_invalid_vae_scaling():
+    with pytest.raises(ValueError, match="vae_scaling must be positive and finite"):
+        __import__("dataclasses").replace(
+            _record("cat", "cat", "walking", "grass"),
+            latent_path="latents/cat.pt", vae_id="vae@revision", vae_scaling=0.0,
+        )
+
+
 def test_split_holds_out_unseen_triple_but_keeps_all_atoms_and_pairs_in_train():
     records = _factorial_records()
     policy = CompositionalSplit(
@@ -448,3 +456,21 @@ def test_dataset_reads_cached_vae_latent_without_decoding_pixels(tmp_path):
 
     assert torch.equal(sample["video"], expected)
     assert sample["vae_id"] == "stabilityai/sd-vae-ft-mse@revision"
+
+
+def test_dataset_rejects_nonfinite_cached_vae_latent(tmp_path):
+    latent_path = tmp_path / "bad.pt"
+    latent = torch.zeros(4, 8, 12, 12)
+    latent[0, 0, 0, 0] = float("nan")
+    torch.save(latent, latent_path)
+    record = __import__("dataclasses").replace(
+        _record("bad", "cat", "running", "grass"),
+        latent_path=latent_path.name, vae_id="vae@revision", vae_scaling=0.18215,
+        split="train",
+    )
+    manifest = write_manifest(tmp_path / "manifest.jsonl", [record])
+
+    with pytest.raises(ValueError, match="finite"):
+        RealVideoDataset(
+            manifest, split="train", frames=8, size=12, space="latent"
+        )[0]

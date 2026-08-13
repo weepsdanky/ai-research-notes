@@ -275,6 +275,27 @@ uv run python cache_text_embeddings.py source.jsonl embedded.jsonl \
   --checkpoint /path/to/ViT-B-32.pt
 ```
 
+冻结 VAE latent 路线使用 MIT 许可的 `stabilityai/sd-vae-ft-mse` KL-f8；必须固定
+revision。编码采用 posterior mode（确定性），存储前乘 `0.18215`，推理解码前除回去：
+
+```bash
+uv run python vae_latents.py embedded.jsonl embedded-latent.jsonl \
+  --model stabilityai/sd-vae-ft-mse \
+  --revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79 \
+  --device mps --frames 16 --size 96
+
+uv run python train.py --dataset real --manifest embedded-latent.jsonl \
+  --text-embedding-size 512 --space latent --no-learn-sigma \
+  --frames 16 --image-size 12 --patch-size 2 --hidden-size 256 \
+  --num-heads 8 --num-pairs 4 --horizontal-flip-prob 0 --sample-every 0
+
+uv run python inference.py runs/latent/video_dit_inference.pt \
+  --prompt "a dog swimming in a pond" --device mps \
+  --text-checkpoint /path/to/ViT-B-32.pt \
+  --vae-model stabilityai/sd-vae-ft-mse \
+  --vae-revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79
+```
+
 真实像素视频训练入口：
 
 ```bash
@@ -290,9 +311,9 @@ uv run python train.py \
 本机已用一条人工检查过的 Wikimedia Commons CC BY 3.0 猫跳跃 clip 跑通上述
 96×96、16 帧、learned-variance、CLIP 条件训练更新：MPS 单步约 1.96 秒，loss
 1.02395。这只是 **G0 管线和性能基线**，没有证明模型已学会生成，更没有形成 C1
-实验。VideoUFO 最小官方分片和 SD VAE 权重在本次运行中均因 Hugging Face 大文件
-连接超时未取得；当前 latent reader 已 fail-closed，但在实际 VAE cache 完成之前不把
-像素 smoke test 称为 latent 训练。
+实验。随后已取得固定 revision 的 SD VAE safetensors，完成 100/100 latent cache、
+10,000-step latent 训练和 VAE 推理解码；结果与失败边界记录在学习计划的 G0 执行记录。
+VideoUFO 最小官方分片仍未取得，因此尚未进入 G1--G4。
 
 官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为
 `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`；其中

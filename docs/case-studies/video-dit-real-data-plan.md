@@ -170,3 +170,22 @@ scene   = grass/field | forest | beach | snow | indoor/home
 且每个组合远未达到 C1 所需的 50 个独立来源。G1--G4 仍需更大规模、严格单主体/同一
 身份与拍摄事件人工审计的数据；在 C1/C2 实验完成前，不能把合成动画、单 clip smoke
 test 或 G0 结果称为“训练期未见组合泛化”。
+
+### G0 训练结果（2026-08-13）
+
+- 像素基线：1.41M 参数、96×96×16、3,000 updates。loss 从约 1.0 降至约 0.35，
+  但 EMA 与 raw 权重的 DDIM 输出均仍是高频噪声，因此明确判为失败。
+- VAE 闭环：固定 `stabilityai/sd-vae-ft-mse@c01e028...`，posterior mode 编码后乘
+  `0.18215`；100/100 clips 缓存为 4×16×12×12 latent。抽样重建 PSNR 20.14 dB，
+  主体和真实跨帧运动可辨认。
+- 100-clip latent 基线：9.87M 参数、10,000 updates、batch 4、EMA 0.999。输出已离开
+  纯噪声并有跨帧结构，但相同 seed 下不同 prompt 几乎相同，主体/动作/场景不可辨；
+  判定为条件坍缩，未通过 G0。
+- 3-clip 诊断对照：同一架构和 10,000 updates，在固定相同 seed 下三个训练 prompt
+  分别生成可区分的雪地、池塘、林地视频；池塘样本保留水中小主体。说明冻结 CLIP
+  条件接口、latent DiT 和 VAE 解码链路有效，但当前容量/预算不能拟合 100 条多样视频。
+
+所有 run 均保留逐 step `step_log.csv`、checkpoint、EMA 推理 MP4 与独立的去噪诊断
+GIF；像素失败基线另保留 raw 权重对照。这个结果只通过“小集合可过拟合”的诊断，不通过 100-clip G0，更不构成
+C1 未见组合泛化证据。下一步应扩模型/训练预算并加入条件对齐验证；在 100-clip 条件
+门禁通过前，不启动 1K/6K 正式训练。

@@ -25,6 +25,7 @@ from evaluate_video import save_metrics
 from video_dit import VideoDiT, VideoDiTConfig
 from video_io import save_denoising_gif, save_video_mp4
 from cache_text_embeddings import openai_clip_encoder
+from vae_latents import VAEDecoder, DiffusersFrameVAE, decode_video_latents
 
 
 @dataclass(frozen=True)
@@ -141,6 +142,7 @@ class VideoDiTInference:
         text_encode: Callable[[list[str]], torch.Tensor] | None = None,
         text_encoder_id: str | None = None,
         space: str = "pixel",
+        vae_decoder: VAEDecoder | None = None,
     ) -> None:
         self.model = model
         self.schedule = schedule
@@ -152,6 +154,7 @@ class VideoDiTInference:
         self.text_encode = text_encode
         self.text_encoder_id = text_encoder_id
         self.space = space
+        self.vae_decoder = vae_decoder
 
     @classmethod
     def from_checkpoint(
@@ -162,6 +165,7 @@ class VideoDiTInference:
         use_ema: bool = True,
         text_encode: Callable[[list[str]], torch.Tensor] | None = None,
         text_encoder_id: str | None = None,
+        vae_decoder: VAEDecoder | None = None,
     ) -> "VideoDiTInference":
         """Load a training checkpoint, preferring EMA weights by default."""
 
@@ -201,11 +205,16 @@ class VideoDiTInference:
                     "text encoder identity does not match checkpoint data contract"
                 )
         space = str(data_contract.get("space", "pixel"))
-        if space != "pixel":
-            raise ValueError(
-                "latent checkpoint inference requires a matching VAE decoder; "
-                "pixel-only inference cannot decode it"
-            )
+        if space == "latent":
+            if vae_decoder is None:
+                raise ValueError("latent checkpoint inference requires a matching VAE decoder")
+            if (
+                vae_decoder.vae_id != data_contract.get("vae_id")
+                or vae_decoder.scaling_factor != data_contract.get("vae_scaling")
+            ):
+                raise ValueError("VAE decoder identity or scaling does not match checkpoint")
+        elif space != "pixel":
+            raise ValueError(f"unsupported checkpoint space: {space}")
         schedule = DiffusionSchedule(**diffusion_values).to(resolved_device)
         model = VideoDiT(config)
 
@@ -232,6 +241,7 @@ class VideoDiTInference:
             text_encode=text_encode,
             text_encoder_id=text_encoder_id,
             space=space,
+            vae_decoder=vae_decoder,
         )
 
     @torch.inference_mode()
@@ -310,6 +320,15 @@ class VideoDiTInference:
             prediction_type=self.prediction_type,
         )
         video = sampled[0].detach().cpu()
+        diagnostic_states = [state[0] for _, state in trajectory]
+        if self.space == "latent":
+            if self.vae_decoder is None:
+                raise RuntimeError("latent inference is missing its VAE decoder")
+            video = decode_video_latents(video, self.vae_decoder)
+            diagnostic_states = [
+                decode_video_latents(state, self.vae_decoder)
+                for state in diagnostic_states
+            ]
 
         destination = Path(output_dir).expanduser().resolve()
         destination.mkdir(parents=True, exist_ok=True)
@@ -336,7 +355,7 @@ class VideoDiTInference:
         stem = f"model_{prompt_slug}_seed-{seed}_{request_hash}_{run_id}"
         video_path = save_video_mp4(video, destination / f"{stem}.mp4", fps=fps)
         denoising_path = save_denoising_gif(
-            [state[0] for _, state in trajectory],
+            diagnostic_states,
             destination / f"{stem}_denoising-diagnostic.gif",
         )
         metadata_path = destination / f"{stem}.json"
@@ -395,6 +414,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--text-checkpoint", type=Path,
         help="official OpenAI CLIP ViT-B/32 checkpoint for text-conditioned models",
     )
+    parser.add_argument("--vae-model", default=None)
+    parser.add_argument("--vae-revision", default=None)
     return parser.parse_args(argv)
 
 
@@ -404,12 +425,20 @@ def main(argv: list[str] | None = None) -> GenerationResult:
     text_encode = None
     if args.text_checkpoint is not None:
         text_encoder_id, text_encode = openai_clip_encoder(args.text_checkpoint)
+    vae_decoder = None
+    if args.vae_model or args.vae_revision:
+        if not args.vae_model or not args.vae_revision:
+            raise ValueError("--vae-model and --vae-revision must be provided together")
+        vae_decoder = DiffusersFrameVAE.from_pretrained(
+            args.vae_model, revision=args.vae_revision, device=args.device,
+        )
     engine = VideoDiTInference.from_checkpoint(
         args.checkpoint,
         device=args.device,
         use_ema=not args.no_ema,
         text_encode=text_encode,
         text_encoder_id=text_encoder_id,
+        vae_decoder=vae_decoder,
     )
     result = engine.generate(
         args.prompt,

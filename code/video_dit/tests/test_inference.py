@@ -267,13 +267,52 @@ def test_text_condition_checkpoint_generates_from_natural_prompt_embedding(tmp_p
         "a cat jumping between concrete walls", tmp_path / "out",
         sampling_steps=2, trajectory_frames=2,
     )
-
     assert seen == ["a cat jumping between concrete walls"]
     assert result.video.shape == (3, 4, 16, 16)
     metadata = json.loads(result.metadata_path.read_text())
     assert metadata["condition_mode"] == "text"
     assert metadata["text_encoder_id"] == "test@sha256:abc"
 
+
+def test_latent_checkpoint_requires_matching_decoder_and_decodes_sample(tmp_path):
+    config = VideoDiTConfig(
+        frames=4, image_size=2, patch_size=2, in_channels=4, hidden_size=32,
+        num_heads=4, num_pairs=1, condition_mode="text", text_embedding_size=12,
+    )
+    model = VideoDiT(config)
+    schedule = DiffusionSchedule(timesteps=4)
+    checkpoint = tmp_path / "latent.pt"
+    torch.save({
+        "config": asdict(config),
+        "diffusion": {"timesteps": 4, "beta_start": schedule.beta_start,
+                      "beta_end": schedule.beta_end},
+        "model": model.state_dict(), "ema": model.state_dict(), "step": 1,
+        "data_contract": {"space": "latent", "text_encoder_id": "text@sha256:a",
+                          "vae_id": "vae@sha256:b", "vae_scaling": 0.5},
+    }, checkpoint)
+    encode = lambda prompts: torch.ones(1, 12)
+
+    import pytest
+    with pytest.raises(ValueError, match="matching VAE decoder"):
+        VideoDiTInference.from_checkpoint(
+            checkpoint, text_encode=encode, text_encoder_id="text@sha256:a",
+        )
+
+    class Decoder:
+        vae_id = "vae@sha256:b"
+        scaling_factor = 0.5
+        def decode(self, latents):
+            return torch.zeros(latents.shape[0], 3, 16, 16)
+
+    engine = VideoDiTInference.from_checkpoint(
+        checkpoint, text_encode=encode, text_encoder_id="text@sha256:a",
+        vae_decoder=Decoder(),
+    )
+    result = engine.generate(
+        "a cat walking", tmp_path / "out", sampling_steps=2,
+        trajectory_frames=2,
+    )
+    assert result.video.shape == (3, 4, 16, 16)
 
 def test_text_checkpoint_rejects_wrong_encoder_identity(tmp_path):
     config = VideoDiTConfig(
