@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 114 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 116 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 114 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,093 个候选中的 884 个仍为 pending，不能计入训练规模或覆盖。
+从现有 116 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,093 个候选中的 880 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -290,6 +290,49 @@ srlimit=max&format=json&formatversion=2
 ```
 
 导入前先做 `candidate page IDs − current candidate page IDs`，再按原媒体 SHA-1 去内容重复，最后用 uploader、规范化标题前缀、拍摄日期/地点、关键帧 pHash/视频指纹和音频指纹合并系列。推荐顺序是：① 主类 44 中尚未审完的非系列、标题明确 room/toy/box/laser/string 候选；② `Videos of dogs` 的 playing 标题候选及 `Playing dogs` 的 2 个视频，优先建立不同主体的 `playing×indoors`；③ 主类中确认为 outdoor 的独立猫视频，补 `cat×playing` 训练 pair；④ `Videos of cats` 直属与 eating/grooming/drinking/kneading 等子类，补不同动作的 `cat×indoors`；⑤ cats-and-mice/prey 只取 page ID/SHA-1 差集；⑥ 最后才看其他 playing animals。任何一步都只写 pending；完整播放、稳定 2 秒 clip、逐文件许可/署名和显式 series/uploader group 全部通过后才可 approved。
+
+### `cat × playing × outdoors` 精确入口与 mixed-held 身份审计
+
+2026-08-14 的官方 Commons 分类/API 审计没有发现 `Videos of cats playing outdoors` 或 `Cats playing outdoors` 这种精确视频交叉类。高精度方法只能是：以 [`Videos of playing cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_cats) 的 44 个直属视频为动作全集，再与 [`Outdoor cats`](https://commons.wikimedia.org/wiki/Category:Outdoor_cats) 及其后代分类、MediaInfo structured depicts 的 `outside` 声明做文件级交叉，最后人工确认 clip scene。分类缺失不能反推 indoors。
+
+| 官方入口 | 直属 files / subcats；视频边界 | 本轮可用事实 |
+|---|---|---|
+| `Videos of playing cats` | 44 / 0；44 个视频 | 仍是唯一高精度动作池。官方 API 对 44 个 page IDs 的 categories 扫描明确找到 `Cat playing with a lizard.webm` 属于 `Outdoor cats`；另外两条 Lotti 文件名直接写明 outdoor。三条均已在 44 中，因而相对该池的净新增为 0。 |
+| `Outdoor cats` | 248 / 13；直属页面为图片，审计时视频 MIME 为 0 | 13 个后代为 Germany、Taiwan、beaches、dry leaves、forests、gardens、grass、rocky background、roofs、sand、sleeping-outdoor、snow、walls。它们是 location 正信号，不是视频集。 |
+| [`Cats in forests`](https://commons.wikimedia.org/wiki/Category:Cats_in_forests) / [`Cats on sand`](https://commons.wikimedia.org/wiki/Category:Cats_on_sand) | 34 / 0 与 6 / 0；均为图片 | 不能用场景类的 files 数补视频 coverage。`Cats in snow` 也没有对应视频专类。 |
+| [`Videos of cats in Germany`](https://commons.wikimedia.org/wiki/Category:Videos_of_cats_in_Germany) | country 视频类，非 outdoor/playing 交叉类 | 列出 Lotti `outdoor v 01/02`，也列出两个不带 `v` 的 `outdoor 01/02 (1)`。后两条是相对 44 的潜在 page-ID 差集 2，但标题只证明 outdoor、不证明 playing，而且极可能是同一场景的版本或相邻片段。 |
+
+三个有一手 outdoor 证据的主类成员是：
+
+- `Cat playing with a lizard.webm`：page ID `68960767`，`video/webm`，原媒体 SHA-1 `705009486b5da6bb2caac9da2016fcd5ee615e10`；文件 categories 同时含 `Outdoor cats` 和 `Videos of playing cats`，structured depicts 含 outside。它涉及活体猎物/捕食语义；当前 manifest 却标为 `cat|playing|indoors`、group `commons-uploader:feb641b2afeb35c3`、署名 `Basile Morin`，必须重新查看完整视频和已选 2 秒窗口，确认究竟是户外、半户外还是错误分类，不能由 API 自动改标签。
+- `Radevormwald - Lotti outdoor v 01 ies.webm`：page ID `44435788`，SHA-1 `c741faceb49d44915f775e10a6cf65733ce77067`；以及 `... v 02 ...`：page ID `44435861`，SHA-1 `e3f5504b0b9625d8b2362292d04cba120259bf41`。两条当前均 approved 为 `cat|playing|outdoors`，署名 `Frank Vincentz`，且已正确共享 `commons-series:radevormwald-lotti-outdoor`，只能贡献 1 个独立 group。
+
+可复现查询仍先取动作池，再构建 outdoor 子类闭包：
+
+```text
+action=query&generator=categorymembers&gcmtitle=Category:Videos_of_playing_cats&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+
+action=query&list=categorymembers&cmtitle=Category:Outdoor_cats&
+cmtype=subcat&cmlimit=max&format=json&formatversion=2
+
+# 补召回，不代表 playing：枚举 country 视频类后与 44 的 page IDs 作差
+action=query&generator=categorymembers&gcmtitle=Category:Videos_of_cats_in_Germany&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+```
+
+对两个非 `v` Lotti outdoor 文件，须依次比较 page ID、SHA-1、标题前缀/上传者/拍摄时间地点、关键帧和音轨指纹；即使 SHA-1 不同，也不能当成独立来源。推荐 pending 顺序：① 重审 lizard 当前 indoor 标签；② 审核两个非 `v` Lotti 文件是否真 playing，并与现有 `v 01/02` 归为同一系列或择一；③ 对 44 全量做 Outdoor-categories/structured-outside 扫描；④ 最后才从 `Videos of cats` 和 country 视频类用 outdoor/garden/grass/snow/beach/forest + play 关键词低优先级召回。普通 Outdoor cats/grass/garden/snow/beach 静态类不进入视频候选。
+
+复核前的 114-record v3 历史快照曾显示 held `cat|playing|indoors` 的组与 kneading、scratching、sitting 三个普通 triples 混合。展开后实际是两个 uploader 保守组，而不是 pHash 碰撞；本表记录当时的审核输入，最终消解结果见后文执行记录：
+
+| 当时 group / attribution | held 成员 | 非 held 成员 | 必须复核的问题 |
+|---|---|---|---|
+| `commons-uploader:e3a2c458f1a504c3` / FASTILY | `Cat Playing with Straw 1 2017-06-08`、`2 year old cat playing with stick 1 2016-10-27`、`Cat Playing with String Toy 1 2014-02-04` | `Cat Using Scratcher 1 2016-06-09`、`Siamese Tabby Cat 1 2016-10-11`、`Cat Kneading 1 2017-07-07` | 六条跨 2014--2017；仅同 uploader 不足以证明同猫，也不足以证明独立。逐条比对猫的毛色/花纹、脸部与体态、房间/家具、拍摄元数据和音轨。能证明不同身份/事件才拆组；否则整组不能同时跨 held/train。 |
+| `commons-uploader:6449c9e8d7c13f5e` / Nesnad | `Kitten playing - Tokyo - Jan 7 2020` | `Catblinking-tokyo-area-2018-4-9` | 相隔约 21 个月且标题分别为 kitten/cat，但同 uploader/Tokyo 不能排除同一动物或同一室内环境。重点核验年龄是否相容、毛色标记、房间背景和拍摄位置；未形成可审计结论前保持一组。 |
+
+这一步不是为了最大化 group 数。若视觉身份无法可靠确认，保守选择是维持 uploader group，并从 train 或 held 一侧移除冲突成员；只有形成逐文件身份/场景审核记录后才可拆组。任何拆组决策必须在查看 C1 生成结果之前冻结。
 
 ### 为什么不是直接训练 800 GB
 
@@ -587,6 +630,17 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   当前仍是 0 eligible C1。最新 manifest SHA-256 为
   `7e44ef027aeb4e6f91c2e919221b3ef54f937f3087aa0eb8d05199dbef66f95f`，coverage SHA-256 为
   `ee314cef84ff7f44ca39407722f38b22168b1731ce2698d3d29d419e46b5f797`。
+- mixed-group 身份复核没有按文件盲拆。对 FASTILY 六条和 Nesnad 两条 approved clip 的规范化
+  8 帧联系表逐一比较毛色、毛长、脸部花纹、体型与拍摄年份：橘色长毛、灰白幼猫、长毛虎斑、
+  短毛虎斑等明显不同个体拆为具名 identity groups；疑似同一灰白幼猫的 straw/stick 两条仍
+  保持同组。由此 mixed-held blocker 消失，但这只修正此前 uploader 级保守下界，不代表新增
+  媒体。随后完整审核 Lotti outdoor 四条：两条 `v` 视频持续追逐人手中的树枝，批准为同一
+  `radevormwald-lotti-outdoor` series，只贡献 1 个独立 group；另两条只是躺/坐在草地，拒绝。
+  当前权威状态为 **1,093 = 116 approved + 880 pending + 97 rejected**；manifest 为 116
+  records / 88 independent groups，held `cat|playing|indoors=15/50`，训练 pairs 为
+  `cat×indoors=28/10`、`cat×playing=4/10`、`playing×indoors=4/10`，0 eligible C1。
+  manifest SHA-256 为 `46bbe9eeee40bb5780365eb05929ef4ae78e5cd5eae94efa369f95a281fe8450`，
+  coverage SHA-256 为 `707446e9a116d9be789735cc0c4c6c51384b75c2901cd3c5b0da2a82b2b9a5ea`。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新
