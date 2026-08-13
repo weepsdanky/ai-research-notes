@@ -359,6 +359,7 @@ def test_download_normalizes_only_explicitly_approved_rows(tmp_path, monkeypatch
             "prompt": "a cat running on grass", "start_seconds": 0,
                 "review_status": status, "query": "cat running", "source_revision": "1",
                 "original_media_sha1": "abc", "original_media_timestamp": "now",
+                "duplicate_group": f"commons-audited-unique:{name}",
         }
         for name, status in (("approved", "approved"), ("pending", "pending"))
     ]
@@ -392,6 +393,7 @@ def test_download_persists_each_success_and_resumes(tmp_path, monkeypatch):
             "prompt": "a cat running", "start_seconds": 0,
             "review_status": "approved", "query": "cats", "source_revision": "1",
             "original_media_sha1": "abc", "original_media_timestamp": "now",
+            "duplicate_group": f"commons-audited-unique:{name}",
         })
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text("".join(json.dumps(row) + "\n" for row in rows))
@@ -402,10 +404,18 @@ def test_download_persists_each_success_and_resumes(tmp_path, monkeypatch):
         calls.append(candidate.title)
         if candidate.title.endswith("two.webm"):
             raise RuntimeError("interrupted")
-        return {"sample_id": candidate_sample_id(candidate.title)}
+        return {
+            "sample_id": candidate_sample_id(candidate.title),
+            "source_id": f"commons:{candidate.title}",
+            "prompt": candidate.prompt, "subject": candidate.subject,
+            "action": candidate.action, "scene": candidate.scene,
+            "clip_start_seconds": candidate.start_seconds,
+            "clip_frames": 16, "clip_fps": 8, "clip_size": 96,
+        }
 
     monkeypatch.setattr("prepare_commons.normalize_clip", first_pass)
     monkeypatch.setattr("prepare_commons.asdict", lambda value: value)
+    monkeypatch.setattr("prepare_commons._has_commons_provenance", lambda value: True)
     import pytest
     with pytest.raises(RuntimeError, match="interrupted"):
         main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
@@ -420,6 +430,143 @@ def test_download_persists_each_success_and_resumes(tmp_path, monkeypatch):
     assert calls.count("File:one.webm") == 1
 
 
+def test_download_syncs_reviewed_duplicate_group_without_redownloading(tmp_path, monkeypatch):
+    title = "File:Cat series.webm"
+    sample_id = candidate_sample_id(title)
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": title, "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat_series.webm",
+        "description": "cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "prompt": "a cat playing indoors", "start_seconds": 0,
+        "review_status": "approved", "source_revision": "1",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "duplicate_group": "commons-audited-unique:cat-stale-contract",
+        "duplicate_group": "commons-audited-unique:cat-stale-contract",
+        "duplicate_group": "commons-series:cat",
+    }) + "\n")
+    manifest = tmp_path / "manifest.jsonl"
+    manifest.write_text(json.dumps({
+        "sample_id": sample_id, "source_id": f"commons:{title}",
+        "clip_path": "clips/cat.mp4", "prompt": "a cat playing indoors",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Cat_series.webm",
+        "license": "CC0", "attribution": "Author", "sha256": "a" * 64,
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "page_revision": "1", "original_media_url": "https://upload.wikimedia.org/cat.webm",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "downloaded_media_url": "https://upload.wikimedia.org/cat.webm",
+        "downloaded_media_kind": "original", "downloaded_media_sha256": "b" * 64,
+        "downloaded_at": "now", "perceptual_hash": "0" * 16,
+        "clip_start_seconds": 0, "clip_frames": 16, "clip_fps": 8,
+        "clip_size": 96,
+    }) + "\n")
+    monkeypatch.setattr(
+        "prepare_commons.normalize_clip",
+        lambda *args, **kwargs: pytest.fail("existing clip must not be downloaded again"),
+    )
+
+    main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
+
+    assert json.loads(manifest.read_text())["duplicate_group"] == "commons-series:cat"
+
+
+def test_download_removes_existing_record_when_review_is_rejected(tmp_path, monkeypatch):
+    title = "File:Rejected.webm"
+    sample_id = candidate_sample_id(title)
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": title, "review_status": "rejected", "subject": "cat",
+    }) + "\n")
+    manifest = tmp_path / "manifest.jsonl"
+    manifest.write_text(json.dumps({
+        "sample_id": sample_id, "source_id": f"commons:{title}",
+        "clip_path": "clips/rejected.mp4", "prompt": "a cat playing indoors",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Rejected.webm",
+        "license": "CC0", "attribution": "Author", "sha256": "a" * 64,
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "page_revision": "1", "original_media_url": "https://upload.wikimedia.org/cat.webm",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "downloaded_media_url": "https://upload.wikimedia.org/cat.webm",
+        "downloaded_media_kind": "original", "downloaded_media_sha256": "b" * 64,
+        "downloaded_at": "now", "perceptual_hash": "0" * 16,
+    }) + "\n")
+    monkeypatch.setattr(
+        "prepare_commons.normalize_clip",
+        lambda *args, **kwargs: pytest.fail("rejected media must not be downloaded"),
+    )
+
+    main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
+
+    assert manifest.read_text() == ""
+
+
+def test_download_does_not_remove_non_commons_record_with_colliding_sample_id(
+    tmp_path, monkeypatch,
+):
+    title = "File:Rejected.webm"
+    sample_id = candidate_sample_id(title)
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": title, "review_status": "rejected", "subject": "cat",
+    }) + "\n")
+    manifest = tmp_path / "manifest.jsonl"
+    external = {
+        "sample_id": sample_id, "source_id": "videoufo:external",
+        "clip_path": "clips/external.mp4", "prompt": "a cat playing indoors",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "source_url": "https://example.test/external", "license": "CC0",
+        "attribution": "Author", "sha256": "a" * 64,
+    }
+    manifest.write_text(json.dumps(external) + "\n")
+    monkeypatch.setattr(
+        "prepare_commons.normalize_clip",
+        lambda *args, **kwargs: pytest.fail("rejected media must not be downloaded"),
+    )
+
+    main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
+
+    assert json.loads(manifest.read_text()) == external
+
+
+def test_download_rejects_stale_existing_clip_contract(tmp_path, monkeypatch):
+    title = "File:Cat.webm"
+    sample_id = candidate_sample_id(title)
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": title, "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "prompt": "a cat playing indoors", "start_seconds": 3,
+        "review_status": "approved", "source_revision": "1",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "duplicate_group": "commons-audited-unique:cat-stale-contract",
+    }) + "\n")
+    manifest = tmp_path / "manifest.jsonl"
+    manifest.write_text(json.dumps({
+        "sample_id": sample_id, "source_id": f"commons:{title}",
+        "clip_path": "clips/cat.mp4", "prompt": "a cat playing indoors",
+        "subject": "cat", "action": "playing", "scene": "indoors",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "license": "CC0", "attribution": "Author", "sha256": "a" * 64,
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "page_revision": "1", "original_media_url": "https://upload.wikimedia.org/cat.webm",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "downloaded_media_url": "https://upload.wikimedia.org/cat.webm",
+        "downloaded_media_kind": "original", "downloaded_media_sha256": "b" * 64,
+        "downloaded_at": "now", "perceptual_hash": "0" * 16,
+        "clip_start_seconds": 1, "clip_frames": 16, "clip_fps": 8, "clip_size": 96,
+    }) + "\n")
+
+    with pytest.raises(ValueError, match="clip contract changed"):
+        main(["download", str(candidates), str(tmp_path / "clips"), str(manifest)])
+
+
 def test_download_uses_reviewed_derivative_and_accepts_enriched_fields(tmp_path, monkeypatch):
     row = {
         "title": "File:Cat.webm",
@@ -432,8 +579,10 @@ def test_download_uses_reviewed_derivative_and_accepts_enriched_fields(tmp_path,
         "subject": "cat", "action": "walking", "scene": "indoors",
         "prompt": "a cat walking indoors", "start_seconds": 2,
         "review_status": "approved", "review_notes": "watched", "query": "cats",
+        "category_traversal_id": "videos-of-cats-contract",
         "source_revision": "1", "original_media_sha1": "abc",
         "original_media_timestamp": "now",
+        "duplicate_group": "commons-audited-unique:cat-derivative",
     }
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text(json.dumps(row) + "\n")
@@ -447,6 +596,7 @@ def test_download_uses_reviewed_derivative_and_accepts_enriched_fields(tmp_path,
     monkeypatch.setattr("prepare_commons.asdict", lambda value: value)
     main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl")])
     assert captured["candidate"].media_url.endswith("240p.webm")
+    assert not hasattr(captured["candidate"], "category_traversal_id")
 
 
 def test_download_writes_clip_path_relative_to_manifest(tmp_path, monkeypatch):
@@ -460,6 +610,7 @@ def test_download_writes_clip_path_relative_to_manifest(tmp_path, monkeypatch):
         "review_status": "approved", "source_revision": "1",
         "original_media_url": "https://upload.wikimedia.org/cat.webm",
         "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "duplicate_group": "commons-audited-unique:cat-relative-path",
     }
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text(json.dumps(row) + "\n")
@@ -496,6 +647,7 @@ def test_download_rejects_clip_outside_manifest_tree(tmp_path, monkeypatch):
         "review_status": "approved", "source_revision": "1",
         "original_media_url": "https://upload.wikimedia.org/cat.webm",
         "original_media_sha1": "abc", "original_media_timestamp": "now",
+        "duplicate_group": "commons-audited-unique:cat-outside-path",
     }
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text(json.dumps(row) + "\n")
@@ -556,6 +708,25 @@ def test_download_rejects_approved_row_without_source_revision(tmp_path):
         main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl")])
 
 
+def test_download_rejects_approved_row_without_source_group(tmp_path):
+    row = {
+        "title": "File:Cat.webm", "media_url": "https://upload.wikimedia.org/cat.webm",
+        "description_url": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+        "description": "Cat", "attribution": "Author", "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
+        "subject": "cat", "action": "walking", "scene": "indoors",
+        "prompt": "a cat walking indoors", "start_seconds": 0,
+        "review_status": "approved", "source_revision": "1",
+        "original_media_url": "https://upload.wikimedia.org/cat.webm",
+        "original_media_sha1": "abc", "original_media_timestamp": "now",
+    }
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps(row) + "\n")
+
+    with pytest.raises(ValueError, match="duplicate_group"):
+        main(["download", str(candidates), str(tmp_path / "clips"), str(tmp_path / "out.jsonl")])
+
+
 def test_download_rejects_appending_to_legacy_manifest(tmp_path):
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text("")
@@ -579,6 +750,7 @@ def test_download_joins_provenance_sidecar_without_rewriting_candidates(tmp_path
         "license_url": "https://creativecommons.org/publicdomain/zero/1.0",
         "subject": "cat", "action": "walking", "scene": "indoors",
         "prompt": "a cat walking indoors", "start_seconds": 0, "review_status": "approved",
+        "duplicate_group": "commons-audited-unique:cat-sidecar",
     }
     candidates = tmp_path / "candidates.jsonl"
     candidates.write_text(json.dumps(candidate) + "\n")

@@ -47,7 +47,7 @@ def build_ui(
         if title is None:
             summary = summarize_reviews(load_rows(candidates_path))
             return (
-                None, "", "", "", "", None, "", "", "", "", 0, "",
+                None, "", "", "", "", None, "", "", "", "", 0, "", "",
                 json.dumps({**summary, "queue_complete": True}, indent=2),
                 gr.Button(interactive=False),
             )
@@ -72,15 +72,17 @@ def build_ui(
             current.get("subject", ""), current.get("action", ""),
             current.get("scene", ""), current.get("prompt", ""),
             float(current.get("start_seconds", 0)), current.get("review_notes", ""),
+            current.get("duplicate_group", ""),
             json.dumps({**summary, "duration": media["duration"]}, indent=2),
             gr.Button(interactive=True),
         )
 
-    def save(title, status, subject, action, scene, prompt, start, notes):
+    def save(title, status, subject, action, scene, prompt, start, notes, duplicate_group):
         save_review(
             candidates_path, title, status=status, subject=subject, action=action,
             scene=scene, prompt=prompt, start_seconds=float(start), notes=notes,
             provenance_path=provenance_path,
+            duplicate_group=str(duplicate_group).strip() or None,
         )
         candidate_rows = load_rows(candidates_path)
         updated = merge_provenance_rows(candidate_rows, provenance_path)
@@ -124,16 +126,26 @@ def build_ui(
         with gr.Row():
             start = gr.Number(value=0, minimum=0, label="Best 2-second segment start")
             notes = gr.Textbox(label="Review notes")
+        duplicate_group = gr.Textbox(
+            value=next(
+                (str(row.get("duplicate_group", "")) for row in rows
+                 if row.get("title") == titles[0]),
+                "",
+            ),
+            label="Duplicate/source series group",
+            info="Use the same stable value for clips from one filming series or event.",
+        )
         save_button = gr.Button("Save review atomically", variant="primary")
         report = gr.Code(label="Review coverage", language="json")
         load_outputs = [
             video, page, license_name, attribution, description, status, subject,
-            action, scene, prompt, start, notes, report, save_button,
+            action, scene, prompt, start, notes, duplicate_group, report, save_button,
         ]
         demo.load(load, inputs=[title], outputs=load_outputs)
         save_button.click(
             save,
-            inputs=[title, status, subject, action, scene, prompt, start, notes],
+            inputs=[title, status, subject, action, scene, prompt, start, notes,
+                    duplicate_group],
             outputs=[report, title],
             concurrency_limit=1,
         )

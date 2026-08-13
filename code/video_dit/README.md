@@ -264,13 +264,13 @@ uv run python prepare_commons.py download \
 
 # 新 provenance 契约写入全新的数据树；下载前会重新验证媒体 SHA-1/timestamp：
 uv run python prepare_commons.py download \
-  data/commons_g1/candidates.jsonl data/commons_g1_provenance_v2/clips \
-  data/commons_g1_provenance_v2/source.jsonl \
+  data/commons_g1/candidates.jsonl data/commons_g1_provenance_v3/clips \
+  data/commons_g1_provenance_v3/source.jsonl \
   --provenance data/commons_g1/provenance-v2.jsonl
 
 uv run python prepare_real_data.py coverage \
-  data/commons_g1_provenance_v2/source.jsonl --target-per-triple 50 \
-  --report data/commons_g1_provenance_v2/coverage.json
+  data/commons_g1_provenance_v3/source.jsonl --target-per-triple 50 \
+  --report data/commons_g1_provenance_v3/coverage.json
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
@@ -282,10 +282,12 @@ timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license U
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
-满足新契约；当前 v2 的 102 条已全部重新 enrich 并迁移。错误搜索命中（例如机器人
+满足新契约；当前 v3 的 111 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
+参数和显式来源组。保守审计把未知系列按 uploader 合并，当前只有 79 个独立组；最接近
+门槛的 `cat|playing|indoors` 也只有 14/50。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 816 条，目前 102 条 approved、649 条 pending、65 条 rejected；pending 绝不
+候选池为 1,034 条，目前 111 条 approved、832 条 pending、91 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条
@@ -309,7 +311,10 @@ uv run python commons_review_ui.py data/commons_g1/candidates.jsonl \
 
 结构化分类导入还发现 Commons 会把视频 `.ogv` 报为 `application/ogg`；导入器现按扩展名
 只接受 `.ogv + application/ogg`，普通 `.ogg` 音频仍拒绝。priority/UI 可只读合并 provenance
-sidecar，因此新候选不必改写 candidates 就能获得时长与官方 preview。`Videos of hiking`
+sidecar，因此新候选不必改写 candidates 就能获得时长与官方 preview。审核 UI 在批准时
+强制填写稳定的 duplicate/source group：已知同一动物、拍摄系列或事件必须共享组；尚不能
+证明独立的文件按 uploader 保守合并。该字段进入 manifest，
+并与 source ID、pHash 一起用于防泄漏分组。`Videos of hiking`
 新增 13 条，`Videos of people jogging` 在去重与许可门后新增 3 条；已审核的 6 条均因无
 可见人物、多人、主体过小或身体严重裁切而拒绝，剩余仍为 pending。
 
@@ -417,7 +422,7 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 102 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 Commons-first：把现有 111 approved、逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。

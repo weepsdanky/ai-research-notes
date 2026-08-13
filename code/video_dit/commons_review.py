@@ -419,16 +419,24 @@ def save_review(
     start_seconds: float = 0.0,
     notes: str = "",
     provenance_path: Path | None = None,
+    duplicate_group: str | None = None,
 ) -> dict[str, object]:
     if status not in REVIEW_STATUSES:
         raise ValueError(f"status must be one of {sorted(REVIEW_STATUSES)}")
     if start_seconds < 0:
         raise ValueError("start_seconds must be non-negative")
+    if duplicate_group is not None and not duplicate_group.strip():
+        raise ValueError("duplicate_group must be a non-empty string when provided")
     if status == "approved" and (
         not all(value.strip() for value in (subject, action, scene, prompt))
         or "review_required" in (subject, action, scene)
     ):
         raise ValueError("approved review requires complete labels and prompt")
+    if status == "approved" and duplicate_group is None:
+        raise ValueError(
+            "approved review requires an explicit source/identity group; use a shared "
+            "series group or a stable commons-audited-unique:<id> value"
+        )
     rows = load_rows(path)
     matches = [row for row in rows if row.get("title") == title]
     if len(matches) != 1:
@@ -449,6 +457,8 @@ def save_review(
         "scene": scene, "prompt": prompt, "start_seconds": start_seconds,
         "review_notes": notes,
     })
+    if duplicate_group is not None:
+        reviewed["duplicate_group"] = duplicate_group
     write_rows(path, rows)
     return reviewed
 

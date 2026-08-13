@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 102 approved 扩到 1K，优先补 `person`、`cat` 稀疏组合；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 111 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 102 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 816 个候选中的 649 个仍为 pending，不能计入训练规模或覆盖。
+从现有 111 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,034 个候选中的 832 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -194,6 +194,50 @@ format=json&formatversion=2
 ```
 
 许可边界没有因采用分类树而变化。Commons 分类页明确文件适用各自描述页所列许可证；File namespace 的 structured data 与页面文本许可也不能替代视频本体的逐文件条款。导入时仍须保存 `LicenseShortName`、`LicenseUrl`、`Artist/Credit`、`AttributionRequired`、`UsageTerms`、页面 revision 与实际媒体 hash。**推断**：自由版权许可不等于画面中人物同意，也不自动解决隐私、人格权、公开权、敏感属性推断或商业代言问题；人物视频进入公开 checkpoint 前仍需单独风险复核。[Commons reuse 指南](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia) · [Commons 人物照片指引](https://commons.wikimedia.org/wiki/Commons:Photographs_of_identifiable_people)
+
+### 2026-08-14 `cat × playing × indoors` 分类审计
+
+这一组合有一个精确动作视频入口，但没有同样精确的 indoor 交叉类。审计日的官方 Action API 显示：
+
+| 精确 Commons 分类 | 直属 files / subcats | 实际视频边界 |
+|---|---:|---|
+| [`Category:Videos of playing cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_cats) | 44 / 0 | 主入口。逐文件 `imageinfo` 为 39 个 `video/webm` 加 5 个 `.ogv + application/ogg`，按本项目的窄 OGV 例外共 44 个视频媒体；分类命中仍全部保持 `pending`。 |
+| [`Category:Playing cats`](https://commons.wikimedia.org/wiki/Category:Playing_cats) | 258 / 8 | 宽泛父类；其子类包含上述 44-file 视频类，直属媒体主要是图片/GIF。只沿分类树进入精确视频子类，不把 258 files 当视频。 |
+| [`Category:Cats with toys`](https://commons.wikimedia.org/wiki/Category:Cats_with_toys) | 3 / 4 | 直属 3 个均为 JPEG，视频数 0；四个子类是 balls、catnip toys、carrying toys in mouth、stuffed animals，也不能由物体共现自动推断 playing。 |
+| [`Category:Cats playing with their prey`](https://commons.wikimedia.org/wiki/Category:Cats_playing_with_their_prey) | 12 / 1 | 直属只有 2 个视频（`Cat play 02.webm`、`Cat playing with a lizard.webm`）；捕食/活体猎物语义与“玩玩具”不同，只能作为显式允许该语义时的补充。 |
+| [`Category:Videos of cats and mice`](https://commons.wikimedia.org/wiki/Category:Videos_of_cats_and_mice) | 9 / 0 | 9 个直属视频；其中 7 个也在主 play 类，必须按 Commons page ID、原媒体 SHA-1 和 source group 去重，不能把交叉分类重复计样。 |
+| [`Category:Videos of playing animals`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_animals) | 6 / 1 | 直属 6 个没有猫；唯一相关子类就是主 play 类，不导入直属文件。 |
+| [`Category:Indoor cats`](https://commons.wikimedia.org/wiki/Category:Indoor_cats) | 149 / 6 | 直属列表为静态图片，且页面带有可能重分类提示；不是 indoor-cat 视频集。文件落入该类只能作为 indoor 的正线索，缺失也不能作为 outdoor 证据。 |
+| [`Category:Cat behaviour`](https://commons.wikimedia.org/wiki/Category:Cat_behaviour) | 33 / 24 | 宽泛召回类；直属至少有与主 play 类重复的视频，首轮不整类导入。Commons 没有精确的 `Play behaviour in cats` 视频类。 |
+
+主类的 44 个文件也绝不是 44 个独立来源。文件名已直接显示至少 25/44 属于六个高度相关系列：`Finchen playing 01--04`（4）、`Finchen+Lotti playing 01--11`（11）、`Kluse - Lotti ... 01--02`（2）、`Radevormwald - Kahli ... 01--03`（3）、`Radevormwald - Tiger ... 01--03`（3）、`Radevormwald - Lotti outdoor ... 01--02`（2）。最后一组还明确是 outdoor，应从当前 indoor 目标排除。**推断**：规范化文件名前缀、上传者、拍摄日期/地点、原媒体 SHA-1、pHash/视频指纹应共同形成系列 group；整组只能进入同一 split，且 pilot 可每组只留 1--2 条，避免同一猫与背景泄漏。
+
+推荐导入顺序：① 先对主类 44 条只取 metadata/MIME/provenance，**既不下载训练媒体，也不批准**；② 优先人工审核名字明确指向室内或玩具的独立候选，例如 `... in a room`、laser pointer、round track toy、straw、string toy、playing in a box；③ 再审核其余非系列文件；④ 六个系列按 group 抽样或整组同 split；⑤ 仅在 taxonomy 接受捕食语义时补充 prey 类的 2 个视频；⑥ cats-and-mice 只导入与主类 page ID/SHA-1 的差集；⑦ 最后才宽扫 Cat behaviour/Indoor cats，强制媒体类型和逐片 `playing + indoors` 视觉确认。
+
+复核使用同一官方 API 契约：先以 `prop=categoryinfo` 固定直属计数，再以 `generator=categorymembers` + `prop=imageinfo|categories` 读取 page ID、canonical URL、MIME、SHA-1、timestamp、categories 与 `extmetadata`，并跟随 `continue`。Indoor 只能由画面人工核验或已有文件分类提供正证据，不能从标题、玩具共现或 `Indoor cats` 分类缺失自动产生标签。所有新记录先进入 `pending`，直到完整播放、选择稳定 2 秒片段、许可快照和系列分组均通过。
+
+许可仍逐文件执行，不存在分类级统一授权：保存 `LicenseShortName/LicenseUrl/Artist/Credit/AttributionRequired/UsageTerms`、页面 revision 与实际下载媒体 hash。猫本身通常没有人物肖像权问题，但室内视频可能包含可识别人物、私人空间、电视/艺术品、音乐或其他第三方内容；这些仍须逐片拒绝或单独复核。[Commons 分类页的逐文件许可说明](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)
+
+### `cat × sitting × indoors` 是否应取代 playing
+
+结论是**不切换主目标**。作出路线选择时的 102-record 历史快照中，Sitting 表面有 13 个来源、playing 有 10 个；在后续显式系列/uploader 保守分组后的当前 111-record v3 中，两者分别只有 11 和 14 个独立 groups。无论采用哪一快照，几条样本的表面差异都不代表 Commons 后续供给更好：官方分类体系给 sitting 的是静态姿态大类，而 playing 有精确的 44-file 视频类。
+
+| 精确 Commons 分类 | 直属 files / subcats | 视频供给事实 |
+|---|---:|---|
+| [`Category:Sitting cats`](https://commons.wikimedia.org/wiki/Category:Sitting_cats) | 1312 / 12 | 静态图片主导。Action API 分页的首 500 个直属文件为 493 JPEG、6 PNG、1 WebM；唯一视频 `Cat playing with a lizard.webm` 又属于 playing/prey 语义，并非新增的稳定 sitting 来源。API 限流前未完成全部 1312 个 MIME 枚举，因此不把“首 500 只有 1 个”误写为全类视频总数。 |
+| Sitting 的 12 个子类 | 见官方分类树 | 包括 breed/color/quantity、art、kittens、catloaf、crouching、sitting on objects/in pots、side views、Philippines 等姿态或图像组织类；官方树中没有 `Videos of sitting cats` 或 `Videos of cats sitting`。 |
+| [`Category:Indoor cats`](https://commons.wikimedia.org/wiki/Category:Indoor_cats) | 149 / 6 | 静态图片主导且有重分类讨论；没有独立 sitting-video 子类。 |
+| [`Category:Perched indoor cats`](https://commons.wikimedia.org/wiki/Category:Perched_indoor_cats) | 33 / 0 | 最接近 sitting × indoors 的交叉类，但直属成员是静态图片，视频 MIME 为 0。 |
+| [`Category:Videos of cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_cats) | 78 / 26 | Sitting 的现实召回入口：官方 26 个动作视频子类含 playing/eating/drinking/kneading/grooming/jumping/yawning 等，但没有 sitting；必须从 78 个直属视频及非-playing 子类逐片找持续坐姿。 |
+| [`Category:Videos of playing cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_cats) | 44 / 0 | 44 个均为 WebM/OGV 视频，提供现成的高精度 playing 行为候选；仍需 indoor 人工验真与系列分组。 |
+
+两类也不能简单做 `1312 vs 44` 或 `78 + 44` 的加法。Sitting 的大量文件包含 crop/original 对和同一拍摄连拍；`Videos of cats` 的直属成员与动作子类可能双重分类；playing 已知有 Finchen、Finchen+Lotti、Kahli、Tiger 等系列。差集先按 Commons page ID，再按原媒体 SHA-1，最后按 uploader + 标题前缀 + 日期/地点 + pHash/视频指纹合并。同猫、同房间、同一拍摄事件必须留在同一 group。
+
+Sitting 还有一个标签定义问题：多数猫视频会短暂出现坐姿。若未来把它作为补充对照，必须预先冻结可复现规则，例如目标 2 秒 clip 内坐姿占比达到约定阈值、主体持续可见，且没有 playing/grooming/eating 等更显著主动作；阈值要在查看 C1 test 结果前确定。这个规则是本项目的**工程定义**，不是 Commons 分类提供的事实。
+
+因此推荐保持 `cat × playing × indoors` 为主扩容目标：先审核其 44 个精确视频成员、排除明确 outdoor，并按系列 group。Sitting 只作为补充探索：metadata-first 扫描 `Videos of cats` 的 78 个直属视频，再递归非-playing 动作子类；所有命中保持 `pending`，只有人工确认 indoor、持续坐姿、许可和独立 group 后才计入 coverage。只有该审计获得足够独立来源并达到同一 C1 门槛，才重新考虑切换。
+
+许可边界与 playing 完全相同：分类页不是统一媒体许可证，仍逐文件保存许可证、作者/署名、页面 revision 和媒体 hash，并审查室内人物、私人空间、音乐、电视和艺术品等第三方内容。
 
 ### 为什么不是直接训练 800 GB
 
@@ -450,6 +494,33 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   `cat|walking|grass=54` 达到 50 个 metadata 命中；经视频审核、pHash 合并后只会更少。
   三分片 pilot 随后证明随机扩片无法形成平衡动物覆盖；这一历史下一步已被否决。当前不再
   扩大 VideoUFO 分片，只推进 Commons-1K 审核/补搜；同样不能提前构造 C1 或启动正式训练。
+- coverage deficit 驱动的下一轮把主候选定为 `cat|playing|indoors`。先对原有标题/描述高置信
+  池逐片生成全时长 10--12 帧联系表，再对候选 2 秒窗口生成 8 帧密集联系表；首批批准 8 条、
+  拒绝 2 条。随后导入官方 `Videos of playing cats` 44-file 精确视频类，与旧池差集只有 5 条
+  OGV；人工审核后仅 `Cat Playing with String Toy 1 2014-02-04` 满足单猫、室内、明确 playing，
+  其余 4 条因静止/多猫/剪辑拒绝。再检查精确类中 5 条非系列 pending，全部因多猫或不稳定片段
+  拒绝。原始 approved 因此从 102 增到 111；当前候选池为 1,034 = 111 approved + 832 pending
+  + 91 rejected，pending 仍不计训练或覆盖。
+- 为补差额，8 个 `cat/kitten × toy/ball/string/laser/box/indoors` 同义全文查询又带来 213 条
+  provenance-complete pending，但其中大量是 Cat 软件、人物名、乐队、医学、静态猫或动画。
+  对 15 条视觉上最可能的自然猫视频做全时长联系表后，仍无新增合格 playing 样本；这些检索
+  证明宽全文查询只能作低精度召回，不能自动标签。`Sitting cats` 的一手对照审计也显示其首
+  500 个直属文件为 493 JPEG + 6 PNG + 1 个已知 WebM，故不把主目标切回 sitting。
+- 人工 series 审计补齐 `Moomin1/2`、同日 Siamese Maine Coon、Self-Cleaning、Cat Play、
+  German shepherd food、同日狗游泳等 7 组，并为新审核的 Kahli/Finchen/Lotti/Mimi 系列写入
+  `duplicate_group`。进一步要求每个 approved 样本都必须有显式组：已知同一动物/系列共享
+  series group，其余不能证明独立的样本按 uploader 保守合并。最终把 111 条记录从表面 111
+  修正为 **79 个独立 source/series/uploader/pHash groups**；`cat|playing|indoors` 从 18 条记录
+  修正为 **14 个独立 groups**，距 50 仍差 36；`cat|sitting|indoors` 为 11。正式 target=50 下
+  仍为 0 eligible C1，故不启动训练。
+- 下载/恢复契约同步加强：分类搜索的 `category_traversal_id` 不再误传进媒体 dataclass；审核
+  后补写的 duplicate group 会同步进既有 manifest；被改为 rejected 的样本会从 manifest
+  移除；prompt/三因子/片段起点/frames/fps/size 与既有 clip 不一致时 fail-closed，要求重建
+  新数据树。最新 **v3** 已从锁定 derivative 重新规范化全部 111 条，逐条记录
+  `clip_start_seconds/clip_frames/clip_fps/clip_size`；111/111 均为 H.264 96×96、8 fps、16 帧，
+  clip SHA/provenance 零错误。manifest SHA-256 为
+  `74cb501a4b1c18d877614f10e917a6f7a828b399ab663a2afe85555245550575`，coverage SHA-256 为
+  `4122894dbfc7fc2303635196c8ca8b2634325f5ff2e7cf306746081719e0df85`。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新

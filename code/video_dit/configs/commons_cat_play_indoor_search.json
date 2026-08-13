@@ -1,0 +1,10 @@
+[
+  {"query":"filetype:video cat toy","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video kitten toy","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat laser pointer","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat ball","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat string","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat cardboard box","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video kitten playing indoors","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video housecat playing","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100}
+]

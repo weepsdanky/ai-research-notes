@@ -72,3 +72,20 @@ def test_review_ui_uses_provenance_sidecar_without_rewriting_candidates(tmp_path
                     if component.get("props", {}).get("label") == "Candidate")
     assert dropdown["props"]["value"] == "Runner.ogv"
     assert candidates.read_text() == original
+
+
+def test_review_ui_exposes_duplicate_group_for_source_series_audit(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": "Cat series.webm", "review_status": "pending", "subject": "cat",
+        "action": "review_required", "scene": "review_required", "prompt": "review",
+        "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/cat.webm",
+        "duplicate_group": "commons-series:cat",
+    }) + "\n")
+
+    app = build_ui(candidates, status_filter="pending", subject_filter="cat")
+
+    group = next(component for component in app.config["components"]
+                 if component.get("props", {}).get("label") == "Duplicate/source series group")
+    assert group["props"]["value"] == "commons-series:cat"

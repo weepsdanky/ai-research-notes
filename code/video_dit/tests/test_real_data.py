@@ -41,6 +41,14 @@ def test_independent_coverage_counts_phash_groups_not_rows():
     assert report["eligible_c1_triples"] == []
 
 
+def test_real_video_record_requires_complete_clip_contract():
+    with pytest.raises(ValueError, match="clip contract must be all present or all absent"):
+        __import__("dataclasses").replace(
+            _record("partial", "cat", "playing", "indoors"),
+            clip_frames=16,
+        )
+
+
 def test_independent_coverage_rejects_isolated_triple_even_when_target_is_met():
     rows = [
         __import__("dataclasses").replace(

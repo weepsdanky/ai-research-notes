@@ -135,9 +135,14 @@ def test_save_review_is_atomic_and_requires_complete_approved_labels(tmp_path):
         save_review(path, "File:Cat.webm", status="approved", subject="cat",
                     action="review_required", scene="indoors", prompt="a cat")
 
+    with pytest.raises(ValueError, match="source/identity group"):
+        save_review(path, "File:Cat.webm", status="approved", subject="cat",
+                    action="walking", scene="indoors", prompt="a cat walking indoors")
+
     save_review(path, "File:Cat.webm", status="approved", subject="cat",
                 action="walking", scene="indoors", prompt="a cat walking indoors",
-                start_seconds=1.5, notes="subject visible")
+                start_seconds=1.5, notes="subject visible",
+                duplicate_group="commons-audited-unique:cat")
     row = json.loads(path.read_text())
     assert row["review_status"] == "approved"
     assert row["action"] == "walking"
@@ -156,7 +161,7 @@ def test_save_review_rejects_segment_past_video_end(tmp_path):
         save_review(
             path, "File:short.webm", status="approved", subject="cat",
             action="walking", scene="indoors", prompt="a cat walking indoors",
-            start_seconds=2.0,
+            start_seconds=2.0, duplicate_group="commons-audited-unique:short",
         )
 
 
@@ -171,6 +176,7 @@ def test_save_review_requires_known_positive_duration_for_approval(tmp_path):
         save_review(
             path, "File:unknown.webm", status="approved", subject="cat",
             action="walking", scene="indoors", prompt="a cat walking indoors",
+            duplicate_group="commons-audited-unique:unknown",
         )
 
 
@@ -192,11 +198,32 @@ def test_save_review_can_validate_approval_with_locked_sidecar_duration(tmp_path
         path, "File:Runner.ogv", status="approved", subject="person",
         action="running", scene="forest", prompt="a person running in a forest",
         start_seconds=1.0, provenance_path=provenance,
+        duplicate_group="commons-audited-unique:runner",
     )
 
     saved = json.loads(path.read_text())
     assert saved["review_status"] == "approved"
     assert "duration_seconds" not in saved
+
+
+def test_save_review_persists_manual_duplicate_group(tmp_path):
+    path = tmp_path / "candidates.jsonl"
+    path.write_text(json.dumps({
+        "title": "File:Cat series 01.webm", "duration_seconds": 5.0,
+        "review_status": "pending", "subject": "cat",
+        "action": "review_required", "scene": "review_required",
+        "prompt": "review required",
+    }) + "\n")
+
+    save_review(
+        path, "File:Cat series 01.webm", status="approved", subject="cat",
+        action="playing", scene="indoors", prompt="a cat playing indoors",
+        duplicate_group="commons-series:cat-series", notes="same filming series",
+    )
+
+    assert json.loads(path.read_text())["duplicate_group"] == (
+        "commons-series:cat-series"
+    )
 
 
 def test_merge_provenance_rejects_fields_that_can_override_human_review():

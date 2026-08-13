@@ -246,7 +246,38 @@ def main(argv: list[str] | None = None) -> int:
             "legacy Commons records cannot be extended; choose a new output manifest"
         )
     completed_ids = {str(record["sample_id"]) for record in approved}
+    if len(completed_ids) != len(approved):
+        raise ValueError("manifest sample_id values must be unique")
     candidate_rows = _read_jsonl(args.candidates)
+    managed_commons_keys = {
+        (
+            candidate_sample_id(str(row["title"])),
+            f"commons:{row['title']}",
+        )
+        for row in candidate_rows
+    }
+    approved_candidate_keys = {
+        (
+            candidate_sample_id(str(row["title"])),
+            f"commons:{row['title']}",
+        )
+        for row in candidate_rows if row.get("review_status") == "approved"
+    }
+    rejected_commons_keys = {
+        (str(record.get("sample_id")), str(record.get("source_id")))
+        for record in approved
+    } & managed_commons_keys
+    rejected_commons_keys = {
+        key for key in rejected_commons_keys if key not in approved_candidate_keys
+    }
+    if rejected_commons_keys:
+        approved = [
+            record for record in approved
+            if (str(record.get("sample_id")), str(record.get("source_id")))
+            not in rejected_commons_keys
+        ]
+        completed_ids = {str(record["sample_id"]) for record in approved}
+        _write_jsonl(args.manifest, approved)
     provenance_by_title: dict[str, dict[str, object]] = {}
     if args.provenance is not None:
         provenance_rows = _read_jsonl(args.provenance)
@@ -275,6 +306,7 @@ def main(argv: list[str] | None = None) -> int:
             row.update(provenance_by_title[str(row["title"])])
         row.pop("review_notes", None)
         row.pop("query", None)
+        row.pop("category_traversal_id", None)
         preview_url = row.pop("review_preview_url", None)
         row.pop("duration_seconds", None)
         row.pop("review_media_error", None)
@@ -296,9 +328,46 @@ def main(argv: list[str] | None = None) -> int:
         description = urllib.parse.urlparse(str(row.get("description_url", "")))
         if description.scheme != "https" or description.hostname != "commons.wikimedia.org":
             raise ValueError("approved candidate requires a Commons description URL")
+        if not str(row.get("duplicate_group", "")).strip():
+            raise ValueError(
+                "approved candidate requires an explicit source/identity duplicate_group"
+            )
         candidate = CommonsCandidate(**row)
         expected_sample_id = candidate_sample_id(candidate.title)
         if expected_sample_id in completed_ids:
+            matches = [
+                record for record in approved
+                if str(record.get("sample_id")) == expected_sample_id
+                and str(record.get("source_id")) == f"commons:{candidate.title}"
+            ]
+            if len(matches) != 1:
+                raise ValueError(
+                    f"sample_id collision does not bind to the expected Commons source: "
+                    f"{candidate.title}"
+                )
+            existing = matches[0]
+            expected_contract = {
+                "prompt": candidate.prompt,
+                "subject": candidate.subject,
+                "action": candidate.action,
+                "scene": candidate.scene,
+                "clip_start_seconds": candidate.start_seconds,
+                "clip_frames": args.frames,
+                "clip_fps": args.fps,
+                "clip_size": args.size,
+            }
+            changed = [
+                name for name, value in expected_contract.items()
+                if existing.get(name) != value
+            ]
+            if changed:
+                raise ValueError(
+                    f"approved clip contract changed for {candidate.title}: {changed}; "
+                    "rebuild into a new manifest/data tree"
+                )
+            if existing.get("duplicate_group") != candidate.duplicate_group:
+                existing["duplicate_group"] = candidate.duplicate_group
+                _write_jsonl(args.manifest, approved)
             continue
         record = normalize_clip(
             candidate, args.clips, frames=args.frames, fps=args.fps, size=args.size,

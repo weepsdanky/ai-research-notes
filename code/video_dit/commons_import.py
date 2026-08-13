@@ -39,6 +39,7 @@ class CommonsCandidate:
     original_media_url: str = ""
     original_media_sha1: str = ""
     original_media_timestamp: str = ""
+    duplicate_group: str | None = None
 
 
 def _api_json(parameters: dict[str, object]) -> dict[str, object]:
@@ -439,5 +440,10 @@ def normalize_clip(
         ),
         downloaded_media_sha256=downloaded_media_digest,
         downloaded_at=downloaded_at,
+        clip_start_seconds=candidate.start_seconds,
+        clip_frames=frames,
+        clip_fps=fps,
+        clip_size=size,
+        duplicate_group=candidate.duplicate_group,
         perceptual_hash=fingerprint,
     )

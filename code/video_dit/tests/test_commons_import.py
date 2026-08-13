@@ -70,6 +70,7 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
         original_media_url="https://upload.wikimedia.org/cat.webm",
         original_media_sha1="abc123",
         original_media_timestamp="2026-08-14T00:00:00Z",
+        duplicate_group="commons-series:cat-jump",
     )
 
     class Completed:
@@ -101,6 +102,11 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
     assert record.downloaded_media_kind == "original"
     assert record.downloaded_media_sha256 == hashlib.sha256(b"source").hexdigest()
     assert record.downloaded_at.endswith("Z")
+    assert record.duplicate_group == "commons-series:cat-jump"
+    assert record.clip_start_seconds == 1.0
+    assert record.clip_frames == 16
+    assert record.clip_fps == 8
+    assert record.clip_size == 96
 
 
 def test_normalize_clip_rejects_candidate_without_source_revision(tmp_path):

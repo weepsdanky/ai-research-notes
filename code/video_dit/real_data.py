@@ -47,6 +47,10 @@ class RealVideoRecord:
     downloaded_media_kind: str | None = None
     downloaded_media_sha256: str | None = None
     downloaded_at: str | None = None
+    clip_start_seconds: float | None = None
+    clip_frames: int | None = None
+    clip_fps: int | None = None
+    clip_size: int | None = None
     duplicate_group: str | None = None
     perceptual_hash: str | None = None
     text_embedding_path: str | None = None
@@ -75,6 +79,21 @@ class RealVideoRecord:
             or any(character not in "0123456789abcdefABCDEF" for character in self.downloaded_media_sha256)
         ):
             raise ValueError("downloaded_media_sha256 must contain exactly 64 hexadecimal characters")
+        if self.clip_start_seconds is not None and (
+            not math.isfinite(self.clip_start_seconds) or self.clip_start_seconds < 0
+        ):
+            raise ValueError("clip_start_seconds must be finite and non-negative")
+        for name in ("clip_frames", "clip_fps", "clip_size"):
+            value = getattr(self, name)
+            if value is not None and (not isinstance(value, int) or value < 1):
+                raise ValueError(f"{name} must be a positive integer")
+        clip_contract = (
+            self.clip_start_seconds, self.clip_frames, self.clip_fps, self.clip_size,
+        )
+        if any(value is not None for value in clip_contract) and not all(
+            value is not None for value in clip_contract
+        ):
+            raise ValueError("clip contract must be all present or all absent")
         if self.split is not None and self.split not in SPLITS:
             raise ValueError(f"split must be one of {sorted(SPLITS)}")
         if self.perceptual_hash is not None and (
