@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 826 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 816 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -811,6 +811,75 @@ v3 manifest 与 coverage 仍是 119 records / 91 groups、held 16/50、训练 pa
 0 eligible C1；不能启动训练。该结果也限定下一步：单 poster CLIP 已把“室内单犬”实验视频排到
 前列，却不能检出 play 的时序语义；后续若继续视觉召回，应使用多帧/短视频 embedding 或人工
 策展的新来源，而不是调 prompt 后反复查看同一 130 条 pending。
+
+### 24 GB Apple Silicon 的多帧/短视频排序模型选择
+
+2026-08-14 按官方论文、仓库与模型卡审计后，选择“两级漏斗”：全库继续复用已锁定的
+OpenAI CLIP ViT-B/32，但改为 8--16 帧分数聚合；只对前 10--20% pending 使用 Microsoft
+X-CLIP base patch32 的 8 帧模型复排。两级分数仍只决定人工看片顺序，不自动改写
+subject/action/scene，不进入 manifest 或 coverage。
+
+| 模型 | 权重、许可与输入 | 是否有时序建模 | 24 GB 本机判断 | 决策 |
+|---|---|---|---|---|
+| [OpenAI CLIP ViT-B/32](https://github.com/openai/CLIP)（[论文](https://arxiv.org/abs/2103.00020)，[模型卡](https://github.com/openai/CLIP/blob/main/model-card.md)） | 官方 repo MIT；`clip.load("ViT-B/32")` 输入单张 224 图。现有权重文件 353,976,522 bytes，SHA-256 已锁为 `40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af`；还须保存官方 repo commit、采样时刻、prompts 与聚合规则。 | **没有**。逐帧编码后 mean/max/top-quartile 都是本项目工程聚合，不是 OpenAI 的视频模型。 | 约 151M 参数级；FP32 权重约 0.6 GB，逐小 batch 编码 8--16 帧在 24 GB unified memory 有充分余量。官方 README 只给 CPU/CUDA 用法，MPS 算子、吞吐和数值一致性必须本机 benchmark，失败时用 CPU。 | 全量第一阶段；复用现有已核验权重和 poster 管线，增加均匀多帧。 |
+| [Microsoft X-CLIP base patch32](https://huggingface.co/microsoft/xclip-base-patch32)（固定 revision `a2e27a78a2b5d802e894b8a1ef14f3a8ce490963`；[论文](https://arxiv.org/abs/2208.02816)） | 官方 Microsoft HF 组织仓库非 gated、标 MIT；固定 config 为 224 输入、8 frames。`model.safetensors` 为 786,414,772 bytes，LFS 与本地 SHA-256 均为 `abf286e8cdd0612761c3e42d3a55eca998382dfa67a04a0f3fdcdfa4f150cdbb`。只保存 safetensors 与配置/tokenizer，不同时保存等价 `.bin`。模型 revision、Transformers、PyTorch 与 NumPy 版本全部锁定。 | **有**。论文使用跨帧通信和视频级时序聚合做视频文本对比/zero-shot；比独立帧 CLIP 更贴合 playing，但不能据架构推定在本数据上准确。 | 196,585,729 参数；本机 CPU 单条 8×224 synthetic pilot 完整 forward 为约 0.12 秒（不含解码），证明可运行但不代表真实批量吞吐。MPS 仍须 10 片 benchmark。 | 只复排 CLIP top 10--20%，避免对 800+ pending 全量承担更重解码和时序计算。 |
+| [CLIP4Clip](https://github.com/ArrowLuo/CLIP4Clip)（[论文](https://arxiv.org/abs/2104.08860)） | 官方 repo 可锁 commit，论文比较 mean pooling、LSTM/Transformer 与 tight interaction；但官方 release/Google Drive 预训练链接当前失效，官方 issue [#120](https://github.com/ArrowLuo/CLIP4Clip/issues/120) 也记录 404。 | 有视频帧聚合版本。 | 旧 CUDA 导向依赖，官方未承诺 Apple MPS；更关键是无法从一手来源取得并锁定匹配 checkpoint。 | 不采用第三方镜像；权重不可审计即 fail-closed。 |
+| [VideoMAE](https://github.com/MCG-NJU/VideoMAE)（[论文](https://arxiv.org/abs/2203.12602)，[HF 文档](https://huggingface.co/docs/transformers/model_doc/videomae)） | 官方代码主体 CC BY-NC 4.0；HF Kinetics base revision 可锁为 `488eb9a0565f257b32866000305c8178965eb9f6`。典型输入 16×224，base 约 86M 参数级。 | 有真正 tube/time 视频建模。 | 单视频推理内存可行是合理工程推断，但多 clip/crop 会增加成本；同样要验证 MPS。 | 不用于本任务文本排序：它没有文本编码器，Kinetics logits 只是固定动作类，不能计算任意 prompt 的 video-text similarity。 |
+
+#### 选定漏斗的冻结协议
+
+第一阶段每个候选在同一已锁定 derivative 上均匀取 8 帧；若短动作召回不足，再预注册为 16 帧，
+不能看完结果后逐样本改变采样。每帧 CLIP feature 先 L2 normalize，分别保存 frame-level cosine、
+mean、top-25% mean 和 max；排序前把 prompts 拆成 subject（单只 cat/dog）、action（持续玩玩具/
+互动，而非 fetching/实验指令/静止）与 scene（room/home/indoor 对 outdoor/grass/snow）三组。
+mean 会稀释短动作、max 会放大偶发误判，因此不得只报最有利的一个聚合值。
+
+第二阶段对固定 top 10--20% 取同一 2 秒候选窗口内 8 个均匀帧，用 X-CLIP zero-shot 同一组正负
+文本复排。报告必须绑定：输入 candidates/provenance hash、每个媒体 revision 和原 SHA-1、实际
+derivative hash、帧时间戳、模型完整 revision、权重 SHA-256、依赖版本、device、prompts、分数及
+排序规则。先在已有 approved/rejected 人工集上做不参与训练的排序评估，公开 recall@K 和不同
+series/uploader groups 的 recall；只有对现有单-poster 基线有预注册增益，才继续下载新 top-K。
+
+不能声称多帧 CLIP 具有时序理解，不能在没有本地标注评测时声称 X-CLIP 能识别 Commons 的
+猫狗 playing，也不能声称 MPS 与 CUDA 数值/速度等价。模型代码/权重的 MIT 或 NC 许可不向输入
+视频授予新权利，也不清除 Commons 文件的署名、SA、人物或第三方内容风险。最终仍须完整播放、
+稳定两秒窗口、单主体、逐文件许可和 source/near-duplicate group 人工门禁；当前 0 eligible C1
+与不启动正式训练的边界不变。
+
+模型选择中还实际验证了一个不能靠模型名推断的陷阱：`microsoft/xclip-base-patch16-zero-shot`
+固定 revision `6746d6a5202bf24300cd9bf36f457f174483d41b` 的真实 config 要求 **32 帧**；按 8 帧输入
+会在 message-token reshape 处直接失败。因此不篡改 config，也不把 32 帧模型冒充 8 帧模型，
+而改用上述 config 原生为 8 帧的 patch32 checkpoint。
+
+#### X-CLIP 十片真实 pilot：时序结构不等于时序判别有效
+
+实现的 `temporal_priority.py` 不直接读取会在长任务中变化的输入：candidates、provenance、上游
+poster report 与模型文件均先冻结字节快照；上游报告必须精确绑定前两者，模型目录复制到私有临时
+目录后再加载。每条媒体下载前及整批结束后重验 Commons 原媒体 SHA-1/timestamp 和 derivative URL，
+缓存键绑定 title、媒体 SHA-1 与 URL。当前固定策略不是全长只抽 8 帧，而是对每条视频最多取 8 个
+均匀分布的 2 秒窗口，每窗取 8 个 midpoint frames；保存 derivative、逐帧 SHA、时间戳、全部 logits、
+正向/倒序 margin 和模型所有文件 SHA。窗口尾部留固定 0.5 秒容差，以避免容器 duration 比最后可解码
+PTS 稍长；该规则对所有视频一致，不按结果调节。
+
+先在单 poster 前 10 条 dog pending 上运行 CPU pilot。权重 SHA 为 `abf286…0cdbb`，窗口报告
+SHA-256 为 `49f1648e06c8566205d033ea44c2eaee144b15e4db7737cace2f3d497682622f`。
+每条最多 8 windows、每窗正反各一次 forward；最高分依次仍为动物模仿实验、门口站立的柴犬、
+临床步态、神经疾病楼梯测试和生肉喂食。10 条最佳窗口的正向/倒序 margin 平均绝对差只有
+`0.0120`、最大 `0.0241`，不能据此声称模型在该样本上有效利用了帧序。
+
+人工门禁没有只看模型给出的 2 秒窗口：另对每条完整 derivative 做 16 帧全时长联系表，再看最佳
+窗口的 8 帧密集联系表。结果 **10 rejected / 0 approved**；其余五条分别是药物中毒临床运动、
+实验室叙事/字幕、受控选择实验、慢动作饮水和肌营养不良步态。审核后状态为
+**1,097 = 119 approved + 816 pending + 162 rejected**；v3 manifest/coverage 未变，仍是
+119 records / 91 groups、held 16/50、训练 pairs 28/5/5、0 eligible C1。
+
+此外用缓存中 26 条已有人审终态的 dog 视频做独立诊断，其中严格 `dog|playing|indoors` approved
+为 4 条、其余 22 条为 rejected。全长 8 帧版本的 average precision 为 `0.5238`；recall@1/3/5/10/15
+分别为 `0.25/0.25/0.25/0.75/1.0`。这是小而有选择偏差的诊断集，不是泛化 benchmark；它只说明
+X-CLIP 可把部分已知正例提前，却没有把新 pilot 的 precision 提高到产生 approved。当前不把它扩到
+剩余 816 条全库下载，也不把“有时序模块”误报成“能识别 playing”。下一步应转向有视频级动作标注、
+逐文件权利可审计的人工策展来源，或先建立更大的盲标 validation pool 再校准排序器，而不是继续在
+同一 top-10 上调 prompt。
 
 ### 为什么不是直接训练 800 GB
 
