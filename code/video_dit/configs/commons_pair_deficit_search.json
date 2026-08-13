@@ -1,0 +1,66 @@
+[
+  {
+    "query": "filetype:video dog \"playing indoors\"",
+    "subject": "dog",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the dog action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video dog \"playing with a toy\"",
+    "subject": "dog",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the dog action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video puppy playing toy",
+    "subject": "dog",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the dog action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video dog playing room",
+    "subject": "dog",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the dog action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video cat \"playing outdoors\"",
+    "subject": "cat",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the cat action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video cat playing garden",
+    "subject": "cat",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the cat action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video cat playing grass",
+    "subject": "cat",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the cat action and scene",
+    "limit": 50
+  },
+  {
+    "query": "filetype:video cat playing mouse outdoors",
+    "subject": "cat",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the cat action and scene",
+    "limit": 50
+  }
+]

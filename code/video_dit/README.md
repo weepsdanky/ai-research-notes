@@ -278,6 +278,12 @@ uv run python prepare_real_data.py coverage \
   data/commons_g1_provenance_v3/source.jsonl --target-per-triple 50 \
   --min-train-pair-source-groups 10 \
   --report data/commons_g1_provenance_v3/coverage.json
+
+# 只补当前 C1 训练侧 pair 缺口；所有搜索结果仍是 pending：
+uv run python prepare_commons.py search \
+  configs/commons_pair_deficit_search.json \
+  data/commons_g1/candidates.jsonl \
+  --state data/commons_g1/pair-deficit-search.state.json
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
@@ -289,15 +295,15 @@ timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license U
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
-满足新契约；当前 v3 的 117 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
+满足新契约；当前 v3 的 119 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并，当前为 89 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
-triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×playing=4/10`、
-`playing×indoors=4/10`，mixed-held group 已经消解，但只补 held triple
+合并，当前为 91 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
+triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×playing=5/10`、
+`playing×indoors=5/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,093 条，目前 117 条 approved、861 条 pending、115 条 rejected；pending 绝不
+候选池为 1,096 条，目前 119 条 approved、845 条 pending、132 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条
@@ -432,7 +438,7 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 117 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 Commons-first：把现有 119 approved、逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。

@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 117 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 119 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 117 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,093 个候选中的 861 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,096 个候选中的 845 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -399,6 +399,82 @@ v3 manifest 为 **117 records / 89 independent groups**，held
 `20129e86a829a40725afc4411c84de3f1f489ab3c05f44e4110816ac77832ff5`。这一步把精确 44-member
 池从“有待审核”变成了闭合负结果：它无法继续提供新的训练 pair support，下一轮必须转向
 `dog × playing × indoors` 与 `cat × playing × outdoors` 等训练侧组合，而不能继续重复抓同一猫系列。
+
+### 训练侧两个 pair 的官方分类差集审计
+
+2026-08-14 以当前 1,093-row candidates 的 Commons title 与已保存原媒体 SHA-1 为集合，重新枚举官方分类并做 `(page ID/title/SHA-1) − candidates`。结论是：常见的高精度 dog-playing 分类已经基本穷尽，cat-playing 主类已经完全闭合；官方分类树目前不能直接提供足够的新独立 groups。
+
+#### `dog × playing × indoors`
+
+[`Videos of dogs`](https://commons.wikimedia.org/wiki/Category:Videos_of_dogs) 当前有 141 个直属 files / 7 个 subcats；逐文件 API 得到 140 个视频容器，另有一条非视频/异常媒体边界。与 candidates 做 title/SHA-1 差后有 18 个未覆盖视频，但标题主要是历史影片、工作犬、犬舍、警犬或误分类（例如 `The Butcher Boy`、`Cat birth 2`、`Dog Factory`、警犬学校与军犬新闻），没有新的高精度 indoor-playing 标题候选。不能为了补数把这 18 条自动归为 playing。
+
+Commons 没有 `Videos of playing dogs` 精确类。[`Playing dogs`](https://commons.wikimedia.org/wiki/Category:Playing_dogs) 为 107 files / 9 subcats；严格接受 `video/*` 或 `.ogv + application/ogg` 后，直属实际有 4 个视频，且已全部在 candidates：
+
+| 文件 | page ID / SHA-1 | 当前状态与独立性 |
+|---|---|---|
+| `Puppy playing.webm` | 27014028 / `733210c6cc9a1c2d54b93011b164cbbc1f2e10d8` | 官方 description 明确为 “A puppy playing in house”，是最强 indoor 正线索；但已在 candidates 且当前 approved，不是新增差集。仍应以最终 2 秒窗口和 provenance 为准。 |
+| `Пузыри собака.ogv` | 15446135 / `b6c1fd97f257c36d04941cdaeed6e3d34d23fe8f` | 已 approved：单狗在室内追逐泡泡；已有独立 uploader group，不是新增。 |
+| `Two poodles playing.ogv` | 10794007 / `72dd708bd5433482aadbf194b48af015ab04a8df` | 已 rejected：两狗在草地玩耍，既非单主体也非 indoor。 |
+| `Goldendoodle ... puppies play fighting ...` / `... puppies playing ...` | 30032853 / `6e19ec10962101fd59ba0c00f9a7c34a935f8db5`；30032854 / `b2cc96a6c046b56452eb8e797239c8a748427f3f` | 同日、同两犬、同 grassy yard；均已在 candidates，且最多一个 outdoor series group，不补 indoor pair。 |
+
+九个子类是 `Dogs with balls`、`Dogs carrying toys`、`Dogs chewing`、`Dogs rolling`、`Dogs fetching`、`Puppies playing`、`Social play of dogs`、`Dogs playing tug-of-war`、`Dogs playing in water`。逐类直属 MIME 差集显示：balls/rolling/fetching 等视频已在 candidates，puppies/social/tug-of-war 的直属成员是图片；唯一新的视频差集是：
+
+- `PerroCallejeroJugandoLLuvia20240828 ohs01.webm`，page ID `153480181`，SHA-1 `0e6dbe3395601cfb0e929189b37e70d7dc1b1788`，位于 `Dogs playing in water`。标题指向流浪狗在雨水中玩耍，是 outdoor/water 的强先验，不能补 `playing×indoors`；若未来需要 dog-playing-outdoors，可作为 pending，并先核验单狗、持续动作、许可和 uploader/事件指纹。
+
+`FB-PLAY 0.ogv`（22110824；`d37df0362271d3ef507d155508fbcb7d88165e06`）和 `Throw the Stick!.ogv`（37854436；`29f0e62245460dd44d6a7b1b5f5c2f3a45696989`）虽仍在本地 pending，但前者是 flyball、后者仅有投树枝标题；metadata 不证明 indoor，审核优先级低于寻找新的官方来源。`Indoor dogs` 本身是 36-file 静态位置类，视频数 0，不能作为扩容入口。
+
+#### `cat × playing × outdoors`
+
+`Videos of playing cats` 的 44 个直属成员已与 candidates 44/44 闭合；其中官方 metadata 的三个 outdoor 强线索——lizard 与两条 Lotti outdoor——也已审核。`Outdoor cats` 的 248 个直属文件及 forests/sand/snow/garden/grass 等后代主要是静态图片，不存在精确 `Videos of cats playing outdoors` 类。
+
+`Videos of cats in Germany` 的 61 个直属视频也已全部存在于 candidates，title/SHA-1 新差集为 0。其两个非 `v` Lotti outdoor 文件已人工确认只是躺/坐而非 playing，并拒绝；两个 `v` 文件属于同一 Lotti filming series，只贡献 1 个 outdoor group。因此 cat 侧本轮没有任何合法的新 page-ID/SHA-1 候选。
+
+可复现查询与差集步骤如下；所有递归必须保存 category path、跟随 `continue` 并防环：
+
+```text
+# 狗视频全集 / 玩耍父类；cat 侧替换 gcmtitle
+action=query&generator=categorymembers&gcmtitle=Category:Videos_of_dogs&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+
+action=query&generator=categorymembers&gcmtitle=Category:Playing_dogs&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+
+# 先取九个直属子类，再逐子类执行上面的文件枚举
+action=query&list=categorymembers&cmtitle=Category:Playing_dogs&
+cmtype=subcat&cmlimit=max&format=json&formatversion=2
+```
+
+差集按 page ID/title 发现未见页面，按 SHA-1 排除同字节内容，再以 uploader、具名动物、日期地点、标题前缀、关键帧/音轨指纹建立传递 group；不同 SHA-1 绝不自动等于独立来源。推荐审核顺序：① 不再重复审已闭合的 44 个 cat-playing；② 对新雨中流浪狗只在需要 outdoor pair 时审核；③ 对狗全集 18 个差集先做 metadata 排除，不下载明显历史片/工作犬；④ 真正的 `playing×indoors` 扩容需要寻找新的、逐文件可许可的官方 Commons 视频分类或新上传，而不是继续递归静态 Playing/Indoor 类。所有新命中仍只进入 pending。
+
+#### 本轮 pair-deficit 审核与可执行搜索结果
+
+分类差集之外，又对现有 pending 中最可能补 pair 的 10 条生成全长 16 帧联系表；只有
+`-01- Miniature Pinscher puppy.webm` 同时满足单狗、室内和持续 playing。密集前 2 秒的
+16 帧显示幼犬持续用嘴和爪摆弄毛绒玩具，批准为
+`dog|playing|indoors`，group 固定为
+`commons-audited-unique:miniature-pinscher-puppy-runologe`。其余 9 条中，三条巴哥视频和
+拔河片段含多人/多狗；Capuccino 与 `How to punish` 是人物主导互动；contrafeeloading 是
+觅食任务；flyball 与 throw-the-stick 是户外。因此该批是 **1 approved / 9 rejected**，
+没有把弱相关动作改写成 playing。
+
+cat 侧保留 Ljubljana 2022-06-13 同日六段中的一条代表：全长和密集窗口均显示单只灰猫在
+林地持续扑抓鼠，prompt 明确保留为 `a cat playing with a mouse outdoors`，不把 prey 偷换成
+toy；六条统一为 `commons-series:ljubljana-cat-mouse-2022-06-13`，其余五条以同事件冗余拒绝。
+该批是 **1 approved / 5 rejected**，只贡献一个 group。
+
+最后执行仓库内 `configs/commons_pair_deficit_search.json` 的 8 个 coverage-driven 查询（dog indoor
+toy/room 与 cat outdoor garden/grass/mouse），新差集只有 3 条，全部是犬神经科病例或人物
+新闻片的 `cat` 关键词假阳性，已在 metadata gate 拒绝，未下载媒体。这个负结果与官方分类
+审计一致：Commons 当前高精度池已接近穷尽，继续堆全文同义词不会快速补齐门槛。
+
+当前权威候选为 **1,096 = 119 approved + 845 pending + 132 rejected**；v3 manifest 为
+**119 records / 91 independent groups**，held `cat|playing|indoors=16/50`。训练侧 pairs 变为
+`cat×indoors=28/10`、`cat×playing=5/10`、`playing×indoors=5/10`；后两者各仍差 5，正式
+target=50 下仍为 **0 eligible C1**，所以不启动训练。manifest SHA-256 为
+`d0586b4cc3e454f58f3de7055dc4b8e90e098b109e80e841427f7c59ed7f6a0a`，coverage SHA-256 为
+`3dd24a5e6f19230f524697e095a64e4a873279207846322013fa6a4feaeb3618`。
 
 ### 为什么不是直接训练 800 GB
 
