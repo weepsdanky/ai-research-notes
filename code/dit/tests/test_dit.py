@@ -7,6 +7,7 @@ from dit import (
     DiTConfig,
     LabelEmbedder,
     get_2d_sincos_pos_embed,
+    dit_preset,
     timestep_embedding,
 )
 
@@ -139,3 +140,17 @@ def test_forward_validates_input_shapes():
             torch.tensor([0, 1]),
         )
 
+
+def test_official_size_preset_keeps_explicit_input_and_patch_configuration():
+    model = dit_preset(
+        "DiT-S", patch_size=2, image_size=8, in_channels=1, num_classes=10
+    )
+    assert model.config.depth == 12
+    assert model.config.hidden_size == 384
+    assert model.config.num_heads == 6
+    assert model.config.patch_size == 2
+
+
+def test_official_size_preset_rejects_unknown_name():
+    with pytest.raises(ValueError, match="unknown preset"):
+        dit_preset("DiT-M", patch_size=2)

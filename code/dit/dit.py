@@ -254,6 +254,10 @@ class DiT(nn.Module):
         ))
         nn.init.constant_(self.patch_embed.projection.bias, 0)
 
+        nn.init.normal_(self.y_embedder.embedding.weight, std=0.02)
+        nn.init.normal_(self.t_embedder.mlp[0].weight, std=0.02)
+        nn.init.normal_(self.t_embedder.mlp[2].weight, std=0.02)
+
         for block in self.blocks:
             nn.init.constant_(block.adaLN_modulation[-1].weight, 0)
             nn.init.constant_(block.adaLN_modulation[-1].bias, 0)
@@ -328,11 +332,36 @@ class DiT(nn.Module):
         )
         prediction = self.forward(paired_x, paired_t, labels, force_drop)
         conditional, unconditional = prediction.chunk(2, dim=0)
-        guided = unconditional + cfg_scale * (conditional - unconditional)
+        channels = self.config.in_channels
+        cond_eps, uncond_eps = conditional[:, :channels], unconditional[:, :channels]
+        guided_eps = uncond_eps + cfg_scale * (cond_eps - uncond_eps)
+        if self.config.learn_sigma:
+            # The official DiT sampler guides epsilon only and keeps conditional variance.
+            guided = torch.cat([guided_eps, conditional[:, channels:]], dim=1)
+        else:
+            guided = guided_eps
         return torch.cat([guided, guided], dim=0)
 
 
 def dit_tiny(**overrides: object) -> DiT:
-    """A laptop-friendly model used by the MNIST learning experiment."""
+    """A laptop-friendly model used by the CIFAR-10 learning experiment."""
 
     return DiT(DiTConfig(**overrides))
+
+
+DIT_PRESETS: dict[str, dict[str, int]] = {
+    "DiT-S": {"depth": 12, "hidden_size": 384, "num_heads": 6},
+    "DiT-B": {"depth": 12, "hidden_size": 768, "num_heads": 12},
+    "DiT-L": {"depth": 24, "hidden_size": 1024, "num_heads": 16},
+    "DiT-XL": {"depth": 28, "hidden_size": 1152, "num_heads": 16},
+}
+
+
+def dit_preset(name: str, patch_size: int, **overrides: object) -> DiT:
+    """Build an official DiT S/B/L/XL width-depth preset for a chosen patch size."""
+
+    if name not in DIT_PRESETS:
+        raise ValueError(f"unknown preset {name!r}; choose one of {tuple(DIT_PRESETS)}")
+    values: dict[str, object] = {**DIT_PRESETS[name], "patch_size": patch_size}
+    values.update(overrides)
+    return DiT(DiTConfig(**values))

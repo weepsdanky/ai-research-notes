@@ -9,5 +9,8 @@ code/diffusion/docs/
 code/dit/.venv/
 code/dit/.pytest_cache/
 code/dit/samples_dit/
+code/dit/runs/
+code/dit/inference_output/
+code/dit/data/
 tmp/
 *.pdf
