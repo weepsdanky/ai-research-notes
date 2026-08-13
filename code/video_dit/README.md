@@ -297,6 +297,16 @@ uv run python prepare_commons.py search \
 uv run python prepare_commons.py exact \
   configs/commons_pair_exact_candidates.json data/commons_g1/candidates.jsonl
 
+# 冻结 CLIP 只对当前媒体版本的 320px poster 排序；报告不能批准动作/场景，
+# top-K 仍须下载完整 derivative 并人工检查连续两秒。checkpoint SHA 必须为
+# 40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af：
+uv run python visual_priority.py \
+  data/commons_g1/candidates.jsonl data/commons_g1/provenance-v2.jsonl \
+  data/commons_g1/visual_posters/dog data/commons_g1/dog-visual-priority.json \
+  --checkpoint data/models/ViT-B-32.pt --subject dog \
+  --positive 'a single dog playing with a toy inside a home' \
+  --negative 'multiple dogs or puppies together' --request-delay 1.2
+
 # Internet Archive 只接受人工列出的精确 item ID；输出仍是 metadata-only pending，
 # 许可、creator、唯一 original 视频以及 size/MD5/SHA-1 任一不完整都会拒绝：
 uv run python prepare_archive.py configs/archive_pair_candidate_specs.json \
@@ -321,7 +331,7 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,097 条，目前 119 条 approved、831 条 pending、147 条 rejected；pending 绝不
+候选池为 1,097 条，目前 119 条 approved、826 条 pending、152 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条

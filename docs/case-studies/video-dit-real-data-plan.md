@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 831 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 826 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -776,6 +776,41 @@ sidecar、核验许可页与原媒体版本，再做全时长/密集窗口人工
 上述两个历史新闻片假阳性，不要重复导入已在 candidates 的 Tokyo/泡泡狗/Kitten Academy，亦
 不要把 118/12/3 个词面差集批量写入候选。本阶段没有批准 clip、没有改动 119-record manifest 或
 coverage；当前仍为 0 eligible C1，正式训练继续不启动。
+
+### 视觉召回：冻结 CLIP poster 只决定看片顺序
+
+标题/描述检索连续漏掉或误排真实动作后，本阶段增加了一个严格只读的视觉漏斗。权重直接来自
+仓库已固定 commit 的 OpenAI CLIP 包所声明的官方 ViT-B/32 Azure URL；第一次不完整下载虽可被
+后续错误拼接成可加载 JIT，但 SHA 不匹配，已丢弃。最终 checkpoint 为 353,976,522 bytes，
+SHA-256 精确为 `40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af`，且
+`torch.jit.load` 成功。不存在用随机权重或相邻模型替代的回退。
+
+`visual_priority.py` 对当时 135 条 dog pending 的当前 Commons 320px poster 编码。每张 poster
+下载前后都重验原媒体 SHA-1/timestamp，缓存键包含 title、媒体 SHA-1 和 poster URL；报告还绑定
+候选快照 SHA `98693bb651cea6102d5df9f82abe5495c3a81f0a85709a6a06a435c887781da6`、
+provenance SHA `8f922388f614b13f4fb13d926e709d637da858277352ba575de9fddd2030e38d`、
+checkpoint SHA、全部正负 prompts 和每张 poster SHA。正 prompt 聚焦单犬室内与玩具互动；负
+prompt 显式覆盖多犬、户外、人物主导、静止/睡觉和非真实动物。排序分数是正 prompt 平均 cosine
+减最相似负 prompt cosine；feature 非有限或零向量会 fail-closed。Commons 429 后使用可识别
+User-Agent 和 1.2 秒请求间隔，从原子缓存继续，没有绕过服务端限制。
+
+这不是动作分类器：poster 无法证明时间、playing 或单主体连续性，报告明确
+`training_ready=false`。实际漏斗为 **135 pending posters → top 24 人工看图 → 5 个完整官方
+derivative 的 16 帧全长审核 → 0 approved**：
+
+- rank 1 是狗观看两个实验屏幕，不是 playing；
+- rank 2 是人在场的指令取物实验，不是娱乐性互动；
+- rank 6/11/13 是同一 FASTILY Yorkshire Terrier 系列，分别为抚摸、近景静止和室内嗅闻，
+  都没有稳定 playing 窗口；即使通过也不能算三个独立来源。
+
+其余 top 24 的官方说明/画面已明确为医学步态、药物中毒、饮食饮水、吠叫训练、多犬活动或
+户外任务，因此没有扩大完整视频下载。五条最终审核绑定当前 candidates SHA
+`5c6b6223c6dcc9735db03ffbef98b7227d6d844819b76bb2769f81ad3dc52c16` 和逐条原媒体
+SHA-1；状态更新为 **1,097 = 119 approved + 826 pending + 152 rejected**。由于 0 approved，
+v3 manifest 与 coverage 仍是 119 records / 91 groups、held 16/50、训练 pairs 28/5/5、
+0 eligible C1；不能启动训练。该结果也限定下一步：单 poster CLIP 已把“室内单犬”实验视频排到
+前列，却不能检出 play 的时序语义；后续若继续视觉召回，应使用多帧/短视频 embedding 或人工
+策展的新来源，而不是调 prompt 后反复查看同一 130 条 pending。
 
 ### 为什么不是直接训练 800 GB
 
