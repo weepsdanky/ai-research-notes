@@ -58,6 +58,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     coverage = subparsers.add_parser("coverage")
     coverage.add_argument("source", type=Path)
     coverage.add_argument("--target-per-triple", type=int, default=50)
+    coverage.add_argument("--min-train-pair-source-groups", type=int, default=1)
     coverage.add_argument("--near-duplicate-hamming", type=int, default=4)
     coverage.add_argument("--report", type=Path)
     return parser.parse_args(argv)
@@ -94,6 +95,7 @@ def main(argv: list[str] | None = None) -> int:
         report = independent_coverage(
             load_manifest(args.source), target_per_triple=args.target_per_triple,
             near_duplicate_hamming=args.near_duplicate_hamming,
+            min_train_pair_source_groups=args.min_train_pair_source_groups,
         )
         _write_report(args.report, report)
         return 0

@@ -355,6 +355,8 @@ def independent_coverage(
 
     if target_per_triple < 1:
         raise ValueError("target_per_triple must be at least 1")
+    if min_train_pair_source_groups < 1:
+        raise ValueError("min_train_pair_source_groups must be at least 1")
     materialized = list(records)
     missing = [record.sample_id for record in materialized if record.perceptual_hash is None]
     if missing:
@@ -368,14 +370,17 @@ def independent_coverage(
     atoms_by_group: dict[str, set[int]] = {}
     pairs_by_group: dict[PAIR, set[int]] = {}
     blockers: dict[str, dict[str, list[str]]] = {}
+    train_support: dict[str, dict[str, object]] = {}
     eligible: list[str] = []
     meets_target = sorted(
         triple for triple, groups in coverage.items() if len(groups) >= target_per_triple
     )
-    for held in meets_target:
+    meets_target_set = set(meets_target)
+    for held in sorted(all_triples):
+        held_group_ids = coverage[held]
         train_triples = all_triples - {held}
         for triple in train_triples:
-            groups = coverage[triple]
+            groups = coverage[triple] - held_group_ids
             for atom in triple:
                 atoms_by_group.setdefault(atom, set()).update(groups)
             for pair in _pair_projections(triple):
@@ -386,11 +391,36 @@ def independent_coverage(
             if len(pairs_by_group.get(pair, set())) < min_train_pair_source_groups
         )
         key = "|".join(held)
-        if missing_atoms or missing_pairs:
+        mixed_triples = sorted(
+            "|".join(triple) for triple in train_triples
+            if coverage[triple] & held_group_ids
+        )
+        atom_counts = {
+            atom: len(atoms_by_group.get(atom, set())) for atom in held
+        }
+        pair_counts = {
+            "|".join(pair): len(pairs_by_group.get(pair, set()))
+            for pair in _pair_projections(held)
+        }
+        train_support[key] = {
+            "train_atom_source_groups": dict(sorted(atom_counts.items())),
+            "train_pair_source_groups": dict(sorted(pair_counts.items())),
+            "train_pair_deficits": {
+                pair: max(0, min_train_pair_source_groups - count)
+                for pair, count in sorted(pair_counts.items())
+            },
+        }
+        if mixed_triples:
+            train_support[key]["mixed_held_group_triples"] = mixed_triples
+        if held not in meets_target_set:
+            pass
+        elif mixed_triples or missing_atoms or missing_pairs:
             blockers[key] = {
                 "missing_train_atoms": missing_atoms,
                 "missing_train_pairs": missing_pairs,
             }
+            if mixed_triples:
+                blockers[key]["mixed_held_group_triples"] = mixed_triples
         else:
             eligible.append(key)
         atoms_by_group.clear()
@@ -400,6 +430,7 @@ def independent_coverage(
         "independent_source_groups": len(set(group_ids.values())),
         "near_duplicate_hamming": near_duplicate_hamming,
         "target_per_triple": target_per_triple,
+        "min_train_pair_source_groups": min_train_pair_source_groups,
         "triple_source_groups": counts,
         "triple_deficits": {
             triple: max(0, target_per_triple - count)
@@ -408,6 +439,7 @@ def independent_coverage(
         "meets_target_triples": ["|".join(triple) for triple in meets_target],
         "eligible_c1_triples": eligible,
         "c1_blockers": blockers,
+        "c1_train_support": train_support,
     }
 
 

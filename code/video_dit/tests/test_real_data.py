@@ -66,6 +66,90 @@ def test_independent_coverage_rejects_isolated_triple_even_when_target_is_met():
         "missing_train_atoms": ["cat", "running", "snow"],
         "missing_train_pairs": ["cat|running", "cat|snow", "running|snow"],
     }
+    assert report["c1_train_support"]["cat|running|snow"] == {
+        "train_atom_source_groups": {"cat": 0, "running": 0, "snow": 0},
+        "train_pair_source_groups": {
+            "cat|running": 0, "cat|snow": 0, "running|snow": 0,
+        },
+        "train_pair_deficits": {
+            "cat|running": 1, "cat|snow": 1, "running|snow": 1,
+        },
+    }
+
+
+def test_independent_coverage_reports_and_enforces_train_pair_support():
+    rows = [
+        _record("held-a", "cat", "playing", "indoors"),
+        _record("held-b", "cat", "playing", "indoors"),
+        _record("cat-playing", "cat", "playing", "outdoors"),
+        _record("playing-indoors", "dog", "playing", "indoors"),
+        _record("cat-indoors-a", "cat", "sitting", "indoors"),
+        _record("cat-indoors-b", "cat", "walking", "indoors"),
+    ]
+
+    report = independent_coverage(
+        rows, target_per_triple=2, near_duplicate_hamming=0,
+        min_train_pair_source_groups=2,
+    )
+
+    support = report["c1_train_support"]["cat|playing|indoors"]
+    assert support["train_pair_source_groups"] == {
+        "cat|indoors": 2, "cat|playing": 1, "playing|indoors": 1,
+    }
+    assert support["train_pair_deficits"] == {
+        "cat|indoors": 0, "cat|playing": 1, "playing|indoors": 1,
+    }
+    assert report["eligible_c1_triples"] == []
+    assert report["c1_blockers"]["cat|playing|indoors"]["missing_train_pairs"] == [
+        "cat|playing", "playing|indoors",
+    ]
+
+
+def test_independent_coverage_reports_train_support_before_target_is_met():
+    rows = [
+        _record("held", "cat", "playing", "indoors"),
+        _record("cat-playing", "cat", "playing", "outdoors"),
+        _record("playing-indoors", "dog", "playing", "indoors"),
+        _record("cat-indoors", "cat", "walking", "indoors"),
+    ]
+
+    report = independent_coverage(rows, target_per_triple=50, near_duplicate_hamming=0)
+
+    assert report["meets_target_triples"] == []
+    assert report["c1_train_support"]["cat|playing|indoors"][
+        "train_pair_source_groups"
+    ] == {"cat|indoors": 1, "cat|playing": 1, "playing|indoors": 1}
+
+
+def test_independent_coverage_excludes_whole_mixed_group_from_train_support():
+    rows = [
+        _record("held", "cat", "playing", "indoors", duplicate_group="mixed"),
+        _record("mixed", "cat", "walking", "indoors", duplicate_group="mixed"),
+        _record("clean-cat-play", "cat", "playing", "outdoors"),
+        _record("clean-play-in", "dog", "playing", "indoors"),
+        _record("clean-cat-in", "cat", "sitting", "indoors"),
+    ]
+
+    report = independent_coverage(rows, target_per_triple=1, near_duplicate_hamming=0)
+
+    support = report["c1_train_support"]["cat|playing|indoors"]
+    assert support["train_pair_source_groups"] == {
+        "cat|indoors": 1, "cat|playing": 1, "playing|indoors": 1,
+    }
+    assert support["mixed_held_group_triples"] == ["cat|walking|indoors"]
+    assert report["c1_blockers"]["cat|playing|indoors"][
+        "mixed_held_group_triples"
+    ] == ["cat|walking|indoors"]
+    assert report["eligible_c1_triples"] == []
+
+
+@pytest.mark.parametrize("threshold", [0, -1])
+def test_independent_coverage_rejects_invalid_pair_threshold(threshold):
+    with pytest.raises(ValueError, match="min_train_pair_source_groups"):
+        independent_coverage(
+            [_record("cat", "cat", "playing", "indoors")],
+            min_train_pair_source_groups=threshold,
+        )
 
 
 def _record(
