@@ -262,6 +262,13 @@ uv run python commons_review.py audit data/commons_g1/candidates.jsonl \
   data/commons_g1/cat-playing-audit.json --titles titles.json \
   --provenance data/commons_g1/provenance-v2.jsonl
 
+# 只排序能补 held 之外训练 pair 的候选：cat-playing 必须有 outdoor 证据，
+# playing-indoors 必须是 dog；报告不会改写任何审核字段：
+uv run python commons_review.py pair-priority \
+  data/commons_g1/candidates.jsonl data/commons_g1/pair-deficit-priority.jsonl \
+  --provenance data/commons_g1/provenance-v2.jsonl \
+  --target-pair 'cat|playing' --target-pair 'playing|indoors'
+
 # 人工检查原页面与视频，把正确的 subject/action/scene/prompt 改好，
 # 仅将确认样本的 review_status 改为 approved。
 uv run python prepare_commons.py download \
@@ -303,7 +310,7 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,096 条，目前 119 条 approved、845 条 pending、132 条 rejected；pending 绝不
+候选池为 1,096 条，目前 119 条 approved、834 条 pending、143 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条

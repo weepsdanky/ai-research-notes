@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,096 个候选中的 845 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,096 个候选中的 834 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -475,6 +475,112 @@ toy/room 与 cat outdoor garden/grass/mouse），新差集只有 3 条，全部�
 target=50 下仍为 **0 eligible C1**，所以不启动训练。manifest SHA-256 为
 `d0586b4cc3e454f58f3de7055dc4b8e90e098b109e80e841427f7c59ed7f6a0a`，coverage SHA-256 为
 `3dd24a5e6f19230f524697e095a64e4a873279207846322013fa6a4feaeb3618`。
+
+#### 非 held pair 优先队列与视觉发现负结果
+
+为避免把 held `cat|playing|indoors` 本身误算成训练侧 pair 支持，新增只读
+`pair-priority` 报告并把语义约束写死：补 `cat|playing` 的候选必须是 **cat + playing +
+outdoor 且非 indoor**；补 `playing|indoors` 的候选必须是 **dog + playing + indoor 且非
+outdoor**。它还要求动物实体词和动作证据同时存在，将演员“扮演”、影片、软件、会议等语境
+降权，且只输出正分、provenance 完整、时长至少 2 秒并可播放的 pending。该报告只排序，绝不
+自动标签或批准。
+
+首次宽松版本暴露出演员、软件和电影会被 `cat`/`playing` 词面误排到前列；在任何新媒体
+决策前修正为上述非-held约束后，当前 **834 条 pending 的严格 pair-priority 输出为 0 条**。
+这不是说余下数据绝无可用片段，而是说 metadata 已不能提供足以自动优先的正证据，必须用
+更昂贵的视觉发现，并仍由完整时间审核裁决。
+
+随后对低置信 outdoor-cat 发现池的 7 条生成 16 帧全时长联系表：Bengal tricks 是室内人物
+引导剪辑；三条 Ljubljana park 是坐、卧、理毛或走路；pigeon 是明确捕猎；Larry 是新闻
+蒙太奇；moths 主要是静止观察/捕猎。全部拒绝，没有把 chase/hunt 偷换成 playing。另对原
+优先结果中的 Fur Lickers、Mimi part 2、Gatos 原版/稳定版复核：前者和 Gatos 均为多猫，
+Mimi part 2 是已批准同猫同房间同玩具事件的冗余，四条全部拒绝。两份批次报告分别为
+**0 approved / 7 rejected** 和 **0 approved / 4 rejected**。
+
+候选状态因而更新为 **1,096 = 119 approved + 834 pending + 143 rejected**；approved、v3
+manifest、coverage 与哈希均不变，仍为 119 records / 91 groups、held 16/50、训练 pairs
+28/5/5、0 eligible C1。对全部 triples 排序也没有更可行的替代目标：第二名
+`dog|playing|outdoors` 只有 1 个 held group，其他候选的 held/pair 支持更低。因此不降低
+50/10 门槛，也不为了更易成功改换一个证据更弱的三元组。
+
+### 动作同义词分类审计：toy/fetch/chase 只能用于召回
+
+2026-08-14 又用 Commons Action API 审计了不直接以 `play` 命名的动作树，并把每个真实视频的
+page ID、标题和原媒体 SHA-1 与当前 1,096-row candidates 比对。这里采用严格语义边界：
+`chasing/pouncing/jumping/chewing/carrying/fetching` 可能分别是捕猎、跳跃、进食、工作或训练，
+toy/ball 也可能只是物体共现；只有审核窗口内确实持续表现娱乐性互动时，才可标为 `playing`。
+同理，缺少 indoor category 不能反推 outdoor。
+
+#### 猫：结构化 toy 类没有新的独立视频
+
+- [`Cat toys`](https://commons.wikimedia.org/wiki/Category:Cat_toys) 当前为 87 个直属 files / 4 个
+  subcats，API 实测 16 个视频容器：round-track toy 1 条、Finchen 4 条、Finchen+Lotti 11 条。
+  16/16 均已在 candidates；后 15 条又属于两个已知 Ies/Radevormwald 系列，不能按 clip 计独立
+  来源。round-track（page ID 22864110，SHA-1
+  `b75cecad2f79a52703e9898e6f884f1a516d1d42`）也已 approved，不是新差集。
+- [`Cats with toys`](https://commons.wikimedia.org/wiki/Category:Cats_with_toys) 为 4 files / 4
+  subcats，直属实际视频为 0；其 `Cats and catnip toys`（11/0）、`Cats carrying toys in mouth`
+  （1/0）和 `Cats and balls`（20/1）直属实际视频也均为 0。Commons 没有可直接采用的
+  cats-chasing/pouncing/batting 精确视频类。
+- [`Cats playing with their prey`](https://commons.wikimedia.org/wiki/Category:Cats_playing_with_their_prey)
+  为 12 files / 1 subcat，只有 2 个真实视频。lizard（page ID 68960767，SHA-1
+  `705009486b5da6bb2caac9da2016fcd5ee615e10`）和 `Cat play 02`（99201738，
+  `7fd4bcaa0e3d62ba78ca3331c91e776663447e09`）都已在 candidates；前者有明确 outdoor category，
+  后者已因 Commons 标题大小写近重复拒绝。捕食/活体猎物也不能自动改写成 toy play。
+- [`Videos of jumping cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_jumping_cats) 为
+  5 files / 0 subcats，五条标题与 candidates 的差集为 0：三个已按原义 approved 为 `jumping`
+  （`Cat jumping backwards`、`Katzensprung in Zeitlupe`、`Salto - Cat Jump`），`Sammy springt`
+  与 `Petit saut de chat` 仍 pending。即使后两条通过，也应先保留 `jumping`；只有画面另有明确
+  玩具/追逐互动，才可能贡献 cat-playing pair。
+
+#### 狗：强 play 同义类多为静态图，真实视频偏户外
+
+官方树的当前计数与直属视频实测如下：`Dogs chewing` 57 files / 1 subcat、视频 0；其
+`Puppies orally exploring` 7/0、视频 0；`Dogs carrying toys` 32/3、视频 0；`Dogs carrying
+sticks` 58/0、视频 0；[`Dogs playing tug-of-war`](https://commons.wikimedia.org/wiki/Category:Dogs_playing_tug-of-war)
+16/1、视频 0；[`Dogs with toys`](https://commons.wikimedia.org/wiki/Category:Dogs_with_toys)
+49/12、视频 0；`Dogs catching toys` 10/0、视频 0。它们不能按页面的 file 数扩充视频集。
+
+[`Dogs fetching`](https://commons.wikimedia.org/wiki/Category:Dogs_fetching) 为 106 files / 1
+subcat，只有两条真实视频，且都已在 candidates：
+
+| 文件 | page ID / SHA-1 | 当前差集与场景先验 |
+|---|---|---|
+| `Dog Fetches Hero2 Stick From River.webm` | 47052929 / `d25d1699ce6adfea6f7045fe0a694f5645b8e589` | pending；标题明确 river/outdoor，不补 `playing×indoors`。 |
+| `Playingfetchwithadog - beach ... .ogv` | 149615031 / `515ac4b72282dd2d9a5828aa0c5e26132120fddb` | 已 rejected；beach/outdoor 且主体过小。 |
+
+`Dogs with balls` 为 114 files / 3 subcats，实际视频只有同日、同两犬、同 grassy yard 的两条
+Goldendoodle/Black Lab 视频（page IDs 30032853/30032854；SHA-1 `6e19ec10962101fd59ba0c00f9a7c34a935f8db5` /
+`b2cc96a6c046b56452eb8e797239c8a748427f3f`）；两条都已在 candidates，且最多是一个 outdoor
+series group。`Dogs retrieving`（11/2）及 `Dogs retrieving training dummies`（15/0）直属均无
+视频，并且其官方组织语义偏猎物/训练，不应作为 play 标签来源。
+
+因此，本轮同义分类的 **page-ID/title 新差集为 0**；没有新下载，也没有改变 119-record
+manifest 或 coverage。现有 `Puppy playing.webm` 的官方 description “playing in house” 与已
+approved 的泡泡狗仍是最强 indoor 正例；`Throw the Stick!` 已因户外且两秒窗口内 play/fetch
+不稳定而 rejected。下一轮若继续人工审核，只建议依次看：① 两个 jumping pending，仅判断是否
+另有明确 play；② river fetch 只用于未来 outdoor support；③ 不再扫描上述零视频的静态 toy/
+tug/chew 类。它们都不是补齐当前两个 pair 各差 5 groups 的可靠路线。
+
+可复现查询如下；`titles` 可用 `|` 一次查询多个类，文件枚举须跟随 `continue`：
+
+```text
+# 类的直属 file/subcat 计数
+action=query&prop=categoryinfo&
+titles=Category:Cat_toys|Category:Cats_playing_with_their_prey|
+Category:Videos_of_jumping_cats|Category:Dogs_chewing|Category:Dogs_fetching|
+Category:Dogs_playing_tug-of-war|Category:Dogs_with_toys&
+format=json&formatversion=2
+
+# 对每个类枚举并获得 page ID / MIME / SHA-1
+action=query&generator=categorymembers&gcmtitle=Category:Dogs_fetching&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+```
+
+MIME 门禁接受 `video/*`，并仅对扩展名为 `.ogv` 的 `application/ogg` 作视频例外；不能接受任意
+OGG。差集先按 page ID/title，再按 SHA-1 去字节重复，最后仍要按 uploader、具名动物、拍摄
+日期/地点、标题前缀与关键帧/音轨指纹建立传递 group。不同 SHA-1 不代表独立动物或拍摄事件。
 
 ### 为什么不是直接训练 800 GB
 

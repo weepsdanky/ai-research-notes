@@ -18,6 +18,7 @@ from commons_review import (
     prioritize_review_rows,
     merge_provenance_rows,
     completed_review_audit,
+    prioritize_pair_deficit_rows,
     main,
 )
 
@@ -647,3 +648,80 @@ def test_audit_cli_does_not_overwrite_any_input(tmp_path):
                 "--provenance", str(provenance),
             ])
         assert output.read_bytes() == before
+
+
+def test_pair_deficit_priority_ranks_only_playable_pending_candidates():
+    rows = [{
+        "title": "File:Cat pouncing on a mouse in a garden.webm",
+        "description": "One cat playing outside on grass",
+        "subject": "cat", "review_status": "pending",
+        "duration_seconds": 4, "review_preview_url": "https://upload.wikimedia.org/a.webm",
+    }, {
+        "title": "File:Puppy with plush toy at home.webm",
+        "description": "A dog playing in a room",
+        "subject": "dog", "review_status": "pending",
+        "duration_seconds": 4, "review_preview_url": "https://upload.wikimedia.org/b.webm",
+    }, {
+        "title": "File:Cat software demo.webm", "description": "playing with software",
+        "subject": "cat", "review_status": "pending", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/c.webm",
+    }, {
+        "title": "File:Approved dog.webm", "description": "dog playing at home",
+        "subject": "dog", "review_status": "approved", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/d.webm",
+    }, {
+        "title": "File:Cat toy at home.webm", "description": "cat playing indoors",
+        "subject": "cat", "review_status": "pending", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/e.webm",
+    }]
+
+    ranked = prioritize_pair_deficit_rows(
+        rows, target_pairs=[("cat", "playing"), ("playing", "indoors")],
+    )
+
+    assert [row["title"] for row in ranked] == [
+        "File:Puppy with plush toy at home.webm",
+        "File:Cat pouncing on a mouse in a garden.webm",
+    ]
+    assert ranked[0]["target_pairs"] == ["playing|indoors"]
+    assert ranked[1]["target_pairs"] == ["cat|playing"]
+    assert all(row["title"] != "File:Cat toy at home.webm" for row in ranked)
+
+
+def test_pair_deficit_priority_rejects_unsupported_pairs():
+    with pytest.raises(ValueError, match="supported target pairs"):
+        prioritize_pair_deficit_rows([], target_pairs=[("cat", "indoors")])
+
+
+def test_pair_priority_cli_writes_read_only_report(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": "File:Puppy toy at home.webm", "description": "dog playing in a room",
+        "subject": "dog", "review_status": "pending", "duration_seconds": 3,
+        "review_preview_url": "https://upload.wikimedia.org/a.webm",
+    }) + "\n")
+    output = tmp_path / "priority.jsonl"
+
+    assert main([
+        "pair-priority", str(candidates), str(output),
+        "--target-pair", "cat|playing", "--target-pair", "playing|indoors",
+    ]) == 0
+
+    report = json.loads(output.read_text())
+    assert report["target_pairs"] == ["playing|indoors"]
+    assert json.loads(candidates.read_text())["review_status"] == "pending"
+
+
+def test_pair_priority_cli_does_not_overwrite_provenance(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text("{}\n")
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text("{}\n")
+    before = provenance.read_bytes()
+
+    with pytest.raises(ValueError, match="differ from report inputs"):
+        main([
+            "pair-priority", str(candidates), str(provenance),
+            "--provenance", str(provenance), "--target-pair", "cat|playing",
+        ])
+    assert provenance.read_bytes() == before

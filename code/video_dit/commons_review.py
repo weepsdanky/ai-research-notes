@@ -34,6 +34,25 @@ _REVIEW_PRIORITY_TERMS = {
     "exclude:animation": (-6, ("animation", "stop motion", "stop-motion")),
 }
 
+_PAIR_PRIORITY_TERMS = {
+    "animal:cat": (3, (" cat ", "cat.", "cat,", "kitten", "feline", "housecat", "gato")),
+    "animal:dog": (3, (" dog ", "dog.", "dog,", "puppy", "pup ", "canine")),
+    "action:playing": (5, ("toy", "pounc", "batting", "chasing", "fetch", "tug", "mouse", "ball", "plush")),
+    "action:playing-word": (1, ("play", "playing")),
+    "scene:indoors": (4, ("indoor", "inside", "room", "home", "house", "apartment")),
+    "scene:outdoors": (2, ("outdoor", "outside", "garden", "grass", "yard", "forest")),
+    "exclude:non-animal-media": (-12, (
+        "software", "computer", "gameplay", "trailer", "animation", "episode", "film",
+        "conference", "podcast", "sings", "musician", "press conference", "video game",
+        "character", "victorious", "zoey 101", "shorts", "inpainting", "quantum",
+    )),
+    "exclude:non-playing-action": (-10, (
+        "eating", "cough", "hairball", "licking", "grooming", "sleeping", "resting",
+        "drinking", "prey", "chasing a pigeon",
+    )),
+    "exclude:multi-subject": (-6, ("cats", "dogs", "puppies", "kittens", "two ", "with her 4")),
+}
+
 
 def _plain(value: str) -> str:
     return re.sub(r"<[^>]+>", "", html.unescape(value)).strip()
@@ -284,6 +303,68 @@ def prioritize_review_rows(
             "title": title,
             "review_status": str(row.get("review_status", "")),
             "subject": str(row.get("subject", "")),
+            "priority_score": score,
+            "priority_reasons": reasons,
+        })
+    return sorted(ranked, key=lambda row: (-int(row["priority_score"]), str(row["title"])))
+
+
+def prioritize_pair_deficit_rows(
+    rows: Iterable[dict[str, object]], *, target_pairs: Iterable[tuple[str, str]],
+) -> list[dict[str, object]]:
+    """Rank playable pending candidates for the two preregistered C1 pair deficits."""
+
+    pairs = list(target_pairs)
+    supported = {("cat", "playing"), ("playing", "indoors")}
+    if not pairs or any(pair not in supported for pair in pairs):
+        raise ValueError(f"supported target pairs are {sorted(supported)}")
+    materialized = list(rows)
+    titles = set(review_queue(materialized, status="pending", subject="all"))
+    ranked = []
+    for row in materialized:
+        title = str(row.get("title", ""))
+        if title not in titles:
+            continue
+        subject = str(row.get("subject", ""))
+        searchable = " ".join((title, str(row.get("description", "")))).casefold()
+        score = 0
+        reasons = []
+        for reason, (weight, terms) in _PAIR_PRIORITY_TERMS.items():
+            if any(term in searchable for term in terms):
+                score += weight
+                reasons.append(reason)
+        matched_pairs = []
+        has_playing = "action:playing" in reasons or "action:playing-word" in reasons
+        has_cat = "animal:cat" in reasons
+        has_dog = "animal:dog" in reasons
+        has_indoor = "scene:indoors" in reasons
+        has_outdoor = "scene:outdoors" in reasons
+        if (
+            ("cat", "playing") in pairs and subject == "cat" and has_cat and has_playing
+            and has_outdoor and not has_indoor
+        ):
+            matched_pairs.append("cat|playing")
+        if (
+            ("playing", "indoors") in pairs
+            and subject == "dog"
+            and has_playing
+            and has_dog
+            and has_indoor and not has_outdoor
+        ):
+            matched_pairs.append("playing|indoors")
+        if not matched_pairs:
+            continue
+        # A candidate must have direct playing evidence to outrank mere subject matches.
+        if not has_playing:
+            score -= 8
+            reasons.append("missing:playing-evidence")
+        if score <= 0:
+            continue
+        ranked.append({
+            "title": title,
+            "review_status": "pending",
+            "subject": subject,
+            "target_pairs": matched_pairs,
             "priority_score": score,
             "priority_reasons": reasons,
         })
@@ -547,7 +628,9 @@ def completed_review_audit(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "command", choices=("enrich", "provenance", "summary", "priority", "audit"),
+        "command", choices=(
+            "enrich", "provenance", "summary", "priority", "audit", "pair-priority",
+        ),
     )
     parser.add_argument("candidates", type=Path)
     parser.add_argument("output", type=Path, nargs="?")
@@ -556,14 +639,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--subject", default="all")
     parser.add_argument("--provenance", type=Path)
     parser.add_argument("--titles", type=Path)
+    parser.add_argument("--target-pair", action="append", default=[])
     args = parser.parse_args(argv)
-    if args.output is not None and args.command in {"provenance", "priority", "audit"}:
+    if args.output is not None and args.command in {
+        "provenance", "priority", "audit", "pair-priority",
+    }:
         if args.output.resolve() == args.candidates.resolve():
             raise ValueError("report output must differ from candidates")
     if args.command == "audit" and args.output is not None:
         audit_inputs = [path for path in (args.titles, args.provenance) if path is not None]
         if any(args.output.resolve() == path.resolve() for path in audit_inputs):
             raise ValueError("report output must differ from audit inputs")
+    if args.command == "pair-priority" and args.output is not None:
+        report_inputs = [path for path in (args.provenance,) if path is not None]
+        if any(args.output.resolve() == path.resolve() for path in report_inputs):
+            raise ValueError("report output must differ from report inputs")
     if args.command == "enrich":
         report = enrich_review_metadata(args.candidates)
     elif args.command == "provenance":
@@ -576,13 +666,24 @@ def main(argv: list[str] | None = None) -> int:
             if args.output.resolve() == args.candidates.resolve():
                 raise ValueError("report output must differ from candidates")
             write_json(args.output, report)
-    elif args.command == "priority":
+    elif args.command in {"priority", "pair-priority"}:
         if args.output is None:
-            parser.error("priority requires an output JSONL path")
-        report = prioritize_review_rows(
-            merge_provenance_rows(load_rows(args.candidates), args.provenance),
-            status=args.status, subject=args.subject,
-        )
+            parser.error(f"{args.command} requires an output JSONL path")
+        merged = merge_provenance_rows(load_rows(args.candidates), args.provenance)
+        if args.command == "pair-priority":
+            if not args.target_pair:
+                parser.error("pair-priority requires at least one --target-pair")
+            target_pairs = []
+            for value in args.target_pair:
+                atoms = value.split("|")
+                if len(atoms) != 2:
+                    raise ValueError("target pair must use atom|atom syntax")
+                target_pairs.append((atoms[0], atoms[1]))
+            report = prioritize_pair_deficit_rows(merged, target_pairs=target_pairs)
+        else:
+            report = prioritize_review_rows(
+                merged, status=args.status, subject=args.subject,
+            )
         write_rows(args.output, report)
     else:
         if args.output is None or args.titles is None:
