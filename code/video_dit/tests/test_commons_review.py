@@ -17,6 +17,7 @@ from commons_review import (
     verify_provenance_sidecar,
     prioritize_review_rows,
     merge_provenance_rows,
+    completed_review_audit,
     main,
 )
 
@@ -577,3 +578,72 @@ def test_build_contact_sheet_renders_three_temporal_frames(tmp_path, monkeypatch
     from PIL import Image
     assert Image.open(output).size == (288, 124)
     assert len(commands) == 3
+
+
+def test_completed_review_audit_binds_snapshot_and_provenance(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(
+        json.dumps({
+            "title": "File:A.webm", "review_status": "approved",
+            "subject": "cat", "action": "playing", "scene": "indoors",
+            "prompt": "a cat playing indoors", "start_seconds": 1,
+            "duplicate_group": "series:a", "review_notes": "single cat",
+        }) + "\n" + json.dumps({
+            "title": "File:B.webm", "review_status": "rejected",
+            "review_notes": "two cats",
+        }) + "\n"
+    )
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text(
+        json.dumps({"title": "File:A.webm", "original_media_sha1": "aaa"}) + "\n"
+        + json.dumps({"title": "File:B.webm", "original_media_sha1": "bbb"}) + "\n"
+    )
+
+    report = completed_review_audit(
+        candidates, ["File:B.webm", "File:A.webm"], provenance_path=provenance,
+    )
+
+    assert report["candidate_sha256"] == __import__("hashlib").sha256(
+        candidates.read_bytes()
+    ).hexdigest()
+    assert report["statuses"] == {"approved": 1, "rejected": 1}
+    assert [row["title"] for row in report["records"]] == [
+        "File:A.webm", "File:B.webm",
+    ]
+    assert report["records"][0]["original_media_sha1"] == "aaa"
+
+
+def test_completed_review_audit_rejects_pending_or_unknown_titles(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": "File:A.webm", "review_status": "pending",
+    }) + "\n")
+
+    with pytest.raises(ValueError, match="not complete"):
+        completed_review_audit(candidates, ["File:A.webm"])
+    with pytest.raises(ValueError, match="exactly once"):
+        completed_review_audit(candidates, ["File:Missing.webm"])
+
+    candidates.write_text(json.dumps({
+        "title": "File:A.webm", "review_status": "rejected",
+    }) + "\n")
+    with pytest.raises(ValueError, match="media SHA-1"):
+        completed_review_audit(candidates, ["File:A.webm"])
+
+
+def test_audit_cli_does_not_overwrite_any_input(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text("{}\n")
+    titles = tmp_path / "titles.json"
+    titles.write_text("[]\n")
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text("{}\n")
+
+    for output in (titles, provenance):
+        before = output.read_bytes()
+        with pytest.raises(ValueError, match="differ from audit inputs"):
+            main([
+                "audit", str(candidates), str(output), "--titles", str(titles),
+                "--provenance", str(provenance),
+            ])
+        assert output.read_bytes() == before

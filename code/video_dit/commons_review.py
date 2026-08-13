@@ -493,19 +493,77 @@ def summarize_reviews(rows: Iterable[dict[str, object]]) -> dict[str, object]:
     }
 
 
+def completed_review_audit(
+    candidates_path: Path,
+    titles: Iterable[str],
+    *,
+    provenance_path: Path | None = None,
+) -> dict[str, object]:
+    """Build a snapshot-bound audit record for a completed review batch."""
+
+    requested = list(titles)
+    if not requested or any(not title for title in requested):
+        raise ValueError("review audit requires non-empty titles")
+    if len(requested) != len(set(requested)):
+        raise ValueError("review audit titles must be unique")
+    candidate_bytes = candidates_path.read_bytes()
+    candidates = [
+        json.loads(line) for line in candidate_bytes.decode("utf-8").splitlines()
+        if line.strip()
+    ]
+    merged = merge_provenance_rows(candidates, provenance_path)
+    by_title: dict[str, list[dict[str, object]]] = {}
+    for row in merged:
+        by_title.setdefault(str(row.get("title", "")), []).append(row)
+    selected = []
+    for title in sorted(requested):
+        matches = by_title.get(title, [])
+        if len(matches) != 1:
+            raise ValueError(f"review audit title must match exactly once: {title}")
+        row = matches[0]
+        if row.get("review_status") not in {"approved", "rejected"}:
+            raise ValueError(f"review audit is not complete: {title}")
+        if not isinstance(row.get("original_media_sha1"), str) or not str(
+            row["original_media_sha1"]
+        ).strip():
+            raise ValueError(f"review audit requires Commons media SHA-1: {title}")
+        selected.append({
+            key: row.get(key)
+            for key in (
+                "title", "review_status", "subject", "action", "scene", "prompt",
+                "start_seconds", "duplicate_group", "review_notes",
+                "source_revision", "original_media_sha1", "original_media_timestamp",
+            )
+            if row.get(key) is not None
+        })
+    statuses = Counter(str(row["review_status"]) for row in selected)
+    return {
+        "candidate_sha256": hashlib.sha256(candidate_bytes).hexdigest(),
+        "records": selected,
+        "statuses": dict(sorted(statuses.items())),
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("enrich", "provenance", "summary", "priority"))
+    parser.add_argument(
+        "command", choices=("enrich", "provenance", "summary", "priority", "audit"),
+    )
     parser.add_argument("candidates", type=Path)
     parser.add_argument("output", type=Path, nargs="?")
     parser.add_argument("--status", choices=sorted(REVIEW_STATUSES | {"all"}),
                         default="pending")
     parser.add_argument("--subject", default="all")
     parser.add_argument("--provenance", type=Path)
+    parser.add_argument("--titles", type=Path)
     args = parser.parse_args(argv)
-    if args.output is not None and args.command in {"provenance", "priority"}:
+    if args.output is not None and args.command in {"provenance", "priority", "audit"}:
         if args.output.resolve() == args.candidates.resolve():
             raise ValueError("report output must differ from candidates")
+    if args.command == "audit" and args.output is not None:
+        audit_inputs = [path for path in (args.titles, args.provenance) if path is not None]
+        if any(args.output.resolve() == path.resolve() for path in audit_inputs):
+            raise ValueError("report output must differ from audit inputs")
     if args.command == "enrich":
         report = enrich_review_metadata(args.candidates)
     elif args.command == "provenance":
@@ -518,7 +576,7 @@ def main(argv: list[str] | None = None) -> int:
             if args.output.resolve() == args.candidates.resolve():
                 raise ValueError("report output must differ from candidates")
             write_json(args.output, report)
-    else:
+    elif args.command == "priority":
         if args.output is None:
             parser.error("priority requires an output JSONL path")
         report = prioritize_review_rows(
@@ -526,6 +584,16 @@ def main(argv: list[str] | None = None) -> int:
             status=args.status, subject=args.subject,
         )
         write_rows(args.output, report)
+    else:
+        if args.output is None or args.titles is None:
+            parser.error("audit requires an output JSON path and --titles JSON list")
+        titles = json.loads(args.titles.read_text(encoding="utf-8"))
+        if not isinstance(titles, list) or not all(isinstance(title, str) for title in titles):
+            raise ValueError("audit titles file must contain a JSON string list")
+        report = completed_review_audit(
+            args.candidates, titles, provenance_path=args.provenance,
+        )
+        write_json(args.output, report)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 

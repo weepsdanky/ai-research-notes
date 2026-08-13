@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 116 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 117 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 116 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,093 个候选中的 880 个仍为 pending，不能计入训练规模或覆盖。
+从现有 117 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,093 个候选中的 861 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -333,6 +333,72 @@ iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
 | `commons-uploader:6449c9e8d7c13f5e` / Nesnad | `Kitten playing - Tokyo - Jan 7 2020` | `Catblinking-tokyo-area-2018-4-9` | 相隔约 21 个月且标题分别为 kitten/cat，但同 uploader/Tokyo 不能排除同一动物或同一室内环境。重点核验年龄是否相容、毛色标记、房间背景和拍摄位置；未形成可审计结论前保持一组。 |
 
 这一步不是为了最大化 group 数。若视觉身份无法可靠确认，保守选择是维持 uploader group，并从 train 或 held 一侧移除冲突成员；只有形成逐文件身份/场景审核记录后才可拆组。任何拆组决策必须在查看 C1 生成结果之前冻结。
+
+### `Videos of playing cats` 44-member 状态闭环
+
+2026-08-14 重新通过官方 Action API 枚举 [`Category:Videos of playing cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_cats) 的全部 44 个直属文件，并以 Commons title 与当前 1,093-row candidates 做严格一对一连接：44/44 均唯一映射，没有缺失。API 的媒体边界仍是 39 个 `video/webm` 加 5 个 `.ogv + application/ogg`。**终审前快照**为 **13 approved / 12 rejected / 19 pending**；这是分类池当时的状态，不等于 44 个独立来源，最终结果见本节后文。
+
+官方枚举可复现为：
+
+```text
+action=query&generator=categorymembers&gcmtitle=Category:Videos_of_playing_cats&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories&
+iiprop=url|mime|size|sha1|extmetadata&cllimit=max&format=json&formatversion=2
+```
+
+以下是仍 pending 的完整 page ID/SHA-1 状态表；标题是目前唯一的 series 证据，scene 必须看片。所有 19 条都来自 User:Ies 的德国猫系列，并非 19 个新 groups。
+
+| pending 文件 | page ID | 原媒体 SHA-1 | 系列/场景先验与独立组上限 |
+|---|---:|---|---|
+| `Finchen playing 02 (1) ies.webm` | 30905636 | `d856a7ce8f53afe7851dc4d106149c6c6000727f` | 与已 approved `Finchen playing 01` 同一 Finchen 系列；02--04 合计最多仍是 **0 个新增 group**。官方 categories 不给 indoor/outdoor，需看片，但不能拆系列。 |
+| `Finchen playing 03 (1) ies.webm` | 30905748 | `b2cd48292c8594ec0d2bdb36160e48a822a44f6e` | 同上。 |
+| `Finchen playing 04 (1) ies.webm` | 30905731 | `44f47dba5ff35f32823ad632a36ec1f45b2ec0ed` | 同上。 |
+| `Finchen+Lotti playing 01 (1) ies.webm` | 30743100 | `2bea6b2f7f5ffbd7a20d31f592937e7995afe183` | 01--11 标题明确同一双猫系列；违反当前单主体 held 目标的先验很强。即使某个 2 秒窗口只见一猫，也须证明另一猫未影响动作/场景。该系列又以具名身份连接已有 Finchen 与 Lotti 系列，按 identity 传递闭包对当前 coverage 最多是 **0 个新增 group**。 |
+| `Finchen+Lotti playing 02 (1) ies.webm` | 30743383 | `3a46780aafb8f5733d250e71c74fb8b2bb9ee934` | 同上。 |
+| `Finchen+Lotti playing 03 (1) ies.webm` | 30743386 | `79a64e38d067bf265d799ced57f3eb136e0060e9` | 同上。 |
+| `Finchen+Lotti playing 04 (1) ies.webm` | 30743523 | `a09e814fb335e5709c214bcad0d12288c26f160b` | 同上。 |
+| `Finchen+Lotti playing 05 (1) ies.webm` | 30743446 | `7c1a77784922edc6f795ccc1ce6531f076eccfad` | 同上。 |
+| `Finchen+Lotti playing 06 (1) ies.webm` | 30743701 | `5bafc65c77f8f17ebda42d8a3a1c71278a1a62d6` | 同上。 |
+| `Finchen+Lotti playing 07 (1) ies.webm` | 30743655 | `ba8bad824a9e15b80e34c88a9914c4d8c0707b47` | 同上。 |
+| `Finchen+Lotti playing 08 (1) ies.webm` | 30743839 | `be6a1b31523cff4245640066b8a593a4c740ccf3` | 同上。 |
+| `Finchen+Lotti playing 09 (1) ies.webm` | 30743851 | `9febbd2405f05a127a4f7d794bbe14daa8f63bd8` | 同上。 |
+| `Finchen+Lotti playing 10 (1) ies.webm` | 30743904 | `b8e772837fcae679280802b726eaa288a2ff10ee` | 同上。 |
+| `Finchen+Lotti playing 11 (1) ies.webm` | 30905442 | `7dc7380cdb36bb846efbcb1f2160fa27f9eec0dc` | 同上。 |
+| `Kluse - Lotti playing in a box v 02 ies.webm` | 157840583 | `2c194bc074ed2688a45f95d2d1b0a7652baf0a08` | 与已 approved v01 同一 Lotti-box indoor 系列，最多 **0 个新增 group**。 |
+| `Radevormwald - Kahli playing with mouse 02 ies.webm` | 37818567 | `fbae222305ca29b010154ce794f254919f173df7` | 与已 approved Kahli 01 同一 toy/mouse 系列，最多 **0 个新增 group**；categories 不证明 indoors。 |
+| `Radevormwald - Kahli playing with mouse 03 ies.webm` | 37818707 | `bbd477f151e885777ce90b1d7bfa1760c70fceb2` | 同上。 |
+| `Radevormwald - Tiger playing with mouse 02 ies.webm` | 37818837 | `fe8ed68721edc502063a63f4b13e5804652602cf` | 与已 rejected Tiger 01 同一系列；01 因 96×96 主体过小/动作不明确拒绝。02--03 是唯一尚可能带来**至多 1 个新单猫 group**的 pending 系列，但须全长与密集窗口复核，且 categories 不证明 indoor/outdoor。 |
+| `Radevormwald - Tiger playing with mouse 03 ies.webm` | 37818892 | `d2167f5151ab3f48d70a6116809b94feecd1e610` | 同上。 |
+
+因此 19 个 pending 的标题级 series 上限只有 5 组：Finchen、Finchen+Lotti、Lotti-box、Kahli、Tiger。但按动物身份做传递闭包后，Finchen+Lotti 会把已有 Finchen 与 Lotti 系列连在一起，不能贡献新独立组；Finchen、Lotti-box、Kahli 也已有 approved 成员。对当前独立 coverage 的**净新增上限只有 1 group**，即尚无 approved 成员的 Tiger 系列。审核优先级因此是 Tiger 02/03；其余只用于同组多样性或标签复核，不用于补 group deficit。若任何 Finchen+Lotti 片段被保留，还必须使用连接相关身份系列的共同 group，不能为了增加计数另建新组。
+
+已终结的 25 条按官方 page ID/SHA-1 留档如下，便于未来验证 candidates 没有状态漂移：
+
+| status | 文件（page ID；SHA-1） |
+|---|---|
+| approved | `Cat Play` (99821145; `cee70c5e77926c734d4beccde941ad409331c67d`); `Cat playing with a laser pointer` (23819120; `3aeda29031bde0727db50dc638f457ea1ee9b632`); `Cat playing with a lizard` (68960767; `705009486b5da6bb2caac9da2016fcd5ee615e10`); `Cat playing with a round track toy` (22864110; `b75cecad2f79a52703e9898e6f884f1a516d1d42`); `Cat Playing with Straw 1` (59747422; `886c2ff1b50a4160348570ab0792727cfb68cd3c`); `Cat Playing with String Toy 1` (30986610; `dba8defef95b5f466eb62467fb1f547f081535c8`); `Cat Plays` (37239427; `9d3f2a0bd25a03b8938543eca96e9ce4a8d735d2`); `Finchen playing 01` (30905392; `6e16ebd7fa59c329bede27592f8614153ed30447`); `Kluse - Lotti ... box v 01` (157840541; `8e8c7214561bf19afc46f37e82eb82a0d4f80d68`); `Moomin1` (99462733; `b8cc558859ad4acfc423ed62d0837e9b1f29576f`); `Kahli ... mouse 01` (37818555; `a0f6d4a0f55db3907ea19748f836e02908232c84`); `Lotti outdoor v 01` (44435788; `c741faceb49d44915f775e10a6cf65733ce77067`); `Lotti outdoor v 02` (44435861; `e3f5504b0b9625d8b2362292d04cba120259bf41`). |
+| rejected | `ASC Leiden ... Three cats` (83284675; `8aaa620bdf6e88d0873fc9f8502f3d6370272786`); `Black and tuxedo kittens` (67463578; `34ce7e66f87425ff63ec8e7381db7335f8b59d89`); `Cat chasing mouse in a room` (136356464; `d22a7655201d77e0ce240b6cd532dd13241a745b`); `Cat Play 03` (99821544; `97959bbda516aae8057e97fa3ed24e4d0b12552f`); `Cats Endulging in Domestic Violence` (47110441; `27e92b792e223c6c2824aa1a398c3addf093be26`); `Chat domestique` (50254718; `b515f7319bb4b89834c02ea2bf020b551eaa471d`); `Felis ... Monarca` (20074545; `29e8f3c491fbf1938489aa7b886cfbcfe3895be3`); `Larry ... Chloé` (97411267; `7d8ad97a93c959d18f433998b9659d6211276c6d`); `Muslim playing with kitten ...` (65579958; `a9d363667547359f307e981ab9a12c42af37b4c1`); `Tiger ... mouse 01` (37818689; `0eefe48259e5076d7a21745071a4ff14ff732314`); `Spelende poesjes` (34815492; `67405ff46c4271f37732133ff008703187d2aa4e`); `Whisky-Iswed` (20301970; `b9891f7c6ad6d871442af1b8aebe50015af3cee6`). |
+
+13 个 approved 文件在当前人工 grouping 下只有 **11 groups**：laser-pointer 与 round-track-toy 共用一个 uploader 保守组；两条 Lotti outdoor 共用一个 series；其余各一组。这里的 11 只是该 44-member 分类池内部的 groups，不能与整个 held triple 的 15 groups 混为一谈。对任何 pending 的批准仍要求完整播放、稳定 2 秒窗口、单主体、scene、许可和显式 identity/series group；API category 命中本身不改变状态。
+
+随后按上述冻结规则完成 19 条 pending 的视觉终审，而不是按标题自动通过。11 条
+`Finchen+Lotti` 的全时长联系表均出现两只具名猫，违反单主体契约；Finchen、Kahli、
+Lotti-box 的其余片段以及 Tiger 02 都是已有或本轮所选代表的同身份、同玩具、同房间系列
+冗余，因此拒绝。Tiger 03 的全长 12 帧联系表显示一只燕尾服猫在室内木地板上持续拍打、
+追逐玩具鼠，批准为该系列唯一代表，group 固定为
+`commons-series:radevormwald-tiger`。批次结果是 **1 approved / 18 rejected**；审计报告绑定
+候选快照 SHA-256 `ca8f025e537216bf342cf416927a5f90aedf10f77f541daf3532d4bc027e5084`
+以及每条 Commons 原媒体 SHA-1，任何 pending 或缺失 title 都会 fail-closed。
+
+重建后的权威候选仍是 1,093 条，但状态变为 **117 approved / 861 pending / 115 rejected**；
+v3 manifest 为 **117 records / 89 independent groups**，held
+`cat|playing|indoors=16/50`。如预期，这 19 条只增加 Tiger 的 1 个 group；训练侧 pairs 完全
+不变，仍为 `cat×indoors=28/10`、`cat×playing=4/10`、
+`playing×indoors=4/10`，因此仍是 0 eligible C1。manifest SHA-256 为
+`d9f0b52761260df6eb5c4466a6854699552549e0ee2ad90b20603d4ae27f45ef`，coverage SHA-256 为
+`20129e86a829a40725afc4411c84de3f1f489ab3c05f44e4110816ac77832ff5`。这一步把精确 44-member
+池从“有待审核”变成了闭合负结果：它无法继续提供新的训练 pair support，下一轮必须转向
+`dog × playing × indoors` 与 `cat × playing × outdoors` 等训练侧组合，而不能继续重复抓同一猫系列。
 
 ### 为什么不是直接训练 800 GB
 
