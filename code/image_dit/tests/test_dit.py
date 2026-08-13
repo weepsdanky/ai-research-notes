@@ -88,6 +88,36 @@ def test_fixed_position_embedding_is_deterministic_and_unique():
     assert not torch.equal(first[:, 0], first[:, -1])
 
 
+def test_position_embedding_matches_official_xy_axis_order():
+    embedding = get_2d_sincos_pos_embed(8, 2)
+    expected_second_patch = torch.tensor(
+        [
+            torch.sin(torch.tensor(1.0)),
+            torch.sin(torch.tensor(0.01)),
+            torch.cos(torch.tensor(1.0)),
+            torch.cos(torch.tensor(0.01)),
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+        ]
+    )
+    assert torch.allclose(embedding[0, 1], expected_second_patch)
+
+
+def test_position_embedding_is_checkpointed_and_old_checkpoints_still_load():
+    model = DiT(tiny_config())
+    state = model.state_dict()
+    assert "pos_embed" in state
+
+    legacy_state = {key: value for key, value in state.items() if key != "pos_embed"}
+    restored = DiT(tiny_config())
+    restored.load_state_dict(legacy_state)
+    assert torch.equal(
+        restored.pos_embed, get_2d_sincos_pos_embed(16, 4, axis_order="yx")
+    )
+
+
 def test_timestep_embedding_supports_odd_dimensions():
     embedding = timestep_embedding(torch.tensor([0, 1, 2]), dim=7)
     assert embedding.shape == (3, 7)
@@ -118,6 +148,36 @@ def test_classifier_free_guidance_combines_conditional_and_null_predictions(monk
     output = model.forward_with_cfg(x, t, labels, cfg_scale=3.0)
     # 2 + 3 * (5 - 2) = 11
     assert torch.equal(output, torch.full_like(output, 11.0))
+
+
+@pytest.mark.parametrize(
+    "policy, expected_fourth",
+    [("first_3", (5.0, 2.0)), ("all", (11.0, 11.0))],
+)
+def test_cfg_channel_policy_matches_official_first_three_behavior(
+    monkeypatch, policy, expected_fourth
+):
+    model = DiT(tiny_config(in_channels=4, learn_sigma=True, cfg_channels=policy))
+    x = torch.randn(4, 4, 8, 8)
+    t = torch.tensor([3, 4, 9, 9])
+    labels = torch.tensor([1, 2, 1, 2])
+
+    def fake_forward(x, t, labels, force_drop_ids=None):
+        epsilon = torch.where(force_drop_ids, 2.0, 5.0)[:, None, None, None]
+        variance = torch.where(force_drop_ids, 20.0, 50.0)[:, None, None, None]
+        return torch.cat(
+            [epsilon.expand(-1, 4, 8, 8), variance.expand(-1, 4, 8, 8)], dim=1
+        )
+
+    monkeypatch.setattr(model, "forward", fake_forward)
+    output = model.forward_with_cfg(x, t, labels, cfg_scale=3.0)
+
+    assert torch.equal(output[:, :3], torch.full_like(output[:, :3], 11.0))
+    assert output[0, 3, 0, 0].item() == expected_fourth[0]
+    assert output[2, 3, 0, 0].item() == expected_fourth[1]
+    # Official DiT does not guide learned variance; each branch remains untouched.
+    assert output[0, 4, 0, 0].item() == 50.0
+    assert output[2, 4, 0, 0].item() == 20.0
 
 
 def test_classifier_free_guidance_rejects_odd_batches():

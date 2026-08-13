@@ -41,7 +41,14 @@ class DiffusionSchedule:
             raise ValueError("timesteps must be at least 2")
         if not 0 < self.beta_start < self.beta_end < 1:
             raise ValueError("betas must satisfy 0 < beta_start < beta_end < 1")
-        self.beta = torch.linspace(self.beta_start, self.beta_end, self.timesteps)
+        self._initialize_coefficients(
+            torch.linspace(self.beta_start, self.beta_end, self.timesteps)
+        )
+        self.timestep_map = torch.arange(self.timesteps, dtype=torch.long)
+        self.original_timesteps = self.timesteps
+
+    def _initialize_coefficients(self, beta: torch.Tensor) -> None:
+        self.beta = beta
         self.alpha = 1.0 - self.beta
         self.alpha_bar = torch.cumprod(self.alpha, dim=0)
         self.alpha_bar_prev = torch.cat([torch.ones(1), self.alpha_bar[:-1]])
@@ -61,6 +68,11 @@ class DiffusionSchedule:
             * torch.sqrt(self.alpha)
             / (1.0 - self.alpha_bar)
         )
+
+    def model_timesteps(self, t: torch.Tensor) -> torch.Tensor:
+        """Map local respaced indices to the original model timestep domain."""
+
+        return self.timestep_map.gather(0, t)
 
     def to(self, device: torch.device | str) -> "DiffusionSchedule":
         for name, value in vars(self).items():
@@ -90,6 +102,29 @@ class DiffusionSchedule:
         sqrt_alpha_bar = _extract(self.sqrt_alpha_bar, t, xt.shape)
         return (xt - _extract(self.sqrt_one_minus_alpha_bar, t, xt.shape) * eps) / sqrt_alpha_bar
 
+    def velocity_target(
+        self, x0: torch.Tensor, t: torch.Tensor, noise: torch.Tensor
+    ) -> torch.Tensor:
+        """Return v = alpha * epsilon - sigma * x0 for v-parameterization."""
+
+        alpha = _extract(self.sqrt_alpha_bar, t, x0.shape)
+        sigma = _extract(self.sqrt_one_minus_alpha_bar, t, x0.shape)
+        return alpha * noise - sigma * x0
+
+    def predict_x0_from_v(
+        self, xt: torch.Tensor, t: torch.Tensor, velocity: torch.Tensor
+    ) -> torch.Tensor:
+        alpha = _extract(self.sqrt_alpha_bar, t, xt.shape)
+        sigma = _extract(self.sqrt_one_minus_alpha_bar, t, xt.shape)
+        return alpha * xt - sigma * velocity
+
+    def predict_eps_from_v(
+        self, xt: torch.Tensor, t: torch.Tensor, velocity: torch.Tensor
+    ) -> torch.Tensor:
+        alpha = _extract(self.sqrt_alpha_bar, t, xt.shape)
+        sigma = _extract(self.sqrt_one_minus_alpha_bar, t, xt.shape)
+        return sigma * xt + alpha * velocity
+
     def q_posterior(
         self, x0: torch.Tensor, xt: torch.Tensor, t: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor]:
@@ -110,6 +145,41 @@ class DiffusionSchedule:
         fraction = (variance_values + 1) / 2
         log_variance = fraction * maximum + (1 - fraction) * minimum
         return torch.exp(log_variance), log_variance
+
+
+def space_timesteps(total_steps: int, sampling_steps: int) -> tuple[int, ...]:
+    """Select uniformly respaced indices using official DiT fractional strides."""
+
+    if not 2 <= sampling_steps <= total_steps:
+        raise ValueError("sampling_steps must be between 2 and total_steps")
+    stride = (total_steps - 1) / (sampling_steps - 1)
+    return tuple(round(index * stride) for index in range(sampling_steps))
+
+
+def respaced_schedule(
+    original: DiffusionSchedule, sampling_steps: int
+) -> DiffusionSchedule:
+    """Rebuild betas while preserving alpha_bar at the selected original steps."""
+
+    selected = space_timesteps(original.timesteps, sampling_steps)
+    last_alpha_bar = torch.ones((), device=original.alpha_bar.device)
+    betas = []
+    for index in selected:
+        alpha_bar = original.alpha_bar[index]
+        betas.append(1.0 - alpha_bar / last_alpha_bar)
+        last_alpha_bar = alpha_bar
+    beta = torch.stack(betas)
+    result = DiffusionSchedule(
+        timesteps=sampling_steps,
+        beta_start=float(beta[0]),
+        beta_end=float(beta[-1]),
+    )
+    result._initialize_coefficients(beta)
+    result.timestep_map = torch.tensor(
+        selected, dtype=torch.long, device=original.alpha_bar.device
+    )
+    result.original_timesteps = original.timesteps
+    return result
 
 
 def _normal_kl(
@@ -160,18 +230,39 @@ def diffusion_loss(
     labels: torch.Tensor,
     noise: torch.Tensor | None = None,
     vb_weight: float | None = None,
+    vb_mode: str = "rescaled",
+    clip_denoised: bool = True,
+    prediction_type: str = "epsilon",
     return_metrics: bool = False,
 ) -> torch.Tensor | tuple[torch.Tensor, dict[str, float]]:
+    if vb_mode not in {"raw", "rescaled"}:
+        raise ValueError("vb_mode must be 'raw' or 'rescaled'")
+    if prediction_type not in {"epsilon", "velocity"}:
+        raise ValueError("prediction_type must be 'epsilon' or 'velocity'")
     xt, target_noise = schedule.q_sample(x0, t, noise)
+    target = (
+        target_noise
+        if prediction_type == "epsilon"
+        else schedule.velocity_target(x0, t, target_noise)
+    )
     prediction = model(xt, t, labels)
     if prediction.shape[1] == x0.shape[1]:
-        loss = F.mse_loss(prediction, target_noise)
+        loss = F.mse_loss(prediction, target)
         metrics = {"loss": loss.item(), "mse": loss.item(), "vb": 0.0}
     elif prediction.shape[1] == 2 * x0.shape[1]:
-        predicted_noise, variance_values = prediction.chunk(2, dim=1)
-        mse = F.mse_loss(predicted_noise, target_noise)
+        predicted_mean, variance_values = prediction.chunk(2, dim=1)
+        mse = F.mse_loss(predicted_mean, target)
         # Stop the VB term from changing the mean prediction, matching improved DDPM.
-        predicted_x0 = schedule.predict_x0_from_eps(xt, t, predicted_noise.detach()).clamp(-1, 1)
+        if prediction_type == "epsilon":
+            predicted_x0 = schedule.predict_x0_from_eps(
+                xt, t, predicted_mean.detach()
+            )
+        else:
+            predicted_x0 = schedule.predict_x0_from_v(
+                xt, t, predicted_mean.detach()
+            )
+        if clip_denoised:
+            predicted_x0 = predicted_x0.clamp(-1, 1)
         model_mean, _ = schedule.q_posterior(predicted_x0, xt, t)
         _, model_log_variance = schedule.model_variance(variance_values, t)
         true_mean, true_variance = schedule.q_posterior(x0, xt, t)
@@ -183,8 +274,12 @@ def diffusion_loss(
             x0, model_mean, 0.5 * model_log_variance
         ).flatten(1).mean(1) / math.log(2.0)
         vb = torch.where(t == 0, decoder_nll, kl).mean()
-        # RESCALED_MSE from improved-diffusion / the official DiT training stack.
-        weight = schedule.timesteps / 1000.0 if vb_weight is None else vb_weight
+        # Official DiT uses raw VB (MSE loss type). RESCALED_MSE is retained as
+        # an explicit teaching/legacy option and multiplies VB by T / 1000.
+        if vb_weight is not None:
+            weight = vb_weight
+        else:
+            weight = 1.0 if vb_mode == "raw" else schedule.timesteps / 1000.0
         loss = mse + weight * vb
         metrics = {"loss": loss.item(), "mse": mse.item(), "vb": vb.item()}
     else:
@@ -202,20 +297,30 @@ def p_sample(
     cfg_scale: float = 1.0,
     noise: torch.Tensor | None = None,
     generator: torch.Generator | None = None,
+    clip_denoised: bool = True,
+    prediction_type: str = "epsilon",
 ) -> torch.Tensor:
+    if prediction_type not in {"epsilon", "velocity"}:
+        raise ValueError("prediction_type must be 'epsilon' or 'velocity'")
+    model_t = schedule.model_timesteps(t)
     if cfg_scale == 1.0:
-        prediction = model(xt, t, labels)
+        prediction = model(xt, model_t, labels)
     else:
         if xt.shape[0] % 2:
             raise ValueError("guided sampling requires an even batch size")
-        prediction = model.forward_with_cfg(xt, t, labels, cfg_scale)
+        prediction = model.forward_with_cfg(xt, model_t, labels, cfg_scale)
     if prediction.shape[1] == 2 * xt.shape[1]:
-        predicted_noise, variance_values = prediction.chunk(2, dim=1)
+        predicted_mean, variance_values = prediction.chunk(2, dim=1)
         posterior_variance, _ = schedule.model_variance(variance_values, t)
     else:
-        predicted_noise = prediction
+        predicted_mean = prediction
         posterior_variance = None
-    predicted_x0 = schedule.predict_x0_from_eps(xt, t, predicted_noise).clamp(-1, 1)
+    if prediction_type == "epsilon":
+        predicted_x0 = schedule.predict_x0_from_eps(xt, t, predicted_mean)
+    else:
+        predicted_x0 = schedule.predict_x0_from_v(xt, t, predicted_mean)
+    if clip_denoised:
+        predicted_x0 = predicted_x0.clamp(-1, 1)
     posterior_mean, fixed_variance = schedule.q_posterior(predicted_x0, xt, t)
     if posterior_variance is None:
         posterior_variance = fixed_variance
@@ -234,9 +339,16 @@ def sample_loop(
     device: torch.device | str,
     cfg_scale: float = 1.0,
     initial_noise: torch.Tensor | None = None,
+    sampling_steps: int | None = None,
     trajectory_frames: int = 0,
     generator: torch.Generator | None = None,
+    clip_denoised: bool = True,
+    prediction_type: str = "epsilon",
 ) -> torch.Tensor | tuple[torch.Tensor, list[tuple[int, torch.Tensor]]]:
+    active_schedule = schedule
+    if sampling_steps is not None and sampling_steps != schedule.timesteps:
+        active_schedule = respaced_schedule(schedule, sampling_steps).to(device)
+    active_steps = active_schedule.timesteps
     was_training = model.training
     model.eval()
     if initial_noise is not None:
@@ -250,22 +362,33 @@ def sample_loop(
     trajectory: list[tuple[int, torch.Tensor]] = []
     capture = set()
     if trajectory_frames:
-        if not 2 <= trajectory_frames <= schedule.timesteps + 1:
+        if not 2 <= trajectory_frames <= active_steps + 1:
             raise ValueError(
                 "trajectory_frames must be zero or between 2 and timesteps + 1"
             )
         trajectory.append((schedule.timesteps, x.detach().cpu()))
         remaining = trajectory_frames - 1
         capture = {0} if remaining == 1 else {
-            round(i * (schedule.timesteps - 1) / (remaining - 1))
+            round(i * (active_steps - 1) / (remaining - 1))
             for i in range(remaining)
         }
     try:
-        for step in reversed(range(schedule.timesteps)):
+        for step in reversed(range(active_steps)):
             t = torch.full((shape[0],), step, device=device, dtype=torch.long)
-            x = p_sample(model, schedule, x, t, labels, cfg_scale, generator=generator)
+            x = p_sample(
+                model,
+                active_schedule,
+                x,
+                t,
+                labels,
+                cfg_scale,
+                generator=generator,
+                clip_denoised=clip_denoised,
+                prediction_type=prediction_type,
+            )
             if step in capture:
-                trajectory.append((step, x.detach().cpu()))
+                original_step = int(active_schedule.timestep_map[step].item())
+                trajectory.append((original_step, x.detach().cpu()))
     finally:
         model.train(was_training)
     if trajectory_frames:
@@ -286,6 +409,8 @@ def ddim_sample_loop(
     eta: float = 0.0,
     trajectory_frames: int = 0,
     generator: torch.Generator | None = None,
+    clip_denoised: bool = True,
+    prediction_type: str = "epsilon",
 ) -> torch.Tensor | tuple[torch.Tensor, list[tuple[int, torch.Tensor]]]:
     """Sample on a respaced schedule using DDIM; eta=0 is deterministic."""
 
@@ -293,6 +418,8 @@ def ddim_sample_loop(
         raise ValueError("sampling_steps must be between 1 and diffusion timesteps")
     if eta < 0:
         raise ValueError("eta must be non-negative")
+    if prediction_type not in {"epsilon", "velocity"}:
+        raise ValueError("prediction_type must be 'epsilon' or 'velocity'")
     if trajectory_frames and not 2 <= trajectory_frames <= sampling_steps + 1:
         raise ValueError("trajectory_frames must be zero or between 2 and sampling_steps + 1")
     was_training = model.training
@@ -324,12 +451,16 @@ def ddim_sample_loop(
                 prediction = model(x, t, labels)
             else:
                 prediction = model.forward_with_cfg(x, t, labels, cfg_scale)
-            predicted_noise = prediction[:, : x.shape[1]]
+            predicted_mean = prediction[:, : x.shape[1]]
             alpha_bar = _extract(schedule.alpha_bar, t, x.shape)
-            predicted_x0 = (
-                (x - torch.sqrt(1 - alpha_bar) * predicted_noise)
-                / torch.sqrt(alpha_bar)
-            ).clamp(-1, 1)
+            if prediction_type == "epsilon":
+                predicted_noise = predicted_mean
+                predicted_x0 = schedule.predict_x0_from_eps(x, t, predicted_mean)
+            else:
+                predicted_noise = schedule.predict_eps_from_v(x, t, predicted_mean)
+                predicted_x0 = schedule.predict_x0_from_v(x, t, predicted_mean)
+            if clip_denoised:
+                predicted_x0 = predicted_x0.clamp(-1, 1)
             if index + 1 < len(steps):
                 previous_t = torch.full(
                     (shape[0],), steps[index + 1], device=device, dtype=torch.long

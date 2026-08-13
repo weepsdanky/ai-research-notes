@@ -1,6 +1,20 @@
 # DiT / 视频 Diffusion 一手资料调研笔记
 
-> 范围：只使用论文原文、arXiv 页面及官方 GitHub 仓库；检索日期为 2026-07-17。本文是后续讲义、代码与测试设计的事实底稿，不代替完整学习计划。
+> 范围：只使用论文原文、arXiv 页面及官方 GitHub 仓库；初次检索日期为 2026-07-17，DiT 实现对照更新于 2026-08-13。本文是后续讲义、代码与测试设计的事实底稿，不代替完整学习计划。
+
+## 0. 为什么学习顺序从 DiT 开始，而不是先通读 LDM
+
+推荐的主线是：
+
+`DiT 论文 → 官方 models.py → 遇到 latent/VAE 接口时定向补 LDM → 回到 train.py / sample.py / diffusion / respace`
+
+依据不是“LDM 不重要”，而是两篇论文回答的问题不同。DiT 的论文问题是能否用 patch-based Transformer 取代扩散模型的 U-Net backbone，并研究模型 Gflops 与生成质量的扩展关系；其结构增量集中在 patchify、position、condition injection、adaLN-Zero 与 Transformer scaling（[DiT §3](https://arxiv.org/html/2212.09748#S3)）。LDM 的核心问题则是通过 autoencoder perceptual compression 把 diffusion 移到 latent space，并用 cross-attention 支持灵活条件（[LDM](https://arxiv.org/abs/2112.10752)）。
+
+如果目标是“学习 DiT”，先读 LDM 容易先陷入 VAE、感知压缩与条件机制，尚未回答 DiT 自己替换了什么。先读 DiT 和官方 [`models.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/models.py)，可以马上追踪
+
+`noised spatial input → patch tokens → DiT blocks → epsilon / covariance → unpatchify`。
+
+读到论文的 `32×32×4` latent、官方训练脚本的 VAE posterior sample/`0.18215` scaling 或采样脚本的 VAE decode 时，LDM 才成为一个明确、局部的依赖：它解释 `z=E(x)` 与 `x=D(z)`，但不会遮住 DiT backbone 主线。补完后再回到官方训练/采样代码，latent 接口已经有了语义，raw VB、EMA、CFG 和 respacing 也更容易分别审计。
 
 ## 1. 从 DDPM 到 DiT：数学接口不变，主干网络改变
 
@@ -25,7 +39,7 @@ f_\theta(z_t,t,c)\rightarrow(\hat\epsilon_\theta,\hat\Sigma_\theta),
 因此，从 DDPM 迁移到 DiT 时应牢牢记住：
 
 - **概率模型层不变**：\(q(z_t\mid z_0)\)、反向高斯、噪声/方差参数化、采样器仍可独立于 backbone 推导。
-- **表示层变化**：像素变为 VAE latent；二维 latent 再变成 patch token。
+- **表示层在论文实验中变化**：像素先变为 VAE latent；二维 latent 再变成 patch token。DiT 论文同时明确，backbone 也可不经修改地用于 pixel space；本地教学代码正利用了这一点（[DiT §3.1](https://arxiv.org/html/2212.09748#S3.SS1.SSS0.Px3)）。
 - **函数逼近器变化**：U-Net 的卷积、多尺度下采样和 skip connection 被等分辨率 Transformer token 流替换。
 
 ## 2. 原始 DiT 的核心架构
@@ -75,11 +89,22 @@ DiT 同时沿两条轴扩展：
 
 `forward_with_cfg` 将同一噪声复制成两份、批量计算 cond/uncond，再做上式组合。需要注意一个复现实务细节：官方代码为了精确复现，默认只对前三个输出通道施加 CFG；注释同时给出了对所有 latent channels 做标准 CFG 的改法（[models.py](https://github.com/facebookresearch/DiT/blob/main/models.py)）。
 
+本地 [`code/image_dit`](../../code/image_dit/README.md) 已把两者做成显式策略：`paper_compatible` 使用 `first_3`，`pixel_teaching` 使用 `all`。实现只 guidance 被选中的 epsilon 通道，其余 epsilon/learned-variance 通道保持 conditional/unconditional 分支各自输出。这对齐了官方 first-3 的复现语义，但当前仍是像素训练，不能据此宣称已复现 4-channel ImageNet latent 结果。
+
 ### 3.2 采样器是可替换模块
 
 官方仓库把模型和扩散/respacing 分开：`models.py` 只实现 \(f_\theta\)，`diffusion/` 实现 DDPM 反向均值方差、时间步重采样和循环，`sample.py` 负责 VAE 解码（[仓库结构](https://github.com/facebookresearch/DiT)、[respace.py](https://github.com/facebookresearch/DiT/blob/main/diffusion/respace.py)、[sample.py](https://github.com/facebookresearch/DiT/blob/main/sample.py)）。这为学习测试提供清晰边界：可以固定模型假输出，单测 posterior、variance、respacing、CFG，而不必真正训练大模型。
 
 官方复现实验说明：其 400K-step 对照使用 250 个 DDPM 采样步、`mse` VAE decoder、无 guidance；多卡评估脚本生成 50K 样本和 ADM 评估所需 `.npz`（[官方训练与评估说明](https://github.com/facebookresearch/DiT#pytorch-training-results)）。
+
+本地 `paper_compatible` 已实现这条 diffusion/sampler 行为的可测试子集：
+
+- learned variance 使用 `MSE + raw VB`；`pixel_teaching` 另保留 rescaled VB；
+- loss 与 sampling 都关闭 predicted-`x0` clipping；
+- 从原 1000-step cumulative alpha 选取 250 个点、重建 beta，并做 ancestral DDPM；
+- profile、clipping、CFG channel policy、sampler、steps、prediction type 与 `space=pixel / vae_id=None` 都写入 checkpoint，并由 inference 恢复。
+
+因此，profile 对齐的是官方 diffusion recipe，而不是端到端 pipeline。当前仍缺 Stable Diffusion f8 VAE、ImageNet、50K ADM evaluation，以及可直接加载官方权重的 module/key parity。详细证据见[原论文实现审计](./dit-original-paper-implementation-audit.md)。
 
 ## 4. 新论文的贡献，以及它们在 DiT 学习路径中的位置
 
@@ -110,7 +135,7 @@ z_t=(1-t)z_0+t\epsilon,
 
 ## 5. `facebookresearch/DiT`：可验证的代码结构与工程点
 
-官方仓库规模很小，适合作为第一份实现阅读材料（[仓库](https://github.com/facebookresearch/DiT)）：
+官方仓库规模很小，适合作为读完 DiT 论文后的第一份实现阅读材料（[仓库](https://github.com/facebookresearch/DiT)）。先读 `models.py` 建立 backbone，再在 latent 接口处定向补 LDM，最后回到其余脚本：
 
 | 文件 | 职责 | 建议测试 |
 |---|---|---|
@@ -122,6 +147,8 @@ z_t=(1-t)z_0+t\epsilon,
 | [`sample_ddp.py`](https://github.com/facebookresearch/DiT/blob/main/sample_ddp.py) | 多卡生成 FID 样本 | rank 不重号、总样本数、`.npz` shape/dtype |
 
 训练脚本的关键事实：VAE 把图像缩小 8 倍；默认 1000-step linear noise schedule；AdamW 学习率 \(10^{-4}\)、weight decay 0；维护 decay 0.9999 的 EMA；PyTorch DDP 启动方式由 README 给出（[train.py](https://github.com/facebookresearch/DiT/blob/main/train.py)、[训练命令](https://github.com/facebookresearch/DiT#training-dit)）。
+
+与当前本地代码对照时，应把“语义/recipe parity”和“直接 checkpoint parity”分开：新模型的位置编码已改为官方 x→y 顺序并持久化，raw VB、no-clip、first-3 CFG 与 250-step respacing 也已实现；但 state-dict key、模块结构和 float32 schedule coefficients 等仍与官方实现不同。没有显式权重转换与固定输出 fixture 前，不能称为 direct official checkpoint parity。
 
 工程限制也应写进学习任务，而非误认为官方代码是完整生产训练器：README 明列尚缺周期 FID/EMA sample、resume、AMP/bfloat16；Flash Attention 和 `torch.compile` 也只是建议项（[官方 Enhancements](https://github.com/facebookresearch/DiT#enhancements)）。仓库模型与权重为 CC-BY-NC，复用前要检查用途（[LICENSE](https://github.com/facebookresearch/DiT/blob/main/LICENSE.txt)）。
 
@@ -153,12 +180,13 @@ HunyuanVideo 官方仓库公开的是推理代码和模型权重，不是完整�
 
 ## 7. 建议的阅读先后与证据等级
 
-1. **必读数学底座**：[LDM](https://arxiv.org/abs/2112.10752) → [DiT](https://arxiv.org/abs/2212.09748) → 官方 [DiT code](https://github.com/facebookresearch/DiT)。
-2. **视频最小扩展**：[Latte](https://arxiv.org/html/2401.03048)，先搞懂 factorized attention、3D/tube token 和时间位置编码。
-3. **开放文本与系统化视频**：[CogVideoX](https://arxiv.org/abs/2408.06072)、[Open-Sora](https://arxiv.org/html/2412.20404)、[HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo)。
-4. **新参数化与效率**：[LTX-Video](https://arxiv.org/html/2501.00103)，集中学习 rectified flow、VAE 压缩—token budget 联动。
-5. **多任务、后训练与推理控制**：[Seedream 2.0](https://arxiv.org/html/2503.07703)、[Seedance 1.0](https://arxiv.org/html/2506.09113v1)。
-6. **理解/推理驱动生成**：[OmniWeaving](https://arxiv.org/html/2603.24458v2)。
-7. **能力观察但证据有限**：[Seedance 2.0 model card](https://arxiv.org/abs/2604.14148)；只记录 card 明示事实，等待更完整技术报告再补数学和代码结论。
+1. **DiT 主线**：[DiT](https://arxiv.org/abs/2212.09748) → 官方 [`models.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/models.py)。先回答 backbone 替换、token 化、condition 与 scaling。
+2. **定向依赖再回主线**：遇到 VAE/latent 接口时读 [LDM](https://arxiv.org/abs/2112.10752) 的 perceptual compression / latent diffusion，再回到官方 [`train.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/train.py)、[`sample.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/sample.py)、[`gaussian_diffusion.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/diffusion/gaussian_diffusion.py) 与 [`respace.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/diffusion/respace.py)。
+3. **视频最小扩展**：[Latte](https://arxiv.org/html/2401.03048)，先搞懂 factorized attention、3D/tube token 和时间位置编码。
+4. **开放文本与系统化视频**：[CogVideoX](https://arxiv.org/abs/2408.06072)、[Open-Sora](https://arxiv.org/html/2412.20404)、[HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo)。
+5. **新参数化与效率**：[LTX-Video](https://arxiv.org/html/2501.00103)，集中学习 rectified flow、VAE 压缩—token budget 联动。
+6. **多任务、后训练与推理控制**：[Seedream 2.0](https://arxiv.org/html/2503.07703)、[Seedance 1.0](https://arxiv.org/html/2506.09113v1)。
+7. **理解/推理驱动生成**：[OmniWeaving](https://arxiv.org/html/2603.24458v2)。
+8. **能力观察但证据有限**：[Seedance 2.0 model card](https://arxiv.org/abs/2604.14148)；只记录 card 明示事实，等待更完整技术报告再补数学和代码结论。
 
 资料中“论文报告的指标”只能证明作者在其设定下的结果；“仓库当前实现”只能证明当前公开 commit 的工程路径；未公开的训练数据、配方或产品内部结构不应由同系列名称推断。

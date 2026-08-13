@@ -16,36 +16,58 @@
 
 - 数学讲义：[module3-dit-math-derivation.md](./module3-dit-math-derivation.md)
 - 一手资料底稿：[dit-primary-source-notes.md](./dit-primary-source-notes.md)
-- 可运行代码：[code/dit/README.md](../../code/dit/README.md)
-- PDF：`output/pdf/module3-dit-math-derivation.pdf`
+- 原论文实现审计：[dit-original-paper-implementation-audit.md](./dit-original-paper-implementation-audit.md)
+- 可运行图像代码：[code/image_dit/README.md](../../code/image_dit/README.md)
+- 可运行视频代码：[code/video_dit/README.md](../../code/video_dit/README.md)
+- 数学讲义 PDF：[module3-dit-math-derivation.pdf](../../output/pdf/module3-dit-math-derivation.pdf)
 
-## 2. 数据与实验梯度
+从仓库根目录重新生成 PDF：
 
-MNIST 不作为主实验。采用三级数据/模型梯度，避免一开始就被 ImageNet 和视频算力挡住：
+```bash
+bash scripts/render_dit_derivation_pdf.sh
+```
+
+## 2. 推荐阅读顺序：先回答 DiT，再定向补 LDM
+
+本计划不再把 LDM 论文放在 DiT 论文之前通读。推荐顺序是：
+
+1. **先读 [DiT 论文](https://arxiv.org/abs/2212.09748)**：先抓住研究问题——扩散模型的 U-Net denoiser 能否换成可扩展的 Transformer，以及 patch size / depth / width 如何改变 Gflops 与质量。
+2. **立刻读官方 [`models.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/models.py)**：沿 `PatchEmbed → DiTBlock → FinalLayer → unpatchify` 追踪一次 forward，先建立 DiT 自己的结构主线。
+3. **遇到 latent 接口时再定向补 [LDM](https://arxiv.org/abs/2112.10752)**：当 `in_channels=4`、`32×32 latent`、VAE encode/decode 或 `0.18215` scaling 成为阻塞点时，重点阅读 LDM 的 perceptual compression 与 latent diffusion，而不是先吞完整篇 LDM。
+4. **回到官方 [`train.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/train.py)、[`sample.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/sample.py)、[`gaussian_diffusion.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/diffusion/gaussian_diffusion.py) 与 [`respace.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/diffusion/respace.py)**：此时 VAE 是清楚的表示接口，可以集中理解 loss、EMA、CFG、respacing 和采样协议。
+
+为什么这样排：你的目标是学习 **DiT**，它的首要增量是 denoiser backbone，而不是 LDM 的两阶段压缩。先读 LDM 容易把学习重心带到 autoencoder、cross-attention 与文本条件；先看 DiT + `models.py` 能尽快形成“图像/latent 如何变成 token”的可执行心智模型。LDM 仍是论文级 latent 复现的必要依赖，只是应在它真正解释 `z=E(x)` 接口时按需插入。DDPM 闭式与 posterior 则沿用已有 DDPM 学习资料，遇到公式缺口就回查，不需要借 LDM 绕一圈。
+
+## 3. 数据与实验梯度
+
+MNIST 不作为主实验，但允许用 canonical overfit 做最快的生成闭环验收；它不能代替完整数据训练。采用四级数据/模型梯度，避免一开始就被 ImageNet 和视频算力挡住：
 
 | 层级 | 数据与表示 | 目的 | 预计资源 |
 |---|---|---|---|
 | L0 测试 | 随机 32x32 RGB tensor | 形状、公式、梯度与 CLI smoke test | CPU，1 分钟内 |
+| L0.5 闭环 | 每类一个固定 MNIST 原型 | 快速确认能从纯噪声生成有意义形状；不衡量泛化 | Apple Silicon，数分钟 |
 | L1 教学训练 | CIFAR-10，32x32 RGB pixel space | 看见颜色、纹理、类别条件与 CFG；做 patch/depth 消融 | 8-16 GB GPU，数小时 |
 | L2 论文复现 | ImageNet-256 的 VAE latent，官方 DiT checkpoint/code | 对齐原论文的 latent、learned variance、EMA、FID 评估 | 24 GB+ 推理；多卡训练 |
 | L3 视频系统 | 小视频 clip 的 toy Latte；HunyuanVideo 静态/小张量测试 | 时空 token、factorized attention、3D VAE、flow | toy 可单卡；全模型按官方资源要求 |
 
 CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值是便宜、可重复、能做受控消融；原始 DiT 结论必须回到官方 ImageNet latent setting 验证。
 
-## 3. 12 周路线图
+## 4. 12 周路线图
 
 每周默认 6-10 小时。每个模块都有“阅读 - 推导 - 实验 - 验收”四件套。
 
-### Module A：DDPM 接口迁移（Week 1）
+### Module A：从 DiT 论文到官方 backbone（Week 1）
 
-**问题：DiT 到底替换了什么？**
+**问题：DiT 到底替换了什么，单次 forward 如何流动？**
 
+- 先精读 [DiT](https://arxiv.org/abs/2212.09748) 的 §3、§4 与 Appendix A，写出论文问题、设计空间和实验变量。
+- 逐行阅读官方 [`models.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/models.py)，追踪 `x,t,y → patch tokens → adaLN-Zero blocks → epsilon/variance`。
 - 复习 $q(x_t\mid x_0)$、$q(x_{t-1}\mid x_t,x_0)$、$L_{simple}$。
 - 画出 `NoiseSchedule -> noisy input -> denoiser -> loss/sampler` 的接口。
 - 把 DDPM UNet 和 DiT 接在同一个 `DiffusionSchedule` 上，确认输入输出 shape 相同。
-- 阅读：[DDPM 讲义](./module1-ddpm-math-derivation.md)、[LDM](https://arxiv.org/abs/2112.10752)。
+- 公式忘记时定向回查：[DDPM 讲义](./module1-ddpm-math-derivation.md)。此时先不通读 LDM。
 
-**验收：** 不看笔记推导 $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$；运行 forward 闭式与反演测试。
+**验收：** 能在 `models.py` 指出 patchify、condition、zero-init 与 unpatchify；不看笔记推导 $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$；运行 forward 闭式与反演测试。
 
 ### Module B：最小 DiT 架构（Week 2-3）
 
@@ -54,7 +76,9 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 - 推导 patch token 数 $N=(H/p)(W/p)$ 和 attention 主成本 $O(N^2d)$。
 - 实现/阅读 `PatchEmbed`、二维 sin-cos position、`DiTBlock`、`FinalLayer`、`unpatchify`。
 - 手算 CIFAR-10 `32/4`：$8\times8=64$ tokens；ImageNet latent `32/2`：$16\times16=256$ tokens。
-- 精读：[DiT](https://arxiv.org/abs/2212.09748)、[facebookresearch/DiT models.py](https://github.com/facebookresearch/DiT/blob/main/models.py)。
+- 对照本地完整实现与 [`minimal_dit.py`](../../code/image_dit/minimal_dit.py)，区分“Transformer denoiser 最小骨架”和“原论文完整 trick”。
+- 运行 `uv run python train_minimal.py --dry-run --device cpu`，观察无类别、无 CFG、无 learned variance、无 EMA 的 epsilon-DDPM 闭环。
+- 当官方输入的 `4×32×32` latent、VAE encode/decode 成为理解阻塞时，定向阅读 [LDM](https://arxiv.org/abs/2112.10752) 的 perceptual compression 与 latent diffusion 部分，并画出 `RGB → E(x) → z → DiT → D(z)`。
 
 **验收：** 解释为什么 DiT 没有 UNet skip connection；通过 shape、位置编码、zero-init、learned-sigma 测试。
 
@@ -84,9 +108,9 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 
 **问题：教学版和论文版差了什么？**
 
-- 阅读官方 `train.py`、`sample.py`、`gaussian_diffusion.py`、`respace.py`。
+- 带着 Module B 的 LDM latent 接口，回到官方 `train.py`、`sample.py`、`gaussian_diffusion.py`、`respace.py`。
 - 跑官方预训练 DiT-XL/2 sample；检查 VAE latent 4 channels、8 倍压缩和 `learn_sigma=True`。
-- 对照教学代码：EMA、mixed MSE/VLB、250-step respacing、VAE decode、distributed FID。
+- 对照教学代码的 `paper_compatible`：raw VB、loss/sample no-clip、first-3 CFG、官方 x→y position、250-step respaced ancestral DDPM、EMA 与 checkpoint recipe；再单列仍缺的 VAE decode、ImageNet 和 distributed FID。
 - 记录官方仓库未覆盖的 resume、AMP、周期 FID 等工程缺口。
 
 **验收：** 形成“教学实现 vs 官方实现”差异表；固定 seed 重复生成并记录环境与权重 hash。
@@ -133,7 +157,20 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 
 **验收：** 交付一张端到端数据流图和风险/资源清单；能定位每个数学组件在仓库中的文件。
 
-## 4. 每次实验的固定记录模板
+## 5. 当前本地实现与论文复现边界
+
+| 能力 | 当前状态 | 学习时如何使用 |
+|---|---|---|
+| DiT backbone | 已实现 patchify/unpatchify、fixed 2D position、adaLN-Zero、zero init、S/B/L/XL presets | 逐模块测试并与官方 `models.py` 对照 |
+| `paper_compatible` diffusion recipe | 已实现 raw VB、loss/sample no-clip、first-3 CFG、1000→250 respaced ancestral DDPM | 用 `--profile paper_compatible` 做 recipe smoke/parity test |
+| Position / checkpoint policy | 新模型使用官方 x→y position；profile、recipe、prediction type、pixel/VAE pipeline metadata 入 checkpoint | 检查 checkpoint，防止训练/推理静默换策略 |
+| 教学增强 | DDIM、v-parameterization、AMP、clipping、cosine、Web UI 等 | 明确标为 ablation/engineering，不计入原论文 trick |
+| 本机质量验收 | Image canonical-v 3,000 steps 已生成有意义数字形状；Video canonical-v 3,000 steps 已生成三个有方向运动的 MP4 | 只证明教学闭环；不声称泛化、FID 或开放词表 |
+| 端到端论文复现 | 尚缺 VAE、ImageNet、50K ADM 指标和官方 checkpoint 直接 parity | 不把本地像素 loss/sample 宣称为论文 FID 复现 |
+
+`paper_compatible` 只对齐当前覆盖到的 diffusion/CFG/sampling recipe。它仍把 `pipeline.space` 写成 `pixel`、`vae_id=None`；这是刻意保留的证据边界。完整逐项结论见[原论文实现审计](./dit-original-paper-implementation-audit.md)。
+
+## 6. 每次实验的固定记录模板
 
 ```text
 问题：本次只想验证什么？
@@ -147,7 +184,7 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 下一步：最小的后续实验。
 ```
 
-## 5. 测试金字塔
+## 7. 测试金字塔
 
 | 层 | 必测内容 | 是否需要训练 |
 |---|---|---|
@@ -160,7 +197,7 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 
 判断标准不是“测试数量多”，而是每个测试都守住一个数学或工程不变量。
 
-## 6. 算力与停止规则
+## 8. 算力与停止规则
 
 - **CPU**：所有 unit/property tests 与 synthetic dry-run 必须通过。
 - **本地 8-16 GB GPU**：CIFAR-10；先 100 steps，再 3 epochs，再决定完整训练。
@@ -168,16 +205,15 @@ CIFAR-10 的结果不应和 ImageNet-256 论文 FID 横向比较。它的价值�
 - **HunyuanVideo**：官方公开表明标准 129 帧推理需要约 45-60 GB 峰值并推荐 80 GB GPU；本计划默认做代码阅读和小张量验证。
 - 任何付费训练前必须满足：本地单步 loss 有限、梯度非零、checkpoint 可读、采样 shape 正确、预算上限明确。
 
-## 7. 阅读索引（按依赖关系而非发布日期）
+## 9. 阅读索引（按学习阻塞关系而非发布日期）
 
-1. [LDM](https://arxiv.org/abs/2112.10752)
-2. [DiT](https://arxiv.org/abs/2212.09748) + [官方代码](https://github.com/facebookresearch/DiT)
-3. [Latte](https://arxiv.org/html/2401.03048)
-4. [CogVideoX](https://arxiv.org/abs/2408.06072) + [Open-Sora](https://arxiv.org/html/2412.20404)
-5. [LTX-Video](https://arxiv.org/html/2501.00103)
-6. [Seedream 2.0](https://arxiv.org/html/2503.07703)
-7. [Seedance 1.0](https://arxiv.org/html/2506.09113v1)
-8. [HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo)
-9. [OmniWeaving](https://arxiv.org/html/2603.24458v2)
-10. [Seedance 2.0 model card](https://arxiv.org/abs/2604.14148)
-
+1. [DiT](https://arxiv.org/abs/2212.09748) → 官方 [`models.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/models.py)。
+2. 遇到 latent/VAE 接口时定向补 [LDM](https://arxiv.org/abs/2112.10752)，然后回到官方 [`train.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/train.py) / [`sample.py`](https://github.com/facebookresearch/DiT/blob/ed81ce2229091fd4ecc9a223645f95cf379d582b/sample.py) / diffusion / respacing。
+3. [Latte](https://arxiv.org/html/2401.03048)。
+4. [CogVideoX](https://arxiv.org/abs/2408.06072) + [Open-Sora](https://arxiv.org/html/2412.20404)。
+5. [LTX-Video](https://arxiv.org/html/2501.00103)。
+6. [Seedream 2.0](https://arxiv.org/html/2503.07703)。
+7. [Seedance 1.0](https://arxiv.org/html/2506.09113v1)。
+8. [HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo)。
+9. [OmniWeaving](https://arxiv.org/html/2603.24458v2)。
+10. [Seedance 2.0 model card](https://arxiv.org/abs/2604.14148)。

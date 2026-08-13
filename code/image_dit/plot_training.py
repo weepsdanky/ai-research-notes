@@ -1,4 +1,4 @@
-"""Plot DiT optimizer-step metrics written by train_cifar10_dit.py."""
+"""Plot DiT optimizer-step metrics written by train_image_dit.py."""
 
 from __future__ import annotations
 

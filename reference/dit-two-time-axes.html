@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DiT 两种“时间”速查</title><link rel="stylesheet" href="../assets/lesson.css"></head>
+<body><main><h1>DiT 两种“时间”速查</h1>
+<div class="axes">
+  <section class="axis image"><h2>扩散时间 (t)</h2><p class="flow">x_T（噪声） → … → x_0（一个样本）</p><p>控制噪声强度与反向采样进度。把各步保存成 GIF，只是在调试生成算法。</p></section>
+  <section class="axis video"><h2>视频时间 (f)</h2><p class="flow">frame_0 → frame_1 → … → frame_F</p><p>控制人物位置、姿态和场景随播放时间变化。沿这一维编码的 MP4 才是动画。</p></section>
+</div>
+<p><code>Image DiT: [B,C,H,W]</code>；<code>Video DiT: [B,C,F,H,W]</code>。训练 Video DiT 时，每一个 diffusion step 都在预测一整个含 F 帧的视频张量，因此两条轴同时存在。</p>
+</main></body></html>

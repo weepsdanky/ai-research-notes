@@ -1,0 +1,95 @@
+import pytest
+import torch
+
+from video_dit import VideoDiT, VideoDiTConfig
+
+
+def tiny_config(**overrides):
+    values = dict(
+        frames=4,
+        image_size=32,
+        patch_size=8,
+        in_channels=3,
+        hidden_size=32,
+        num_heads=4,
+        num_pairs=2,
+        condition_dropout_prob=0.1,
+    )
+    values.update(overrides)
+    return VideoDiTConfig(**values)
+
+
+def test_variant_one_alternates_full_spatial_and_temporal_blocks():
+    model = VideoDiT(tiny_config(num_pairs=3))
+
+    assert [block.axis for block in model.blocks] == [
+        "spatial",
+        "temporal",
+        "spatial",
+        "temporal",
+        "spatial",
+        "temporal",
+    ]
+
+
+@pytest.mark.parametrize("learn_sigma, expected_channels", [(False, 3), (True, 6)])
+def test_video_dit_maps_a_five_dimensional_video_to_same_grid(
+    learn_sigma, expected_channels
+):
+    model = VideoDiT(tiny_config(learn_sigma=learn_sigma))
+    video = torch.randn(2, 3, 4, 32, 32)
+    timesteps = torch.tensor([1, 9])
+    conditions = torch.tensor([[0, 0, 0, 0], [2, 2, 1, 3]])
+
+    prediction = model(video, timesteps, conditions)
+
+    assert prediction.shape == (2, expected_channels, 4, 32, 32)
+    # DiT/Latte zero the output projection so the network starts as the zero map.
+    assert torch.count_nonzero(prediction) == 0
+
+
+def test_cfg_returns_paired_guided_predictions_and_preserves_input_shape():
+    model = VideoDiT(tiny_config())
+    video = torch.randn(4, 3, 4, 32, 32)
+    timesteps = torch.tensor([2, 3, 2, 3])
+    conditions = torch.tensor(
+        [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [1, 1, 1, 1]]
+    )
+
+    guided = model.forward_with_cfg(video, timesteps, conditions, cfg_scale=2.5)
+
+    assert guided.shape == video.shape
+    assert torch.equal(guided[:2], guided[2:])
+
+
+def test_cfg_uses_unconditional_plus_scale_times_conditional_delta():
+    model = VideoDiT(tiny_config())
+    with torch.no_grad():
+        model.final_layer.linear.weight.normal_()
+        model.final_layer.adaLN_modulation[-1].weight.normal_()
+    video = torch.randn(4, 3, 4, 32, 32)
+    timesteps = torch.tensor([2, 3, 2, 3])
+    conditions = torch.tensor(
+        [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [1, 1, 1, 1]]
+    )
+    paired_video = torch.cat([video[:2], video[:2]])
+    paired_timesteps = torch.cat([timesteps[:2], timesteps[:2]])
+    force_drop = torch.tensor([False, False, True, True])
+    direct = model(paired_video, paired_timesteps, conditions, force_drop)
+    conditional, unconditional = direct.chunk(2)
+
+    guided = model.forward_with_cfg(video, timesteps, conditions, cfg_scale=2.5)
+    expected = unconditional + 2.5 * (conditional - unconditional)
+
+    assert torch.allclose(guided[:2], expected, atol=1e-5, rtol=1e-5)
+
+
+def test_model_rejects_wrong_temporal_extent_instead_of_silently_reshaping():
+    model = VideoDiT(tiny_config())
+
+    with pytest.raises(ValueError, match="x must have shape"):
+        model(
+            torch.randn(1, 3, 5, 32, 32),
+            torch.tensor([1]),
+            torch.tensor([[0, 0, 0, 0]]),
+        )

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>为什么 DiT 的 GIF 不是人物动画？</title><link rel="stylesheet" href="../assets/lesson.css"></head>
+<body><main>
+<h1>为什么 DiT 的 GIF 不是人物动画？</h1>
+<p class="lede">一分钟建立正确心智模型：Transformer 是去噪器的骨架；输出图片还是视频，取决于它去噪的随机变量里有没有视频帧维度。</p>
+
+<div class="axes">
+  <section class="axis image"><h2>Image DiT</h2><p class="flow">[B,C,H,W] at t=1000 → … → [B,C,H,W] at t=0</p><p>最终只有一张图。此前 UI 把不同 diffusion step 串成 GIF，所以你看到的是同一张图逐步去噪。</p></section>
+  <section class="axis video"><h2>Video DiT</h2><p class="flow">[B,C,F,H,W] at t=1000 → … → [B,C,F,H,W] at t=0</p><p>最终张量本身含 F 个视频帧。把 F 维按 8 FPS 编码成 MP4，人物才会真正走动。</p></section>
+</div>
+
+<h2>本仓库如何落实</h2>
+<p><code>code/image_dit</code> 显示最终图片，并把采样轨迹明确标为诊断。<code>code/video_dit</code> 逐帧 patchify，再交替执行空间 attention 与时间 attention，最终输出 8 帧 MP4；去噪 GIF 另存且不会冒充动画。</p>
+
+<div class="check"><strong>快速自检：</strong>一个文件即使扩展名是 GIF，也不自动等于“生成视频”。先问：相邻画面是在改变 diffusion timestep，还是在改变视频 frame index？</div>
+
+<h2>30 秒检索练习</h2>
+<details><summary>从纯噪声到清晰红衣人物的 12 张图，属于哪条轴？</summary><p class="answer">扩散采样轴；它可以诊断模型，但不是人物动作。</p></details>
+<details><summary>红衣人物从画面左侧走到右侧的 8 张图，属于哪条轴？</summary><p class="answer">视频时间轴；编码成 MP4 后才是动画。</p></details>
+
+<p>一手阅读：<a href="https://arxiv.org/abs/2212.09748">DiT</a> 定义图像 latent denoiser；<a href="https://arxiv.org/abs/2401.03048">Latte</a> 把空间与时间 token 交互显式加入 Video DiT。更多术语见<a href="../reference/dit-two-time-axes.html">两种时间轴速查</a>。不清楚的地方可以继续问我。</p>
+</main></body></html>

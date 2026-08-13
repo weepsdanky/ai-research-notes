@@ -30,6 +30,7 @@ class DiTConfig:
     num_classes: int = 10
     class_dropout_prob: float = 0.1
     learn_sigma: bool = False
+    cfg_channels: str = "all"
 
     def __post_init__(self) -> None:
         if self.image_size <= 0 or self.patch_size <= 0:
@@ -44,6 +45,8 @@ class DiTConfig:
             raise ValueError("num_classes must be positive")
         if not 0.0 <= self.class_dropout_prob <= 1.0:
             raise ValueError("class_dropout_prob must be in [0, 1]")
+        if self.cfg_channels not in {"all", "first_3"}:
+            raise ValueError("cfg_channels must be 'all' or 'first_3'")
 
     @property
     def out_channels(self) -> int:
@@ -197,11 +200,14 @@ def get_2d_sincos_pos_embed(
     embed_dim: int,
     grid_size: int,
     device: torch.device | None = None,
+    axis_order: str = "xy",
 ) -> torch.Tensor:
     """Return a fixed 2-D sine/cosine position embedding of shape [1, N, D]."""
 
     if embed_dim % 4 != 0:
         raise ValueError("hidden_size must be divisible by 4 for 2-D sin/cos positions")
+    if axis_order not in {"xy", "yx"}:
+        raise ValueError("axis_order must be 'xy' or 'yx'")
     coordinates = torch.arange(grid_size, dtype=torch.float32, device=device)
     grid_y, grid_x = torch.meshgrid(coordinates, coordinates, indexing="ij")
     omega = torch.arange(embed_dim // 4, dtype=torch.float32, device=device)
@@ -211,7 +217,10 @@ def get_2d_sincos_pos_embed(
         angles = position.reshape(-1, 1) * omega.reshape(1, -1)
         return torch.cat([torch.sin(angles), torch.cos(angles)], dim=1)
 
-    return torch.cat([embed(grid_y), embed(grid_x)], dim=1).unsqueeze(0)
+    # Match official DiT by default. ``yx`` exists only to faithfully load old
+    # pixel-teaching checkpoints written before the parity correction.
+    first, second = (grid_x, grid_y) if axis_order == "xy" else (grid_y, grid_x)
+    return torch.cat([embed(first), embed(second)], dim=1).unsqueeze(0)
 
 
 class DiT(nn.Module):
@@ -224,7 +233,7 @@ class DiT(nn.Module):
         self.register_buffer(
             "pos_embed",
             get_2d_sincos_pos_embed(config.hidden_size, config.grid_size),
-            persistent=False,
+            persistent=True,
         )
         self.t_embedder = TimestepEmbedder(config.hidden_size)
         self.y_embedder = LabelEmbedder(
@@ -240,6 +249,24 @@ class DiT(nn.Module):
             config.hidden_size, config.patch_size, config.out_channels
         )
         self.initialize_weights()
+
+    def load_state_dict(
+        self,
+        state_dict: dict[str, torch.Tensor],
+        strict: bool = True,
+        assign: bool = False,
+    ):
+        """Load new or legacy checkpoints that predate persistent positions."""
+
+        if "pos_embed" not in state_dict:
+            state_dict = dict(state_dict)
+            state_dict["pos_embed"] = get_2d_sincos_pos_embed(
+                self.config.hidden_size,
+                self.config.grid_size,
+                device=self.pos_embed.device,
+                axis_order="yx",
+            )
+        return super().load_state_dict(state_dict, strict=strict, assign=assign)
 
     def initialize_weights(self) -> None:
         def basic_init(module: nn.Module) -> None:
@@ -331,16 +358,18 @@ class DiT(nn.Module):
             ]
         )
         prediction = self.forward(paired_x, paired_t, labels, force_drop)
-        conditional, unconditional = prediction.chunk(2, dim=0)
-        channels = self.config.in_channels
-        cond_eps, uncond_eps = conditional[:, :channels], unconditional[:, :channels]
+        guided_channels = (
+            self.config.in_channels
+            if self.config.cfg_channels == "all"
+            else min(3, self.config.in_channels)
+        )
+        epsilon, remainder = prediction[:, :guided_channels], prediction[:, guided_channels:]
+        cond_eps, uncond_eps = epsilon.chunk(2, dim=0)
         guided_eps = uncond_eps + cfg_scale * (cond_eps - uncond_eps)
-        if self.config.learn_sigma:
-            # The official DiT sampler guides epsilon only and keeps conditional variance.
-            guided = torch.cat([guided_eps, conditional[:, channels:]], dim=1)
-        else:
-            guided = guided_eps
-        return torch.cat([guided, guided], dim=0)
+        guided_eps = torch.cat([guided_eps, guided_eps], dim=0)
+        # Match official DiT: only the selected epsilon channels are guided. Any
+        # remaining epsilon channel and learned variance stay branch-specific.
+        return torch.cat([guided_eps, remainder], dim=1)
 
 
 def dit_tiny(**overrides: object) -> DiT:
