@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 101 approved 扩到 1K，优先补 `person`、`cat` 稀疏组合；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入新 manifest；旧 101 条历史 manifest 不与新契约混写。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 102 approved 扩到 1K，优先补 `person`、`cat` 稀疏组合；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 101 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 799 个候选中的 645 个仍为 pending，不能计入训练规模或覆盖。
+从现有 102 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 800 个候选中的 639 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 为什么不是直接训练 800 GB
 
@@ -256,7 +256,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 - 当前机器没有 Hugging Face 登录令牌；FineVideo 需显式接受 gated 条款，暂不使用。
   VideoUFO 是匿名可访问的；固定 revision 的完整 CSV 与最小尾部视频 tar 已在 2026-08-14
   下载并通过 SHA-256 校验，但 resolved 视频尚未经过逐条人工审核，因此未写进训练 manifest。
-- Wikimedia Commons 搜索与分类树检索当前共取得 799 个候选。已通过本地审核 UI 播放
+- 第一轮 Wikimedia Commons 搜索与分类树检索曾取得 799 个候选。已通过本地审核 UI 播放
   官方低码率 derivative，并用多帧时间联系表辅助检查；101 条自然视频已人工标为
   `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 645 条 pending、53 条
   rejected，不以标题或搜索命中直接代替视频审核。approved 为 cat 59、dog 41、person 1；
@@ -341,7 +341,7 @@ test 或 G0 结果称为“训练期未见组合泛化”。
 - G1 数据准备已开始。Commons 搜索现已按 API page 原子写入候选与 continuation token，
   限流或进程中断后可从该页继续；恢复此前中断搜索并加入 person 查询后，本地可复核的
   再从 `Videos of people walking` 分类树加入 88 条、可恢复地检查 `People running` 树后，
-  本地权威候选数为 799。现有集合为 101 approved、645 pending、53 rejected；approved
+  priority 功能落地前的候选快照为 799。该快照为 101 approved、645 pending、53 rejected；approved
   为 cat 59、dog 41、person 1，person pending 105。分类遍历现逐 batch 原子保存 category
   queue、continuation、未处理 titles 与
   visited 集合，绑定 category/subject/depth/limit 契约；429 或中断后不会丢掉页内剩余文件。
@@ -364,22 +364,38 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   因而 approved 仍为 101、C1 coverage 不变。105 条 person pending 中有 104 条通过时长与
   官方预览可播放门；其余 1 条不会进入 priority。优先队列第一条已在本地 UI 打开，但 derivative
   网络载入未完成，保持 pending 而非依据标题批准。
+- priority 队列随后继续审核 6 条 person 候选：`Forest walking and outdoor cooking
+  slovenia` 在 2598--2600 秒经 4 fps 联系表确认只有一名清晰人物持续走入森林，批准为
+  `person|walking|forest`；另外 5 条因第一视角无独立人物、ASMR 主播/风景剪辑、多人市场、
+  越野跑第一视角或动作并非 walking 而拒绝。当前状态因此为 102 approved、639 pending、
+  58 rejected，person 为 2/99/16；98 条 person pending 可播放。新片已在下载前重验原媒体
+  URL/SHA-1/timestamp，规范化为 H.264 96×96、8 fps、16 帧、2 秒，clip SHA-256 为
+  `9fdb8f40357b21f071a6d596cfc4077c912df04adb262eab7ebb0a165a753030`，pHash 为
+  `7d4d98fcc4989585`。v2 manifest 现为 102 records / 102 independent groups，SHA-256
+  `90b0e4951a5b57644cc73ce9aa6cb03396551edfbd287d1192431120b3304b0e`；新增三元组仍只有
+  1 个独立来源，0 eligible C1 triples，不能据此启动训练。
+- 随后运行 8 个更窄的 `woman/man × walking/running × forest/snow/field` 全文查询，只有
+  `woman walking forest` 新增 1 条；其余 7 个为 0。唯一命中是 43 分钟历史多州旅行合集，
+  20 帧全时长联系表显示驾驶 POV、建筑、多人和互不连续场景，无法证明目标片段，故拒绝。
+  候选池现为 800 = 102 approved + 639 pending + 59 rejected；person 为 2/99/17。
+  这轮证据否定“继续堆窄全文查询即可扩到 Commons-1K”的假设，后续需使用更有结构的
+  Commons 分类/人工策展来源，或在公开缺口的前提下缩小 C1 组合矩阵。
 - 为避免 enrichment 与运行中的审核 UI 同时原子替换候选 JSONL，新增只读候选、逐 batch
-  原子写独立 sidecar 的 `commons_review.py provenance`。真实运行已补齐 799/799 条：每条
+  原子写独立 sidecar 的 `commons_review.py provenance`。最新真实运行已补齐 800/800 条：每条
   固化 Commons 描述页 revision、原媒体 URL/SHA-1/timestamp、时长和审核 derivative URL。
   下载前会再次查询并比对原媒体版本，发生覆盖就 fail-closed；sidecar 与候选 title 必须
-  一一对应。101 个 approved 已重新下载到**新的** provenance-complete 数据树，全部实际
-  使用审核 derivative，并分别记录实际下载 URL/kind/SHA-256 与 UTC 时间；101 个 clip
-  文件存在，规范化 SHA-256 实算零 mismatch。
-  第一版迁移随后又发现许可快照应与 page revision 同次获取，而不能沿用更早候选字段；
-  最终 v2 sidecar 因此在同一个 API 响应中锁定 page revision、许可 URL/署名/描述页和
-  原媒体版本，再重新生成 101 条数据树。v2 manifest SHA-256 为
-  `e9ead4a166edf47d4da3c328a08f75aa03737769c48b3059ddbb3e44d1043c4f`，字段零缺失、101/101
-  clip 文件存在、规范化 SHA-256 实算零 mismatch；许可分布为 CC BY-SA 4.0 43、CC BY
+  一一对应。最初 101 个 approved 已重新下载到**新的** provenance-complete 数据树，全部
+  使用审核 derivative，并分别记录实际下载 URL/kind/SHA-256 与 UTC 时间；随后新增的
+  forest-person clip 也走同一门禁，当前 102/102 个 clip 文件存在且规范化 SHA-256 实算零
+  mismatch。第一版迁移曾发现许可快照应与 page revision 同次获取，而不能沿用更早候选字段；
+  v2 sidecar 因此在同一个 API 响应中锁定 page revision、许可 URL/署名/描述页和原媒体版本。
+  当前 v2 manifest SHA-256 为
+  `90b0e4951a5b57644cc73ce9aa6cb03396551edfbd287d1192431120b3304b0e`，字段零缺失。原 101 条
+  的许可分布为 CC BY-SA 4.0 43、CC BY
   3.0 18、CC BY 4.0 11、CC0 10、CC BY 2.0 8、CC BY-SA 3.0 6、CC BY-SA 2.0 4、
   CC BY-SA 3.0 es 1。旧 manifest 不与
   新契约混写。新的 `prepare_real_data.py coverage` 复用 split validator 的传递
-  source/duplicate/pHash 分组；报告为 101 records / 101 independent groups / 0 eligible
+  source/duplicate/pHash 分组；报告为 102 records / 102 independent groups / 0 eligible
   C1 triples。最接近门槛的是 `cat|sitting|indoors=13`（距 50 还差 37），其次
   `cat|playing|indoors=10`（差 40）、`cat|walking|outdoors=8`（差 42）。这证明当前不可
   构造 C1；下一步应按 deficit 排序审核/补搜，而不是启动训练。

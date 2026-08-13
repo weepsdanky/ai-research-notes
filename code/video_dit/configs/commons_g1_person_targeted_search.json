@@ -1,0 +1,10 @@
+[
+  {"query":"filetype:video \"woman walking\" forest","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"man walking\" forest","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"woman running\" forest","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"man running\" forest","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"woman walking\" snow","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"man walking\" snow","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"woman running\" field","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30},
+  {"query":"filetype:video \"man running\" field","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":30}
+]

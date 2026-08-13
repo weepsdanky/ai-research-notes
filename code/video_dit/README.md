@@ -281,13 +281,14 @@ uv run python prepare_real_data.py coverage \
 timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license URL、署名、下载 UTC
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
-混称为“原始媒体 hash”。当前 101 条是早期历史 manifest，缺少其中若干独立字段；它们不能
-被冒充为满足新契约，扩到 1K 前须重新 enrich 候选并按新 manifest 重新生成。错误搜索命中（例如机器人
+混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
+满足新契约；当前 v2 的 102 条已全部重新 enrich 并迁移。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 799 条，目前 101 条 approved、645 条 pending、53 条 rejected；pending 绝不
-计作训练数据或组合覆盖。人物审核目前仅批准 1 条单人海滩行走片段；随后新增检查的 6 条
-均因人群、第一视角、延时摄影或旅行 vlog 不满足单主体监督而拒绝，person 仍有 105 条
+候选池为 800 条，目前 102 条 approved、639 条 pending、59 条 rejected；pending 绝不
+计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
+森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
+而拒绝，person 仍有 99 条
 pending。标题启发式只能排序人工队列，绝不自动批准或生成标签：
 
 ```bash
@@ -297,8 +298,12 @@ uv run python commons_review_ui.py data/commons_g1/candidates.jsonl \
   --status pending --subject person --priority-order --server-port 7863
 ```
 
-当前 105 条 person pending 中有 104 条满足“时长至少 2 秒且存在官方预览”的可播放审核门，
-因此 priority 报告只列这 104 条；余下 1 条不会绕过媒体门禁。
+当前 99 条 person pending 中有 98 条满足“时长至少 2 秒且存在官方预览”的可播放审核门，
+因此 priority 报告只列这 98 条；余下 1 条不会绕过媒体门禁。
+
+8 个更窄的 `woman/man × walking/running × forest/snow/field` Commons 全文查询只新增
+1 条 43 分钟多州旅行合集；20 帧全时长联系表确认它混有驾驶 POV、建筑、多人和不连续
+场景，已拒绝。该结果说明窄全文查询不能作为 Commons-1K 的高吞吐扩容方法。
 
 缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
 `ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：
@@ -404,7 +409,7 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 101 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 Commons-first：把现有 102 approved、逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。
