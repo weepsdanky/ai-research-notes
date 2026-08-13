@@ -471,7 +471,7 @@ def ddim_sample_loop(
     trajectory: list[tuple[int, torch.Tensor]] = []
     capture_indices: set[int] = set()
     if trajectory_frames:
-        trajectory.append((start + 1, video.detach().cpu()))
+        trajectory.append((start, video.detach().cpu()))
         remaining = trajectory_frames - 1
         capture_indices = (
             {sampling_steps - 1}
@@ -536,7 +536,8 @@ def ddim_sample_loop(
                 + sigma * noise
             )
             if index in capture_indices:
-                trajectory.append((step, video.detach().cpu()))
+                state_timestep = steps[index + 1] if index + 1 < len(steps) else -1
+                trajectory.append((state_timestep, video.detach().cpu()))
     finally:
         model.train(was_training)
     return (video, trajectory) if trajectory_frames else video

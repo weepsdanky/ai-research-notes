@@ -1,0 +1,14 @@
+[
+  {"query":"filetype:video cat walking","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat running","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat jumping","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat playing","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video cat outdoors","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video kitten","subject":"cat","action":"review_required","scene":"review_required","prompt":"review the cat action and scene","limit":100},
+  {"query":"filetype:video dog walking","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video dog running","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video dog swimming","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video dog playing","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video dog outdoors","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video puppy","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100}
+]

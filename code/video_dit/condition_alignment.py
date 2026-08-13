@@ -25,14 +25,27 @@ class Generation:
     contract: tuple[object, ...]
 
 
-def discover_generations(directory: Path) -> list[Generation]:
+def discover_generations(
+    directory: Path, *, artifact_mode: str = "final",
+    trajectory_timestep: int | None = None,
+) -> list[Generation]:
     """Find model-output metadata and its same-stem MP4, failing closed."""
 
     rows: list[Generation] = []
     expected_contract: tuple[object, ...] | None = None
+    if artifact_mode not in {"final", "trajectory"}:
+        raise ValueError("artifact_mode must be 'final' or 'trajectory'")
+    expected_mode = (
+        "trained Video DiT checkpoint" if artifact_mode == "final"
+        else "trained Video DiT trajectory state"
+    )
     for metadata_path in sorted(directory.glob("*.json")):
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-        if metadata.get("mode") != "trained Video DiT checkpoint":
+        if metadata.get("mode") != expected_mode:
+            continue
+        if artifact_mode == "trajectory" and trajectory_timestep is not None and (
+            metadata.get("trajectory_timestep") != trajectory_timestep
+        ):
             continue
         video_path = metadata_path.with_suffix(".mp4")
         if not video_path.is_file():
@@ -58,6 +71,8 @@ def discover_generations(directory: Path) -> list[Generation]:
             "start_timestep", "clip_denoised", "effective_cfg_scale",
             "condition_mode", "text_encoder_id",
         )
+        if artifact_mode == "trajectory":
+            keys += ("trajectory_timestep",)
         if any(key not in metadata for key in keys):
             raise ValueError(f"generation metadata lacks evaluation contract: {metadata_path}")
         contract = (checkpoint_hash, *(metadata[key] for key in keys))
@@ -77,8 +92,13 @@ def evaluate_alignment(
     encode_prompts: Callable[[list[str]], torch.Tensor],
     train_video_paths: list[Path] | None = None,
     train_ids: list[str] | None = None,
+    artifact_mode: str = "final",
+    trajectory_timestep: int | None = None,
 ) -> dict[str, object]:
-    rows = discover_generations(generation_dir)
+    rows = discover_generations(
+        generation_dir, artifact_mode=artifact_mode,
+        trajectory_timestep=trajectory_timestep,
+    )
     if len(rows) < 2:
         raise ValueError("alignment evaluation requires at least two generations")
     seed_rows: dict[int, list[Generation]] = {}
@@ -136,6 +156,9 @@ def evaluate_alignment(
         "metric": "frozen CLIP mean-frame retrieval diagnostic",
         "encoder_id": encoder_id,
         "generation_directory": str(generation_dir.resolve()),
+        "artifact_mode": artifact_mode,
+        "trajectory_timestep": trajectory_timestep,
+        "generation_contract": list(ordered[0].contract),
         "seeds": sorted(seed_rows),
         "limitations": (
             "CLIP frame-text similarity is a proxy: inspect videos for identity, "
@@ -198,6 +221,8 @@ def main(argv: list[str] | None = None) -> Path:
     parser.add_argument("--train-manifest", type=Path)
     parser.add_argument("--frames", type=int, default=8)
     parser.add_argument("--size", type=int, default=96)
+    parser.add_argument("--artifact-mode", choices=("final", "trajectory"), default="final")
+    parser.add_argument("--trajectory-timestep", type=int)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     if args.frames < 2 or args.size <= 0:
@@ -220,8 +245,15 @@ def main(argv: list[str] | None = None) -> Path:
         args.generation_dir, encoder_id=encoder_id,
         encode_videos=encode_videos, encode_prompts=encode_prompts,
         train_video_paths=train_paths, train_ids=train_ids,
+        artifact_mode=args.artifact_mode,
+        trajectory_timestep=args.trajectory_timestep,
     )
-    output = args.output or args.generation_dir / "condition-alignment.json"
+    default_name = (
+        f"condition-alignment-trajectory-t{args.trajectory_timestep}.json"
+        if args.artifact_mode == "trajectory"
+        else "condition-alignment.json"
+    )
+    output = args.output or args.generation_dir / default_name
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return output

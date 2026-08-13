@@ -331,6 +331,17 @@ uv run python train.py ... --initialize-from runs/latent/video_dit_inference.pt 
 `--initialize-from` 仅加载 safe inference checkpoint 的指定权重，并重置 optimizer 和
 step；它不同于严格恢复训练的 `--resume`。timestep 分布会写入 optimization contract。
 
+若要定位语义在反向轨迹的哪个阶段出现，可加 `--save-trajectory-videos`。每个捕获状态
+会另存一个带 `trajectory_timestep` 和完整生成契约的 MP4/JSON，然后逐时间步评估：
+
+```bash
+uv run python condition_alignment.py runs/latent/inference \
+  --checkpoint /path/to/ViT-B-32.pt --artifact-mode trajectory \
+  --trajectory-timestep 494 --output runs/latent/inference/alignment-t494.json
+```
+
+轨迹 MP4 是扩散时间诊断，不是额外生成的动画；不同 timestep 不能混在同一检索 block。
+
 真实像素视频训练入口：
 
 ```bash
@@ -348,10 +359,10 @@ uv run python train.py \
 1.02395。这只是 **G0 管线和性能基线**，没有证明模型已学会生成，更没有形成 C1
 实验。随后已取得固定 revision 的 SD VAE safetensors，完成 100/100 latent cache、
 10,000-step latent 训练和 VAE 推理解码。进一步的 token cross-attention 消融与 10-clip
-11.99M/10k capacity 对照也已完成：raw 10-way prompt 检索为 5/10，EMA 为 3/10，
-但平均 margin 仍为负且最近邻坍到同一训练片段，因此 G0 仍未通过。结果与失败边界
-记录在学习计划的 G0 执行记录。
-VideoUFO 最小官方分片仍未取得，因此尚未进入 G1--G4。
+11.99M/10k capacity 对照也已完成；之后的全时间 velocity 10k 运行将多 seed prompt
+检索提升到 17/30，并生成了有真实跨帧变化的动物/场景视频。因此 G0 的基础运动/小集合
+拟合 gate 有条件通过，但文本三因子门禁仍未通过。结果、混淆项与失败边界记录在学习计划。
+目前只开始 G1 数据准备，没有启动 G1 正式训练；VideoUFO 最小官方分片仍未取得。
 
 官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为
 `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`；其中

@@ -228,10 +228,26 @@ def summarize_reviews(rows: Iterable[dict[str, object]]) -> dict[str, object]:
         "|".join(str(row[field]) for field in ("subject", "action", "scene"))
         for row in materialized if row.get("review_status") == "approved"
     )
+    subject_statuses: dict[str, Counter[str]] = {}
+    for row in materialized:
+        subject = str(row.get("subject", "missing"))
+        subject_statuses.setdefault(subject, Counter())[str(
+            row.get("review_status", "missing")
+        )] += 1
+    pending_placeholders = sum(
+        row.get("review_status") == "pending"
+        and "review_required" in (row.get("action"), row.get("scene"))
+        for row in materialized
+    )
     return {
         "records": len(materialized),
         "statuses": dict(sorted(statuses.items())),
         "approved_triples": dict(sorted(triples.items())),
+        "subject_statuses": {
+            subject: dict(sorted(counts.items()))
+            for subject, counts in sorted(subject_statuses.items())
+        },
+        "pending_placeholders": pending_placeholders,
     }
 
 

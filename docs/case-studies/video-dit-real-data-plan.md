@@ -164,9 +164,9 @@ scene   = grass/field | forest | beach | snow | indoor/home
   C1 triple 至少 50 个独立来源；同时检查每个 C1 pair 在训练中的来源覆盖、IID triple
   的训练覆盖，并输出完整 coverage table。
 
-因此当前状态是：G0 的真实数据、冻结文本、VAE latent、训练和推理解码链路已经闭合，
-但 G0 gate 尚未通过；下一步是先解决下面记录的训练内条件对齐问题，再对 100 clips
-做多 seed 文本推理和训练集最近邻审计。G0 不用于回答组合泛化：其中有少量多动物画面，
+因此当前状态是：G0 的真实数据、冻结文本、VAE latent、训练和推理解码链路已经闭合。
+在下述全时间 velocity 运行后，“小集合可学习、MP4 有真实运动”的基础 gate 有条件通过，
+但文本三因子门禁仍未通过；只开始 G1 数据准备，不开始 G1 正式训练。G0 不用于回答组合泛化：其中有少量多动物画面，
 且每个组合远未达到 C1 所需的 50 个独立来源。G1--G4 仍需更大规模、严格单主体/同一
 身份与拍摄事件人工审计的数据；在 C1/C2 实验完成前，不能把合成动画、单 clip smoke
 test 或 G0 结果称为“训练期未见组合泛化”。
@@ -217,6 +217,28 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   全时间权重与容量，而不是启动 1K/6K 数据或宣称 unseen composition。两次微调是在
   initialization SHA 契约加入前运行，旧产物只能以父路径、配置和运行日志旁证来源；
   当前代码已把父 checkpoint SHA、所选权重、step 与 prediction type 写入新 checkpoint。
+- 全时间 velocity 验证：从同一个 100-clip epsilon EMA 初始化，以 uniform t=0--999
+  再训练 10,000 updates（11.99M 参数、batch 8、EMA 0.99），父 checkpoint SHA 和初始化
+  权重已写入产物。最后 500-step loss 均值 0.2126；跨 t=100/500/900/999 聚合的
+  teacher-forced raw/EMA 均为 99/100，margin 为 +0.385/+0.392。默认 CFG=1 的
+  10 prompts × 3 seeds 自由生成达到 17/30（56.7%，Wilson 95% `[39.2%, 72.6%]`），
+  三个 seed 分别为 6/10、5/10、6/10，mean margin 首次转正为 +0.00268。CFG=2.5/5
+  的 seed-42 均为 6/10，但 CFG=5 margin 转负，因此不采用更强 guidance 掩盖失败。
+- 目视联系表能辨认猫狗主体以及室内、雪地、水面、森林、草地等场景，30 条视频的
+  adjacent-frame MSE 均值 0.0345、endpoint MSE 0.1358，证明不是静态帧复制。它仍常把
+  harbor/snow、beach/harbor、forest/pond 和 small-dog/forest 混淆；最近训练邻居 CLIP
+  相似度均值 0.917、最大 0.953，符合 G0 训练内拟合但不提供泛化证据。
+- 新增逐阶段轨迹 MP4/JSON。固定 seed-42 的 CLIP top-1 在初始 x999 和第一次更新后的
+  x989 均为 1/10，x827--x161 只有 0--2/10，到 final clean 才升到 5/10；语义主要在最后采样阶段形成，而非
+  中途形成后丢失。G0 因此只按“小集合可学习、可生成有真实运动 MP4”有条件通过，
+  文本三因子仍不稳定。可以开始 G1 数据准备，但不得把它称为 C1 或 unseen composition。
+- G1 数据准备已开始。Commons depth-5 分类树未超过现有 275 候选；新关键词检索曾在
+  API 429 前发现 12 条新增，但并发中断时未原子落入最终文件，不能作为可审核证据；
+  当前权威候选数仍为 275，状态文件逐 query 保留。现有可审核集为 100 approved、
+  133 pending、42 rejected，其中 107 条 pending 仍是 action/scene placeholder；
+  approved 为 cat 59、dog 41，person 为 0，远未达到 1K。VATEX annotation 虽完整，
+  官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
+  VATEX-1K。后续需等待限流恢复、扩大候选并人工审核，任何 pending 都不能进入训练。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新
@@ -225,6 +247,6 @@ velocity 实验只生成了 EMA 三 seed 面板；失败的 epsilon 高噪声微
 同一 seed；正式多 seed 评估要求每个 seed 使用完全相同的唯一 prompt 集合，先在 seed
 内做正确 prompt 检索与循环打乱对照，再跨 seed 汇总准确率、margin 和 Wilson 95% 区间。
 评估目录还锁定 checkpoint hash、权重、训练/采样 step、CFG 和 encoder。CLIP 及最近邻
-只是代理，必须同时目视审核主体、动作与时间一致性。当前结果不通过 100-clip G0，更不构成 C1
-未见组合泛化证据。下一步应优先修复条件对齐（包括 EMA 衰减、视频级表征或辅助对齐
-目标），在训练内门禁和 100-clip 门禁通过前，不启动 1K/6K 正式训练。
+只是代理，必须同时目视审核主体、动作与时间一致性。当前只通过 G0 的基础运动/拟合 gate，
+未通过文本三因子门禁，更不构成 C1 未见组合泛化证据。下一步继续准备并审核 G1 数据，
+同时修复多步语义形成过晚的问题；文本门禁通过前不启动 1K/6K 正式训练。

@@ -5,11 +5,11 @@ import torch
 from condition_alignment import discover_generations, evaluate_alignment
 
 
-def _metadata(path, prompt):
+def _metadata(path, prompt, *, mode="trained Video DiT checkpoint"):
     (path.parent / "model.pt").write_bytes(b"checkpoint")
     import hashlib
     path.write_text(json.dumps({
-        "mode": "trained Video DiT checkpoint", "prompt": prompt, "seed": 42,
+        "mode": mode, "prompt": prompt, "seed": 42,
         "checkpoint": str(path.parent / "model.pt"), "training_step": 10,
         "weights": "ema", "prediction_type": "epsilon", "sampling_steps": 50,
         "start_timestep": 999,
@@ -30,6 +30,43 @@ def test_discovery_ignores_metrics_and_requires_matching_video(tmp_path):
     assert [(row.prompt, row.video_path.name) for row in rows] == [
         ("a cat walking", "cat.mp4")
     ]
+
+
+def test_discovery_can_lock_one_trajectory_timestep(tmp_path):
+    _metadata(
+        tmp_path / "cat.json", "a cat walking",
+        mode="trained Video DiT trajectory state",
+    )
+    data = json.loads((tmp_path / "cat.json").read_text())
+    data["trajectory_timestep"] = 500
+    (tmp_path / "cat.json").write_text(json.dumps(data))
+
+    rows = discover_generations(
+        tmp_path, artifact_mode="trajectory", trajectory_timestep=500,
+    )
+
+    assert len(rows) == 1
+
+
+def test_trajectory_report_records_its_selected_artifact_contract(tmp_path):
+    for name, prompt in (("cat", "a cat walking"), ("dog", "a dog swimming")):
+        _metadata(
+            tmp_path / f"{name}.json", prompt,
+            mode="trained Video DiT trajectory state",
+        )
+        data = json.loads((tmp_path / f"{name}.json").read_text())
+        data["trajectory_timestep"] = 500
+        (tmp_path / f"{name}.json").write_text(json.dumps(data))
+
+    report = evaluate_alignment(
+        tmp_path, encoder_id="clip@test", artifact_mode="trajectory",
+        trajectory_timestep=500, encode_videos=lambda paths: torch.eye(2),
+        encode_prompts=lambda prompts: torch.eye(2),
+    )
+
+    assert report["artifact_mode"] == "trajectory"
+    assert report["trajectory_timestep"] == 500
+    assert report["generation_contract"]
 
 
 def test_alignment_uses_frozen_features_and_reports_encoder_identity(tmp_path):

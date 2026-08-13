@@ -137,7 +137,8 @@ def test_ddim_can_start_from_an_explicit_earlier_timestep():
         trajectory_frames=2,
     )
 
-    assert trajectory[0][0] == 6
+    assert trajectory[0][0] == 5
+    assert trajectory[-1][0] == -1
 
 
 def test_velocity_parameterization_recovers_clean_video_and_noise():

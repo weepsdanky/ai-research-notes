@@ -82,6 +82,25 @@ def test_checkpoint_prompt_becomes_reproducible_temporal_video_and_separate_diag
     assert metadata["start_timestep"] == 5
 
 
+def test_inference_can_export_each_denoising_state_as_a_labelled_video(tmp_path):
+    checkpoint = tmp_path / "tiny.pt"
+    _tiny_checkpoint(checkpoint)
+    engine = VideoDiTInference.from_checkpoint(checkpoint, device="cpu")
+
+    result = engine.generate(
+        "an orange cat walking right in the snow", tmp_path / "trace",
+        sampling_steps=2, trajectory_frames=3, save_trajectory_videos=True,
+    )
+
+    assert len(result.trajectory_video_paths) == 3
+    for path in result.trajectory_video_paths:
+        assert path.is_file()
+        metadata = json.loads(path.with_suffix(".json").read_text())
+        assert metadata["mode"] == "trained Video DiT trajectory state"
+        assert isinstance(metadata["trajectory_timestep"], int)
+        assert metadata["trajectory_phase"] in {"noisy", "final_clean"}
+
+
 def test_dataset_preview_is_explicitly_labelled_as_renderer_not_model_output(tmp_path):
     result = render_dataset_preview(
         "an orange cat walking right on grass",

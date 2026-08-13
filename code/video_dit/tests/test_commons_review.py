@@ -162,6 +162,19 @@ def test_review_summary_counts_status_and_factor_coverage():
     summary = summarize_reviews(rows)
     assert summary["statuses"] == {"approved": 2, "rejected": 1}
     assert summary["approved_triples"] == {"cat|walking|indoors": 2}
+    assert summary["subject_statuses"] == {
+        "cat": {"approved": 2}, "dog": {"rejected": 1},
+    }
+    assert summary["pending_placeholders"] == 0
+
+
+def test_review_summary_exposes_pending_labeling_backlog():
+    summary = summarize_reviews([
+        {"review_status": "pending", "subject": "cat",
+         "action": "review_required", "scene": "review_required"},
+    ])
+
+    assert summary["pending_placeholders"] == 1
 
 
 def test_enrich_review_metadata_persists_duration_without_downloading_video(tmp_path, monkeypatch):

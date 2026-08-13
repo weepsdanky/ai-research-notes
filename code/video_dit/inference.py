@@ -36,6 +36,7 @@ class GenerationResult:
     video_path: Path
     denoising_path: Path | None
     metadata_path: Path
+    trajectory_video_paths: tuple[Path, ...] = ()
 
 
 def _require_checkpoint_mapping(value: object, name: str) -> dict[str, Any]:
@@ -264,6 +265,7 @@ class VideoDiTInference:
         trajectory_frames: int = 8,
         fps: float = 8,
         start_timestep: int | None = None,
+        save_trajectory_videos: bool = False,
     ) -> GenerationResult:
         """Generate one temporal clip plus a separate denoising diagnostic."""
 
@@ -369,6 +371,7 @@ class VideoDiTInference:
                 "prompt": asdict(spec) if spec is not None else prompt,
                 "seed": seed,
                 "sampling_steps": steps,
+                "start_timestep": start,
                 "cfg_scale": effective_cfg_scale,
                 "prediction_type": self.prediction_type,
             },
@@ -423,12 +426,36 @@ class VideoDiTInference:
             },
         }
         _atomic_write_json(metadata_path, metadata)
+        trajectory_video_paths: list[Path] = []
+        if save_trajectory_videos:
+            for (trajectory_timestep, _), state in zip(
+                trajectory, diagnostic_states, strict=True,
+            ):
+                trajectory_path = save_video_mp4(
+                    state,
+                    destination / f"{stem}_trajectory-t{trajectory_timestep:04d}.mp4",
+                    fps=fps,
+                )
+                trajectory_metadata = dict(metadata)
+                trajectory_metadata.update({
+                    "mode": "trained Video DiT trajectory state",
+                    "trajectory_timestep": int(trajectory_timestep),
+                    "trajectory_phase": (
+                        "final_clean" if trajectory_timestep == -1 else "noisy"
+                    ),
+                    "parent_generation": video_path.name,
+                })
+                _atomic_write_json(
+                    trajectory_path.with_suffix(".json"), trajectory_metadata,
+                )
+                trajectory_video_paths.append(trajectory_path)
         save_metrics(video, destination / f"{stem}_temporal-metrics.json")
         return GenerationResult(
             video=video,
             video_path=video_path,
             denoising_path=denoising_path,
             metadata_path=metadata_path,
+            trajectory_video_paths=tuple(trajectory_video_paths),
         )
 
 
@@ -441,6 +468,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--sampling-steps", type=int, default=50)
     parser.add_argument("--start-timestep", type=int)
+    parser.add_argument("--save-trajectory-videos", action="store_true")
     parser.add_argument("--cfg-scale", type=float, default=2.5)
     parser.add_argument("--trajectory-frames", type=int, default=8)
     parser.add_argument("--fps", type=float, default=8)
@@ -486,6 +514,7 @@ def main(argv: list[str] | None = None) -> GenerationResult:
         seed=args.seed,
         sampling_steps=args.sampling_steps,
         start_timestep=args.start_timestep,
+        save_trajectory_videos=args.save_trajectory_videos,
         cfg_scale=args.cfg_scale,
         trajectory_frames=args.trajectory_frames,
         fps=args.fps,
