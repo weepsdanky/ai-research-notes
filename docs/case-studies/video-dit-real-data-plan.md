@@ -152,10 +152,11 @@ scene   = grass/field | forest | beach | snow | indoor/home
   metadata 候选量，不能代替视频级人工确认。
 - 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
   显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
-- Wikimedia Commons 搜索与分类树检索共取得 275 个候选。已通过本地审核 UI 播放
+- Wikimedia Commons 搜索与分类树检索当前共取得 710 个候选。已通过本地审核 UI 播放
   官方低码率 derivative，并用五帧时间联系表辅助检查；100 条猫狗自然视频已人工
-  标为 `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 133 条 pending、
-  42 条 rejected，不以标题或搜索命中直接代替视频审核。
+  标为 `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 568 条 pending、
+  42 条 rejected，不以标题或搜索命中直接代替视频审核；新增 28 条 person 候选也尚未
+  审核，不能计入主体覆盖。
 - G0 的 100 条记录已全部写入可追溯 manifest，并按 source、显式 duplicate group 与
   感知 hash 的传递闭包完成分组；冻结 OpenAI CLIP ViT-B/32 文本向量已缓存 100/100。
   MPS 真实 batch 冒烟训练完成 1 次更新（loss 1.0128），验证了解码、自然文本条件、
@@ -232,13 +233,13 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   x989 均为 1/10，x827--x161 只有 0--2/10，到 final clean 才升到 5/10；语义主要在最后采样阶段形成，而非
   中途形成后丢失。G0 因此只按“小集合可学习、可生成有真实运动 MP4”有条件通过，
   文本三因子仍不稳定。可以开始 G1 数据准备，但不得把它称为 C1 或 unseen composition。
-- G1 数据准备已开始。Commons depth-5 分类树未超过现有 275 候选；新关键词检索曾在
-  API 429 前发现 12 条新增，但并发中断时未原子落入最终文件，不能作为可审核证据；
-  当前权威候选数仍为 275，状态文件逐 query 保留。现有可审核集为 100 approved、
-  133 pending、42 rejected，其中 107 条 pending 仍是 action/scene placeholder；
-  approved 为 cat 59、dog 41，person 为 0，远未达到 1K。VATEX annotation 虽完整，
+- G1 数据准备已开始。Commons 搜索现已按 API page 原子写入候选与 continuation token，
+  限流或进程中断后可从该页继续；恢复此前中断搜索并加入 person 查询后，本地可复核的
+  权威候选数为 710。现有可审核集为 100 approved、568 pending、42 rejected，其中
+  542 条 pending 仍是 action/scene placeholder；approved 为 cat 59、dog 41、person 0，
+  另有 person pending 28，远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
   官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
-  VATEX-1K。后续需等待限流恢复、扩大候选并人工审核，任何 pending 都不能进入训练。
+  VATEX-1K。后续必须扩充 person 候选并逐条人工审核，任何 pending 都不能进入训练。
 
 所有训练 run 均保留逐 step `step_log.csv` 与 checkpoint；需要自由生成比较的 run 另存
 推理 MP4、去噪诊断 GIF 和 `condition-alignment.json`。10-clip 对照有 EMA/raw，最新

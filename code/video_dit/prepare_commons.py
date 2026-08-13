@@ -51,6 +51,13 @@ def _read_jsonl(path: Path) -> list[dict[str, object]]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
+def _write_state(path: Path, state: dict[str, object]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     if args.command == "category":
@@ -79,35 +86,95 @@ def main(argv: list[str] | None = None) -> int:
         if state_path.is_file():
             state = json.loads(state_path.read_text(encoding="utf-8"))
             completed_queries = set(state.get("completed_queries", []))
+            active_queries = dict(state.get("active_queries", {}))
         else:
             completed_queries = {str(row["query"]) for row in rows if row.get("query")}
+            active_queries: dict[str, object] = {}
         for spec in specs:
             required = ("query", "subject", "action", "scene", "prompt")
             if not isinstance(spec, dict) or not all(spec.get(key) for key in required):
                 raise ValueError(f"each search spec requires {required}")
             if str(spec["query"]) in completed_queries:
                 continue
-            candidates = search_candidates(
-                str(spec["query"]),
-                subject=str(spec["subject"]), action=str(spec["action"]),
-                scene=str(spec["scene"]), prompt=str(spec["prompt"]),
-                limit=int(spec.get("limit", 100)),
-            )
-            for candidate in candidates:
-                if candidate.title in seen:
-                    continue
-                seen.add(candidate.title)
-                rows.append({
-                    **asdict(candidate), "query": spec["query"],
-                    "review_status": "pending", "review_notes": "",
+            query = str(spec["query"])
+            active = active_queries.get(query, {})
+            if not isinstance(active, dict):
+                raise ValueError("search state active query must be a mapping")
+            # The candidates file is replaced before the state file. If the
+            # process dies between those replacements, the durable rows are the
+            # authoritative lower bound for progress.
+            durable_count = sum(1 for row in rows if str(row.get("query", "")) == query)
+            accepted = max(int(active.get("accepted", 0)), durable_count)
+            requested = int(spec.get("limit", 100))
+            if accepted >= requested:
+                completed_queries.add(query)
+                active_queries.pop(query, None)
+                _write_state(state_path, {
+                    "completed_queries": sorted(completed_queries),
+                    "active_queries": active_queries,
                 })
-            _write_jsonl(args.output, rows)
-            completed_queries.add(str(spec["query"]))
-            temporary = state_path.with_suffix(state_path.suffix + ".tmp")
-            temporary.write_text(json.dumps({
+                continue
+
+            # Write-ahead marker: a first-page crash must not make rows already
+            # written to the candidate file look like a completed query.
+            initial_continuation = dict(active.get("continuation", {}))
+            active_queries[query] = {
+                "accepted": accepted, "continuation": initial_continuation,
+            }
+            _write_state(state_path, {
                 "completed_queries": sorted(completed_queries),
-            }, indent=2) + "\n", encoding="utf-8")
-            temporary.replace(state_path)
+                "active_queries": active_queries,
+            })
+
+            def persist_page(
+                page_candidates: list[CommonsCandidate],
+                continuation: dict[str, object] | None,
+            ) -> None:
+                nonlocal accepted
+                for candidate in page_candidates:
+                    if candidate.title in seen:
+                        continue
+                    seen.add(candidate.title)
+                    rows.append({
+                        **asdict(candidate), "query": query,
+                        "review_status": "pending", "review_notes": "",
+                    })
+                    accepted += 1
+                _write_jsonl(args.output, rows)
+                active_queries[query] = {
+                    "accepted": accepted, "continuation": continuation or {},
+                }
+                _write_state(state_path, {
+                    "completed_queries": sorted(completed_queries),
+                    "active_queries": active_queries,
+                })
+
+            continuation = initial_continuation
+            while accepted < requested:
+                returned = search_candidates(
+                    query,
+                    subject=str(spec["subject"]), action=str(spec["action"]),
+                    scene=str(spec["scene"]), prompt=str(spec["prompt"]),
+                    limit=requested - accepted,
+                    continuation=continuation,
+                    on_page=persist_page,
+                )
+                # Keep compatibility with simple/custom search providers that return
+                # one materialized page instead of invoking the streaming callback.
+                if returned and any(candidate.title not in seen for candidate in returned):
+                    persist_page(returned, None)
+                progress = active_queries.get(query, {})
+                if not isinstance(progress, dict):
+                    raise ValueError("search state active query must be a mapping")
+                continuation = dict(progress.get("continuation", {}))
+                if not continuation:
+                    break
+            completed_queries.add(query)
+            active_queries.pop(query, None)
+            _write_state(state_path, {
+                "completed_queries": sorted(completed_queries),
+                "active_queries": active_queries,
+            })
         return 0
 
     approved = _read_jsonl(args.manifest) if args.manifest.is_file() else []

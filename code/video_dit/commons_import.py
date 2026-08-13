@@ -15,6 +15,7 @@ import urllib.error
 import urllib.request
 import uuid
 import time
+from typing import Callable
 
 from real_data import RealVideoRecord, decode_video_clip, perceptual_hash
 
@@ -139,6 +140,10 @@ def search_candidates(
     scene: str,
     prompt: str,
     limit: int = 100,
+    continuation: dict[str, object] | None = None,
+    on_page: Callable[
+        [list[CommonsCandidate], dict[str, object] | None], None
+    ] | None = None,
 ) -> list[CommonsCandidate]:
     """Search Commons metadata, returning candidates for human review only."""
 
@@ -147,7 +152,7 @@ def search_candidates(
     if limit < 1:
         raise ValueError("limit must be at least 1")
     candidates: list[CommonsCandidate] = []
-    continuation: dict[str, object] = {}
+    next_page: dict[str, object] = dict(continuation or {})
     while len(candidates) < limit:
         parameters: dict[str, object] = {
             "action": "query",
@@ -158,10 +163,11 @@ def search_candidates(
             "gsrlimit": min(50, limit - len(candidates)),
             "prop": "imageinfo",
             "iiprop": "url|mime|extmetadata",
-            **continuation,
+            **next_page,
         }
         payload = _api_json(parameters)
         pages = payload.get("query", {}).get("pages", {})
+        page_candidates: list[CommonsCandidate] = []
         for page in pages.values():
             info = page.get("imageinfo", [{}])[0]
             if not str(info.get("mime", "")).startswith("video/"):
@@ -177,10 +183,14 @@ def search_candidates(
             except ValueError:
                 continue
             candidates.append(candidate)
+            page_candidates.append(candidate)
             if len(candidates) == limit:
                 break
-        continuation = payload.get("continue", {})
-        if not continuation:
+        continuation_value = payload.get("continue")
+        next_page = dict(continuation_value) if isinstance(continuation_value, dict) else {}
+        if on_page is not None:
+            on_page(page_candidates, next_page or None)
+        if not next_page:
             break
     return candidates
 

@@ -10,5 +10,11 @@
   {"query":"filetype:video dog swimming","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
   {"query":"filetype:video dog playing","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
   {"query":"filetype:video dog outdoors","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
-  {"query":"filetype:video puppy","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100}
+  {"query":"filetype:video puppy","subject":"dog","action":"review_required","scene":"review_required","prompt":"review the dog action and scene","limit":100},
+  {"query":"filetype:video person walking outdoors","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100},
+  {"query":"filetype:video person running outdoors","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100},
+  {"query":"filetype:video person walking snow","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100},
+  {"query":"filetype:video person running snow","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100},
+  {"query":"filetype:video person walking beach","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100},
+  {"query":"filetype:video person running forest","subject":"person","action":"review_required","scene":"review_required","prompt":"review the person action and scene","limit":100}
 ]

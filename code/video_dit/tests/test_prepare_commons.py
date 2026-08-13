@@ -66,6 +66,150 @@ def test_search_remembers_zero_result_queries(tmp_path, monkeypatch):
     assert calls == ["empty"]
 
 
+def test_search_persists_each_page_and_resumes_its_continuation(tmp_path, monkeypatch):
+    specs = tmp_path / "specs.json"
+    specs.write_text(json.dumps([{
+        "query": "many cats", "subject": "cat", "action": "review_required",
+        "scene": "review_required", "prompt": "review cat", "limit": 2,
+    }]))
+    output = tmp_path / "candidates.jsonl"
+    state = tmp_path / "state.json"
+    candidate = CommonsCandidate(
+        title="File:First.webm", media_url="https://upload/first.webm",
+        description_url="https://commons/File:First.webm", description="Cat",
+        attribution="Author", license="CC0", license_url="https://cc0",
+        subject="cat", action="review_required", scene="review_required",
+        prompt="review cat",
+    )
+
+    def interrupted_search(query, **kwargs):
+        kwargs["on_page"]([candidate], {"gsroffset": 50})
+        raise RuntimeError("rate limited")
+
+    monkeypatch.setattr("prepare_commons.search_candidates", interrupted_search)
+    with __import__("pytest").raises(RuntimeError, match="rate limited"):
+        main(["search", str(specs), str(output), "--state", str(state)])
+    assert json.loads(output.read_text())["title"] == candidate.title
+    active = json.loads(state.read_text())["active_queries"]["many cats"]
+    assert active == {"accepted": 1, "continuation": {"gsroffset": 50}}
+
+    seen = []
+    def resumed_search(query, **kwargs):
+        seen.append((kwargs["limit"], kwargs["continuation"]))
+        kwargs["on_page"]([], None)
+        return []
+
+    monkeypatch.setattr("prepare_commons.search_candidates", resumed_search)
+    main(["search", str(specs), str(output), "--state", str(state)])
+    assert seen == [(1, {"gsroffset": 50})]
+    saved = json.loads(state.read_text())
+    assert "many cats" in saved["completed_queries"]
+    assert "many cats" not in saved["active_queries"]
+
+
+def test_search_marks_an_already_satisfied_active_query_complete(tmp_path, monkeypatch):
+    specs = tmp_path / "specs.json"
+    specs.write_text(json.dumps([{
+        "query": "enough cats", "subject": "cat", "action": "review_required",
+        "scene": "review_required", "prompt": "review cat", "limit": 1,
+    }]))
+    output = tmp_path / "candidates.jsonl"
+    output.write_text(json.dumps({"title": "File:Cat.webm", "query": "enough cats"}) + "\n")
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({
+        "completed_queries": [],
+        "active_queries": {
+            # Simulate a crash after the candidate file was atomically replaced
+            # but before the matching state replacement completed.
+            "enough cats": {"accepted": 0, "continuation": {"gsroffset": 50}},
+        },
+    }))
+    calls = []
+    monkeypatch.setattr(
+        "prepare_commons.search_candidates",
+        lambda *args, **kwargs: calls.append((args, kwargs)) or [],
+    )
+
+    main(["search", str(specs), str(output), "--state", str(state)])
+
+    assert calls == []
+    saved = json.loads(state.read_text())
+    assert saved["completed_queries"] == ["enough cats"]
+    assert saved["active_queries"] == {}
+
+
+def test_search_continues_when_cross_query_duplicates_leave_target_unfilled(
+    tmp_path, monkeypatch,
+):
+    specs = tmp_path / "specs.json"
+    specs.write_text(json.dumps([{
+        "query": "more cats", "subject": "cat", "action": "review_required",
+        "scene": "review_required", "prompt": "review cat", "limit": 2,
+    }]))
+    output = tmp_path / "candidates.jsonl"
+    output.write_text(json.dumps({"title": "File:Duplicate.webm", "query": "old query"}) + "\n")
+    state = tmp_path / "state.json"
+    calls = []
+
+    def candidate(title):
+        return CommonsCandidate(
+            title=title, media_url=f"https://upload/{title}",
+            description_url=f"https://commons/{title}", description="Cat",
+            attribution="Author", license="CC0", license_url="https://cc0",
+            subject="cat", action="review_required", scene="review_required",
+            prompt="review cat",
+        )
+
+    def overlapping_search(query, **kwargs):
+        calls.append((kwargs["limit"], kwargs["continuation"]))
+        if len(calls) == 1:
+            kwargs["on_page"](
+                [candidate("File:Duplicate.webm"), candidate("File:First.webm")],
+                {"gsroffset": 50},
+            )
+        else:
+            kwargs["on_page"]([candidate("File:Second.webm")], None)
+        return []
+
+    monkeypatch.setattr("prepare_commons.search_candidates", overlapping_search)
+    main(["search", str(specs), str(output), "--state", str(state)])
+
+    assert calls == [(2, {}), (1, {"gsroffset": 50})]
+    assert [json.loads(line)["title"] for line in output.read_text().splitlines()] == [
+        "File:Duplicate.webm", "File:First.webm", "File:Second.webm",
+    ]
+    saved = json.loads(state.read_text())
+    assert saved["completed_queries"] == ["more cats", "old query"]
+    assert saved["active_queries"] == {}
+
+
+def test_search_writes_initial_active_state_before_the_first_network_page(
+    tmp_path, monkeypatch,
+):
+    specs = tmp_path / "specs.json"
+    specs.write_text(json.dumps([{
+        "query": "new cats", "subject": "cat", "action": "review_required",
+        "scene": "review_required", "prompt": "review cat", "limit": 2,
+    }]))
+    output = tmp_path / "candidates.jsonl"
+    state = tmp_path / "state.json"
+
+    def assert_wal_exists(query, **kwargs):
+        saved = json.loads(state.read_text())
+        assert saved["active_queries"]["new cats"] == {
+            "accepted": 0, "continuation": {},
+        }
+        kwargs["on_page"]([], None)
+        return []
+
+    monkeypatch.setattr("prepare_commons.search_candidates", assert_wal_exists)
+    main(["search", str(specs), str(output), "--state", str(state)])
+
+    saved = json.loads(state.read_text())
+    assert saved["completed_queries"] == ["new cats"]
+    assert saved["active_queries"] == {}
+
+
 def test_download_normalizes_only_explicitly_approved_rows(tmp_path, monkeypatch):
     rows = [
         {
