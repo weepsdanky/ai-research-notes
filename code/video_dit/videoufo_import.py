@@ -328,3 +328,58 @@ def extract_resolved_clip(
     finally:
         temporary.unlink(missing_ok=True)
     return destination
+
+
+def extract_review_set(
+    candidates: list[VideoUFOCandidate],
+    archives: list[Path],
+    output_dir: Path,
+    *,
+    expected_sha256: dict[str, str],
+) -> list[dict[str, object]]:
+    """Verify each shard once, then extract only resolved members for review."""
+
+    video_ids = [candidate.video_id for candidate in candidates]
+    if len(video_ids) != len(set(video_ids)):
+        raise ValueError("review candidates contain duplicate video_id values")
+    by_name = {archive.name: archive for archive in archives}
+    verified: dict[str, tarfile.TarFile] = {}
+    try:
+        for name, archive in by_name.items():
+            expected = expected_sha256.get(name)
+            if expected is None or sha256_file(archive) != expected.lower():
+                raise ValueError(f"VideoUFO archive SHA-256 mismatch: {name}")
+            verified[name] = tarfile.open(archive, "r:")
+        rows: list[dict[str, object]] = []
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for candidate in candidates:
+            if not candidate.archive_shard or not candidate.archive_member:
+                raise ValueError("review extraction requires resolved candidates")
+            archive = verified.get(candidate.archive_shard)
+            if archive is None:
+                raise ValueError(f"missing verified archive: {candidate.archive_shard}")
+            member = archive.getmember(candidate.archive_member)
+            if not member.isfile() or Path(member.name).suffix.lower() != ".mp4":
+                raise ValueError("resolved archive member is not a regular MP4")
+            safe_name = hashlib.sha256(candidate.video_id.encode()).hexdigest()[:24] + ".mp4"
+            destination = output_dir / safe_name
+            temporary = output_dir / f".{safe_name}.{uuid.uuid4().hex}.tmp"
+            try:
+                source = archive.extractfile(member)
+                if source is None:
+                    raise ValueError("resolved archive member has no data")
+                with source, temporary.open("wb") as target:
+                    shutil.copyfileobj(source, target)
+                temporary.replace(destination)
+            finally:
+                temporary.unlink(missing_ok=True)
+            row = candidate.as_json()
+            row.update({
+                "review_media_path": str(destination),
+                "review_media_sha256": sha256_file(destination),
+            })
+            rows.append(row)
+        return rows
+    finally:
+        for archive in verified.values():
+            archive.close()

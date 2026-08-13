@@ -398,6 +398,23 @@ uv run --offline python prepare_videoufo.py resolve \
 hash 不符会直接失败。`source_id` 使用去掉末尾 `.clip-index` 的原始视频 ID，避免同一
 YouTube 源的 sibling clips 被拆到不同 split。
 
+本地三分片 pilot（`1/2/200`）已完成：8.46 GB（7.88 GiB）的 tar 映射出 49 条候选、46 个
+原视频 source groups，其中 person 43、dog 5、cat 1。49 条媒体已按 checksum 一次验证
+每个 archive 后安全提取，总计约 30 MB，全部保持 `pending`。随机分片明显偏向 person，
+不能据此启动平衡训练；`VideoUFO_3.tar` 下载到约 3.92 GB 时因 TLS handshake timeout
+失败且上游客户端删除 partial，未计入 pilot。
+
+```bash
+uv run --offline python prepare_videoufo.py extract \
+  ../../data/raw/videoufo/resolved-pilot.jsonl \
+  ../../data/raw/videoufo/review-pilot.jsonl \
+  ../../data/raw/videoufo/review-media \
+  --shard-checksums ../../data/raw/videoufo/shard-checksums.json \
+  ../../data/raw/videoufo/VideoUFO_tar/VideoUFO_1.tar \
+  ../../data/raw/videoufo/VideoUFO_tar/VideoUFO_2.tar \
+  ../../data/raw/videoufo/VideoUFO_tar/VideoUFO_200.tar
+```
+
 官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为
 `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`；其中
 25,991 个视频 ID 中，caption 匹配 cat/dog 的视频约为 1,415/600，匹配

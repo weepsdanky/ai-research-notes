@@ -2,6 +2,7 @@ import csv
 import hashlib
 import io
 import json
+from pathlib import Path
 import tarfile
 
 import pytest
@@ -9,6 +10,7 @@ import pytest
 from prepare_videoufo import main
 from videoufo_import import (
     VIDEOUFO_REVISION,
+    extract_review_set,
     extract_resolved_clip,
     index_tar_shard,
     resolve_candidates,
@@ -253,6 +255,37 @@ def test_cli_resolve_rewrites_only_candidates_present_in_shards(tmp_path):
         ])
 
 
+def test_cli_extract_writes_pending_review_manifest(tmp_path, monkeypatch):
+    candidate = __import__("videoufo_import").VideoUFOCandidate(
+        video_id="a.0", source_id="videoufo:a", topic="animals",
+        brief_caption="A cat runs through snow.", detailed_caption="same",
+        start_seconds=0, end_seconds=4, subject="cat", action="running",
+        scene="snow", prompt="A cat runs through snow.", quality={},
+        quality_score=0.8, archive_shard="VideoUFO_1.tar",
+        archive_member="a.0.mp4",
+    )
+    candidates = tmp_path / "resolved.jsonl"
+    candidates.write_text(json.dumps(candidate.as_json()) + "\n")
+    checksums = tmp_path / "checksums.json"
+    checksums.write_text(json.dumps({"VideoUFO_1.tar": "a" * 64}))
+    archive = tmp_path / "VideoUFO_1.tar"
+    archive.touch()
+    monkeypatch.setattr("prepare_videoufo.extract_review_set", lambda *a, **k: [{
+        **candidate.as_json(), "review_media_path": str(tmp_path / "review/a.mp4"),
+        "review_media_sha256": "b" * 64,
+    }])
+    output = tmp_path / "review.jsonl"
+
+    assert main([
+        "extract", str(candidates), str(output), str(tmp_path / "media"),
+        "--shard-checksums", str(checksums), str(archive),
+    ]) == 0
+
+    row = json.loads(output.read_text())
+    assert row["review_status"] == "pending"
+    assert row["review_media_path"] == "review/a.mp4"
+
+
 def test_extract_resolved_clip_verifies_archive_and_uses_safe_destination(tmp_path):
     archive = tmp_path / "VideoUFO_200.tar"
     with tarfile.open(archive, "w") as handle:
@@ -281,3 +314,71 @@ def test_extract_resolved_clip_verifies_archive_and_uses_safe_destination(tmp_pa
         extract_resolved_clip(
             candidate, archive, output, expected_archive_sha256="0" * 64,
         )
+
+
+def test_extract_review_set_hashes_archives_once_and_writes_media_manifest(
+    tmp_path, monkeypatch,
+):
+    archive = tmp_path / "VideoUFO_1.tar"
+    with tarfile.open(archive, "w") as handle:
+        for name, payload in (("a.0.mp4", b"one"), ("a.1.mp4", b"two")):
+            info = tarfile.TarInfo(name)
+            info.size = len(payload)
+            handle.addfile(info, io.BytesIO(payload))
+    source = tmp_path / "VideoUFO.csv"
+    _write_csv(source, [
+        _row("a.0", "A cat runs through snow."),
+        _row("a.1", "A dog walks on grass."),
+    ])
+    candidates, _ = scan_metadata(source, expected_sha256=None)
+    from dataclasses import replace
+    candidates = [
+        replace(item, archive_shard=archive.name, archive_member=f"{item.video_id}.mp4")
+        for item in candidates
+    ]
+    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+    calls = []
+    real_hash = __import__("videoufo_import").sha256_file
+
+    def counted(path):
+        calls.append(path)
+        return real_hash(path)
+
+    monkeypatch.setattr("videoufo_import.sha256_file", counted)
+
+    rows = extract_review_set(
+        candidates, [archive], tmp_path / "review",
+        expected_sha256={archive.name: digest},
+    )
+
+    assert calls.count(archive) == 1
+    assert len(rows) == 2
+    assert {row["source_id"] for row in rows} == {"videoufo:a"}
+    assert all(Path(row["review_media_path"]).is_file() for row in rows)
+    assert all(len(row["review_media_sha256"]) == 64 for row in rows)
+    assert all(row["review_status"] == "pending" for row in rows)
+
+
+def test_extract_review_set_rejects_duplicate_video_ids_before_writing(tmp_path):
+    archive = tmp_path / "VideoUFO_1.tar"
+    with tarfile.open(archive, "w") as handle:
+        for name in ("one.mp4", "two.mp4"):
+            info = tarfile.TarInfo(name)
+            info.size = 1
+            handle.addfile(info, io.BytesIO(b"x"))
+    candidate = __import__("videoufo_import").VideoUFOCandidate(
+        video_id="same.0", source_id="videoufo:same", topic="animals",
+        brief_caption="A cat runs through snow.", detailed_caption="same",
+        start_seconds=0, end_seconds=4, subject="cat", action="running",
+        scene="snow", prompt="A cat runs through snow.", quality={},
+        quality_score=0.8, archive_shard=archive.name, archive_member="one.mp4",
+    )
+    from dataclasses import replace
+    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+
+    with pytest.raises(ValueError, match="duplicate video_id"):
+        extract_review_set(
+            [candidate, replace(candidate, archive_member="two.mp4")], [archive],
+            tmp_path / "review", expected_sha256={archive.name: digest},
+        )
+    assert not (tmp_path / "review").exists()

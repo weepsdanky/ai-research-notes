@@ -82,6 +82,16 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 最小尾片 `VideoUFO_200.tar` 也已实际下载并校验：166,451,200 bytes，SHA-256 `8dbadeedfd0489638bb3bddeafcb9788af7e4a54547d356aca77085d60682b15`，包含 197 个 MP4。tar member 形如 `VideoUFO/<CSV ID>.mp4`，因此 CSV ID 可以精确连接实际视频；4,234 个候选中该尾片命中 1 条 `person|running|forest`。代码已支持只枚举 regular MP4、不做路径式解包，并要求 resolve 使用官方 shard checksum manifest；CSV 候选文件的 hash/count 也与 coverage report 绑定。用于 split 的 `source_id` 去掉末尾 `.clip-index`，确保同一原视频的 sibling clips 始终属于一个 source group。下一步仍是下载 3--8 个固定分片、形成可播放审核队列并计算真实 pHash/source-group coverage；**当前不满足 C1 门禁，也没有启动 G1 训练**。
 
+随后完成了三个固定分片的实际 pilot：`VideoUFO_1.tar`、`VideoUFO_2.tar`、
+`VideoUFO_200.tar` 均与官方 SHA-256 一致，共 8.46 GB（7.88 GiB），映射出 49 条候选、46 个原始
+视频 source groups。分布为 person 43、dog 5、cat 1；三元组也高度稀疏，没有任何
+动物 triple 接近 50。49 个 member 已在每个 archive 只校验一次 hash 后安全提取为约
+30 MB 审核媒体，逐文件 SHA-256 全部一致，状态仍为 pending。`VideoUFO_3.tar` 曾下载到
+约 3.92 GB 后因 TLS handshake timeout 失败，上游 Hub 客户端删除 partial；它不计入
+任何覆盖数字。这个 pilot 否定了“随机取 3--8 个 tar 即可获得平衡 C1 数据”的假设；
+下一步应取得维护者的 ID→shard 索引或构建全量远端 tar-header 索引，定向下载动物候选，
+而不是继续随机拉分片。
+
 ## 候选数据集逐项核查
 
 | 数据集 | 官方规模与文本 | 视频实际在哪里 | 使用条件与稳定性 | 对本项目的判断 |
