@@ -285,15 +285,20 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 被冒充为满足新契约，扩到 1K 前须重新 enrich 候选并按新 manifest 重新生成。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 799 条，目前 101 条 approved、651 条 pending、47 条 rejected；pending 绝不
-计作训练数据或组合覆盖。首批人物审核仅批准 1 条单人海滩行走片段，另 5 条因多人、主体
-不可见/离场或裁切问题拒绝；person 仍有 111 条 pending。可用筛选队列逐条审核，例如
-优先处理 person 并在保存后自动前进：
+候选池为 799 条，目前 101 条 approved、645 条 pending、53 条 rejected；pending 绝不
+计作训练数据或组合覆盖。人物审核目前仅批准 1 条单人海滩行走片段；随后新增检查的 6 条
+均因人群、第一视角、延时摄影或旅行 vlog 不满足单主体监督而拒绝，person 仍有 105 条
+pending。标题启发式只能排序人工队列，绝不自动批准或生成标签：
 
 ```bash
+uv run python commons_review.py priority data/commons_g1/candidates.jsonl \
+  data/commons_g1/person-review-priority.jsonl --subject person
 uv run python commons_review_ui.py data/commons_g1/candidates.jsonl \
-  --status pending --subject person --server-port 7863
+  --status pending --subject person --priority-order --server-port 7863
 ```
+
+当前 105 条 person pending 中有 104 条满足“时长至少 2 秒且存在官方预览”的可播放审核门，
+因此 priority 报告只列这 104 条；余下 1 条不会绕过媒体门禁。
 
 缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
 `ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：

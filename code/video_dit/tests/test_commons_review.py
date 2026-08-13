@@ -15,6 +15,8 @@ from commons_review import (
     next_review_title,
     enrich_provenance_sidecar,
     verify_provenance_sidecar,
+    prioritize_review_rows,
+    main,
 )
 
 
@@ -218,6 +220,85 @@ def test_review_queue_filters_subject_status_and_unplayable_rows():
     assert review_queue(rows, status="all", subject="all") == [
         "approved", "dog", "person-a", "person-b",
     ]
+
+
+def test_review_priority_orders_likely_single_subject_before_obvious_bad_fits():
+    rows = [
+        {"title": "Station crowd timelapse.webm", "description": "many people",
+         "review_status": "pending", "subject": "person",
+         "duration_seconds": 4, "review_preview_url": "https://upload/a.webm"},
+        {"title": "Solo athlete trail running.webm",
+         "description": "A woman running alone on a forest trail",
+         "review_status": "pending", "subject": "person",
+         "duration_seconds": 4, "review_preview_url": "https://upload/b.webm"},
+        {"title": "First-person city walking tour.webm", "description": "POV vlog",
+         "review_status": "pending", "subject": "person",
+         "duration_seconds": 4, "review_preview_url": "https://upload/c.webm"},
+    ]
+
+    ranked = prioritize_review_rows(rows, status="pending", subject="person")
+
+    assert [row["title"] for row in ranked] == [
+        "Solo athlete trail running.webm",
+        "First-person city walking tour.webm",
+        "Station crowd timelapse.webm",
+    ]
+    assert ranked[0]["priority_score"] > ranked[-1]["priority_score"]
+    assert "single-subject:solo" in ranked[0]["priority_reasons"]
+    assert "exclude:timelapse" in ranked[-1]["priority_reasons"]
+    assert all(row["review_status"] == "pending" for row in rows)
+
+
+def test_priority_cli_writes_auditable_jsonl_without_modifying_candidates(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    original = json.dumps({
+        "title": "Solo runner.webm", "description": "a woman running alone",
+        "review_status": "pending", "subject": "person", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/runner.webm",
+    }) + "\n"
+    candidates.write_text(original)
+    output = tmp_path / "priority.jsonl"
+
+    assert main([
+        "priority", str(candidates), str(output), "--subject", "person",
+    ]) == 0
+
+    report = json.loads(output.read_text())
+    assert report["title"] == "Solo runner.webm"
+    assert report["priority_score"] > 0
+    assert candidates.read_text() == original
+
+
+@pytest.mark.parametrize("command", ["priority", "provenance"])
+def test_report_commands_reject_candidate_path_as_output(tmp_path, command):
+    candidates = tmp_path / "candidates.jsonl"
+    original = json.dumps({
+        "title": "Solo runner.webm", "review_status": "pending",
+    }) + "\n"
+    candidates.write_text(original)
+    alias = tmp_path / "candidate-alias.jsonl"
+    alias.symlink_to(candidates)
+
+    with pytest.raises(ValueError, match="must differ from candidates"):
+        main([command, str(candidates), str(alias)])
+
+    assert candidates.read_text() == original
+
+
+def test_summary_cli_atomically_writes_optional_json_report(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    candidates.write_text(json.dumps({
+        "title": "Person.webm", "review_status": "pending", "subject": "person",
+        "action": "review_required", "scene": "review_required",
+    }) + "\n")
+    output = tmp_path / "review-summary.json"
+
+    assert main(["summary", str(candidates), str(output)]) == 0
+
+    report = json.loads(output.read_text())
+    assert report["records"] == 1
+    assert report["statuses"] == {"pending": 1}
+    assert report["pending_placeholders"] == 1
 
 
 def test_next_review_title_advances_without_looping_on_saved_row():

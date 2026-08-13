@@ -81,7 +81,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 这两项前置验证已实际完成：固定 revision 的 CSV 已完整下载，本地 SHA-256 与上述官方值一致；`prepare_videoufo.py scan` 以约 30--40 MB 常驻内存扫描全部 1,091,712 行，按明确词边界、2 秒时长和六项质量阈值生成 4,234 条**待审核**候选。当前三元组候选中，人物组合普遍充足；狗的 `running|grass=111`、`walking|grass=104`、`running|snow=27`；猫最稀疏，只有 `walking|grass=54` 达到 50，其他猫组合均低于 50。这里的数字仍是 caption 规则命中，不是独立 source group 的最终数量。
 
-最小尾片 `VideoUFO_200.tar` 也已实际下载并校验：166,451,200 bytes，SHA-256 `8dbadeedfd0489638bb3bddeafcb9788af7e4a54547d356aca77085d60682b15`，包含 197 个 MP4。tar member 形如 `VideoUFO/<CSV ID>.mp4`，因此 CSV ID 可以精确连接实际视频；4,234 个候选中该尾片命中 1 条 `person|running|forest`。代码已支持只枚举 regular MP4、不做路径式解包，并要求 resolve 使用官方 shard checksum manifest；CSV 候选文件的 hash/count 也与 coverage report 绑定。用于 split 的 `source_id` 去掉末尾 `.clip-index`，确保同一原视频的 sibling clips 始终属于一个 source group。下一步仍是下载 3--8 个固定分片、形成可播放审核队列并计算真实 pHash/source-group coverage；**当前不满足 C1 门禁，也没有启动 G1 训练**。
+最小尾片 `VideoUFO_200.tar` 也已实际下载并校验：166,451,200 bytes，SHA-256 `8dbadeedfd0489638bb3bddeafcb9788af7e4a54547d356aca77085d60682b15`，包含 197 个 MP4。tar member 形如 `VideoUFO/<CSV ID>.mp4`，因此 CSV ID 可以精确连接实际视频；4,234 个候选中该尾片命中 1 条 `person|running|forest`。代码已支持只枚举 regular MP4、不做路径式解包，并要求 resolve 使用官方 shard checksum manifest；CSV 候选文件的 hash/count 也与 coverage report 绑定。用于 split 的 `source_id` 去掉末尾 `.clip-index`，确保同一原视频的 sibling clips 始终属于一个 source group。当时据此提出下载 3--8 个固定分片的前置假设；下述三分片 pilot 已证明随机扩片无法形成平衡动物覆盖，因此该方案已否决，当前只推进 Commons-1K。**当前不满足 C1 门禁，也没有启动 G1 训练**。
 
 随后完成了三个固定分片的实际 pilot：`VideoUFO_1.tar`、`VideoUFO_2.tar`、
 `VideoUFO_200.tar` 均与官方 SHA-256 一致，共 8.46 GB（7.88 GiB），映射出 49 条候选、46 个原始
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 101 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 799 个候选中的 651 个仍为 pending，不能计入训练规模或覆盖。
+从现有 101 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 799 个候选中的 645 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 为什么不是直接训练 800 GB
 
@@ -258,10 +258,10 @@ scene   = grass/field | forest | beach | snow | indoor/home
   下载并通过 SHA-256 校验，但 resolved 视频尚未经过逐条人工审核，因此未写进训练 manifest。
 - Wikimedia Commons 搜索与分类树检索当前共取得 799 个候选。已通过本地审核 UI 播放
   官方低码率 derivative，并用多帧时间联系表辅助检查；101 条自然视频已人工标为
-  `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 651 条 pending、47 条
+  `approved`，统一转为 96×96、16 帧、2 秒 H.264 clip。另有 645 条 pending、53 条
   rejected，不以标题或搜索命中直接代替视频审核。approved 为 cat 59、dog 41、person 1；
   这条 person 是 `walking|beach`，其 3--5 秒单主体区间经完整播放和逐秒帧核验后进入
-  manifest。person 仍有 111 条 pending，不能计入主体覆盖。
+  manifest。person 仍有 105 条 pending，不能计入主体覆盖。
 - G0 的 100 条记录已全部写入可追溯 manifest，并按 source、显式 duplicate group 与
   感知 hash 的传递闭包完成分组；冻结 OpenAI CLIP ViT-B/32 文本向量已缓存 100/100。
   MPS 真实 batch 冒烟训练完成 1 次更新（loss 1.0128），验证了解码、自然文本条件、
@@ -341,9 +341,9 @@ test 或 G0 结果称为“训练期未见组合泛化”。
 - G1 数据准备已开始。Commons 搜索现已按 API page 原子写入候选与 continuation token，
   限流或进程中断后可从该页继续；恢复此前中断搜索并加入 person 查询后，本地可复核的
   再从 `Videos of people walking` 分类树加入 88 条、可恢复地检查 `People running` 树后，
-  本地权威候选数为 799。现有集合为 101 approved、651 pending、47 rejected，其中 626 条
-  pending 仍是 action/scene placeholder；approved 为 cat 59、dog 41、person 1，person
-  pending 111。分类遍历现逐 batch 原子保存 category queue、continuation、未处理 titles 与
+  本地权威候选数为 799。现有集合为 101 approved、645 pending、53 rejected；approved
+  为 cat 59、dog 41、person 1，person pending 105。分类遍历现逐 batch 原子保存 category
+  queue、continuation、未处理 titles 与
   visited 集合，绑定 category/subject/depth/limit 契约；429 或中断后不会丢掉页内剩余文件。
   真实运行检查 411 个 `People running` 文件仅新增 1 个视频（跑步技术访谈），两个明确的
   first-person/背影视角分支均为 0，说明 Commons 分类树无法单独补足 running 覆盖。审核 UI 支持
@@ -357,6 +357,13 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   集合仍远未达到 1K 条已审核训练样本。VATEX annotation 虽完整，
   官方不分发视频本体，因此当前只能称“许可明确的 Commons G1 替代 pilot”，不能冒充
   VATEX-1K。后续必须扩充 person 候选并逐条人工审核，任何 pending 都不能进入训练。
+- 为减少无效人工播放，新增只读的 `commons_review.py priority` 报告与 UI
+  `--priority-order`。它只依据标题/描述把 `solo/runner/hiker` 等线索前移，把 crowd、
+  first-person、timelapse、vlog 等明显风险后移；不修改标签或审核状态。按此流程前的顺序
+  又检查 6 条人物候选，全部因人群、第一视角无可见人物、车站延时摄影或旅行 vlog 拒绝，
+  因而 approved 仍为 101、C1 coverage 不变。105 条 person pending 中有 104 条通过时长与
+  官方预览可播放门；其余 1 条不会进入 priority。优先队列第一条已在本地 UI 打开，但 derivative
+  网络载入未完成，保持 pending 而非依据标题批准。
 - 为避免 enrichment 与运行中的审核 UI 同时原子替换候选 JSONL，新增只读候选、逐 batch
   原子写独立 sidecar 的 `commons_review.py provenance`。真实运行已补齐 799/799 条：每条
   固化 Commons 描述页 revision、原媒体 URL/SHA-1/timestamp、时长和审核 derivative URL。

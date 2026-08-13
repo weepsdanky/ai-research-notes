@@ -25,3 +25,26 @@ def test_review_ui_has_one_title_change_loader_and_no_then_loader(tmp_path):
         any(target[1] == "then" for target in dependency["targets"])
         for dependency in dependencies
     )
+
+
+def test_review_ui_can_use_priority_order_without_changing_candidate_data(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    original = "".join(json.dumps(row) + "\n" for row in [
+        {"title": "Crowd timelapse.webm", "description": "many people",
+         "review_status": "pending", "subject": "person",
+         "duration_seconds": 3, "review_preview_url": "https://upload.wikimedia.org/a.webm"},
+        {"title": "Solo runner.webm", "description": "a woman running alone",
+         "review_status": "pending", "subject": "person",
+         "duration_seconds": 3, "review_preview_url": "https://upload.wikimedia.org/b.webm"},
+    ])
+    candidates.write_text(original)
+
+    app = build_ui(
+        candidates, status_filter="pending", subject_filter="person",
+        priority_order=True,
+    )
+
+    dropdown = next(component for component in app.config["components"]
+                    if component.get("props", {}).get("label") == "Candidate")
+    assert dropdown["props"]["value"] == "Solo runner.webm"
+    assert candidates.read_text() == original

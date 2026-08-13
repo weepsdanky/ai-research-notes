@@ -8,7 +8,7 @@ from pathlib import Path
 
 from commons_review import (
     cache_review_preview, fetch_review_media, load_rows, next_review_title,
-    review_queue, save_review, summarize_reviews,
+    prioritize_review_rows, review_queue, save_review, summarize_reviews,
 )
 from web_ui import ensure_loopback_proxy_bypass
 
@@ -19,6 +19,7 @@ def build_ui(
     *,
     status_filter: str = "pending",
     subject_filter: str = "all",
+    priority_order: bool = False,
 ):
     try:
         import gradio as gr
@@ -28,7 +29,14 @@ def build_ui(
     rows = load_rows(candidates_path)
     if not rows:
         raise ValueError("candidate manifest is empty")
-    titles = review_queue(rows, status=status_filter, subject=subject_filter)
+    if priority_order:
+        titles = [
+            str(row["title"]) for row in prioritize_review_rows(
+                rows, status=status_filter, subject=subject_filter,
+            )
+        ]
+    else:
+        titles = review_queue(rows, status=status_filter, subject=subject_filter)
     if not titles:
         raise ValueError("no playable candidates match the review filters")
     cache_dir = preview_cache or candidates_path.parent / "review_previews"
@@ -68,9 +76,16 @@ def build_ui(
             scene=scene, prompt=prompt, start_seconds=float(start), notes=notes,
         )
         updated = load_rows(candidates_path)
-        remaining = review_queue(
-            updated, status=status_filter, subject=subject_filter,
-        )
+        if priority_order:
+            remaining = [
+                str(row["title"]) for row in prioritize_review_rows(
+                    updated, status=status_filter, subject=subject_filter,
+                )
+            ]
+        else:
+            remaining = review_queue(
+                updated, status=status_filter, subject=subject_filter,
+            )
         return (
             json.dumps(summarize_reviews(updated), indent=2),
             next_review_title(title, remaining),
@@ -126,6 +141,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--status", choices=["pending", "approved", "rejected", "all"],
                         default="pending")
     parser.add_argument("--subject", default="all")
+    parser.add_argument("--priority-order", action="store_true")
     return parser.parse_args(argv)
 
 
@@ -134,6 +150,7 @@ def main(argv: list[str] | None = None) -> None:
     ensure_loopback_proxy_bypass(args.server_name)
     build_ui(
         args.candidates, status_filter=args.status, subject_filter=args.subject,
+        priority_order=args.priority_order,
     ).launch(
         server_name=args.server_name, server_port=args.server_port, share=False,
     )

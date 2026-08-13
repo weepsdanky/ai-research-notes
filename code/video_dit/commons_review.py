@@ -22,6 +22,18 @@ from PIL import Image, ImageDraw
 
 REVIEW_STATUSES = {"pending", "approved", "rejected"}
 
+_REVIEW_PRIORITY_TERMS = {
+    "single-subject:solo": (4, ("solo", "alone", "single person")),
+    "single-subject:person": (2, ("a man", "a woman", "athlete", "runner", "hiker")),
+    "target-action": (2, ("walking", "running", "jogging", "hiking")),
+    "natural-scene": (1, ("forest", "trail", "field", "snow", "beach", "park")),
+    "exclude:timelapse": (-7, ("timelapse", "time-lapse", "time lapse", "hyperlapse")),
+    "exclude:crowd": (-4, ("crowd", "many people", "participants", "march")),
+    "exclude:first-person": (-4, ("first-person", "first person", "pov")),
+    "exclude:vlog": (-2, ("vlog", "walking tour", "city tour")),
+    "exclude:animation": (-6, ("animation", "stop motion", "stop-motion")),
+}
+
 
 def _plain(value: str) -> str:
     return re.sub(r"<[^>]+>", "", html.unescape(value)).strip()
@@ -192,6 +204,12 @@ def write_rows(path: Path, rows: list[dict[str, object]]) -> None:
     temporary.replace(path)
 
 
+def write_json(path: Path, value: object) -> None:
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
 def review_queue(
     rows: Iterable[dict[str, object]], *, status: str = "pending", subject: str = "all",
 ) -> list[str]:
@@ -211,6 +229,35 @@ def review_queue(
         and float(row.get("duration_seconds", 0) or 0) >= 2
         and bool(row.get("review_preview_url"))
     )
+
+
+def prioritize_review_rows(
+    rows: Iterable[dict[str, object]], *, status: str = "pending", subject: str = "all",
+) -> list[dict[str, object]]:
+    """Rank the manual-review queue without changing candidate labels or decisions."""
+
+    materialized = list(rows)
+    titles = set(review_queue(materialized, status=status, subject=subject))
+    ranked = []
+    for row in materialized:
+        title = str(row.get("title", ""))
+        if title not in titles:
+            continue
+        searchable = " ".join((title, str(row.get("description", "")))).casefold()
+        score = 0
+        reasons = []
+        for reason, (weight, terms) in _REVIEW_PRIORITY_TERMS.items():
+            if any(term in searchable for term in terms):
+                score += weight
+                reasons.append(reason)
+        ranked.append({
+            "title": title,
+            "review_status": str(row.get("review_status", "")),
+            "subject": str(row.get("subject", "")),
+            "priority_score": score,
+            "priority_reasons": reasons,
+        })
+    return sorted(ranked, key=lambda row: (-int(row["priority_score"]), str(row["title"])))
 
 
 def next_review_title(current: str, remaining: list[str]) -> str | None:
@@ -403,18 +450,35 @@ def summarize_reviews(rows: Iterable[dict[str, object]]) -> dict[str, object]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("enrich", "provenance", "summary"))
+    parser.add_argument("command", choices=("enrich", "provenance", "summary", "priority"))
     parser.add_argument("candidates", type=Path)
     parser.add_argument("output", type=Path, nargs="?")
+    parser.add_argument("--status", choices=sorted(REVIEW_STATUSES | {"all"}),
+                        default="pending")
+    parser.add_argument("--subject", default="all")
     args = parser.parse_args(argv)
+    if args.output is not None and args.command in {"provenance", "priority"}:
+        if args.output.resolve() == args.candidates.resolve():
+            raise ValueError("report output must differ from candidates")
     if args.command == "enrich":
         report = enrich_review_metadata(args.candidates)
     elif args.command == "provenance":
         if args.output is None:
             parser.error("provenance requires an output sidecar path")
         report = enrich_provenance_sidecar(args.candidates, args.output)
-    else:
+    elif args.command == "summary":
         report = summarize_reviews(load_rows(args.candidates))
+        if args.output is not None:
+            if args.output.resolve() == args.candidates.resolve():
+                raise ValueError("report output must differ from candidates")
+            write_json(args.output, report)
+    else:
+        if args.output is None:
+            parser.error("priority requires an output JSONL path")
+        report = prioritize_review_rows(
+            load_rows(args.candidates), status=args.status, subject=args.subject,
+        )
+        write_rows(args.output, report)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
