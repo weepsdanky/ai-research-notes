@@ -48,3 +48,27 @@ def test_review_ui_can_use_priority_order_without_changing_candidate_data(tmp_pa
                     if component.get("props", {}).get("label") == "Candidate")
     assert dropdown["props"]["value"] == "Solo runner.webm"
     assert candidates.read_text() == original
+
+
+def test_review_ui_uses_provenance_sidecar_without_rewriting_candidates(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    original = json.dumps({
+        "title": "Runner.ogv", "review_status": "pending", "subject": "person",
+        "action": "review_required", "scene": "review_required", "prompt": "review",
+    }) + "\n"
+    candidates.write_text(original)
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text(json.dumps({
+        "title": "Runner.ogv", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/runner.webm",
+    }) + "\n")
+
+    app = build_ui(
+        candidates, status_filter="pending", subject_filter="person",
+        provenance_path=provenance,
+    )
+
+    dropdown = next(component for component in app.config["components"]
+                    if component.get("props", {}).get("label") == "Candidate")
+    assert dropdown["props"]["value"] == "Runner.ogv"
+    assert candidates.read_text() == original

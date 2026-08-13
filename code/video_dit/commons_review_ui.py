@@ -8,7 +8,8 @@ from pathlib import Path
 
 from commons_review import (
     cache_review_preview, fetch_review_media, load_rows, next_review_title,
-    prioritize_review_rows, review_queue, save_review, summarize_reviews,
+    merge_provenance_rows, prioritize_review_rows, review_queue, save_review,
+    summarize_reviews,
 )
 from web_ui import ensure_loopback_proxy_bypass
 
@@ -20,13 +21,14 @@ def build_ui(
     status_filter: str = "pending",
     subject_filter: str = "all",
     priority_order: bool = False,
+    provenance_path: Path | None = None,
 ):
     try:
         import gradio as gr
     except ImportError as error:
         raise RuntimeError("Gradio is required for the review UI") from error
 
-    rows = load_rows(candidates_path)
+    rows = merge_provenance_rows(load_rows(candidates_path), provenance_path)
     if not rows:
         raise ValueError("candidate manifest is empty")
     if priority_order:
@@ -49,7 +51,11 @@ def build_ui(
                 json.dumps({**summary, "queue_complete": True}, indent=2),
                 gr.Button(interactive=False),
             )
-        current = next(row for row in load_rows(candidates_path) if row["title"] == title)
+        current = next(
+            row for row in merge_provenance_rows(
+                load_rows(candidates_path), provenance_path,
+            ) if row["title"] == title
+        )
         if current.get("review_preview_url"):
             media = {
                 "preview_url": current["review_preview_url"],
@@ -74,8 +80,10 @@ def build_ui(
         save_review(
             candidates_path, title, status=status, subject=subject, action=action,
             scene=scene, prompt=prompt, start_seconds=float(start), notes=notes,
+            provenance_path=provenance_path,
         )
-        updated = load_rows(candidates_path)
+        candidate_rows = load_rows(candidates_path)
+        updated = merge_provenance_rows(candidate_rows, provenance_path)
         if priority_order:
             remaining = [
                 str(row["title"]) for row in prioritize_review_rows(
@@ -142,6 +150,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         default="pending")
     parser.add_argument("--subject", default="all")
     parser.add_argument("--priority-order", action="store_true")
+    parser.add_argument("--provenance", type=Path)
     return parser.parse_args(argv)
 
 
@@ -150,7 +159,7 @@ def main(argv: list[str] | None = None) -> None:
     ensure_loopback_proxy_bypass(args.server_name)
     build_ui(
         args.candidates, status_filter=args.status, subject_filter=args.subject,
-        priority_order=args.priority_order,
+        priority_order=args.priority_order, provenance_path=args.provenance,
     ).launch(
         server_name=args.server_name, server_port=args.server_port, share=False,
     )

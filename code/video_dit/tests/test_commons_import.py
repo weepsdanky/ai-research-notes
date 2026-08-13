@@ -247,6 +247,33 @@ def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
     assert "gsroffset=2" in requested_urls[1]
 
 
+def test_search_candidates_accepts_commons_ogv_reported_as_application_ogg(monkeypatch):
+    payload = {"query": {"pages": {
+        "1": {"title": "File:Runner.ogv", "imageinfo": [{
+            "url": "https://upload.wikimedia.org/runner.ogv",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Runner.ogv",
+            "mime": "application/ogg", "extmetadata": {
+                "Artist": {"value": "Author"},
+                "LicenseShortName": {"value": "CC BY 4.0"},
+                "LicenseUrl": {"value": "https://creativecommons.org/licenses/by/4.0"},
+            },
+        }]},
+        "2": {"title": "File:Audio.ogg", "imageinfo": [{
+            "url": "https://upload.wikimedia.org/audio.ogg",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Audio.ogg",
+            "mime": "application/ogg", "extmetadata": {},
+        }]},
+    }}}
+    monkeypatch.setattr("commons_import._api_json", lambda _: payload)
+
+    candidates = search_candidates(
+        "runner", subject="person", action="review_required",
+        scene="review_required", prompt="review", limit=2,
+    )
+
+    assert [candidate.title for candidate in candidates] == ["File:Runner.ogv"]
+
+
 def test_category_candidates_reads_files_from_subcategories(monkeypatch):
     calls = []
 
@@ -288,6 +315,31 @@ def test_category_candidates_reads_files_from_subcategories(monkeypatch):
     queried_titles = "|".join(call["titles"] for call in metadata_calls)
     assert "File:Cat walking.webm" in queried_titles
     assert "File:Cat jumping.webm" in queried_titles
+
+
+def test_category_candidates_accepts_commons_ogv_reported_as_application_ogg(monkeypatch):
+    def fake_json(parameters):
+        if parameters.get("list") == "categorymembers":
+            return {"query": {"categorymembers": [
+                {"ns": 6, "title": "File:Runner.ogv"},
+            ]}}
+        return {"query": {"pages": {"1": {
+            "title": "File:Runner.ogv", "imageinfo": [{
+                "url": "https://upload.wikimedia.org/runner.ogv",
+                "descriptionurl": "https://commons.wikimedia.org/wiki/File:Runner.ogv",
+                "mime": "application/ogg", "extmetadata": {
+                    "Artist": {"value": "Author"},
+                    "LicenseShortName": {"value": "CC BY 4.0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/licenses/by/4.0"},
+                },
+            }],
+        }}}}
+
+    monkeypatch.setattr("commons_import._api_json", fake_json)
+
+    rows = category_candidates("Jogging", subject="person", max_depth=0)
+
+    assert [row.title for row in rows] == ["File:Runner.ogv"]
 
 
 def test_category_limit_counts_videos_after_mime_filter(monkeypatch):

@@ -158,7 +158,42 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 102 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 800 个候选中的 639 个仍为 pending，不能计入训练规模或覆盖。
+从现有 102 个 approved clips 出发，优先审核/补搜 person 与稀疏猫狗组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups 才进入正式训练；否则缩小组合矩阵并公开缺口。当前 816 个候选中的 649 个仍为 pending，不能计入训练规模或覆盖。
+
+### 2026-08-14 Commons 结构化分类审计
+
+此前 8 个 `woman/man × walking/running × forest/snow/field` 全文窄查询只有 1 个新候选，人工核验后仍为 0 可用。官方分类树比继续堆关键词更可复现，但 Commons 并没有覆盖完整八格的 `person × {walking,running} × {forest,snow,field,beach}` 视频交叉分类；动作类、场景类和普通图片/混合媒体类必须分开处理。以下计数来自审计日的 Commons 官方分类页/Action API；`files` 与 `subcats` 都是**直属**数量，不含递归后代，分类会继续变化。
+
+| 精确 Commons 分类 | 直属 files / subcats | 用途与事实边界 |
+|---|---:|---|
+| [`Category:Videos of people walking`](https://commons.wikimedia.org/wiki/Category:Videos_of_people_walking) | 20 / 3 | walking 的第一入口；直属文件已包含冬季森林和沙地行走素材，但仍需逐片确认是否有持续可见的单人主体。 |
+| [`Category:Videos of people jogging`](https://commons.wikimedia.org/wiki/Category:Videos_of_people_jogging) | 4 / 1 | running 的最小高精度入口；Commons 在此主要使用 `jogging` 命名，不能假定存在同样丰富的 `Videos of people running`。 |
+| [`Category:Videos of people jogging in sport events`](https://commons.wikimedia.org/wiki/Category:Videos_of_people_jogging_in_sport_events) | 0 / 2 | 两个直属子类通向 half-marathon/marathon；可递归扩召回，但预期有人群、道路和赛事偏差。 |
+| [`Category:Videos of snow`](https://commons.wikimedia.org/wiki/Category:Videos_of_snow) | 170 / 8 | snow 场景池；数量大但多数不含目标人物动作，只适合反查和人工验真。 |
+| [`Category:Videos of forests`](https://commons.wikimedia.org/wiki/Category:Videos_of_forests) | 以 API 实时计数 | forest 场景池；当前页能定位已经批准的 `Forest walking and outdoor cooking slovenia.webm`。审计时 API 限流，未将未锁定的计数写成事实。 |
+| [`Category:Videos of beaches`](https://commons.wikimedia.org/wiki/Category:Videos_of_beaches) | 以 API 实时计数 | beach 场景池；适合反查 walking，但不能凭分类成员身份自动赋予动作或单主体标签。 |
+| [`Category:Videos of agricultural fields`](https://commons.wikimedia.org/wiki/Category:Videos_of_agricultural_fields) | 以 API 实时计数 | `field` 的精确视频类只覆盖农田，不等于 grass/meadow/pasture；需要分别补查草地/牧场体系。其父 [`Category:Fields`](https://commons.wikimedia.org/wiki/Category:Fields) 在审计时将该子类显示为 4 subcategories / 3 files。 |
+
+这些名字看似匹配、但不能直接作为视频训练池：[`Category:People walking in forests`](https://commons.wikimedia.org/wiki/Category:People_walking_in_forests) 为 11 files / 6 subcats，审计时直属 11 个均为图片；[`Category:People walking on beaches`](https://commons.wikimedia.org/wiki/Category:People_walking_on_beaches) 为 96 / 8，主要是图片；[`Category:People running in the snow`](https://commons.wikimedia.org/wiki/Category:People_running_in_the_snow) 为 2 / 0，两个都是 JPEG；[`Category:People running outdoors`](https://commons.wikimedia.org/wiki/Category:People_running_outdoors) 为 61 / 11，是混合媒体类。它们只能用于 category-membership 扩召回，并必须按媒体类型限定为 `video/*`；Commons 将 Ogg Theora 的 `.ogv` 报为 `application/ogg`，因此还只对 `.ogv + application/ogg` 开例外，普通 `.ogg` 音频继续拒绝。
+
+推荐导入顺序是：① 全量审核 walking 的 20 个直属文件；② 全量审核 jogging 的 4 个直属文件；③ 递归 walking/jogging 子类并保存完整 category path、continuation 和 visited 集合；④ 按 snow → forests → beaches → agricultural fields 的顺序从场景池反查人物动作；⑤ 最后才使用上述普通 People 分类扩召回。每个候选仍为 `pending`，分类名和标题只能排序，不能生成 `subject/action/scene` 标签。赛事、人群、第一视角、time-lapse、动作主体过小和同一 source 的 sibling clips 仍按既有门禁拒绝或合组。
+
+可复现查询使用 Commons 官方 [MediaWiki Action API](https://www.mediawiki.org/wiki/API:Main_page)：
+
+```text
+# 一次锁定多个分类的直属计数；读取 categoryinfo.files/subcats
+action=query&prop=categoryinfo&format=json&formatversion=2&titles=Category:...
+
+# 枚举直属文件；跟随 continue，并按 video/* 或 .ogv+application/ogg 过滤
+action=query&generator=categorymembers&gcmtitle=Category:...&gcmtype=file&gcmlimit=max&
+prop=imageinfo&iiprop=url|mime|size|extmetadata&format=json&formatversion=2
+
+# 枚举直属子类；递归时保存路径并防环
+action=query&list=categorymembers&cmtitle=Category:...&cmtype=subcat&cmlimit=max&
+format=json&formatversion=2
+```
+
+许可边界没有因采用分类树而变化。Commons 分类页明确文件适用各自描述页所列许可证；File namespace 的 structured data 与页面文本许可也不能替代视频本体的逐文件条款。导入时仍须保存 `LicenseShortName`、`LicenseUrl`、`Artist/Credit`、`AttributionRequired`、`UsageTerms`、页面 revision 与实际媒体 hash。**推断**：自由版权许可不等于画面中人物同意，也不自动解决隐私、人格权、公开权、敏感属性推断或商业代言问题；人物视频进入公开 checkpoint 前仍需单独风险复核。[Commons reuse 指南](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia) · [Commons 人物照片指引](https://commons.wikimedia.org/wiki/Commons:Photographs_of_identifiable_people)
 
 ### 为什么不是直接训练 800 GB
 
@@ -380,8 +415,18 @@ test 或 G0 结果称为“训练期未见组合泛化”。
   候选池现为 800 = 102 approved + 639 pending + 59 rejected；person 为 2/99/17。
   这轮证据否定“继续堆窄全文查询即可扩到 Commons-1K”的假设，后续需使用更有结构的
   Commons 分类/人工策展来源，或在公开缺口的前提下缩小 C1 组合矩阵。
+- 官方分类审计后实际导入 `Videos of hiking` 的 13 条直属/一级子类视频，以及
+  `Videos of people jogging` 的直属视频。过程中发现 Commons 将 `Running form.ogv` 与
+  `Spring shoes jogger Riverside Park jeh.ogv` 报为 `application/ogg`，旧 importer 因只认
+  `video/*` 静默丢弃；修复后仅允许 `.ogv + application/ogg`，普通 `.ogg` 仍拒绝。jogging
+  分类页 4 个成员中，3 个通过 MIME/逐文件许可门进入候选，Clinton 公有领域视频因缺
+  `LicenseUrl` 保持 fail-closed。新审核的 hiking 3 条分别为无人物第一视角、瀑布末段多人、
+  大型朝圣人群；jogging 3 条分别为主体过小、只拍腿部、先后出现多名跑者，全部拒绝。
+  当前池为 816 = 102 approved + 649 pending + 65 rejected；person 为 2/109/23，仍未增加
+  C1 coverage。priority/UI 现在通过 `--provenance` 只读合并 sidecar，能审核新导入项而不
+  改写候选快照；108 条 person pending 通过时长和官方 preview 门，另 1 条不绕过门禁。
 - 为避免 enrichment 与运行中的审核 UI 同时原子替换候选 JSONL，新增只读候选、逐 batch
-  原子写独立 sidecar 的 `commons_review.py provenance`。最新真实运行已补齐 800/800 条：每条
+  原子写独立 sidecar 的 `commons_review.py provenance`。最新真实运行已补齐 816/816 条：每条
   固化 Commons 描述页 revision、原媒体 URL/SHA-1/timestamp、时长和审核 derivative URL。
   下载前会再次查询并比对原媒体版本，发生覆盖就 fail-closed；sidecar 与候选 title 必须
   一一对应。最初 101 个 approved 已重新下载到**新的** provenance-complete 数据树，全部

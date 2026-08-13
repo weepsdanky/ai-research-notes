@@ -16,6 +16,7 @@ from commons_review import (
     enrich_provenance_sidecar,
     verify_provenance_sidecar,
     prioritize_review_rows,
+    merge_provenance_rows,
     main,
 )
 
@@ -173,6 +174,45 @@ def test_save_review_requires_known_positive_duration_for_approval(tmp_path):
         )
 
 
+def test_save_review_can_validate_approval_with_locked_sidecar_duration(tmp_path):
+    path = tmp_path / "candidates.jsonl"
+    original = {
+        "title": "File:Runner.ogv", "review_status": "pending",
+        "subject": "person", "action": "review_required",
+        "scene": "review_required", "prompt": "review required",
+    }
+    path.write_text(json.dumps(original) + "\n")
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text(json.dumps({
+        "title": "File:Runner.ogv", "duration_seconds": 4.0,
+        "review_preview_url": "https://upload.wikimedia.org/runner.webm",
+    }) + "\n")
+
+    save_review(
+        path, "File:Runner.ogv", status="approved", subject="person",
+        action="running", scene="forest", prompt="a person running in a forest",
+        start_seconds=1.0, provenance_path=provenance,
+    )
+
+    saved = json.loads(path.read_text())
+    assert saved["review_status"] == "approved"
+    assert "duration_seconds" not in saved
+
+
+def test_merge_provenance_rejects_fields_that_can_override_human_review():
+    candidates = [{
+        "title": "File:Runner.ogv", "review_status": "pending",
+        "subject": "person", "action": "review_required",
+    }]
+    sidecar_rows = [{
+        "title": "File:Runner.ogv", "duration_seconds": 4.0,
+        "review_status": "approved", "action": "running",
+    }]
+
+    with pytest.raises(ValueError, match="unsupported fields"):
+        merge_provenance_rows(candidates, sidecar_rows=sidecar_rows)
+
+
 def test_review_summary_counts_status_and_factor_coverage():
     rows = [
         {"review_status": "approved", "subject": "cat", "action": "walking",
@@ -266,6 +306,29 @@ def test_priority_cli_writes_auditable_jsonl_without_modifying_candidates(tmp_pa
     report = json.loads(output.read_text())
     assert report["title"] == "Solo runner.webm"
     assert report["priority_score"] > 0
+    assert candidates.read_text() == original
+
+
+def test_priority_cli_reads_playability_from_provenance_sidecar(tmp_path):
+    candidates = tmp_path / "candidates.jsonl"
+    original = json.dumps({
+        "title": "Runner.ogv", "description": "one runner",
+        "review_status": "pending", "subject": "person",
+    }) + "\n"
+    candidates.write_text(original)
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text(json.dumps({
+        "title": "Runner.ogv", "duration_seconds": 4,
+        "review_preview_url": "https://upload.wikimedia.org/runner.webm",
+    }) + "\n")
+    output = tmp_path / "priority.jsonl"
+
+    assert main([
+        "priority", str(candidates), str(output), "--subject", "person",
+        "--provenance", str(provenance),
+    ]) == 0
+
+    assert json.loads(output.read_text())["title"] == "Runner.ogv"
     assert candidates.read_text() == original
 
 

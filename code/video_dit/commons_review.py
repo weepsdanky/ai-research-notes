@@ -210,6 +210,36 @@ def write_json(path: Path, value: object) -> None:
     temporary.replace(path)
 
 
+def merge_provenance_rows(
+    rows: list[dict[str, object]], sidecar_path: Path | None = None, *,
+    sidecar_rows: list[dict[str, object]] | None = None,
+) -> list[dict[str, object]]:
+    """Overlay immutable provenance metadata onto candidates for read-only review."""
+
+    if sidecar_path is not None and sidecar_rows is not None:
+        raise ValueError("provide either a provenance path or rows, not both")
+    if sidecar_path is None and sidecar_rows is None:
+        return [dict(row) for row in rows]
+    sidecar = load_rows(sidecar_path) if sidecar_path is not None else sidecar_rows or []
+    allowed_fields = {
+        "title", "duration_seconds", "source_revision", "original_media_url",
+        "original_media_sha1", "original_media_timestamp", "description_url",
+        "attribution", "license", "license_url", "review_preview_url",
+        "review_media_error",
+    }
+    unsupported = sorted({key for row in sidecar for key in row} - allowed_fields)
+    if unsupported:
+        raise ValueError(f"provenance sidecar contains unsupported fields: {unsupported}")
+    titles = [str(row.get("title", "")) for row in sidecar]
+    if any(not title for title in titles) or len(titles) != len(set(titles)):
+        raise ValueError("provenance sidecar requires unique non-empty titles")
+    candidate_titles = {str(row.get("title", "")) for row in rows}
+    if not set(titles) <= candidate_titles:
+        raise ValueError("provenance sidecar contains unknown candidate titles")
+    overlay = {str(row["title"]): row for row in sidecar}
+    return [{**row, **overlay.get(str(row.get("title", "")), {})} for row in rows]
+
+
 def review_queue(
     rows: Iterable[dict[str, object]], *, status: str = "pending", subject: str = "all",
 ) -> list[str]:
@@ -388,6 +418,7 @@ def save_review(
     prompt: str,
     start_seconds: float = 0.0,
     notes: str = "",
+    provenance_path: Path | None = None,
 ) -> dict[str, object]:
     if status not in REVIEW_STATUSES:
         raise ValueError(f"status must be one of {sorted(REVIEW_STATUSES)}")
@@ -403,7 +434,11 @@ def save_review(
     if len(matches) != 1:
         raise ValueError(f"candidate title must match exactly one row: {title}")
     reviewed = matches[0]
-    duration = float(reviewed.get("duration_seconds", 0))
+    validation_row = next(
+        row for row in merge_provenance_rows(rows, provenance_path)
+        if row.get("title") == title
+    )
+    duration = float(validation_row.get("duration_seconds", 0))
     if status == "approved":
         if duration <= 0:
             raise ValueError("approved review requires a known positive video duration")
@@ -456,6 +491,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--status", choices=sorted(REVIEW_STATUSES | {"all"}),
                         default="pending")
     parser.add_argument("--subject", default="all")
+    parser.add_argument("--provenance", type=Path)
     args = parser.parse_args(argv)
     if args.output is not None and args.command in {"provenance", "priority"}:
         if args.output.resolve() == args.candidates.resolve():
@@ -476,7 +512,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.output is None:
             parser.error("priority requires an output JSONL path")
         report = prioritize_review_rows(
-            load_rows(args.candidates), status=args.status, subject=args.subject,
+            merge_provenance_rows(load_rows(args.candidates), args.provenance),
+            status=args.status, subject=args.subject,
         )
         write_rows(args.output, report)
     print(json.dumps(report, indent=2, sort_keys=True))

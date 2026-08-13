@@ -285,25 +285,33 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 满足新契约；当前 v2 的 102 条已全部重新 enrich 并迁移。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 800 条，目前 102 条 approved、639 条 pending、59 条 rejected；pending 绝不
+候选池为 816 条，目前 102 条 approved、649 条 pending、65 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
-而拒绝，person 仍有 99 条
+而拒绝，person 仍有 109 条
 pending。标题启发式只能排序人工队列，绝不自动批准或生成标签：
 
 ```bash
 uv run python commons_review.py priority data/commons_g1/candidates.jsonl \
-  data/commons_g1/person-review-priority.jsonl --subject person
+  data/commons_g1/person-review-priority.jsonl --subject person \
+  --provenance data/commons_g1/provenance-v2.jsonl
 uv run python commons_review_ui.py data/commons_g1/candidates.jsonl \
-  --status pending --subject person --priority-order --server-port 7863
+  --status pending --subject person --priority-order \
+  --provenance data/commons_g1/provenance-v2.jsonl --server-port 7863
 ```
 
-当前 99 条 person pending 中有 98 条满足“时长至少 2 秒且存在官方预览”的可播放审核门，
-因此 priority 报告只列这 98 条；余下 1 条不会绕过媒体门禁。
+当前 109 条 person pending 中有 108 条满足“时长至少 2 秒且存在官方预览”的可播放审核门，
+因此 priority 报告只列这 108 条；余下 1 条不会绕过媒体门禁。
 
 8 个更窄的 `woman/man × walking/running × forest/snow/field` Commons 全文查询只新增
 1 条 43 分钟多州旅行合集；20 帧全时长联系表确认它混有驾驶 POV、建筑、多人和不连续
 场景，已拒绝。该结果说明窄全文查询不能作为 Commons-1K 的高吞吐扩容方法。
+
+结构化分类导入还发现 Commons 会把视频 `.ogv` 报为 `application/ogg`；导入器现按扩展名
+只接受 `.ogv + application/ogg`，普通 `.ogg` 音频仍拒绝。priority/UI 可只读合并 provenance
+sidecar，因此新候选不必改写 candidates 就能获得时长与官方 preview。`Videos of hiking`
+新增 13 条，`Videos of people jogging` 在去重与许可门后新增 3 条；已审核的 6 条均因无
+可见人物、多人、主体过小或身体严重裁切而拒绝，剩余仍为 pending。
 
 缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
 `ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：

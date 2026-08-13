@@ -62,6 +62,14 @@ def _plain(value: str) -> str:
     return re.sub(r"<[^>]+>", "", html.unescape(value)).strip()
 
 
+def _is_video_file(title: str, mime: str) -> bool:
+    """Accept Commons video MIME values, including legacy Ogg video metadata."""
+
+    return mime.startswith("video/") or (
+        mime == "application/ogg" and title.casefold().endswith(".ogv")
+    )
+
+
 def candidate_from_api(
     payload: dict[str, object],
     *,
@@ -181,7 +189,7 @@ def search_candidates(
         page_candidates: list[CommonsCandidate] = []
         for page in pages.values():
             info = page.get("imageinfo", [{}])[0]
-            if not str(info.get("mime", "")).startswith("video/"):
+            if not _is_video_file(str(page["title"]), str(info.get("mime", ""))):
                 continue
             try:
                 candidate = candidate_from_api(
@@ -274,7 +282,7 @@ def category_candidates(
                     continue
                 page_id, page = entry
                 info = page.get("imageinfo", [{}])[0]
-                if not str(info.get("mime", "")).startswith("video/"):
+                if not _is_video_file(title, str(info.get("mime", ""))):
                     continue
                 try:
                     candidate = candidate_from_api(
