@@ -266,8 +266,14 @@ uv run python prepare_commons.py download \
 下载会保留原页面、逐条许可、署名、SHA-256 和感知 hash。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 710 条，但仅 100 条 approved；568 条 pending（含 28 条未审核 person 候选）
-绝不计作训练数据或组合覆盖。
+候选池为 798 条，但仅 100 条 approved；655 条 pending（含 115 条未审核 person 候选）
+绝不计作训练数据或组合覆盖。649 条 pending 已有至少 2 秒的官方预览，可用筛选队列逐条
+审核；例如优先处理 person 并在保存后自动前进：
+
+```bash
+uv run python commons_review_ui.py data/commons_g1/candidates.jsonl \
+  --status pending --subject person --server-port 7863
+```
 
 缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
 `ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：

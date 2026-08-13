@@ -9,6 +9,8 @@ from commons_review import (
     enrich_review_metadata,
     fetch_review_media_batch,
     build_contact_sheet,
+    review_queue,
+    next_review_title,
 )
 
 
@@ -175,6 +177,36 @@ def test_review_summary_exposes_pending_labeling_backlog():
     ])
 
     assert summary["pending_placeholders"] == 1
+
+
+def test_review_queue_filters_subject_status_and_unplayable_rows():
+    rows = [
+        {"title": "dog", "review_status": "pending", "subject": "dog",
+         "duration_seconds": 4, "review_preview_url": "https://upload/dog.webm"},
+        {"title": "person-b", "review_status": "pending", "subject": "person",
+         "duration_seconds": 3, "review_preview_url": "https://upload/b.webm"},
+        {"title": "person-a", "review_status": "pending", "subject": "person",
+         "duration_seconds": 8, "review_preview_url": "https://upload/a.webm"},
+        {"title": "too-short", "review_status": "pending", "subject": "person",
+         "duration_seconds": 1, "review_preview_url": "https://upload/short.webm"},
+        {"title": "approved", "review_status": "approved", "subject": "person",
+         "duration_seconds": 3, "review_preview_url": "https://upload/ok.webm"},
+    ]
+
+    assert review_queue(rows, status="pending", subject="person") == [
+        "person-a", "person-b",
+    ]
+    assert review_queue(rows, status="all", subject="all") == [
+        "approved", "dog", "person-a", "person-b",
+    ]
+
+
+def test_next_review_title_advances_without_looping_on_saved_row():
+    assert next_review_title("person-a", ["person-b", "person-c"]) == "person-b"
+    assert next_review_title("person-b", ["person-a", "person-b", "person-c"]) == "person-c"
+    assert next_review_title("person-c", ["person-a", "person-b", "person-c"]) == "person-a"
+    assert next_review_title("person-z", ["person-b", "person-c"]) == "person-b"
+    assert next_review_title("person-a", []) is None
 
 
 def test_enrich_review_metadata_persists_duration_without_downloading_video(tmp_path, monkeypatch):

@@ -7,12 +7,19 @@ import json
 from pathlib import Path
 
 from commons_review import (
-    cache_review_preview, fetch_review_media, load_rows, save_review, summarize_reviews,
+    cache_review_preview, fetch_review_media, load_rows, next_review_title,
+    review_queue, save_review, summarize_reviews,
 )
 from web_ui import ensure_loopback_proxy_bypass
 
 
-def build_ui(candidates_path: Path, preview_cache: Path | None = None):
+def build_ui(
+    candidates_path: Path,
+    preview_cache: Path | None = None,
+    *,
+    status_filter: str = "pending",
+    subject_filter: str = "all",
+):
     try:
         import gradio as gr
     except ImportError as error:
@@ -21,10 +28,19 @@ def build_ui(candidates_path: Path, preview_cache: Path | None = None):
     rows = load_rows(candidates_path)
     if not rows:
         raise ValueError("candidate manifest is empty")
-    titles = [str(row["title"]) for row in rows]
+    titles = review_queue(rows, status=status_filter, subject=subject_filter)
+    if not titles:
+        raise ValueError("no playable candidates match the review filters")
     cache_dir = preview_cache or candidates_path.parent / "review_previews"
 
-    def load(title: str):
+    def load(title: str | None):
+        if title is None:
+            summary = summarize_reviews(load_rows(candidates_path))
+            return (
+                None, "", "", "", "", None, "", "", "", "", 0, "",
+                json.dumps({**summary, "queue_complete": True}, indent=2),
+                gr.Button(interactive=False),
+            )
         current = next(row for row in load_rows(candidates_path) if row["title"] == title)
         if current.get("review_preview_url"):
             media = {
@@ -43,6 +59,7 @@ def build_ui(candidates_path: Path, preview_cache: Path | None = None):
             current.get("scene", ""), current.get("prompt", ""),
             float(current.get("start_seconds", 0)), current.get("review_notes", ""),
             json.dumps({**summary, "duration": media["duration"]}, indent=2),
+            gr.Button(interactive=True),
         )
 
     def save(title, status, subject, action, scene, prompt, start, notes):
@@ -50,7 +67,14 @@ def build_ui(candidates_path: Path, preview_cache: Path | None = None):
             candidates_path, title, status=status, subject=subject, action=action,
             scene=scene, prompt=prompt, start_seconds=float(start), notes=notes,
         )
-        return json.dumps(summarize_reviews(load_rows(candidates_path)), indent=2)
+        updated = load_rows(candidates_path)
+        remaining = review_queue(
+            updated, status=status_filter, subject=subject_filter,
+        )
+        return (
+            json.dumps(summarize_reviews(updated), indent=2),
+            next_review_title(title, remaining),
+        )
 
     with gr.Blocks(title="Commons real-video review") as demo:
         gr.Markdown(
@@ -81,16 +105,16 @@ def build_ui(candidates_path: Path, preview_cache: Path | None = None):
         report = gr.Code(label="Review coverage", language="json")
         load_outputs = [
             video, page, license_name, attribution, description, status, subject,
-            action, scene, prompt, start, notes, report,
+            action, scene, prompt, start, notes, report, save_button,
         ]
-        title.change(load, inputs=[title], outputs=load_outputs)
         demo.load(load, inputs=[title], outputs=load_outputs)
         save_button.click(
             save,
             inputs=[title, status, subject, action, scene, prompt, start, notes],
-            outputs=[report],
+            outputs=[report, title],
             concurrency_limit=1,
         )
+        title.change(load, inputs=[title], outputs=load_outputs)
     return demo
 
 
@@ -99,13 +123,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("candidates", type=Path)
     parser.add_argument("--server-name", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=7862)
+    parser.add_argument("--status", choices=["pending", "approved", "rejected", "all"],
+                        default="pending")
+    parser.add_argument("--subject", default="all")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
     ensure_loopback_proxy_bypass(args.server_name)
-    build_ui(args.candidates).launch(
+    build_ui(
+        args.candidates, status_filter=args.status, subject_filter=args.subject,
+    ).launch(
         server_name=args.server_name, server_port=args.server_port, share=False,
     )
 

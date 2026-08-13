@@ -157,6 +157,38 @@ def write_rows(path: Path, rows: list[dict[str, object]]) -> None:
     temporary.replace(path)
 
 
+def review_queue(
+    rows: Iterable[dict[str, object]], *, status: str = "pending", subject: str = "all",
+) -> list[str]:
+    """Return a deterministic queue containing only videos safe to review."""
+
+    if status not in REVIEW_STATUSES | {"all"}:
+        raise ValueError(f"unknown review status: {status}")
+    materialized = list(rows)
+    subjects = {str(row.get("subject", "")) for row in materialized} | {"all"}
+    if subject not in subjects:
+        raise ValueError(f"unknown review subject: {subject}")
+    return sorted(
+        str(row["title"])
+        for row in materialized
+        if (status == "all" or row.get("review_status") == status)
+        and (subject == "all" or row.get("subject") == subject)
+        and float(row.get("duration_seconds", 0) or 0) >= 2
+        and bool(row.get("review_preview_url"))
+    )
+
+
+def next_review_title(current: str, remaining: list[str]) -> str | None:
+    """Choose the next remaining review item after the current row was saved."""
+
+    if not remaining:
+        return None
+    if current in remaining:
+        index = remaining.index(current)
+        return remaining[(index + 1) % len(remaining)]
+    return remaining[0]
+
+
 def enrich_review_metadata(path: Path) -> dict[str, object]:
     """Persist lightweight duration/derivative metadata, resuming row by row."""
 
