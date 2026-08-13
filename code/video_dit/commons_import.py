@@ -11,8 +11,10 @@ import shutil
 import subprocess
 import json
 import urllib.parse
+import urllib.error
 import urllib.request
 import uuid
+import time
 
 from real_data import RealVideoRecord, decode_video_clip, perceptual_hash
 
@@ -117,9 +119,79 @@ def fetch_candidate(
     )
 
 
-def _slug(value: str) -> str:
+def search_candidates(
+    query: str,
+    *,
+    subject: str,
+    action: str,
+    scene: str,
+    prompt: str,
+    limit: int = 100,
+) -> list[CommonsCandidate]:
+    """Search Commons metadata, returning candidates for human review only."""
+
+    if not query.strip():
+        raise ValueError("query must be non-empty")
+    if limit < 1:
+        raise ValueError("limit must be at least 1")
+    candidates: list[CommonsCandidate] = []
+    continuation: dict[str, object] = {}
+    while len(candidates) < limit:
+        parameters: dict[str, object] = {
+            "action": "query",
+            "format": "json",
+            "generator": "search",
+            "gsrsearch": query,
+            "gsrnamespace": 6,
+            "gsrlimit": min(50, limit - len(candidates)),
+            "prop": "imageinfo",
+            "iiprop": "url|mime|extmetadata",
+            **continuation,
+        }
+        request = urllib.request.Request(
+            "https://commons.wikimedia.org/w/api.php?"
+            + urllib.parse.urlencode(parameters),
+            headers={"User-Agent": "ai-research-notes-video-dit/0.1 research"},
+        )
+        for attempt in range(6):
+            try:
+                with urllib.request.urlopen(request, timeout=30) as response:
+                    payload = json.loads(response.read())
+                break
+            except urllib.error.HTTPError as error:
+                if error.code != 429 or attempt == 5:
+                    raise
+                retry_after = error.headers.get("Retry-After") if error.headers else None
+                time.sleep(float(retry_after) if retry_after else 2 ** attempt)
+        pages = payload.get("query", {}).get("pages", {})
+        for page in pages.values():
+            info = page.get("imageinfo", [{}])[0]
+            if not str(info.get("mime", "")).startswith("video/"):
+                continue
+            try:
+                candidate = candidate_from_api(
+                    {"query": {"pages": {str(page.get("pageid", page["title"])): page}}},
+                    subject=subject,
+                    action=action,
+                    scene=scene,
+                    prompt=prompt,
+                )
+            except ValueError:
+                continue
+            candidates.append(candidate)
+            if len(candidates) == limit:
+                break
+        continuation = payload.get("continue", {})
+        if not continuation:
+            break
+    return candidates
+
+
+def candidate_sample_id(value: str) -> str:
     value = value.removeprefix("File:").rsplit(".", 1)[0].lower()
-    return re.sub(r"[^a-z0-9]+", "-", value).strip("-") or "commons-video"
+    readable = re.sub(r"[^a-z0-9]+", "-", value).strip("-") or "commons-video"
+    suffix = hashlib.sha256(value.encode()).hexdigest()[:10]
+    return f"{readable}-{suffix}"
 
 
 def normalize_clip(
@@ -139,17 +211,18 @@ def normalize_clip(
     if ffmpeg is None:
         raise RuntimeError("ffmpeg is required")
     output_dir.mkdir(parents=True, exist_ok=True)
-    sample_id = _slug(candidate.title)
+    sample_id = candidate_sample_id(candidate.title)
     destination = output_dir / f"{sample_id}.mp4"
     temporary = output_dir / f".{sample_id}.{uuid.uuid4().hex}.tmp.mp4"
-    source = output_dir / f".{sample_id}.{uuid.uuid4().hex}.source"
+    source = output_dir / f".{sample_id}.source.partial"
     curl = shutil.which("curl")
     if curl is None:
         raise RuntimeError("curl is required for resumable Commons downloads")
     download = [
-        curl, "-L", "--fail", "--silent", "--show-error", "--retry", "4",
+        curl, "--fail", "--silent", "--show-error", "--retry", "4",
         "--retry-all-errors", "--user-agent",
-        "ai-research-notes-video-dit/0.1 research", "-o", str(source),
+        "ai-research-notes-video-dit/0.1 research", "--proto", "=https",
+        "--continue-at", "-", "-o", str(source),
         candidate.media_url,
     ]
     command = [
@@ -185,9 +258,9 @@ def normalize_clip(
         ):
             raise ValueError(f"normalized clip {candidate.title} failed media validation")
         temporary.replace(destination)
+        source.unlink(missing_ok=True)
     finally:
         temporary.unlink(missing_ok=True)
-        source.unlink(missing_ok=True)
     digest = hashlib.sha256(destination.read_bytes()).hexdigest()
     fingerprint = perceptual_hash(
         decode_video_clip(destination, frames=frames, size=size)

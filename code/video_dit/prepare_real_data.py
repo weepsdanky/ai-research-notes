@@ -40,11 +40,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     split.add_argument("--iid-fraction", type=float, default=0.15)
     split.add_argument("--validation-fraction", type=float, default=0.10)
     split.add_argument("--seed", type=int, default=0)
+    split.add_argument("--min-c1-source-groups", type=int, default=50)
+    split.add_argument("--min-c2-source-groups", type=int, default=1)
+    split.add_argument("--min-iid-source-groups", type=int, default=1)
+    split.add_argument("--min-train-pair-source-groups", type=int, default=1)
     split.add_argument("--report", type=Path)
     validate = subparsers.add_parser("validate")
     validate.add_argument("manifest", type=Path)
     validate.add_argument("--c1", type=_triple, action="append", default=[])
     validate.add_argument("--c2", type=_pair, action="append", default=[])
+    validate.add_argument("--min-c1-source-groups", type=int, default=50)
+    validate.add_argument("--min-c2-source-groups", type=int, default=1)
+    validate.add_argument("--min-iid-source-groups", type=int, default=1)
+    validate.add_argument("--min-train-pair-source-groups", type=int, default=1)
     validate.add_argument("--report", type=Path)
     return parser.parse_args(argv)
 
@@ -56,6 +64,10 @@ def _policy(args: argparse.Namespace) -> CompositionalSplit:
         iid_fraction=getattr(args, "iid_fraction", 0),
         validation_fraction=getattr(args, "validation_fraction", 0),
         seed=getattr(args, "seed", 0),
+        min_c1_source_groups=args.min_c1_source_groups,
+        min_c2_source_groups=args.min_c2_source_groups,
+        min_iid_source_groups=args.min_iid_source_groups,
+        min_train_pair_source_groups=args.min_train_pair_source_groups,
     )
 
 

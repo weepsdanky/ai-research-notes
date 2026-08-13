@@ -253,6 +253,88 @@ def test_validator_rejects_c2_records_not_matching_any_declared_pair():
         validate_split(records, policy)
 
 
+def test_validator_enforces_minimum_independent_c1_sources():
+    records = _factorial_records()
+    policy = CompositionalSplit(
+        c1_triples={("cat", "running", "snow")}, c2_pairs=set(),
+        iid_fraction=0, validation_fraction=0,
+        min_c1_source_groups=4, min_train_pair_source_groups=1,
+    )
+    assigned = split_manifest(records, policy)
+
+    with pytest.raises(ValueError, match="requires 4 independent source groups"):
+        validate_split(assigned, policy)
+
+
+def test_validator_counts_distinct_train_sources_for_each_c1_pair_projection():
+    records = _factorial_records()
+    policy = CompositionalSplit(
+        c1_triples={("cat", "running", "snow")}, c2_pairs=set(),
+        iid_fraction=0, validation_fraction=0,
+        min_c1_source_groups=1, min_train_pair_source_groups=4,
+    )
+    assigned = split_manifest(records, policy)
+
+    with pytest.raises(ValueError, match="pair projection.*requires 4"):
+        validate_split(assigned, policy)
+
+
+def test_near_duplicates_count_as_one_independent_source_group():
+    records = _factorial_records()
+    held = [r for r in records if r.triple == ("cat", "running", "snow")]
+    records = [r for r in records if r not in held]
+    records.extend([
+        __import__("dataclasses").replace(
+            record, perceptual_hash=f"{index:016x}"
+        )
+        for index, record in enumerate(held)
+    ])
+    policy = CompositionalSplit(
+        c1_triples={("cat", "running", "snow")}, c2_pairs=set(),
+        iid_fraction=0, validation_fraction=0, near_duplicate_hamming=4,
+        min_c1_source_groups=2,
+    )
+    assigned = split_manifest(records, policy)
+
+    with pytest.raises(ValueError, match="requires 2 independent source groups; found 1"):
+        validate_split(assigned, policy)
+
+
+def test_grouping_many_identical_hashes_does_not_recurse():
+    records = [
+        __import__("dataclasses").replace(
+            _record(f"duplicate-{index}", "cat", "walking", "grass"),
+            perceptual_hash="0000000000000000",
+        )
+        for index in range(1100)
+    ]
+    from real_data import _Groups
+    assert len(_Groups(records, 4).members()) == 1
+
+
+def test_iid_triples_must_be_present_in_training_and_report_has_coverage_table():
+    train = __import__("dataclasses").replace(
+        _record("train", "cat", "walking", "grass"), split="train"
+    )
+    iid = __import__("dataclasses").replace(
+        _record("iid", "dog", "running", "snow"), split="iid"
+    )
+    policy = CompositionalSplit(
+        c1_triples=set(), c2_pairs=set(), iid_fraction=0, validation_fraction=0,
+        min_c1_source_groups=1, min_train_pair_source_groups=1,
+    )
+
+    with pytest.raises(ValueError, match="IID triple absent from training"):
+        validate_split([train, iid], policy)
+
+    seen_iid = __import__("dataclasses").replace(
+        _record("iid-seen", "cat", "walking", "grass"), split="iid"
+    )
+    report = validate_split([train, seen_iid], policy)
+    assert report["coverage"]["train_triples"]["cat|walking|grass"] == 1
+    assert report["coverage"]["iid_triples"]["cat|walking|grass"] == 1
+
+
 def test_real_video_dataset_decodes_normalized_temporal_clip(tmp_path):
     source = Path(__file__).parents[1] / "demo_artifacts" / "samples" / (
         "model_person_red_walk_right_snow_seed-42.mp4"

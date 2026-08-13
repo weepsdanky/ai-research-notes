@@ -91,6 +91,10 @@ class CompositionalSplit:
     validation_fraction: float = 0.10
     seed: int = 0
     near_duplicate_hamming: int = 4
+    min_c1_source_groups: int = 1
+    min_c2_source_groups: int = 1
+    min_iid_source_groups: int = 1
+    min_train_pair_source_groups: int = 1
 
     def __post_init__(self) -> None:
         if not 0 <= self.iid_fraction < 1:
@@ -101,6 +105,12 @@ class CompositionalSplit:
             raise ValueError("iid_fraction + validation_fraction must be below 1")
         if self.near_duplicate_hamming < 0:
             raise ValueError("near_duplicate_hamming must be non-negative")
+        for name in (
+            "min_c1_source_groups", "min_c2_source_groups",
+            "min_iid_source_groups", "min_train_pair_source_groups",
+        ):
+            if getattr(self, name) < 1:
+                raise ValueError(f"{name} must be at least 1")
 
 
 def write_manifest(path: Path, records: Iterable[RealVideoRecord]) -> Path:
@@ -128,7 +138,9 @@ def load_manifest(path: Path) -> list[RealVideoRecord]:
 
 
 class _Groups:
-    def __init__(self, records: list[RealVideoRecord]) -> None:
+    def __init__(
+        self, records: list[RealVideoRecord], near_duplicate_hamming: int | None = None,
+    ) -> None:
         self.parent = list(range(len(records)))
         source_owner: dict[str, int] = {}
         duplicate_owner: dict[str, int] = {}
@@ -136,6 +148,53 @@ class _Groups:
             self._join_owner(source_owner, record.source_id, index)
             if record.duplicate_group:
                 self._join_owner(duplicate_owner, record.duplicate_group, index)
+        if near_duplicate_hamming is not None:
+            tree: tuple[int, list[int], dict[int, object]] | None = None
+
+            def neighbors(
+                node: tuple[int, list[int], dict[int, object]], value: int,
+            ) -> list[int]:
+                found: list[int] = []
+                stack = [node]
+                while stack:
+                    node_value, node_indices, children = stack.pop()
+                    distance = (node_value ^ value).bit_count()
+                    if distance <= near_duplicate_hamming:
+                        found.extend(node_indices)
+                    lower = distance - near_duplicate_hamming
+                    upper = distance + near_duplicate_hamming
+                    stack.extend(
+                        child  # type: ignore[misc]
+                        for edge, child in children.items()
+                        if lower <= edge <= upper
+                    )
+                return found
+
+            def insert(
+                node: tuple[int, list[int], dict[int, object]], value: int, index: int,
+            ) -> None:
+                current = node
+                while True:
+                    distance = (current[0] ^ value).bit_count()
+                    if distance == 0:
+                        current[1].append(index)
+                        return
+                    child = current[2].get(distance)
+                    if child is None:
+                        current[2][distance] = (value, [index], {})
+                        return
+                    current = child  # type: ignore[assignment]
+
+            for index, record in enumerate(records):
+                if record.perceptual_hash is None:
+                    continue
+                value = int(record.perceptual_hash, 16)
+                if tree is None:
+                    tree = (value, [index], {})
+                    continue
+                for neighbor in neighbors(tree, value):
+                    self._union(neighbor, index)
+                insert(tree, value, index)
 
     def _root(self, index: int) -> int:
         while self.parent[index] != index:
@@ -182,7 +241,7 @@ def split_manifest(
 
     materialized = list(records)
     assigned: list[RealVideoRecord | None] = [None] * len(materialized)
-    for members in _Groups(materialized).members():
+    for members in _Groups(materialized, policy.near_duplicate_hamming).members():
         group = [materialized[index] for index in members]
         c1_matches = [record.triple in policy.c1_triples for record in group]
         if any(c1_matches) and not all(c1_matches):
@@ -219,6 +278,48 @@ def split_manifest(
 def _pair_projections(triple: TRIPLE) -> set[PAIR]:
     subject, action, scene = triple
     return {(subject, action), (subject, scene), (action, scene)}
+
+
+def _independent_group_ids(
+    records: list[RealVideoRecord], near_duplicate_hamming: int,
+) -> dict[int, int]:
+    """Map records to transitive source/duplicate groups."""
+
+    result: dict[int, int] = {}
+    for group_id, members in enumerate(
+        _Groups(records, near_duplicate_hamming).members()
+    ):
+        for index in members:
+            result[index] = group_id
+    return result
+
+
+def _coverage_by_triple(
+    records: list[RealVideoRecord], group_ids: dict[int, int], split: str,
+) -> dict[TRIPLE, set[int]]:
+    coverage: dict[TRIPLE, set[int]] = {}
+    for index, record in enumerate(records):
+        if record.split == split:
+            coverage.setdefault(record.triple, set()).add(group_ids[index])
+    return coverage
+
+
+def _coverage_by_pair(
+    records: list[RealVideoRecord], group_ids: dict[int, int], split: str,
+) -> dict[PAIR, set[int]]:
+    coverage: dict[PAIR, set[int]] = {}
+    for index, record in enumerate(records):
+        if record.split == split:
+            for pair in _pair_projections(record.triple):
+                coverage.setdefault(pair, set()).add(group_ids[index])
+    return coverage
+
+
+def _json_coverage(values: dict[tuple[str, ...], set[int]]) -> dict[str, int]:
+    return {
+        "|".join(key): len(group_ids)
+        for key, group_ids in sorted(values.items())
+    }
 
 
 def validate_split(
@@ -262,6 +363,12 @@ def validate_split(
                 )
 
     train = [record for record in materialized if record.split == "train"]
+    group_ids = _independent_group_ids(materialized, policy.near_duplicate_hamming)
+    triple_coverage = {
+        split: _coverage_by_triple(materialized, group_ids, split)
+        for split in ("train", "validation", "iid", "c1", "c2")
+    }
+    train_pair_coverage = _coverage_by_pair(materialized, group_ids, "train")
     train_triples = {record.triple for record in train}
     train_atoms = {
         value for record in train for value in record.triple
@@ -284,6 +391,20 @@ def validate_split(
         missing_pairs = _pair_projections(triple) - train_pairs
         if missing_pairs:
             raise ValueError(f"C1 pair projection absent from training: {sorted(missing_pairs)}")
+        c1_sources = len(triple_coverage["c1"].get(triple, set()))
+        if c1_sources < policy.min_c1_source_groups:
+            raise ValueError(
+                f"C1 triple {triple} requires {policy.min_c1_source_groups} "
+                f"independent source groups; found {c1_sources}"
+            )
+        for pair in _pair_projections(triple):
+            source_count = len(train_pair_coverage.get(pair, set()))
+            if source_count < policy.min_train_pair_source_groups:
+                raise ValueError(
+                    f"C1 pair projection {pair} requires "
+                    f"{policy.min_train_pair_source_groups} independent training "
+                    f"source groups; found {source_count}"
+                )
     c2_records = [record for record in materialized if record.split == "c2"]
     unexpected_c2 = [
         record.sample_id
@@ -299,6 +420,27 @@ def validate_split(
             raise ValueError(f"C2 pair leaked into training: {pair}")
         if not set(pair) <= train_atoms:
             raise ValueError(f"C2 atoms must each occur in training: {pair}")
+        c2_sources = {
+            group_ids[index]
+            for index, record in enumerate(materialized)
+            if record.split == "c2" and pair in _pair_projections(record.triple)
+        }
+        if len(c2_sources) < policy.min_c2_source_groups:
+            raise ValueError(
+                f"C2 pair {pair} requires {policy.min_c2_source_groups} "
+                f"independent source groups; found {len(c2_sources)}"
+            )
+
+    iid_triples = set(triple_coverage["iid"])
+    unseen_iid = iid_triples - train_triples
+    if unseen_iid:
+        raise ValueError(f"IID triple absent from training: {sorted(unseen_iid)}")
+    for triple, sources in triple_coverage["iid"].items():
+        if len(sources) < policy.min_iid_source_groups:
+            raise ValueError(
+                f"IID triple {triple} requires {policy.min_iid_source_groups} "
+                f"independent source groups; found {len(sources)}"
+            )
 
     counts = {split: 0 for split in sorted(SPLITS)}
     for record in materialized:
@@ -309,6 +451,19 @@ def validate_split(
         "counts": counts,
         "c1_triples": sorted(policy.c1_triples),
         "c2_pairs": sorted(policy.c2_pairs),
+        "coverage": {
+            **{
+                f"{split}_triples": _json_coverage(coverage)
+                for split, coverage in triple_coverage.items()
+            },
+            "train_pairs": _json_coverage(train_pair_coverage),
+        },
+        "minimums": {
+            "c1_source_groups": policy.min_c1_source_groups,
+            "c2_source_groups": policy.min_c2_source_groups,
+            "iid_source_groups": policy.min_iid_source_groups,
+            "train_pair_source_groups": policy.min_train_pair_source_groups,
+        },
     }
 
 

@@ -143,3 +143,23 @@ scene   = grass/field | forest | beach | snow | indoor/home
 | G4 | C2 pair holdout | 独立报告更强的二元留出结果和失败案例 | 不用扩大数据掩盖 split 缺陷 |
 
 最终目标不是生成一个“看起来像猫”的 cherry-picked MP4，而是能回答：模型是否在没有见过某个 `subject × action × scene` 三元组、也没有见过同源和近重复视频的情况下，仍能按照文本同时满足三个条件。
+
+## 2026-08-13 执行记录
+
+- 已取得并解析 VATEX 官方 `vatex_training_v1.0.json`：25,991 records，SHA-256
+  `9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`。
+  caption 粗筛得到 cat 1,415、dog 600、cat+snow 25、dog+snow 71；这些数字只是
+  metadata 候选量，不能代替视频级人工确认。
+- 当前机器没有 Hugging Face 登录令牌；VideoUFO 大文件连接仍超时，FineVideo 又需
+  显式接受 gated 条款，所以暂未把二者的视频写进 manifest。
+- Wikimedia Commons 类别检索取得 54 个猫、59 个狗候选，另有 27 个动作检索候选。
+  初查发现关键词搜索存在明显误命中，因此管线强制先生成 `pending` 候选清单，人工
+  查看原页面和视频后才可改为 `approved` 并下载。
+- split validator 现在按 source/duplicate/近重复感知 hash 的传递闭包统计独立来源，正式 CLI 默认每个
+  C1 triple 至少 50 个独立来源；同时检查每个 C1 pair 在训练中的来源覆盖、IID triple
+  的训练覆盖，并输出完整 coverage table。
+
+因此当前状态是：数据检索和防泄漏代码路径已经闭环，但仍须在实际数据上做人工身份/
+拍摄事件审计；G0 的 100 个**人工确认真实 clip**
+尚未集齐，也尚未开始能回答组合泛化问题的训练。不能把已有单 clip smoke test 或三段
+合成动画当作该问题的结果。

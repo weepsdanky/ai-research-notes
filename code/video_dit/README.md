@@ -212,7 +212,8 @@ CLI/UI 只用 `weights_only=True` 加载 `video_dit_inference.pt`。含 optimize
 [`video-dit-real-data-plan.md`](../../docs/case-studies/video-dit-real-data-plan.md)。当前已经实现并验证：
 
 - JSONL manifest 强制保存 source ID、原页面、许可、署名、SHA-256；
-- source group、人工 duplicate group 与 64-bit 感知指纹的跨 split 泄漏检查；
+- source group、人工 duplicate group 与 64-bit 感知指纹构成传递 group；近重复既不跨
+  split，也不会被重复计作独立来源；
 - IID、C1 三元组合留出、C2 二元组合留出的确定性切分和 fail-closed 验证；
 - ffmpeg 真实 MP4 解码，以及缓存冻结文本 embedding / VAE latent 的数据接口；
 - 官方 OpenAI CLIP ViT-B/32 冻结文本塔，encoder ID 中记录完整权重 SHA-256；
@@ -226,8 +227,32 @@ uv run python prepare_real_data.py split source.jsonl split.jsonl \
   --c1 cat,running,snow --c2 dog,snow --report split-report.json
 
 uv run python prepare_real_data.py validate split.jsonl \
-  --c1 cat,running,snow --c2 dog,snow
+  --c1 cat,running,snow --c2 dog,snow \
+  --min-c1-source-groups 50 --min-train-pair-source-groups 1
 ```
+
+验证器按 source/duplicate 的传递闭包计数，不把同源裁出的多个 clip 当成多个独立
+样本。正式 CLI 默认要求每个 C1 三元组至少 50 个独立来源；IID 三元组必须也存在于
+训练集。`split-report.json` 会输出 train/IID/C1/C2 的三元组 coverage table 和训练
+pair coverage。小规模管线测试可以显式降低门槛，但不能据此宣称组合泛化。
+
+Wikimedia Commons 的许可可审计候选采用“搜索→人工审核→下载”两阶段流程。搜索结果
+永远是 `pending`，不会直接进入训练：
+
+```bash
+uv run python prepare_commons.py search \
+  configs/commons_g0_search.json data/commons_g0/candidates.jsonl
+
+# 人工检查原页面与视频，把正确的 subject/action/scene/prompt 改好，
+# 仅将确认样本的 review_status 改为 approved。
+uv run python prepare_commons.py download \
+  data/commons_g0/candidates.jsonl data/commons_g0/clips \
+  data/commons_g0/source.jsonl
+```
+
+下载会保留原页面、逐条许可、署名、SHA-256 和感知 hash。错误搜索命中（例如机器人
+狗、纪录片或主体过小）必须拒绝；网络 429 后可重复运行搜索，已经完成的 query 不会
+重复抓取。
 
 缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
 `ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：
@@ -255,3 +280,9 @@ uv run python train.py \
 实验。VideoUFO 最小官方分片和 SD VAE 权重在本次运行中均因 Hugging Face 大文件
 连接超时未取得；当前 latent reader 已 fail-closed，但在实际 VAE cache 完成之前不把
 像素 smoke test 称为 latent 训练。
+
+官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为
+`9a3b5f08e354d9543ef4f1ab004f9db9bc4e5da49d9692f0c8c6aa3bef9751c4`；其中
+25,991 个视频 ID 中，caption 匹配 cat/dog 的视频约为 1,415/600，匹配
+cat+snow/dog+snow 约为 25/71。这是候选规模统计，不是人工确认标签；VATEX 官方不
+分发视频本体，因此视频本体的来源权利仍须逐条审计。

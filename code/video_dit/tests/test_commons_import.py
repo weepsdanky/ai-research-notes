@@ -5,6 +5,7 @@ from commons_import import (
     candidate_from_api,
     fetch_candidate,
     normalize_clip,
+    search_candidates,
 )
 
 
@@ -137,3 +138,81 @@ def test_fetch_candidate_uses_exact_commons_title(monkeypatch):
 
     assert "titles=File%3ACat+jump.webm" in captured["url"]
     assert candidate.attribution == "Example Author"
+
+
+def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
+    responses = [
+        {
+            "continue": {"gsroffset": 2, "continue": "gsroffset||"},
+            "query": {"pages": {
+                "1": {
+                    "title": "File:Cat runs.webm",
+                    "imageinfo": [{
+                        "url": "https://upload.wikimedia.org/cat.webm",
+                        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat_runs.webm",
+                        "mime": "video/webm",
+                        "extmetadata": {
+                            "Artist": {"value": "Cat Author"},
+                            "LicenseShortName": {"value": "CC BY 4.0"},
+                            "LicenseUrl": {"value": "https://creativecommons.org/licenses/by/4.0"},
+                        },
+                    }],
+                },
+                "2": {
+                    "title": "File:Cat.jpg",
+                    "imageinfo": [{
+                        "url": "https://upload.wikimedia.org/cat.jpg",
+                        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat.jpg",
+                        "mime": "image/jpeg",
+                        "extmetadata": {},
+                    }],
+                },
+            }},
+        },
+        {"query": {"pages": {
+            "3": {
+                "title": "File:Second cat.ogv",
+                "imageinfo": [{
+                    "url": "https://upload.wikimedia.org/cat.ogv",
+                    "descriptionurl": "https://commons.wikimedia.org/wiki/File:Second_cat.ogv",
+                    "mime": "video/ogg",
+                    "extmetadata": {
+                        "Attribution": {"value": "Other Author"},
+                        "LicenseShortName": {"value": "CC0"},
+                        "LicenseUrl": {"value": "https://creativecommons.org/publicdomain/zero/1.0"},
+                    },
+                }],
+            },
+        }}},
+    ]
+    requested_urls = []
+
+    class Response:
+        def __init__(self, payload):
+            self.payload = payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return None
+
+        def read(self):
+            import json
+            return json.dumps(self.payload).encode()
+
+    def fake_open(request, timeout):
+        requested_urls.append(request.full_url)
+        return Response(responses.pop(0))
+
+    monkeypatch.setattr("commons_import.urllib.request.urlopen", fake_open)
+
+    candidates = search_candidates(
+        "cat running", subject="cat", action="running", scene="grass",
+        prompt="a cat running on grass", limit=2,
+    )
+
+    assert [candidate.title for candidate in candidates] == [
+        "File:Cat runs.webm", "File:Second cat.ogv",
+    ]
+    assert "gsroffset=2" in requested_urls[1]

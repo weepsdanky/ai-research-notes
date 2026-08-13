@@ -44,6 +44,8 @@ def test_cli_assigns_and_validates_a_manifest(tmp_path):
             "0",
             "--validation-fraction",
             "0",
+            "--min-c1-source-groups",
+            "1",
             "--report",
             str(report),
         ]

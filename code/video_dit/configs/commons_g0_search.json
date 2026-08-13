@@ -1,0 +1,16 @@
+[
+  {"query": "incategory:\"Videos of cats\"", "subject": "cat", "action": "review_required", "scene": "review_required", "prompt": "review the cat action and scene", "limit": 60},
+  {"query": "incategory:\"Videos of dogs\"", "subject": "dog", "action": "review_required", "scene": "review_required", "prompt": "review the dog action and scene", "limit": 60},
+  {"query": "filetype:video cat walking outdoors", "subject": "cat", "action": "walking", "scene": "outdoors", "prompt": "a cat walking outdoors", "limit": 20},
+  {"query": "filetype:video cat running outdoors", "subject": "cat", "action": "running", "scene": "outdoors", "prompt": "a cat running outdoors", "limit": 20},
+  {"query": "filetype:video cat jumping outdoors", "subject": "cat", "action": "jumping", "scene": "outdoors", "prompt": "a cat jumping outdoors", "limit": 20},
+  {"query": "filetype:video cat walking indoors", "subject": "cat", "action": "walking", "scene": "indoors", "prompt": "a cat walking indoors", "limit": 20},
+  {"query": "filetype:video dog walking outdoors", "subject": "dog", "action": "walking", "scene": "outdoors", "prompt": "a dog walking outdoors", "limit": 20},
+  {"query": "filetype:video dog running outdoors", "subject": "dog", "action": "running", "scene": "outdoors", "prompt": "a dog running outdoors", "limit": 20},
+  {"query": "filetype:video dog jumping outdoors", "subject": "dog", "action": "jumping", "scene": "outdoors", "prompt": "a dog jumping outdoors", "limit": 20},
+  {"query": "filetype:video dog walking indoors", "subject": "dog", "action": "walking", "scene": "indoors", "prompt": "a dog walking indoors", "limit": 20},
+  {"query": "filetype:video person walking field", "subject": "person", "action": "walking", "scene": "field", "prompt": "a person walking in a field", "limit": 20},
+  {"query": "filetype:video person running field", "subject": "person", "action": "running", "scene": "field", "prompt": "a person running in a field", "limit": 20},
+  {"query": "filetype:video person walking snow", "subject": "person", "action": "walking", "scene": "snow", "prompt": "a person walking in snow", "limit": 20},
+  {"query": "filetype:video person running snow", "subject": "person", "action": "running", "scene": "snow", "prompt": "a person running in snow", "limit": 20}
+]
