@@ -27,7 +27,7 @@ class VideoDiTConfig:
     num_pairs: int = 4
     mlp_ratio: float = 4.0
     condition_sizes: tuple[int, ...] = (3, 5, 4, 4)
-    condition_mode: Literal["structured", "text"] = "structured"
+    condition_mode: Literal["structured", "text", "text_tokens"] = "structured"
     text_embedding_size: int | None = None
     condition_dropout_prob: float = 0.1
     learn_sigma: bool = False
@@ -49,9 +49,9 @@ class VideoDiTConfig:
             raise ValueError("in_channels must be positive")
         if not self.condition_sizes or any(size <= 0 for size in self.condition_sizes):
             raise ValueError("condition_sizes must contain positive cardinalities")
-        if self.condition_mode not in ("structured", "text"):
-            raise ValueError("condition_mode must be structured or text")
-        if self.condition_mode == "text" and (
+        if self.condition_mode not in ("structured", "text", "text_tokens"):
+            raise ValueError("condition_mode must be structured, text, or text_tokens")
+        if self.condition_mode in ("text", "text_tokens") and (
             self.text_embedding_size is None or self.text_embedding_size <= 0
         ):
             raise ValueError("text mode requires a positive text_embedding_size")
@@ -228,6 +228,52 @@ class TextConditionEmbedder(nn.Module):
         return torch.where(drop[:, None], self.null_embedding[None], projected)
 
 
+class TextTokenConditionEmbedder(nn.Module):
+    """Project frozen CLIP token states and provide pooled adaLN + token context."""
+
+    def __init__(self, input_size: int, hidden_size: int, dropout_prob: float) -> None:
+        super().__init__()
+        self.input_size = input_size
+        self.dropout_prob = dropout_prob
+        self.projection = nn.Linear(input_size, hidden_size)
+        self.null_tokens = nn.Parameter(torch.zeros(1, hidden_size))
+
+    def forward(
+        self, embeddings: torch.Tensor, train: bool,
+        force_drop_ids: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        if embeddings.ndim != 3 or embeddings.shape[2] != self.input_size:
+            raise ValueError(
+                f"text token embeddings must have shape [batch, tokens, {self.input_size}]"
+            )
+        batch, tokens, _ = embeddings.shape
+        if force_drop_ids is not None and force_drop_ids.shape != (batch,):
+            raise ValueError("force_drop_ids must have shape [batch]")
+        if force_drop_ids is None:
+            drop = (
+                torch.rand(batch, device=embeddings.device) < self.dropout_prob
+                if train and self.dropout_prob > 0
+                else torch.zeros(batch, device=embeddings.device, dtype=torch.bool)
+            )
+        else:
+            drop = force_drop_ids.bool()
+        valid = embeddings.abs().sum(dim=-1).ne(0)
+        if torch.any(valid.sum(dim=-1) == 0):
+            raise ValueError("every text token sequence must contain a valid token")
+        context = self.projection(embeddings.to(self.projection.weight.dtype))
+        context = context * valid.unsqueeze(-1)
+        null = torch.zeros_like(context)
+        null[:, :1] = self.null_tokens
+        context = torch.where(drop[:, None, None], null, context)
+        valid = torch.where(
+            drop[:, None],
+            torch.arange(tokens, device=embeddings.device)[None].eq(0),
+            valid,
+        )
+        pooled = context.sum(dim=1) / valid.sum(dim=1, keepdim=True).clamp_min(1)
+        return pooled, context, ~valid
+
+
 def modulate(
     tokens: torch.Tensor, shift: torch.Tensor, scale: torch.Tensor
 ) -> torch.Tensor:
@@ -243,6 +289,7 @@ class AxisBlock(nn.Module):
         hidden_size: int,
         num_heads: int,
         mlp_ratio: float,
+        use_cross_attention: bool = False,
     ) -> None:
         super().__init__()
         self.axis = axis
@@ -258,8 +305,23 @@ class AxisBlock(nn.Module):
         self.adaLN_modulation = nn.Sequential(
             nn.SiLU(), nn.Linear(hidden_size, 6 * hidden_size)
         )
+        self.cross_attention = (
+            nn.MultiheadAttention(hidden_size, num_heads, batch_first=True)
+            if use_cross_attention else None
+        )
+        self.cross_norm = (
+            nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6)
+            if use_cross_attention else None
+        )
+        self.cross_gate = (
+            nn.Parameter(torch.zeros(hidden_size)) if use_cross_attention else None
+        )
 
-    def forward(self, tokens: torch.Tensor, condition: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self, tokens: torch.Tensor, condition: torch.Tensor,
+        context: torch.Tensor | None = None,
+        context_padding_mask: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         shift_attn, scale_attn, gate_attn, shift_mlp, scale_mlp, gate_mlp = (
             self.adaLN_modulation(condition).chunk(6, dim=1)
         )
@@ -268,6 +330,14 @@ class AxisBlock(nn.Module):
             normalized, normalized, normalized, need_weights=False
         )[0]
         tokens = tokens + gate_attn.unsqueeze(1) * attended
+        if self.cross_attention is not None:
+            if context is None or self.cross_norm is None or self.cross_gate is None:
+                raise ValueError("token-conditioned block requires text context")
+            crossed = self.cross_attention(
+                self.cross_norm(tokens), context, context, need_weights=False,
+                key_padding_mask=context_padding_mask,
+            )[0]
+            tokens = tokens + self.cross_gate[None, None] * crossed
         normalized = modulate(self.norm2(tokens), shift_mlp, scale_mlp)
         return tokens + gate_mlp.unsqueeze(1) * self.mlp(normalized)
 
@@ -320,8 +390,14 @@ class VideoDiT(nn.Module):
                 config.hidden_size,
                 config.condition_dropout_prob,
             )
-        else:
+        elif config.condition_mode == "text":
             self.condition_embedder = TextConditionEmbedder(
+                config.text_embedding_size or 0,
+                config.hidden_size,
+                config.condition_dropout_prob,
+            )
+        else:
+            self.condition_embedder = TextTokenConditionEmbedder(
                 config.text_embedding_size or 0,
                 config.hidden_size,
                 config.condition_dropout_prob,
@@ -330,12 +406,14 @@ class VideoDiT(nn.Module):
         for _ in range(config.num_pairs):
             blocks.append(
                 AxisBlock(
-                    "spatial", config.hidden_size, config.num_heads, config.mlp_ratio
+                    "spatial", config.hidden_size, config.num_heads, config.mlp_ratio,
+                    config.condition_mode == "text_tokens",
                 )
             )
             blocks.append(
                 AxisBlock(
-                    "temporal", config.hidden_size, config.num_heads, config.mlp_ratio
+                    "temporal", config.hidden_size, config.num_heads, config.mlp_ratio,
+                    config.condition_mode == "text_tokens",
                 )
             )
         self.blocks = nn.ModuleList(blocks)
@@ -355,6 +433,9 @@ class VideoDiT(nn.Module):
         if isinstance(self.condition_embedder, StructuredConditionEmbedder):
             for embedding in self.condition_embedder.embeddings:
                 nn.init.normal_(embedding.weight, std=0.02)
+        elif isinstance(self.condition_embedder, TextConditionEmbedder):
+            nn.init.normal_(self.condition_embedder.projection.weight, std=0.02)
+            nn.init.zeros_(self.condition_embedder.projection.bias)
         else:
             nn.init.normal_(self.condition_embedder.projection.weight, std=0.02)
             nn.init.zeros_(self.condition_embedder.projection.bias)
@@ -421,14 +502,24 @@ class VideoDiT(nn.Module):
                 raise ValueError(
                     f"condition_ids must have shape {(batch, len(self.config.condition_sizes))}"
                 )
-        elif condition_ids.shape != (batch, self.config.text_embedding_size):
+        elif self.config.condition_mode == "text" and condition_ids.shape != (
+            batch, self.config.text_embedding_size
+        ):
             raise ValueError(
                 f"text embeddings must have shape {(batch, self.config.text_embedding_size)}"
             )
+        elif self.config.condition_mode == "text_tokens" and (
+            condition_ids.ndim != 3 or condition_ids.shape[0] != batch
+            or condition_ids.shape[2] != self.config.text_embedding_size
+        ):
+            raise ValueError("text token embeddings must have shape [batch, tokens, width]")
 
-        condition = self.timestep_embedder(timesteps) + self.condition_embedder(
-            condition_ids, self.training, force_drop_ids
-        )
+        embedded = self.condition_embedder(condition_ids, self.training, force_drop_ids)
+        if isinstance(embedded, tuple):
+            text_condition, context, context_padding_mask = embedded
+        else:
+            text_condition, context, context_padding_mask = embedded, None, None
+        condition = self.timestep_embedder(timesteps) + text_condition
         tokens = self._patchify(x) + self.spatial_pos_embed[:, None]
         temporal_position_added = False
         for block in self.blocks:
@@ -441,7 +532,17 @@ class VideoDiT(nn.Module):
                 spatial_condition = condition.repeat_interleave(
                     self.config.frames, dim=0
                 )
-                tokens = block(spatial, spatial_condition).reshape(
+                spatial_context = (
+                    context.repeat_interleave(self.config.frames, dim=0)
+                    if context is not None else None
+                )
+                spatial_mask = (
+                    context_padding_mask.repeat_interleave(self.config.frames, dim=0)
+                    if context_padding_mask is not None else None
+                )
+                tokens = block(
+                    spatial, spatial_condition, spatial_context, spatial_mask,
+                ).reshape(
                     batch,
                     self.config.frames,
                     self.config.num_patches,
@@ -459,7 +560,18 @@ class VideoDiT(nn.Module):
                 temporal_condition = condition.repeat_interleave(
                     self.config.num_patches, dim=0
                 )
-                tokens = block(temporal, temporal_condition).reshape(
+                temporal_context = (
+                    context.repeat_interleave(self.config.num_patches, dim=0)
+                    if context is not None else None
+                )
+                temporal_mask = (
+                    context_padding_mask.repeat_interleave(
+                        self.config.num_patches, dim=0
+                    ) if context_padding_mask is not None else None
+                )
+                tokens = block(
+                    temporal, temporal_condition, temporal_context, temporal_mask,
+                ).reshape(
                     batch,
                     self.config.num_patches,
                     self.config.frames,

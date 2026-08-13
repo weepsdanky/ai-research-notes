@@ -32,6 +32,18 @@ def test_variant_one_alternates_full_spatial_and_temporal_blocks():
     ]
 
 
+def test_cross_attention_adds_no_state_to_legacy_condition_modes():
+    for mode in ("structured", "text"):
+        config = VideoDiTConfig(
+            frames=4, image_size=16, patch_size=4, hidden_size=32,
+            num_heads=4, num_pairs=1, condition_mode=mode,
+            text_embedding_size=12 if mode == "text" else None,
+        )
+        keys = VideoDiT(config).state_dict()
+
+        assert not any("cross_" in key for key in keys)
+
+
 @pytest.mark.parametrize("learn_sigma, expected_channels", [(False, 3), (True, 6)])
 def test_video_dit_maps_a_five_dimensional_video_to_same_grid(
     learn_sigma, expected_channels
@@ -131,3 +143,46 @@ def test_text_condition_mode_rejects_discrete_factor_ids():
             torch.tensor([1]),
             torch.zeros(1, 4, dtype=torch.long),
         )
+
+
+def test_text_token_mode_cross_attends_to_sequence_and_changes_prediction():
+    config = tiny_config(
+        image_size=16, patch_size=4, num_pairs=1,
+        condition_mode="text_tokens", text_embedding_size=24,
+    )
+    model = VideoDiT(config)
+    with torch.no_grad():
+        model.final_layer.linear.weight.normal_()
+        model.final_layer.adaLN_modulation[-1].weight.normal_()
+        for block in model.blocks:
+            block.cross_gate.fill_(1)
+    video = torch.randn(1, 3, 4, 16, 16)
+    timesteps = torch.tensor([5])
+
+    first_tokens = torch.zeros(1, 7, 24)
+    first_tokens[:, 0] = 1
+    second_tokens = torch.zeros(1, 7, 24)
+    second_tokens[:, :2] = -1
+    first = model(video, timesteps, first_tokens)
+    second = model(video, timesteps, second_tokens)
+
+    assert first.shape == video.shape
+    assert not torch.allclose(first, second)
+
+
+def test_text_token_padding_is_masked_and_cfg_null_context_stays_finite():
+    model = VideoDiT(tiny_config(
+        image_size=16, patch_size=4, num_pairs=1,
+        condition_mode="text_tokens", text_embedding_size=24,
+    ))
+    video = torch.randn(2, 3, 4, 16, 16)
+    timesteps = torch.tensor([5, 5])
+    embeddings = torch.zeros(2, 7, 24)
+    embeddings[:, :3] = torch.randn(2, 3, 24)
+
+    output = model(
+        video, timesteps, embeddings,
+        force_drop_ids=torch.tensor([False, True]),
+    )
+
+    assert torch.isfinite(output).all()

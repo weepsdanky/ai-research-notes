@@ -65,6 +65,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--text-embedding-size", type=int)
     parser.add_argument(
+        "--text-conditioning", choices=("pooled", "tokens"), default="pooled",
+        help="pooled uses adaLN only; tokens adds per-block cross-attention",
+    )
+    parser.add_argument(
         "--space", choices=("pixel", "latent"), default="pixel",
         help="latent requires cached 4-channel VAE latents in every manifest record",
     )
@@ -390,7 +394,10 @@ def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
             hidden_size=32,
             num_heads=4,
             num_pairs=1,
-            condition_mode="text" if args.dataset == "real" else "structured",
+            condition_mode=(
+                "text_tokens" if args.dataset == "real" and args.text_conditioning == "tokens"
+                else "text" if args.dataset == "real" else "structured"
+            ),
             text_embedding_size=(
                 args.text_embedding_size if args.dataset == "real" else None
             ),
@@ -406,7 +413,10 @@ def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
         num_heads=args.num_heads,
         num_pairs=args.num_pairs,
         mlp_ratio=args.mlp_ratio,
-        condition_mode="text" if args.dataset == "real" else "structured",
+        condition_mode=(
+            "text_tokens" if args.dataset == "real" and args.text_conditioning == "tokens"
+            else "text" if args.dataset == "real" else "structured"
+        ),
         text_embedding_size=(args.text_embedding_size if args.dataset == "real" else None),
         condition_dropout_prob=dropout,
         learn_sigma=learn_sigma,
@@ -451,12 +461,25 @@ def train(args: argparse.Namespace) -> dict[str, object]:
             raise ValueError(
                 "all train records must use one explicit text_encoder_id"
             )
+        embedding_kinds = {
+            record.text_embedding_kind or "pooled"
+            for record in manifest_records if record.split == "train"
+        }
+        if embedding_kinds != {args.text_conditioning}:
+            raise ValueError(
+                "manifest text embedding kind does not match --text-conditioning"
+            )
+        if args.text_conditioning == "tokens" and not next(iter(encoder_ids)).endswith(
+            "#tokens-v2"
+        ):
+            raise ValueError("token training requires the zero-padding #tokens-v2 contract")
         data_contract.update(
             {
                 "dataset": "real",
                 "space": args.space,
                 "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
                 "text_encoder_id": next(iter(encoder_ids)),
+                "text_embedding_kind": args.text_conditioning,
             }
         )
         if args.space == "latent":

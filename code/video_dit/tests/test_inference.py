@@ -77,6 +77,7 @@ def test_checkpoint_prompt_becomes_reproducible_temporal_video_and_separate_diag
         "denoising_gif": "diagnostic diffusion steps, not animation time",
     }
     assert metadata["elapsed_seconds"] >= 0
+    assert len(metadata["checkpoint_sha256"]) == 64
 
 
 def test_dataset_preview_is_explicitly_labelled_as_renderer_not_model_output(tmp_path):
@@ -314,6 +315,34 @@ def test_latent_checkpoint_requires_matching_decoder_and_decodes_sample(tmp_path
     )
     assert result.video.shape == (3, 4, 16, 16)
 
+
+def test_text_token_checkpoint_accepts_sequence_encoder(tmp_path):
+    config = VideoDiTConfig(
+        frames=4, image_size=16, patch_size=4, hidden_size=32,
+        num_heads=4, num_pairs=1, condition_mode="text_tokens",
+        text_embedding_size=12,
+    )
+    model = VideoDiT(config)
+    checkpoint = tmp_path / "tokens.pt"
+    torch.save({
+        "config": asdict(config),
+        "diffusion": {"timesteps": 4, "beta_start": 1e-4, "beta_end": 0.02},
+        "model": model.state_dict(), "ema": model.state_dict(),
+        "data_contract": {"space": "pixel", "text_encoder_id": "clip@rev#tokens-v2",
+                          "text_embedding_kind": "tokens"},
+    }, checkpoint)
+    engine = VideoDiTInference.from_checkpoint(
+        checkpoint, text_encode=lambda prompts: torch.ones(1, 7, 12),
+        text_encoder_id="clip@rev#tokens-v2",
+    )
+
+    result = engine.generate(
+        "a cat walking", tmp_path / "out", sampling_steps=2,
+        trajectory_frames=2,
+    )
+
+    assert result.video.shape == (3, 4, 16, 16)
+
 def test_text_checkpoint_rejects_wrong_encoder_identity(tmp_path):
     config = VideoDiTConfig(
         frames=4, image_size=16, patch_size=4, hidden_size=32,
@@ -334,4 +363,29 @@ def test_text_checkpoint_rejects_wrong_encoder_identity(tmp_path):
         VideoDiTInference.from_checkpoint(
             checkpoint, text_encode=lambda prompts: torch.zeros(1, 12),
             text_encoder_id="wrong@sha256:2",
+        )
+
+
+def test_text_token_checkpoint_rejects_pooled_embedding_contract(tmp_path):
+    config = VideoDiTConfig(
+        frames=4, image_size=16, patch_size=4, hidden_size=32,
+        num_heads=4, num_pairs=1, condition_mode="text_tokens",
+        text_embedding_size=12,
+    )
+    model = VideoDiT(config)
+    checkpoint = tmp_path / "tokens-with-pooled-contract.pt"
+    torch.save({
+        "config": asdict(config),
+        "diffusion": {"timesteps": 4, "beta_start": 1e-4, "beta_end": 0.02},
+        "model": model.state_dict(),
+        "data_contract": {
+            "space": "pixel", "text_encoder_id": "clip@rev",
+            "text_embedding_kind": "pooled",
+        },
+    }, checkpoint)
+
+    with __import__("pytest").raises(ValueError, match="embedding kind"):
+        VideoDiTInference.from_checkpoint(
+            checkpoint, text_encode=lambda prompts: torch.ones(1, 7, 12),
+            text_encoder_id="clip@rev",
         )

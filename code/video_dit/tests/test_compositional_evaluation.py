@@ -3,6 +3,7 @@ import torch
 from compositional_evaluation import (
     FactorPrediction,
     evaluate_compositional_generations,
+    prompt_retrieval_report,
 )
 
 
@@ -45,3 +46,43 @@ def test_empty_split_is_reported_as_missing_not_as_zero_accuracy():
 
     assert report["c1"]["status"] == "missing"
     assert report["c1"]["triple_accuracy"] is None
+
+
+def test_prompt_retrieval_scores_alignment_margin_and_train_neighbor():
+    video = torch.tensor([[1.0, 0.0], [0.0, 1.0]])
+    prompts = torch.tensor([[1.0, 0.0], [0.0, 1.0]])
+    train = torch.tensor([[0.8, 0.2], [0.1, 0.9]])
+
+    report = prompt_retrieval_report(
+        video, prompts, prompt_ids=["cat", "dog"],
+        train_embeddings=train, train_ids=["train-cat", "train-dog"],
+    )
+
+    assert report["prompt_top1_accuracy"] == 1.0
+    assert report["shuffled_prompt_top1_accuracy"] == 0.0
+    assert report["prompt_top1_gain_over_shuffled"] == 1.0
+    assert report["prompt_margin_mean"] == 1.0
+    assert report["predicted_prompt_ids"] == ["cat", "dog"]
+    assert report["prompt_margins"] == [1.0, 1.0]
+    assert report["nearest_train_ids"] == ["train-cat", "train-dog"]
+    assert 0.9 < report["nearest_train_similarity_max"] < 1.0
+
+
+def test_prompt_retrieval_exposes_a_shuffled_or_ignored_condition():
+    video = torch.tensor([[0.0, 1.0], [1.0, 0.0]])
+    prompts = torch.tensor([[1.0, 0.0], [0.0, 1.0]])
+
+    report = prompt_retrieval_report(video, prompts, prompt_ids=["cat", "dog"])
+
+    assert report["prompt_top1_accuracy"] == 0.0
+    assert report["shuffled_prompt_top1_accuracy"] == 1.0
+    assert report["prompt_margin_mean"] == -1.0
+    assert report["predicted_prompt_ids"] == ["dog", "cat"]
+    assert report["nearest_train_similarity_max"] is None
+
+
+def test_prompt_retrieval_rejects_single_prompt_as_uninformative():
+    with __import__("pytest").raises(ValueError, match="at least two"):
+        prompt_retrieval_report(
+            torch.ones(1, 3), torch.ones(1, 3), prompt_ids=["cat"],
+        )

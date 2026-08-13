@@ -272,7 +272,7 @@ uv run python prepare_commons.py download \
 
 ```bash
 uv run python cache_text_embeddings.py source.jsonl embedded.jsonl \
-  --checkpoint /path/to/ViT-B-32.pt
+  --checkpoint /path/to/ViT-B-32.pt --embedding-kind tokens
 ```
 
 冻结 VAE latent 路线使用 MIT 许可的 `stabilityai/sd-vae-ft-mse` KL-f8；必须固定
@@ -285,16 +285,33 @@ uv run python vae_latents.py embedded.jsonl embedded-latent.jsonl \
   --device mps --frames 16 --size 96
 
 uv run python train.py --dataset real --manifest embedded-latent.jsonl \
-  --text-embedding-size 512 --space latent --no-learn-sigma \
+  --text-conditioning tokens --text-embedding-size 512 \
+  --space latent --no-learn-sigma \
   --frames 16 --image-size 12 --patch-size 2 --hidden-size 256 \
   --num-heads 8 --num-pairs 4 --horizontal-flip-prob 0 --sample-every 0
 
 uv run python inference.py runs/latent/video_dit_inference.pt \
   --prompt "a dog swimming in a pond" --device mps \
   --text-checkpoint /path/to/ViT-B-32.pt \
+  --text-conditioning tokens \
   --vae-model stabilityai/sd-vae-ft-mse \
   --vae-revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79
+
+# 固定同一 seed 生成至少两个 prompt 后，测 CLIP 检索与训练集最近邻：
+uv run python condition_alignment.py runs/latent/inference \
+  --checkpoint /path/to/ViT-B-32.pt \
+  --train-manifest embedded-latent.jsonl
 ```
+
+`tokens` 模式缓存 77 个冻结 CLIP hidden states，并在每个空间/时间 block 使用零初始化
+gate 的 cross-attention；encoder ID 的 `#tokens-v2` 表示 padding hidden states 已明确清零。
+`condition_alignment.py` 要求每个 seed 都有完全相同且唯一的 prompt 集合；它先在
+每个 seed 内做 matched 检索和循环打乱 prompt 对照，再跨 seed 汇总 Wilson 95% 区间，
+防止把随机噪声差异误算成 prompt 效果。目录内 checkpoint hash、权重种类、训练 step、
+采样 steps、CFG、prediction type 和文本 encoder 也必须一致。CLIP 检索与最近邻只是
+诊断代理，不替代对主体、动作和时间连续性的目视审核。
+旧推理 metadata 若没有生成时写入的 `checkpoint_sha256`，会被明确视为不可验证，不能
+混入 locked comparison；请用当前 `inference.py` 重新生成。
 
 真实像素视频训练入口：
 
@@ -312,7 +329,10 @@ uv run python train.py \
 96×96、16 帧、learned-variance、CLIP 条件训练更新：MPS 单步约 1.96 秒，loss
 1.02395。这只是 **G0 管线和性能基线**，没有证明模型已学会生成，更没有形成 C1
 实验。随后已取得固定 revision 的 SD VAE safetensors，完成 100/100 latent cache、
-10,000-step latent 训练和 VAE 推理解码；结果与失败边界记录在学习计划的 G0 执行记录。
+10,000-step latent 训练和 VAE 推理解码。进一步的 token cross-attention 消融与 10-clip
+11.99M/10k capacity 对照也已完成：raw 10-way prompt 检索为 5/10，EMA 为 3/10，
+但平均 margin 仍为负且最近邻坍到同一训练片段，因此 G0 仍未通过。结果与失败边界
+记录在学习计划的 G0 执行记录。
 VideoUFO 最小官方分片仍未取得，因此尚未进入 G1--G4。
 
 官方 VATEX v1.0 训练 annotations 也已在本机完整下载并解析，SHA-256 为

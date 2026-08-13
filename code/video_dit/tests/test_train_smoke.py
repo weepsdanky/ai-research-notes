@@ -138,6 +138,27 @@ def test_real_training_rejects_legacy_structured_periodic_sampler(tmp_path):
         train(args)
 
 
+def test_real_training_rejects_manifest_condition_representation_mismatch(tmp_path):
+    embedding = tmp_path / "tokens.pt"
+    torch.save(torch.ones(7, 12), embedding)
+    manifest = write_manifest(tmp_path / "manifest.jsonl", [RealVideoRecord(
+        sample_id="cat", source_id="cat", clip_path="unused.mp4",
+        prompt="a cat", subject="cat", action="walking", scene="grass",
+        source_url="https://example.test", license="CC0", attribution="Example",
+        sha256="a" * 64, text_embedding_path=embedding.name,
+        text_encoder_id="clip@revision#tokens-v2", text_embedding_kind="tokens",
+        split="train",
+    )])
+    args = parse_args([
+        "--dry-run", "--dataset", "real", "--manifest", str(manifest),
+        "--text-embedding-size", "12", "--horizontal-flip-prob", "0",
+        "--sample-every", "0",
+    ])
+
+    with __import__("pytest").raises(ValueError, match="embedding kind"):
+        train(args)
+
+
 def test_velocity_quality_ablation_is_explicit_and_checkpointed(tmp_path):
     args = _small_training_args(tmp_path / "velocity", max_steps=1)
     args.prediction_type = "velocity"

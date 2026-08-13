@@ -42,6 +42,7 @@ class RealVideoRecord:
     perceptual_hash: str | None = None
     text_embedding_path: str | None = None
     text_encoder_id: str | None = None
+    text_embedding_kind: str | None = None
     latent_path: str | None = None
     vae_id: str | None = None
     vae_scaling: float | None = None
@@ -71,6 +72,10 @@ class RealVideoRecord:
             raise ValueError(
                 "text_embedding_path and text_encoder_id must be provided together"
             )
+        if self.text_embedding_path is not None:
+            kind = self.text_embedding_kind or "pooled"
+            if kind not in ("pooled", "tokens"):
+                raise ValueError("text_embedding_kind must be pooled or tokens")
         latent_fields = (self.latent_path, self.vae_id, self.vae_scaling)
         if any(value is not None for value in latent_fields) and not all(
             value is not None for value in latent_fields
@@ -614,10 +619,19 @@ class RealVideoDataset(Dataset[dict[str, torch.Tensor | str]]):
         if not path.is_absolute():
             path = self.root / path
         embedding = torch.load(path, map_location="cpu", weights_only=True)
-        if not isinstance(embedding, torch.Tensor) or embedding.ndim != 1:
+        kind = record.text_embedding_kind or "pooled"
+        if kind == "tokens" and not (record.text_encoder_id or "").endswith("#tokens-v2"):
+            raise ValueError(f"token embedding for {record.sample_id} requires #tokens-v2")
+        expected_ndim = 1 if kind == "pooled" else 2
+        if not isinstance(embedding, torch.Tensor) or embedding.ndim != expected_ndim:
             raise ValueError(
-                f"text embedding for {record.sample_id} must be a 1-D tensor"
+                f"{kind} text embedding for {record.sample_id} must be "
+                f"a {expected_ndim}-D tensor"
             )
+        if not torch.isfinite(embedding).all():
+            raise ValueError(f"text embedding for {record.sample_id} must be finite")
+        if kind == "tokens" and not torch.any(embedding.abs().sum(dim=-1).ne(0)):
+            raise ValueError(f"token embedding for {record.sample_id} has no valid token")
         return embedding.float()
 
 

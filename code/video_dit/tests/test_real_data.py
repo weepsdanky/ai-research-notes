@@ -427,6 +427,26 @@ def test_dataset_returns_cached_frozen_text_embedding(tmp_path):
     assert sample["text_encoder_id"] == "openai/clip-vit-base-patch32@main"
 
 
+def test_dataset_returns_cached_token_sequence(tmp_path):
+    embedding_path = tmp_path / "cat.tokens.pt"
+    torch.save(torch.ones(7, 5), embedding_path)
+    record = __import__("dataclasses").replace(
+        _record("cat-tokens", "cat", "walking", "grass"),
+        text_embedding_path=embedding_path.name,
+        text_encoder_id="clip@revision#tokens-v2",
+        text_embedding_kind="tokens", split="train",
+    )
+    manifest = write_manifest(tmp_path / "manifest.jsonl", [record])
+
+    dataset = RealVideoDataset(
+        manifest, split="train", frames=8, size=32, verify_sha256=False,
+    )
+    dataset._load_video = lambda record, path: torch.zeros(3, 8, 32, 32)
+    sample = dataset[0]
+
+    assert sample["condition"].shape == (7, 5)
+
+
 def test_dataset_reads_cached_vae_latent_without_decoding_pixels(tmp_path):
     latent_path = tmp_path / "cat.latent.pt"
     expected = torch.randn(4, 8, 12, 12)

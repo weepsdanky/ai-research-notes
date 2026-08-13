@@ -164,9 +164,9 @@ scene   = grass/field | forest | beach | snow | indoor/home
   C1 triple 至少 50 个独立来源；同时检查每个 C1 pair 在训练中的来源覆盖、IID triple
   的训练覆盖，并输出完整 coverage table。
 
-因此当前状态是：G0 的像素空间数据与单步训练链路已经闭合，但 G0 gate 尚未通过；
-下一步是对 100 clips 做小集合过拟合、多 seed 文本推理和训练集最近邻审计，并补齐
-冻结 VAE latent 的编码与推理解码闭环。G0 不用于回答组合泛化：其中有少量多动物画面，
+因此当前状态是：G0 的真实数据、冻结文本、VAE latent、训练和推理解码链路已经闭合，
+但 G0 gate 尚未通过；下一步是先解决下面记录的训练内条件对齐问题，再对 100 clips
+做多 seed 文本推理和训练集最近邻审计。G0 不用于回答组合泛化：其中有少量多动物画面，
 且每个组合远未达到 C1 所需的 50 个独立来源。G1--G4 仍需更大规模、严格单主体/同一
 身份与拍摄事件人工审计的数据；在 C1/C2 实验完成前，不能把合成动画、单 clip smoke
 test 或 G0 结果称为“训练期未见组合泛化”。
@@ -181,11 +181,23 @@ test 或 G0 结果称为“训练期未见组合泛化”。
 - 100-clip latent 基线：9.87M 参数、10,000 updates、batch 4、EMA 0.999。输出已离开
   纯噪声并有跨帧结构，但相同 seed 下不同 prompt 几乎相同，主体/动作/场景不可辨；
   判定为条件坍缩，未通过 G0。
-- 3-clip 诊断对照：同一架构和 10,000 updates，在固定相同 seed 下三个训练 prompt
-  分别生成可区分的雪地、池塘、林地视频；池塘样本保留水中小主体。说明冻结 CLIP
-  条件接口、latent DiT 和 VAE 解码链路有效，但当前容量/预算不能拟合 100 条多样视频。
+- 3-clip pooled 诊断对照：同一架构和 10,000 updates，在固定相同 seed 下三个训练
+  prompt 生成可区分的雪地、池塘、林地纹理；但后来加入的冻结 CLIP 视频--文本检索
+  只得 1/3（随机水平），平均正确 prompt margin 为 -0.0116。此前“可区分”只能证明
+  条件会改变输出，不能证明文本语义正确。
+- token 条件消融：新增冻结 CLIP 77-token sequence、每个 spatial/temporal block 的
+  gated cross-attention，以及明确清零 padding 的 `tokens-v2` 缓存契约。1.60M 参数的
+  3-clip/2k 与 10-clip/4k 实验仍分别只有 1/3 和 1/10 检索准确率。
+- capacity 对照：同一 10 clips 使用 11.99M 参数、10,000 updates、batch 5，最近
+  500-step loss 降至约 0.05。固定 seed 的 10-way 检索由小模型随机水平提高到 EMA
+  3/10、raw 5/10，但平均 margin 仍为负；所有生成视频的 CLIP 最近训练邻居仍为同一
+  clip。中帧已是自然场景低频结构而非纯噪声，但动物轮廓模糊，未通过条件门禁。
 
-所有 run 均保留逐 step `step_log.csv`、checkpoint、EMA 推理 MP4 与独立的去噪诊断
-GIF；像素失败基线另保留 raw 权重对照。这个结果只通过“小集合可过拟合”的诊断，不通过 100-clip G0，更不构成
-C1 未见组合泛化证据。下一步应扩模型/训练预算并加入条件对齐验证；在 100-clip 条件
-门禁通过前，不启动 1K/6K 正式训练。
+所有 run 均保留逐 step `step_log.csv`、checkpoint、推理 MP4 与独立的去噪诊断 GIF；
+最新 10-clip 大模型同时保留 EMA/raw 及 `condition-alignment.json`。训练内诊断固定
+同一 seed；正式多 seed 评估要求每个 seed 使用完全相同的唯一 prompt 集合，先在 seed
+内做正确 prompt 检索与循环打乱对照，再跨 seed 汇总准确率、margin 和 Wilson 95% 区间。
+评估目录还锁定 checkpoint hash、权重、训练/采样 step、CFG 和 encoder。CLIP 及最近邻
+只是代理，必须同时目视审核主体、动作与时间一致性。当前结果不通过 100-clip G0，更不构成 C1
+未见组合泛化证据。下一步应优先修复条件对齐（包括 EMA 衰减、视频级表征或辅助对齐
+目标），在训练内门禁和 100-clip 门禁通过前，不启动 1K/6K 正式训练。

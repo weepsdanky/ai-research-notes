@@ -195,7 +195,13 @@ class VideoDiTInference:
             checkpoint.get("data_contract", {}), "data_contract"
         )
         expected_encoder = data_contract.get("text_encoder_id")
-        if config.condition_mode == "text":
+        if config.condition_mode in ("text", "text_tokens"):
+            expected_kind = "tokens" if config.condition_mode == "text_tokens" else "pooled"
+            checkpoint_kind = data_contract.get("text_embedding_kind", "pooled")
+            if checkpoint_kind != expected_kind:
+                raise ValueError(
+                    "text embedding kind does not match checkpoint model configuration"
+                )
             if text_encode is None or text_encoder_id is None:
                 raise ValueError(
                     "text-conditioned checkpoint requires its frozen text encoder"
@@ -204,6 +210,8 @@ class VideoDiTInference:
                 raise ValueError(
                     "text encoder identity does not match checkpoint data contract"
                 )
+            if expected_kind == "tokens" and not text_encoder_id.endswith("#tokens-v2"):
+                raise ValueError("token inference requires the zero-padding #tokens-v2 contract")
         space = str(data_contract.get("space", "pixel"))
         if space == "latent":
             if vae_decoder is None:
@@ -287,10 +295,25 @@ class VideoDiTInference:
             if self.text_encode is None:
                 raise RuntimeError("text encoder is unavailable")
             embedding = self.text_encode([prompt])
-            expected = (1, self.model.config.text_embedding_size)
-            if tuple(embedding.shape) != expected or not torch.isfinite(embedding).all():
+            width = self.model.config.text_embedding_size
+            if self.model.config.condition_mode == "text_tokens":
+                valid_shape = (
+                    embedding.ndim == 3 and embedding.shape[0] == 1
+                    and embedding.shape[2] == width
+                )
+                repeat = (batch, 1, 1)
+                expected = f"[1, tokens, {width}]"
+            else:
+                valid_shape = tuple(embedding.shape) == (1, width)
+                repeat = (batch, 1)
+                expected = str((1, width))
+            if not valid_shape or not torch.isfinite(embedding).all():
                 raise ValueError(f"text encoder must return finite embeddings {expected}")
-            condition_ids = embedding.repeat(batch, 1)
+            if self.model.config.condition_mode == "text_tokens" and not torch.any(
+                embedding.abs().sum(dim=-1).ne(0)
+            ):
+                raise ValueError("text encoder returned no valid token")
+            condition_ids = embedding.repeat(*repeat)
         condition_ids = condition_ids.to(self.device)
 
         # Create one CPU noise tensor for stable seed semantics on CPU/MPS/CUDA,
@@ -379,6 +402,9 @@ class VideoDiTInference:
                 )
             ),
             "checkpoint": str(self.checkpoint_path),
+            "checkpoint_sha256": hashlib.sha256(
+                self.checkpoint_path.read_bytes()
+            ).hexdigest(),
             "training_step": self.training_step,
             "weights": self.weights_name,
             "prediction_type": self.prediction_type,
@@ -414,6 +440,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--text-checkpoint", type=Path,
         help="official OpenAI CLIP ViT-B/32 checkpoint for text-conditioned models",
     )
+    parser.add_argument(
+        "--text-conditioning", choices=("pooled", "tokens"), default="pooled",
+    )
     parser.add_argument("--vae-model", default=None)
     parser.add_argument("--vae-revision", default=None)
     return parser.parse_args(argv)
@@ -424,7 +453,9 @@ def main(argv: list[str] | None = None) -> GenerationResult:
     text_encoder_id = None
     text_encode = None
     if args.text_checkpoint is not None:
-        text_encoder_id, text_encode = openai_clip_encoder(args.text_checkpoint)
+        text_encoder_id, text_encode = openai_clip_encoder(
+            args.text_checkpoint, embedding_kind=args.text_conditioning,
+        )
     vae_decoder = None
     if args.vae_model or args.vae_revision:
         if not args.vae_model or not args.vae_revision:
