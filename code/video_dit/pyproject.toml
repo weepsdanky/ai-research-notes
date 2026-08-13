@@ -8,6 +8,7 @@ dependencies = [
     "numpy>=1.24",
     "pillow>=9.0",
     "gradio>=4.0",
+    "clip",
 ]
 
 [project.optional-dependencies]
@@ -16,3 +17,6 @@ dev = ["pytest>=8.0"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.uv.sources]
+clip = { git = "https://github.com/openai/CLIP.git", rev = "d05afc436d78f1c48dc0dbf8e5980a9d471f35f6" }

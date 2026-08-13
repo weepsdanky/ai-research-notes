@@ -93,3 +93,41 @@ def test_model_rejects_wrong_temporal_extent_instead_of_silently_reshaping():
             torch.tensor([1]),
             torch.tensor([[0, 0, 0, 0]]),
         )
+
+
+def test_text_condition_mode_accepts_precomputed_frozen_embeddings():
+    config = tiny_config(
+        image_size=16,
+        patch_size=4,
+        num_pairs=1,
+        condition_mode="text",
+        text_embedding_size=24,
+    )
+    model = VideoDiT(config)
+    video = torch.randn(2, 3, 4, 16, 16)
+    timesteps = torch.tensor([2, 7])
+    text_embeddings = torch.randn(2, 24)
+
+    output = model(video, timesteps, text_embeddings)
+
+    assert output.shape == video.shape
+    assert model.condition_embedder.projection.in_features == 24
+
+
+def test_text_condition_mode_rejects_discrete_factor_ids():
+    model = VideoDiT(
+        tiny_config(
+            image_size=16,
+            patch_size=4,
+            num_pairs=1,
+            condition_mode="text",
+            text_embedding_size=24,
+        )
+    )
+
+    with pytest.raises(ValueError, match="text embeddings"):
+        model(
+            torch.randn(1, 3, 4, 16, 16),
+            torch.tensor([1]),
+            torch.zeros(1, 4, dtype=torch.long),
+        )

@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 import re
 import time
-from typing import Any
+from typing import Any, Callable
 import uuid
 
 import torch
@@ -24,6 +24,7 @@ from diffusion import DiffusionSchedule, ddim_sample_loop
 from evaluate_video import save_metrics
 from video_dit import VideoDiT, VideoDiTConfig
 from video_io import save_denoising_gif, save_video_mp4
+from cache_text_embeddings import openai_clip_encoder
 
 
 @dataclass(frozen=True)
@@ -137,6 +138,9 @@ class VideoDiTInference:
         weights_name: str,
         training_step: int | None,
         prediction_type: str = "epsilon",
+        text_encode: Callable[[list[str]], torch.Tensor] | None = None,
+        text_encoder_id: str | None = None,
+        space: str = "pixel",
     ) -> None:
         self.model = model
         self.schedule = schedule
@@ -145,6 +149,9 @@ class VideoDiTInference:
         self.weights_name = weights_name
         self.training_step = training_step
         self.prediction_type = prediction_type
+        self.text_encode = text_encode
+        self.text_encoder_id = text_encoder_id
+        self.space = space
 
     @classmethod
     def from_checkpoint(
@@ -153,6 +160,8 @@ class VideoDiTInference:
         *,
         device: str | torch.device = "cpu",
         use_ema: bool = True,
+        text_encode: Callable[[list[str]], torch.Tensor] | None = None,
+        text_encoder_id: str | None = None,
     ) -> "VideoDiTInference":
         """Load a training checkpoint, preferring EMA weights by default."""
 
@@ -178,6 +187,25 @@ class VideoDiTInference:
             checkpoint.get("diffusion"), "diffusion"
         )
         config = VideoDiTConfig(**config_values)
+        data_contract = _require_checkpoint_mapping(
+            checkpoint.get("data_contract", {}), "data_contract"
+        )
+        expected_encoder = data_contract.get("text_encoder_id")
+        if config.condition_mode == "text":
+            if text_encode is None or text_encoder_id is None:
+                raise ValueError(
+                    "text-conditioned checkpoint requires its frozen text encoder"
+                )
+            if text_encoder_id != expected_encoder:
+                raise ValueError(
+                    "text encoder identity does not match checkpoint data contract"
+                )
+        space = str(data_contract.get("space", "pixel"))
+        if space != "pixel":
+            raise ValueError(
+                "latent checkpoint inference requires a matching VAE decoder; "
+                "pixel-only inference cannot decode it"
+            )
         schedule = DiffusionSchedule(**diffusion_values).to(resolved_device)
         model = VideoDiT(config)
 
@@ -201,6 +229,9 @@ class VideoDiTInference:
             weights_name=weights_name,
             training_step=int(step) if step is not None else None,
             prediction_type=str(checkpoint.get("prediction_type", "epsilon")),
+            text_encode=text_encode,
+            text_encoder_id=text_encoder_id,
+            space=space,
         )
 
     @torch.inference_mode()
@@ -230,13 +261,26 @@ class VideoDiTInference:
         if diagnostics < 2:
             raise ValueError("trajectory_frames must be at least 2")
 
-        spec = parse_prompt(prompt)
+        spec = (
+            parse_prompt(prompt)
+            if self.model.config.condition_mode == "structured"
+            else None
+        )
         started = time.perf_counter()
         cfg_was_trained = self.model.config.condition_dropout_prob > 0
         effective_cfg_scale = cfg_scale if cfg_was_trained else 1.0
         guided = effective_cfg_scale != 1.0
         batch = 2 if guided else 1
-        condition_ids = spec.condition_ids().unsqueeze(0).repeat(batch, 1)
+        if spec is not None:
+            condition_ids = spec.condition_ids().unsqueeze(0).repeat(batch, 1)
+        else:
+            if self.text_encode is None:
+                raise RuntimeError("text encoder is unavailable")
+            embedding = self.text_encode([prompt])
+            expected = (1, self.model.config.text_embedding_size)
+            if tuple(embedding.shape) != expected or not torch.isfinite(embedding).all():
+                raise ValueError(f"text encoder must return finite embeddings {expected}")
+            condition_ids = embedding.repeat(batch, 1)
         condition_ids = condition_ids.to(self.device)
 
         # Create one CPU noise tensor for stable seed semantics on CPU/MPS/CUDA,
@@ -274,7 +318,7 @@ class VideoDiTInference:
                 "checkpoint": str(self.checkpoint_path),
                 "step": self.training_step,
                 "weights": self.weights_name,
-                "prompt": asdict(spec),
+                "prompt": asdict(spec) if spec is not None else prompt,
                 "seed": seed,
                 "sampling_steps": steps,
                 "cfg_scale": effective_cfg_scale,
@@ -284,7 +328,12 @@ class VideoDiTInference:
         ).encode()
         request_hash = hashlib.sha256(request_identity).hexdigest()[:10]
         run_id = uuid.uuid4().hex[:8]
-        stem = f"model_{_slug(spec)}_seed-{seed}_{request_hash}_{run_id}"
+        prompt_slug = (
+            _slug(spec)
+            if spec is not None
+            else re.sub(r"[^a-z0-9]+", "-", prompt.lower()).strip("-")[:64]
+        )
+        stem = f"model_{prompt_slug}_seed-{seed}_{request_hash}_{run_id}"
         video_path = save_video_mp4(video, destination / f"{stem}.mp4", fps=fps)
         denoising_path = save_denoising_gif(
             [state[0] for _, state in trajectory],
@@ -294,7 +343,9 @@ class VideoDiTInference:
         metadata = {
             "mode": "trained Video DiT checkpoint",
             "prompt": prompt,
-            "parsed_prompt": asdict(spec),
+            "parsed_prompt": asdict(spec) if spec is not None else None,
+            "condition_mode": self.model.config.condition_mode,
+            "text_encoder_id": self.text_encoder_id,
             "seed": seed,
             "sampling_steps": steps,
             "requested_cfg_scale": cfg_scale,
@@ -340,15 +391,25 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--trajectory-frames", type=int, default=8)
     parser.add_argument("--fps", type=float, default=8)
     parser.add_argument("--no-ema", action="store_true")
+    parser.add_argument(
+        "--text-checkpoint", type=Path,
+        help="official OpenAI CLIP ViT-B/32 checkpoint for text-conditioned models",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> GenerationResult:
     args = parse_args(argv)
+    text_encoder_id = None
+    text_encode = None
+    if args.text_checkpoint is not None:
+        text_encoder_id, text_encode = openai_clip_encoder(args.text_checkpoint)
     engine = VideoDiTInference.from_checkpoint(
         args.checkpoint,
         device=args.device,
         use_ema=not args.no_ema,
+        text_encode=text_encode,
+        text_encoder_id=text_encoder_id,
     )
     result = engine.generate(
         args.prompt,

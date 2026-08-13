@@ -27,6 +27,8 @@ class VideoDiTConfig:
     num_pairs: int = 4
     mlp_ratio: float = 4.0
     condition_sizes: tuple[int, ...] = (3, 5, 4, 4)
+    condition_mode: Literal["structured", "text"] = "structured"
+    text_embedding_size: int | None = None
     condition_dropout_prob: float = 0.1
     learn_sigma: bool = False
 
@@ -47,6 +49,12 @@ class VideoDiTConfig:
             raise ValueError("in_channels must be positive")
         if not self.condition_sizes or any(size <= 0 for size in self.condition_sizes):
             raise ValueError("condition_sizes must contain positive cardinalities")
+        if self.condition_mode not in ("structured", "text"):
+            raise ValueError("condition_mode must be structured or text")
+        if self.condition_mode == "text" and (
+            self.text_embedding_size is None or self.text_embedding_size <= 0
+        ):
+            raise ValueError("text mode requires a positive text_embedding_size")
         if not 0.0 <= self.condition_dropout_prob <= 1.0:
             raise ValueError("condition_dropout_prob must be in [0, 1]")
 
@@ -185,6 +193,41 @@ class StructuredConditionEmbedder(nn.Module):
         return result
 
 
+class TextConditionEmbedder(nn.Module):
+    """Project cached embeddings from a frozen text encoder into DiT width."""
+
+    def __init__(self, input_size: int, hidden_size: int, dropout_prob: float) -> None:
+        super().__init__()
+        self.input_size = input_size
+        self.dropout_prob = dropout_prob
+        self.projection = nn.Linear(input_size, hidden_size)
+        self.null_embedding = nn.Parameter(torch.zeros(hidden_size))
+
+    def forward(
+        self,
+        embeddings: torch.Tensor,
+        train: bool,
+        force_drop_ids: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        if embeddings.ndim != 2 or embeddings.shape[1] != self.input_size:
+            raise ValueError(
+                f"text embeddings must have shape [batch, {self.input_size}]"
+            )
+        batch = embeddings.shape[0]
+        if force_drop_ids is not None and force_drop_ids.shape != (batch,):
+            raise ValueError("force_drop_ids must have shape [batch]")
+        if force_drop_ids is None:
+            drop = (
+                torch.rand(batch, device=embeddings.device) < self.dropout_prob
+                if train and self.dropout_prob > 0
+                else torch.zeros(batch, device=embeddings.device, dtype=torch.bool)
+            )
+        else:
+            drop = force_drop_ids.bool()
+        projected = self.projection(embeddings.to(self.projection.weight.dtype))
+        return torch.where(drop[:, None], self.null_embedding[None], projected)
+
+
 def modulate(
     tokens: torch.Tensor, shift: torch.Tensor, scale: torch.Tensor
 ) -> torch.Tensor:
@@ -271,11 +314,18 @@ class VideoDiT(nn.Module):
             persistent=False,
         )
         self.timestep_embedder = TimestepEmbedder(config.hidden_size)
-        self.condition_embedder = StructuredConditionEmbedder(
-            config.condition_sizes,
-            config.hidden_size,
-            config.condition_dropout_prob,
-        )
+        if config.condition_mode == "structured":
+            self.condition_embedder = StructuredConditionEmbedder(
+                config.condition_sizes,
+                config.hidden_size,
+                config.condition_dropout_prob,
+            )
+        else:
+            self.condition_embedder = TextConditionEmbedder(
+                config.text_embedding_size or 0,
+                config.hidden_size,
+                config.condition_dropout_prob,
+            )
         blocks: list[AxisBlock] = []
         for _ in range(config.num_pairs):
             blocks.append(
@@ -302,8 +352,12 @@ class VideoDiT(nn.Module):
         self.apply(basic_init)
         nn.init.xavier_uniform_(self.patch_embed.weight.view(self.patch_embed.weight.shape[0], -1))
         nn.init.zeros_(self.patch_embed.bias)
-        for embedding in self.condition_embedder.embeddings:
-            nn.init.normal_(embedding.weight, std=0.02)
+        if isinstance(self.condition_embedder, StructuredConditionEmbedder):
+            for embedding in self.condition_embedder.embeddings:
+                nn.init.normal_(embedding.weight, std=0.02)
+        else:
+            nn.init.normal_(self.condition_embedder.projection.weight, std=0.02)
+            nn.init.zeros_(self.condition_embedder.projection.bias)
         nn.init.normal_(self.timestep_embedder.mlp[0].weight, std=0.02)
         nn.init.normal_(self.timestep_embedder.mlp[2].weight, std=0.02)
 
@@ -362,9 +416,14 @@ class VideoDiT(nn.Module):
             raise ValueError(f"x must have shape {expected}")
         if timesteps.shape != (batch,):
             raise ValueError("timesteps must have shape [batch]")
-        if condition_ids.shape != (batch, len(self.config.condition_sizes)):
+        if self.config.condition_mode == "structured":
+            if condition_ids.shape != (batch, len(self.config.condition_sizes)):
+                raise ValueError(
+                    f"condition_ids must have shape {(batch, len(self.config.condition_sizes))}"
+                )
+        elif condition_ids.shape != (batch, self.config.text_embedding_size):
             raise ValueError(
-                f"condition_ids must have shape {(batch, len(self.config.condition_sizes))}"
+                f"text embeddings must have shape {(batch, self.config.text_embedding_size)}"
             )
 
         condition = self.timestep_embedder(timesteps) + self.condition_embedder(

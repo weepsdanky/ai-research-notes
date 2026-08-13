@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 from dataclasses import asdict
 import csv
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -30,6 +31,7 @@ from dataset import (
     SyntheticVideoDataset,
     parse_prompt,
 )
+from real_data import RealVideoDataset, load_manifest
 from diffusion import DiffusionSchedule, ddim_sample_loop, diffusion_loss
 from video_dit import VideoDiT, VideoDiTConfig
 from video_io import save_denoising_gif, save_video_mp4
@@ -53,6 +55,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             "canonical repeats three fixed clips for an explicit overfit check; "
             "factorial samples the full compositional prompt space"
         ),
+    )
+    parser.add_argument(
+        "--dataset",
+        choices=("synthetic", "real"),
+        default="synthetic",
+        help="real reads decoded clips and cached frozen text embeddings from --manifest",
+    )
+    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--text-embedding-size", type=int)
+    parser.add_argument(
+        "--space", choices=("pixel", "latent"), default="pixel",
+        help="latent requires cached 4-channel VAE latents in every manifest record",
     )
     parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
     parser.add_argument("--output-dir", type=Path, default=Path("runs/video_dit"))
@@ -243,6 +257,7 @@ def save_inference_checkpoint(
     mode: str,
     curriculum: str,
     prediction_type: str,
+    data_contract: dict[str, object] | None = None,
 ) -> Path:
     """Write a weights-only-safe checkpoint without optimizer or RNG objects."""
 
@@ -261,6 +276,7 @@ def save_inference_checkpoint(
             "mode": mode,
             "curriculum": curriculum,
             "prediction_type": prediction_type,
+            "data_contract": data_contract or {},
         },
         path,
     )
@@ -331,6 +347,30 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("ema-decay must be in [0, 1)")
     if not 0 <= args.horizontal_flip_prob <= 1:
         raise ValueError("horizontal-flip-prob must be in [0, 1]")
+    if args.dataset == "real":
+        if args.manifest is None or not args.manifest.is_file():
+            raise ValueError("--dataset real requires an existing --manifest")
+        if args.text_embedding_size is None or args.text_embedding_size <= 0:
+            raise ValueError("--dataset real requires a positive --text-embedding-size")
+        if args.horizontal_flip_prob != 0:
+            raise ValueError(
+                "real text training currently requires --horizontal-flip-prob 0"
+            )
+        if args.sample_every != 0:
+            raise ValueError(
+                "real text training currently requires --sample-every 0; "
+                "use inference.py with the matching CLIP checkpoint"
+            )
+    elif args.space != "pixel":
+        raise ValueError("latent space is only supported with --dataset real")
+    effective_learn_sigma = (
+        args.mode == "faithful" if args.learn_sigma is None else args.learn_sigma
+    )
+    if args.space == "latent" and effective_learn_sigma:
+        raise ValueError(
+            "latent training currently requires --no-learn-sigma because the "
+            "implemented variational likelihood is pixel-specific"
+        )
 
 
 def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
@@ -344,11 +384,16 @@ def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
     if args.dry_run:
         return VideoDiTConfig(
             frames=4,
-            image_size=32,
-            patch_size=8,
+            image_size=4 if args.space == "latent" else 32,
+            patch_size=2 if args.space == "latent" else 8,
+            in_channels=4 if args.space == "latent" else 3,
             hidden_size=32,
             num_heads=4,
             num_pairs=1,
+            condition_mode="text" if args.dataset == "real" else "structured",
+            text_embedding_size=(
+                args.text_embedding_size if args.dataset == "real" else None
+            ),
             condition_dropout_prob=dropout,
             learn_sigma=learn_sigma,
         )
@@ -356,10 +401,13 @@ def _model_config(args: argparse.Namespace) -> VideoDiTConfig:
         frames=args.frames,
         image_size=args.image_size,
         patch_size=args.patch_size,
+        in_channels=4 if args.space == "latent" else 3,
         hidden_size=args.hidden_size,
         num_heads=args.num_heads,
         num_pairs=args.num_pairs,
         mlp_ratio=args.mlp_ratio,
+        condition_mode="text" if args.dataset == "real" else "structured",
+        text_embedding_size=(args.text_embedding_size if args.dataset == "real" else None),
         condition_dropout_prob=dropout,
         learn_sigma=learn_sigma,
     )
@@ -372,6 +420,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     config = _model_config(args)
+    curriculum = "real-manifest" if args.dataset == "real" else args.curriculum
     schedule = DiffusionSchedule(
         timesteps=8 if args.dry_run else args.timesteps
     ).to(device)
@@ -393,6 +442,32 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         "horizontal_flip_prob": args.horizontal_flip_prob,
         "num_workers": args.num_workers,
     }
+    if args.dataset == "real":
+        manifest_records = load_manifest(args.manifest)
+        encoder_ids = {
+            record.text_encoder_id for record in manifest_records if record.split == "train"
+        }
+        if None in encoder_ids or len(encoder_ids) != 1:
+            raise ValueError(
+                "all train records must use one explicit text_encoder_id"
+            )
+        data_contract.update(
+            {
+                "dataset": "real",
+                "space": args.space,
+                "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
+                "text_encoder_id": next(iter(encoder_ids)),
+            }
+        )
+        if args.space == "latent":
+            vae_contracts = {
+                (record.vae_id, record.vae_scaling)
+                for record in manifest_records if record.split == "train"
+            }
+            if any(None in contract for contract in vae_contracts) or len(vae_contracts) != 1:
+                raise ValueError("all latent train records must use one VAE contract")
+            vae_id, vae_scaling = next(iter(vae_contracts))
+            data_contract.update({"vae_id": vae_id, "vae_scaling": vae_scaling})
     optimization_contract: dict[str, object] = {
         "effective_ema_decay": args.ema_decay if args.mode == "faithful" else 0.0,
         "learning_rate": args.learning_rate,
@@ -415,7 +490,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
             raise ValueError("resume checkpoint config does not match CLI config")
         if checkpoint.get("mode", "faithful") != args.mode:
             raise ValueError("resume checkpoint mode does not match --mode")
-        if checkpoint.get("curriculum", "factorial") != args.curriculum:
+        if checkpoint.get("curriculum", "factorial") != curriculum:
             raise ValueError("resume checkpoint curriculum does not match --curriculum")
         if checkpoint.get("prediction_type", "epsilon") != args.prediction_type:
             raise ValueError("resume checkpoint prediction type does not match CLI")
@@ -437,22 +512,37 @@ def train(args: argparse.Namespace) -> dict[str, object]:
     # The sample at optimizer step k is always the same dataset index range.  This
     # makes a resumed run consume the exact next videos instead of reshuffling from
     # index zero and is what lets restored RNG state reproduce the next loss.
-    dataset_length = max(args.batch_size, target_step * args.batch_size)
-    dataset_class = (
-        CanonicalVideoDataset
-        if args.curriculum == "canonical"
-        else SyntheticVideoDataset
-    )
-    dataset = dataset_class(
-        length=dataset_length,
-        frames=config.frames,
-        size=config.image_size,
-        base_seed=args.seed,
-    )
-    remaining_indices = range(
-        global_step * args.batch_size,
-        target_step * args.batch_size,
-    )
+    if args.dataset == "real":
+        dataset = RealVideoDataset(
+            args.manifest,
+            split="train",
+            frames=config.frames,
+            size=config.image_size,
+            space=args.space,
+        )
+        remaining_indices = [
+            index % len(dataset)
+            for index in range(
+                global_step * args.batch_size, target_step * args.batch_size
+            )
+        ]
+    else:
+        dataset_length = max(args.batch_size, target_step * args.batch_size)
+        dataset_class = (
+            CanonicalVideoDataset
+            if args.curriculum == "canonical"
+            else SyntheticVideoDataset
+        )
+        dataset = dataset_class(
+            length=dataset_length,
+            frames=config.frames,
+            size=config.image_size,
+            base_seed=args.seed,
+        )
+        remaining_indices = range(
+            global_step * args.batch_size,
+            target_step * args.batch_size,
+        )
     # DataLoader creates a worker base seed even with num_workers=0.  Keeping
     # that bookkeeping on a private generator prevents iterator recreation on
     # resume from advancing the training RNG used by augmentation and timesteps.
@@ -486,9 +576,10 @@ def train(args: argparse.Namespace) -> dict[str, object]:
                     break
                 videos = batch["video"].to(device)
                 conditions = batch["condition"].to(device)
-                videos, conditions = horizontal_flip_batch(
-                    videos, conditions, args.horizontal_flip_prob
-                )
+                if args.dataset == "synthetic":
+                    videos, conditions = horizontal_flip_batch(
+                        videos, conditions, args.horizontal_flip_prob
+                    )
                 timesteps = torch.randint(
                     0,
                     schedule.timesteps,
@@ -566,7 +657,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
                         schedule,
                         global_step,
                         args.mode,
-                        args.curriculum,
+                        curriculum,
                         args.prediction_type,
                         data_contract,
                         optimization_contract,
@@ -583,7 +674,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         schedule,
         global_step,
         args.mode,
-        args.curriculum,
+        curriculum,
         args.prediction_type,
         data_contract,
         optimization_contract,
@@ -596,8 +687,9 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         schedule,
         global_step,
         args.mode,
-        args.curriculum,
+        curriculum,
         args.prediction_type,
+        data_contract,
     )
     summary: dict[str, object] = {
         "device": str(device),
@@ -609,7 +701,7 @@ def train(args: argparse.Namespace) -> dict[str, object]:
         "inference_checkpoint": str(inference_checkpoint_path),
         "dry_run": args.dry_run,
         "mode": args.mode,
-        "curriculum": args.curriculum,
+        "curriculum": curriculum,
         "prediction_type": args.prediction_type,
         "data_contract": data_contract,
         "optimization_contract": optimization_contract,

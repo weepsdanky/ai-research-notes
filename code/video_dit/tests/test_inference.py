@@ -227,3 +227,72 @@ def test_inference_rejects_checkpoint_that_is_not_safe_weights_only(tmp_path):
 
     with __import__("pytest").raises(ValueError, match="safe inference checkpoint"):
         VideoDiTInference.from_checkpoint(checkpoint, device="cpu")
+
+
+def test_text_condition_checkpoint_generates_from_natural_prompt_embedding(tmp_path):
+    config = VideoDiTConfig(
+        frames=4, image_size=16, patch_size=4, hidden_size=32,
+        num_heads=4, num_pairs=1, condition_mode="text",
+        text_embedding_size=12, condition_dropout_prob=0.1,
+    )
+    model = VideoDiT(config)
+    schedule = DiffusionSchedule(timesteps=4)
+    checkpoint = tmp_path / "text.pt"
+    torch.save(
+        {
+            "config": asdict(config),
+            "diffusion": {
+                "timesteps": 4, "beta_start": schedule.beta_start,
+                "beta_end": schedule.beta_end,
+            },
+            "model": model.state_dict(), "ema": model.state_dict(),
+            "step": 1,
+            "data_contract": {
+                "space": "pixel", "text_encoder_id": "test@sha256:abc"
+            },
+        },
+        checkpoint,
+    )
+    seen = []
+
+    def encode(prompts):
+        seen.extend(prompts)
+        return torch.arange(12, dtype=torch.float32).unsqueeze(0)
+
+    engine = VideoDiTInference.from_checkpoint(
+        checkpoint, device="cpu", text_encode=encode,
+        text_encoder_id="test@sha256:abc",
+    )
+    result = engine.generate(
+        "a cat jumping between concrete walls", tmp_path / "out",
+        sampling_steps=2, trajectory_frames=2,
+    )
+
+    assert seen == ["a cat jumping between concrete walls"]
+    assert result.video.shape == (3, 4, 16, 16)
+    metadata = json.loads(result.metadata_path.read_text())
+    assert metadata["condition_mode"] == "text"
+    assert metadata["text_encoder_id"] == "test@sha256:abc"
+
+
+def test_text_checkpoint_rejects_wrong_encoder_identity(tmp_path):
+    config = VideoDiTConfig(
+        frames=4, image_size=16, patch_size=4, hidden_size=32,
+        num_heads=4, num_pairs=1, condition_mode="text", text_embedding_size=12,
+    )
+    model = VideoDiT(config)
+    checkpoint = tmp_path / "text.pt"
+    torch.save(
+        {
+            "config": asdict(config),
+            "diffusion": {"timesteps": 4, "beta_start": 1e-4, "beta_end": 0.02},
+            "model": model.state_dict(),
+            "data_contract": {"space": "pixel", "text_encoder_id": "right@sha256:1"},
+        }, checkpoint,
+    )
+
+    with __import__("pytest").raises(ValueError, match="text encoder identity"):
+        VideoDiTInference.from_checkpoint(
+            checkpoint, text_encode=lambda prompts: torch.zeros(1, 12),
+            text_encoder_id="wrong@sha256:2",
+        )

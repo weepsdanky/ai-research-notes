@@ -1,9 +1,12 @@
 from pathlib import Path
+import hashlib
+import shutil
 
 import torch
 
 from dataset import MOTIONS
 from train import horizontal_flip_batch, parse_args, train
+from real_data import RealVideoRecord, write_manifest
 
 
 def _small_training_args(output_dir, *, max_steps, resume=None):
@@ -122,6 +125,19 @@ def test_default_training_profile_matches_the_documented_first_quality_run():
     assert args.prediction_type == "epsilon"
 
 
+def test_real_training_rejects_legacy_structured_periodic_sampler(tmp_path):
+    args = parse_args([])
+    args.dataset = "real"
+    args.manifest = tmp_path / "manifest.jsonl"
+    args.manifest.write_text("")
+    args.text_embedding_size = 512
+    args.horizontal_flip_prob = 0
+    args.sample_every = 100
+
+    with __import__("pytest").raises(ValueError, match="sample-every 0"):
+        train(args)
+
+
 def test_velocity_quality_ablation_is_explicit_and_checkpointed(tmp_path):
     args = _small_training_args(tmp_path / "velocity", max_steps=1)
     args.prediction_type = "velocity"
@@ -129,6 +145,9 @@ def test_velocity_quality_ablation_is_explicit_and_checkpointed(tmp_path):
     summary = train(args)
     checkpoint = torch.load(
         summary["checkpoint"], map_location="cpu", weights_only=False
+    )
+    inference_checkpoint = torch.load(
+        summary["inference_checkpoint"], map_location="cpu", weights_only=True
     )
 
     assert summary["prediction_type"] == "velocity"
@@ -231,4 +250,122 @@ def test_resume_rejects_optimization_contract_mismatch(tmp_path):
     )
     args.learning_rate = 2e-4
     with __import__("pytest").raises(ValueError, match="optimization contract"):
+        train(args)
+
+
+def test_real_manifest_text_embedding_performs_one_training_update(tmp_path):
+    source = Path(__file__).parents[1] / "demo_artifacts" / "samples" / (
+        "model_cat_orange_walk_right_snow_seed-42.mp4"
+    )
+    clip = tmp_path / "cat.mp4"
+    shutil.copyfile(source, clip)
+    embedding = tmp_path / "cat.text.pt"
+    torch.save(torch.arange(12, dtype=torch.float32), embedding)
+    manifest = write_manifest(
+        tmp_path / "manifest.jsonl",
+        [
+            RealVideoRecord(
+                sample_id="cat-1",
+                source_id="demo-cat",
+                clip_path=clip.name,
+                prompt="an orange cat walking in snow",
+                subject="cat",
+                action="walking",
+                scene="snow",
+                source_url="repo://demo-cat",
+                license="repository-demo",
+                attribution="ai-research-notes",
+                sha256=hashlib.sha256(clip.read_bytes()).hexdigest(),
+                text_embedding_path=embedding.name,
+                text_encoder_id="openai/clip-vit-base-patch32@main",
+                split="train",
+            )
+        ],
+    )
+    args = parse_args(
+        [
+            "--dry-run", "--device", "cpu", "--dataset", "real",
+            "--manifest", str(manifest), "--text-embedding-size", "12",
+            "--batch-size", "1", "--horizontal-flip-prob", "0",
+            "--sample-every", "0",
+            "--output-dir", str(tmp_path / "run"),
+        ]
+    )
+
+    summary = train(args)
+    checkpoint = torch.load(
+        summary["checkpoint"], map_location="cpu", weights_only=False
+    )
+    inference_checkpoint = torch.load(
+        summary["inference_checkpoint"], map_location="cpu", weights_only=True
+    )
+
+    assert summary["updates_this_run"] == 1
+    assert checkpoint["config"]["condition_mode"] == "text"
+    assert checkpoint["curriculum"] == "real-manifest"
+    assert checkpoint["data_contract"]["manifest_sha256"] == hashlib.sha256(
+        manifest.read_bytes()
+    ).hexdigest()
+    assert checkpoint["data_contract"]["text_encoder_id"] == (
+        "openai/clip-vit-base-patch32@main"
+    )
+    assert inference_checkpoint["data_contract"] == checkpoint["data_contract"]
+
+
+def test_real_latent_manifest_records_vae_contract_in_checkpoint(tmp_path):
+    text = tmp_path / "cat.text.pt"
+    latent = tmp_path / "cat.latent.pt"
+    torch.save(torch.ones(12), text)
+    torch.save(torch.randn(4, 4, 4, 4), latent)
+    manifest = write_manifest(
+        tmp_path / "latent.jsonl",
+        [
+            RealVideoRecord(
+                sample_id="cat-latent",
+                source_id="source-cat",
+                clip_path="unused.mp4",
+                prompt="a cat running on grass",
+                subject="cat", action="running", scene="grass",
+                source_url="https://example.test/cat",
+                license="CC0", attribution="Example", sha256="a" * 64,
+                text_embedding_path=text.name,
+                text_encoder_id="openai/clip@sha256:abc",
+                latent_path=latent.name,
+                vae_id="stabilityai/sd-vae-ft-mse@sha256:def",
+                vae_scaling=0.18215,
+                split="train",
+            )
+        ],
+    )
+    args = parse_args(
+        [
+            "--dry-run", "--device", "cpu", "--dataset", "real",
+            "--space", "latent", "--no-learn-sigma", "--manifest", str(manifest),
+            "--text-embedding-size", "12", "--batch-size", "1",
+            "--horizontal-flip-prob", "0", "--sample-every", "0",
+            "--output-dir", str(tmp_path / "run"),
+        ]
+    )
+
+    summary = train(args)
+    checkpoint = torch.load(summary["checkpoint"], weights_only=False)
+
+    assert checkpoint["config"]["in_channels"] == 4
+    assert checkpoint["config"]["image_size"] == 4
+    assert checkpoint["data_contract"]["space"] == "latent"
+    assert checkpoint["data_contract"]["vae_id"].endswith("sha256:def")
+    assert checkpoint["data_contract"]["vae_scaling"] == 0.18215
+
+
+def test_latent_training_rejects_pixel_specific_learned_variance(tmp_path):
+    args = parse_args([])
+    args.dataset = "real"
+    args.space = "latent"
+    args.manifest = tmp_path / "manifest.jsonl"
+    args.manifest.write_text("")
+    args.text_embedding_size = 512
+    args.horizontal_flip_prob = 0
+    args.sample_every = 0
+
+    with __import__("pytest").raises(ValueError, match="pixel-specific"):
         train(args)

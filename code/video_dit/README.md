@@ -205,3 +205,53 @@ CLI/UI 只用 `weights_only=True` 加载 `video_dit_inference.pt`。含 optimize
 这个本地模型能诚实展示时序注意力、条件视频扩散、真实 MP4 与主体运动，但当前训好的 checkpoint 只是三个 canonical clip 的 closed-vocabulary overfit；它不能生成照片级人物或理解任意文本。若需要开放词表、真实猫狗和人物场景，应在本项目之外使用已在大规模视频上预训练的模型。设计报告给出了 Apple 官方 [MLX Wan2.1](https://github.com/ml-explore/mlx-examples/tree/main/video/wan2.1) 作为可选外部路线；当前代码并没有 Wan backend 、backend selector 或其权重下载逻辑，也不把它作为本教学项目的依赖。
 
 不要把本目录称为 Latte-1 checkpoint 复现：Latte 论文的大实验用了 8×A100 80 GB；发布的约 1B T2V checkpoint 还依赖 T5-XXL/PixArt 风格条件。这里保留的是论文中最值得学习、又能在当前 Mac 上实际跑通的 Variant-1 框架与训练技巧。
+
+## 真实视频与未见组合实验（进行中）
+
+真实数据路线的规范和数据集取舍见
+[`video-dit-real-data-plan.md`](../../docs/case-studies/video-dit-real-data-plan.md)。当前已经实现并验证：
+
+- JSONL manifest 强制保存 source ID、原页面、许可、署名、SHA-256；
+- source group、人工 duplicate group 与 64-bit 感知指纹的跨 split 泄漏检查；
+- IID、C1 三元组合留出、C2 二元组合留出的确定性切分和 fail-closed 验证；
+- ffmpeg 真实 MP4 解码，以及缓存冻结文本 embedding / VAE latent 的数据接口；
+- 官方 OpenAI CLIP ViT-B/32 冻结文本塔，encoder ID 中记录完整权重 SHA-256；
+- 真实 manifest 的训练 checkpoint 会记录 manifest hash、text encoder ID；
+- IID/C1/C2 分开报告逐因子、三元组、打乱 prompt 对照和训练最近邻相似度。
+
+准备和验证已有 manifest：
+
+```bash
+uv run python prepare_real_data.py split source.jsonl split.jsonl \
+  --c1 cat,running,snow --c2 dog,snow --report split-report.json
+
+uv run python prepare_real_data.py validate split.jsonl \
+  --c1 cat,running,snow --c2 dog,snow
+```
+
+缓存官方 CLIP embedding。checkpoint 可以从 OpenAI CLIP 官方仓库中
+`ViT-B/32` 对应的 Azure URL 获取；不要用随机向量替代失败的下载：
+
+```bash
+uv run python cache_text_embeddings.py source.jsonl embedded.jsonl \
+  --checkpoint /path/to/ViT-B-32.pt
+```
+
+真实像素视频训练入口：
+
+```bash
+uv run python train.py \
+  --dataset real --manifest embedded.jsonl --text-embedding-size 512 \
+  --mode faithful --device mps --max-steps 1 --batch-size 1 \
+  --frames 16 --image-size 96 --patch-size 8 \
+  --hidden-size 128 --num-heads 4 --num-pairs 2 \
+  --horizontal-flip-prob 0 --sample-every 0 --checkpoint-every 0 \
+  --output-dir runs/real-smoke
+```
+
+本机已用一条人工检查过的 Wikimedia Commons CC BY 3.0 猫跳跃 clip 跑通上述
+96×96、16 帧、learned-variance、CLIP 条件训练更新：MPS 单步约 1.96 秒，loss
+1.02395。这只是 **G0 管线和性能基线**，没有证明模型已学会生成，更没有形成 C1
+实验。VideoUFO 最小官方分片和 SD VAE 权重在本次运行中均因 Hugging Face 大文件
+连接超时未取得；当前 latent reader 已 fail-closed，但在实际 VAE cache 完成之前不把
+像素 smoke test 称为 latent 训练。
