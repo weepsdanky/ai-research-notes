@@ -582,6 +582,114 @@ MIME 门禁接受 `video/*`，并仅对扩展名为 `.ogv` 的 `application/ogg`
 OGG。差集先按 page ID/title，再按 SHA-1 去字节重复，最后仍要按 uploader、具名动物、拍摄
 日期/地点、标题前缀与关键帧/音轨指纹建立传递 group。不同 SHA-1 不代表独立动物或拍摄事件。
 
+### Internet Archive 可否作为下一来源：仅限逐 item 小规模补召回
+
+2026-08-14 直接调用 Internet Archive 官方
+[`advancedsearch.php`](https://archive.org/help/aboutsearch.htm) 与
+[`metadata/{identifier}`](https://archive.org/developers/metadata-schema/index.html) 做了小样本审计。
+官方搜索文档说明 advanced search 查的是 **item metadata**，排序分页最多返回 10,000 条，深分页
+应改用 cursor-based scraping API。因此关键词命中不是视频片段标注：长片说明、节目单、游戏
+“Let's Play”和正文里的 cat/dog 都会形成假阳性。
+
+为展示噪声边界，以下是本次 API 的实时响应，不是训练样本计数：
+
+| 查询 | `numFound` | 审计结论 |
+|---|---:|---|
+| `mediatype:movies AND (cat OR kitten) AND (play OR playing) AND (outdoors OR outside OR garden OR yard OR grass)` | 440 | 未限字段时混入长合集、动画、电影与游戏；不能称为 440 个候选。 |
+| 同上再加 `licenseurl:*` | 127 | 只证明 item metadata 有 license URL，不证明语义或上传者权利。 |
+| `mediatype:movies AND (dog OR puppy) AND (play OR playing) AND (indoors OR inside OR house OR room)` | 1,342 | 同样有历史片、会议、动画、人物节目等大量假阳性。 |
+| 同上再加 `licenseurl:*` | 260 | 仍不是 260 个 dog-playing-indoor 视频。 |
+
+更严格的许可限定标题查询只找到一个表面相关 item：
+[`2011-cats-kitten-playing-outside-barn`](https://archive.org/details/2011-cats-kitten-playing-outside-barn)，
+标题为 `Cats Kitten Playing Outside Barn (c. 2011)`，`mediatype=movies`，creator 为 Katie Madonna
+Lee，uploader metadata 为同名账号邮箱，`licenseurl=CC BY-NC-ND 4.0`。该 item 内并非一个 clip，
+而是多个同一家庭/猫群视频；其中同名 original M4V 为 13,431,731 bytes，MD5
+`02c557ef3c6a9c0cf521841b07feb784`、SHA-1
+`59f428c18f002d80273f2c2982ca779961a9a47a`，另有 IA 生成的 MP4 derivative（4,535,186
+bytes；SHA-1 `c5ea98704f9830b591375a98660d21d0c43e7b5f`）。**推断**：它可能补 outdoor cat，但标题是复数
+cats/kittens、整个 item 共享拍摄来源，且 ND 条款对裁成 2 秒训练片段与模型派生物是否获准并不
+清晰；在取得权利人许可前不采用。
+
+另一个高词面命中
+[`funny_or_die_video_08fb1ecea6`](https://archive.org/details/funny_or_die_video_08fb1ecea6)
+确有 original MP4（20,429,797 bytes；SHA-1
+`adb8e75c0b908b286ca961b56daa7cc7d950c8a1`），但 item 的 `licenseurl` 缺失且内容是商业喜剧短片；
+可下载不等于可训练，直接排除。dog 侧没有发现同时具备明确标题、indoor scene 与可安全解释
+许可的强候选；例如 Osceola 宠物节目虽然有 CC BY-NC-ND 3.0 和 original MOV，但说明只是称幼犬
+“playful/house-broken”，并不证明片中 indoor playing，也包含人物/节目制作权，应排除。
+
+#### 文件级 provenance 契约
+
+对任何将来候选先查询：
+
+```text
+GET https://archive.org/metadata/{identifier}
+```
+
+必须核验 `metadata.identifier/mediatype/title/description/subject/creator/uploader/licenseurl`，再对
+`files[]` 保存 `name/source/format/md5/sha1/mtime/size`。官方 schema 明确 `mediatype=movies` 只
+表示 item 的主要内容是视频并触发相应展示/处理，不保证 item 中每个文件都是目标视频；
+`licenseurl` 是 uploader 可编辑、非必填的“所选许可 URL”；`uploader` 是上传账号邮箱，不能
+自动等同作者或权利人。
+
+本仓库的候选 JSON 不持久化 uploader 邮箱，也不保存包含邮箱的完整 metadata 摘要，避免把公开
+邮箱或其裸哈希变成可链接的个人标识。自动 source group 先按必须公开用于署名的 creator 保守
+合并；uploader 只在实时 metadata 审计中验证存在。任何候选在批准前仍必须由人工把同上传者、
+同动物、同拍摄系列或事件写入稳定 duplicate group；未完成该步骤不能进入训练 manifest。
+
+实测 metadata 中 `files[].source=original` 对应上传原文件，`source=derivative` 对应 IA 生成的
+MP4/OGV 等派生对象；derivative 不是新的版权授权，也不能冒充 original。下载地址是：
+
+```text
+https://archive.org/download/{identifier}/{percent-encoded-file-name}
+```
+
+下载前重新锁定 item metadata，下载后同时验证所选文件的 size、MD5 和 SHA-1；若用 derivative
+做审核或训练，要同时保存 original 与 derivative 两套 name/hash/source。一个 item 可有多个
+original 视频，必须按文件逐个审核，并把同 item、同 creator/uploader、同拍摄系列全部并入一个
+传递 group，不能把十个文件算十个独立来源。
+
+#### 权利结论与采用边界
+
+`licenseurl` 缺失绝不表示公有领域；存在也只是 item metadata 声明，Internet Archive 托管和
+可下载本身不授予训练、裁切、再发布或商业使用权。必须逐 item 验证上传者的权利链，并分别
+处理 BY 署名、SA、NC 和 ND；ND 或权利链不明的 item 当前 fail-closed。媒体还可能含第三方音乐、
+电视/艺术品、商标以及可识别人物；自由版权许可不自动清除隐私、肖像、表演或场地权利。
+
+因此 IA **可以作为人工小规模补召回 API，但不作为新的批量数据源**。只有明确许可允许裁切和
+模型训练、creator/source 可追踪、存在带 MD5/SHA-1 的 original 视频、clip-level 三因子审核
+通过且 provenance/group 完整的 item 才能进入 pending→approved 流程。本轮没有安全可采用的
+新样本，119-record manifest、coverage 与“0 eligible C1 / 不启动正式训练”边界均不改变。
+
+本仓库随后把上述边界固化为 `code/video_dit/prepare_archive.py`：输入必须是人工列出的精确
+identifier、`cat|dog` subject 和查询意图；程序只接受 `mediatype=movies`、非邮箱 creator、
+兼容的 CC BY/BY-SA/CC0/Public Domain URL，以及**唯一一个**同时带正 size/mtime、MD5 和 SHA-1
+的 original 视频。网络错误会中止，元数据不合格则写入结构化 rejection；通过者也只写成
+`pending + review_required`，不会直接进入 Commons manifest 或 coverage。
+
+2026-08-14 用固定 spec 实跑两条最相关 item，spec SHA-256 为
+`c796a795406dfde67189dd713449348cc7afb1abc1cf62c9fc6ad0f11b200a32`：结果为 0 pending、
+2 rejected；barn cats 因 BY-NC-ND 被许可门拒绝，`Playingwithmydogs` 的旧式 public-domain
+URL 可被锚定规则识别，但 creator 缺失，因此被归属门拒绝。空候选 JSONL 的 SHA-256 为
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`。因此这不是“搜索没找到
+所以当作可用”，而是可复算地证明这两条不能进入后续媒体下载；训练 manifest 和 coverage
+仍保持不变。
+
+可复现查询示例：
+
+```text
+GET https://archive.org/advancedsearch.php?
+  q=mediatype%3Amovies%20AND%20licenseurl%3A*%20AND%20
+    %28cat%20OR%20kitten%29%20AND%20%28play%20OR%20playing%29%20AND%20
+    %28outdoors%20OR%20outside%20OR%20garden%20OR%20yard%20OR%20grass%29&
+  fl[]=identifier&fl[]=title&fl[]=description&fl[]=creator&fl[]=uploader&
+  fl[]=licenseurl&fl[]=mediatype&rows=50&page=1&output=json
+
+# dog 侧将三组语义词替换为：
+# (dog OR puppy) AND (play OR playing) AND (indoors OR inside OR house OR room)
+```
+
 ### 为什么不是直接训练 800 GB
 
 现有 248 万参数、32×32 的模型只足够过拟合几段教学动画。真实视频的背景、镜头、纹理和文本变化大得多。全量数据既不能装进本机，也不会自动带来可解释的组合泛化；先用平衡、可审计的 6K/12K 子集，才能知道失败来自模型、数据还是 split。

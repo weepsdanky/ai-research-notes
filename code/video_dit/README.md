@@ -291,6 +291,12 @@ uv run python prepare_commons.py search \
   configs/commons_pair_deficit_search.json \
   data/commons_g1/candidates.jsonl \
   --state data/commons_g1/pair-deficit-search.state.json
+
+# Internet Archive 只接受人工列出的精确 item ID；输出仍是 metadata-only pending，
+# 许可、creator、唯一 original 视频以及 size/MD5/SHA-1 任一不完整都会拒绝：
+uv run python prepare_archive.py configs/archive_pair_candidate_specs.json \
+  data/archive_pair_pilot/candidates.jsonl \
+  data/archive_pair_pilot/scan-report.json
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
