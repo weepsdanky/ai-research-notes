@@ -403,8 +403,9 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
 满足新契约；Commons v3 的 127 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频。当前合并 manifest 为
-128 records / 99 个独立组；`cat|playing|indoors` 仍只有 16/50。coverage 还预注册每个 held
+合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频，以及 1 条逐文件锁定的 Figshare
+CC BY 4.0 室内玩耍猫视频。当前合并 manifest 为 129 records / 100 个独立组；
+`cat|playing|indoors` 为 17/50。coverage 还预注册每个 held
 triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=6/10`、
 `playing×indoors=10/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
@@ -628,6 +629,29 @@ source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补
 按 creator 保守归为一个新 group。合并 manifest 因此达到 128 records / 99 groups，
 `cat×playing` 从 5 增到 6，held 仍是 16/50，仍为 0 eligible C1。审核 MP4、联系表与
 逐对象 hash 见 `docs/case-studies/artifacts/video-dit/archive-cat-playing-review-v1/`。
+
+再随后，Figshare article `28287896` version 2 的官方 API 直接托管三条 CC BY 4.0 实验 MP4。
+逐文件核对官方 size/MD5、article snapshot、下载 URL 与本地 SHA-256 后，只有 file `57852742`
+的 `[40,42)` 秒通过动作门：一只虎斑猫在室内连续翻滚、伸爪并拨弄玩具。另两条只是观察/找盒子，
+没有为了补数重标成 playing。三条虽肉眼上是不同猫和房间，但官方没有公开 cat/session 映射，因此
+全部保守视为一个 article-level group。`prepare_figshare.py create/merge` 会在每个边界重验
+article/version/DOI/CC BY、file ID/size/MD5/SHA、人工审核与 group 契约，并把完整 audit 携带到新
+数据树。执行后的 manifest 为 **129 records / 100 groups**，held `cat|playing|indoors=17/50`；
+训练侧仍为 `cat×indoors=30/10`、`cat×playing=6/10`、`playing×indoors=10/10`，所以仍是
+0 eligible C1、不得启动正式训练。证据见
+`docs/case-studies/artifacts/video-dit/figshare-object-permanence-review-v1/`。
+
+```bash
+uv run --offline python prepare_figshare.py create \
+  data/figshare_cat_object_permanence_v1/article.json \
+  'data/figshare_cat_object_permanence_v1/media/Supplementary Video 3 violation event.mp4' \
+  ../../docs/case-studies/artifacts/video-dit/figshare-object-permanence-review-v1/evidence.json \
+  data/figshare_cat_object_permanence_v1/bundle-v1
+uv run --offline python prepare_figshare.py merge \
+  data/commons_g1_provenance_v3/source.jsonl \
+  data/figshare_cat_object_permanence_v1/bundle-v1 \
+  --output data/formal_c1_expanded_figshare_v1
+```
 
 在用户明确授权后，另行执行了一次**不满足正式数据门禁的预注册诊断 pilot**；它不是上述“正式训练”。
 协议在训练结束前由 commit `536d0f9` 固化，held triple 的 source/duplicate/pHash 传递闭包全部排除。

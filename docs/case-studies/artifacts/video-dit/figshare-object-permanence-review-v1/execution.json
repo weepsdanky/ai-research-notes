@@ -1,0 +1,33 @@
+{
+  "bundle_evidence": {
+    "path": "bundle-evidence.json",
+    "sha256": "75f9e463f0b6b5c84ccedb8d2c189e6ff4ed0a92760a14963b85a53e9f055912"
+  },
+  "bundle_manifest": {
+    "path": "bundle-source.jsonl",
+    "sha256": "9a40bcd2bf7df06eccdd44224182e8b25af13c270118c33226a525e1e6236afb"
+  },
+  "coverage": {
+    "eligible_c1_triples": [],
+    "held_cat_playing_indoors_groups": 17,
+    "independent_source_groups": 100,
+    "path": "coverage.json",
+    "records": 129,
+    "sha256": "9423c84226da17ff6684d99364d8d9558a6fa207e59f8bff77045bec919b2b50",
+    "training_pair_source_groups": {
+      "cat|indoors": 30,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    }
+  },
+  "merged_manifest": {
+    "path": "merged-source.jsonl",
+    "sha256": "78d09faba4d35fc199f9ac2b49b17f45a74e97ec0b6d9941e11cc31d28434ee3"
+  },
+  "review_evidence": {
+    "path": "evidence.json",
+    "sha256": "906928d8fed31d49f5707f121742b0867c31efb0221e0f9c900c39b0f9d86ee1"
+  },
+  "schema_version": 1,
+  "training_ready_for_confirmatory_c1": false
+}

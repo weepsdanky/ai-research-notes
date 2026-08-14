@@ -1,0 +1,1117 @@
+{
+  "c1_blockers": {},
+  "c1_train_support": {
+    "cat|drinking|indoors": {
+      "mixed_held_group_triples": [
+        "cat|kneading|indoors"
+      ],
+      "train_atom_source_groups": {
+        "cat": 61,
+        "drinking": 1,
+        "indoors": 61
+      },
+      "train_pair_deficits": {
+        "cat|drinking": 9,
+        "cat|indoors": 0,
+        "drinking|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|drinking": 1,
+        "cat|indoors": 44,
+        "drinking|indoors": 0
+      }
+    },
+    "cat|drinking|outdoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "drinking": 3,
+        "outdoors": 22
+      },
+      "train_pair_deficits": {
+        "cat|drinking": 7,
+        "cat|outdoors": 0,
+        "drinking|outdoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|drinking": 3,
+        "cat|outdoors": 16,
+        "drinking|outdoors": 0
+      }
+    },
+    "cat|eating|indoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "eating": 3,
+        "indoors": 63
+      },
+      "train_pair_deficits": {
+        "cat|eating": 9,
+        "cat|indoors": 0,
+        "eating|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|eating": 1,
+        "cat|indoors": 46,
+        "eating|indoors": 1
+      }
+    },
+    "cat|eating|outdoors": {
+      "mixed_held_group_triples": [
+        "cat|sitting|indoors"
+      ],
+      "train_atom_source_groups": {
+        "cat": 63,
+        "eating": 3,
+        "outdoors": 22
+      },
+      "train_pair_deficits": {
+        "cat|eating": 9,
+        "cat|outdoors": 0,
+        "eating|outdoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|eating": 1,
+        "cat|outdoors": 16,
+        "eating|outdoors": 1
+      }
+    },
+    "cat|grooming|indoors": {
+      "train_atom_source_groups": {
+        "cat": 61,
+        "grooming": 0,
+        "indoors": 61
+      },
+      "train_pair_deficits": {
+        "cat|grooming": 10,
+        "cat|indoors": 0,
+        "grooming|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|grooming": 0,
+        "cat|indoors": 44,
+        "grooming|indoors": 0
+      }
+    },
+    "cat|hissing|indoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "hissing": 0,
+        "indoors": 63
+      },
+      "train_pair_deficits": {
+        "cat|hissing": 10,
+        "cat|indoors": 0,
+        "hissing|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|hissing": 0,
+        "cat|indoors": 46,
+        "hissing|indoors": 0
+      }
+    },
+    "cat|jumping|indoors": {
+      "train_atom_source_groups": {
+        "cat": 62,
+        "indoors": 62,
+        "jumping": 2
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|jumping": 8,
+        "jumping|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 45,
+        "cat|jumping": 2,
+        "jumping|indoors": 0
+      }
+    },
+    "cat|jumping|outdoors": {
+      "train_atom_source_groups": {
+        "cat": 62,
+        "jumping": 2,
+        "outdoors": 21
+      },
+      "train_pair_deficits": {
+        "cat|jumping": 8,
+        "cat|outdoors": 0,
+        "jumping|outdoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|jumping": 2,
+        "cat|outdoors": 15,
+        "jumping|outdoors": 0
+      }
+    },
+    "cat|kneading|indoors": {
+      "mixed_held_group_triples": [
+        "cat|drinking|indoors"
+      ],
+      "train_atom_source_groups": {
+        "cat": 61,
+        "indoors": 61,
+        "kneading": 0
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|kneading": 10,
+        "kneading|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 44,
+        "cat|kneading": 0,
+        "kneading|indoors": 0
+      }
+    },
+    "cat|lying|indoors": {
+      "mixed_held_group_triples": [
+        "cat|sitting|indoors"
+      ],
+      "train_atom_source_groups": {
+        "cat": 62,
+        "indoors": 62,
+        "lying": 2
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|lying": 10,
+        "lying|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 45,
+        "cat|lying": 0,
+        "lying|indoors": 1
+      }
+    },
+    "cat|opening_door|indoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "indoors": 63,
+        "opening_door": 0
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|opening_door": 10,
+        "opening_door|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 46,
+        "cat|opening_door": 0,
+        "opening_door|indoors": 0
+      }
+    },
+    "cat|playing|indoors": {
+      "train_atom_source_groups": {
+        "cat": 47,
+        "indoors": 47,
+        "playing": 17
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|playing": 4,
+        "playing|indoors": 0
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 30,
+        "cat|playing": 6,
+        "playing|indoors": 10
+      }
+    },
+    "cat|playing|outdoors": {
+      "train_atom_source_groups": {
+        "cat": 58,
+        "outdoors": 17,
+        "playing": 28
+      },
+      "train_pair_deficits": {
+        "cat|outdoors": 0,
+        "cat|playing": 0,
+        "playing|outdoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|outdoors": 11,
+        "cat|playing": 17,
+        "playing|outdoors": 1
+      }
+    },
+    "cat|scratching|indoors": {
+      "train_atom_source_groups": {
+        "cat": 61,
+        "indoors": 61,
+        "scratching": 0
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|scratching": 10,
+        "scratching|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 44,
+        "cat|scratching": 0,
+        "scratching|indoors": 0
+      }
+    },
+    "cat|sitting|indoors": {
+      "mixed_held_group_triples": [
+        "cat|eating|outdoors",
+        "cat|lying|indoors",
+        "dog|running|beach"
+      ],
+      "train_atom_source_groups": {
+        "cat": 52,
+        "indoors": 52,
+        "sitting": 1
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|sitting": 10,
+        "sitting|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 35,
+        "cat|sitting": 0,
+        "sitting|indoors": 1
+      }
+    },
+    "cat|standing|outdoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "outdoors": 22,
+        "standing": 6
+      },
+      "train_pair_deficits": {
+        "cat|outdoors": 0,
+        "cat|standing": 10,
+        "standing|outdoors": 7
+      },
+      "train_pair_source_groups": {
+        "cat|outdoors": 16,
+        "cat|standing": 0,
+        "standing|outdoors": 3
+      }
+    },
+    "cat|walking|indoors": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "indoors": 63,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "cat|indoors": 0,
+        "cat|walking": 3,
+        "walking|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "cat|indoors": 46,
+        "cat|walking": 7,
+        "walking|indoors": 1
+      }
+    },
+    "cat|walking|outdoors": {
+      "train_atom_source_groups": {
+        "cat": 58,
+        "outdoors": 17,
+        "walking": 10
+      },
+      "train_pair_deficits": {
+        "cat|outdoors": 0,
+        "cat|walking": 8,
+        "walking|outdoors": 10
+      },
+      "train_pair_source_groups": {
+        "cat|outdoors": 11,
+        "cat|walking": 2,
+        "walking|outdoors": 0
+      }
+    },
+    "cat|walking|snow": {
+      "train_atom_source_groups": {
+        "cat": 63,
+        "snow": 2,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "cat|snow": 10,
+        "cat|walking": 3,
+        "walking|snow": 9
+      },
+      "train_pair_source_groups": {
+        "cat|snow": 0,
+        "cat|walking": 7,
+        "walking|snow": 1
+      }
+    },
+    "dog|digging|field": {
+      "train_atom_source_groups": {
+        "digging": 0,
+        "dog": 29,
+        "field": 1
+      },
+      "train_pair_deficits": {
+        "digging|field": 10,
+        "dog|digging": 10,
+        "dog|field": 9
+      },
+      "train_pair_source_groups": {
+        "digging|field": 0,
+        "dog|digging": 0,
+        "dog|field": 1
+      }
+    },
+    "dog|eating|indoors": {
+      "mixed_held_group_triples": [
+        "dog|sitting|indoors"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "eating": 3,
+        "indoors": 63
+      },
+      "train_pair_deficits": {
+        "dog|eating": 9,
+        "dog|indoors": 0,
+        "eating|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "dog|eating": 1,
+        "dog|indoors": 11,
+        "eating|indoors": 1
+      }
+    },
+    "dog|eating|outdoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "eating": 3,
+        "outdoors": 22
+      },
+      "train_pair_deficits": {
+        "dog|eating": 9,
+        "dog|outdoors": 5,
+        "eating|outdoors": 9
+      },
+      "train_pair_source_groups": {
+        "dog|eating": 1,
+        "dog|outdoors": 5,
+        "eating|outdoors": 1
+      }
+    },
+    "dog|howling|indoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "howling": 0,
+        "indoors": 63
+      },
+      "train_pair_deficits": {
+        "dog|howling": 10,
+        "dog|indoors": 0,
+        "howling|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "dog|howling": 0,
+        "dog|indoors": 11,
+        "howling|indoors": 0
+      }
+    },
+    "dog|lying|indoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "indoors": 63,
+        "lying": 3
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 0,
+        "dog|lying": 9,
+        "lying|indoors": 8
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 11,
+        "dog|lying": 1,
+        "lying|indoors": 2
+      }
+    },
+    "dog|lying|outdoors": {
+      "mixed_held_group_triples": [
+        "dog|walking|night",
+        "dog|walking|street"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "lying": 3,
+        "outdoors": 22
+      },
+      "train_pair_deficits": {
+        "dog|lying": 9,
+        "dog|outdoors": 5,
+        "lying|outdoors": 10
+      },
+      "train_pair_source_groups": {
+        "dog|lying": 1,
+        "dog|outdoors": 5,
+        "lying|outdoors": 0
+      }
+    },
+    "dog|playing|indoors": {
+      "train_atom_source_groups": {
+        "dog": 25,
+        "indoors": 59,
+        "playing": 29
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 3,
+        "dog|playing": 9,
+        "playing|indoors": 0
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 7,
+        "dog|playing": 1,
+        "playing|indoors": 22
+      }
+    },
+    "dog|playing|outdoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "outdoors": 22,
+        "playing": 33
+      },
+      "train_pair_deficits": {
+        "dog|outdoors": 5,
+        "dog|playing": 5,
+        "playing|outdoors": 4
+      },
+      "train_pair_source_groups": {
+        "dog|outdoors": 5,
+        "dog|playing": 5,
+        "playing|outdoors": 6
+      }
+    },
+    "dog|rolling|grass": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "grass": 1,
+        "rolling": 1
+      },
+      "train_pair_deficits": {
+        "dog|grass": 9,
+        "dog|rolling": 9,
+        "rolling|grass": 10
+      },
+      "train_pair_source_groups": {
+        "dog|grass": 1,
+        "dog|rolling": 1,
+        "rolling|grass": 0
+      }
+    },
+    "dog|rolling|indoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "indoors": 63,
+        "rolling": 1
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 0,
+        "dog|rolling": 9,
+        "rolling|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 11,
+        "dog|rolling": 1,
+        "rolling|indoors": 0
+      }
+    },
+    "dog|running|beach": {
+      "mixed_held_group_triples": [
+        "cat|sitting|indoors"
+      ],
+      "train_atom_source_groups": {
+        "beach": 2,
+        "dog": 29,
+        "running": 3
+      },
+      "train_pair_deficits": {
+        "dog|beach": 9,
+        "dog|running": 7,
+        "running|beach": 10
+      },
+      "train_pair_source_groups": {
+        "dog|beach": 1,
+        "dog|running": 3,
+        "running|beach": 0
+      }
+    },
+    "dog|running|field": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "field": 1,
+        "running": 3
+      },
+      "train_pair_deficits": {
+        "dog|field": 9,
+        "dog|running": 7,
+        "running|field": 10
+      },
+      "train_pair_source_groups": {
+        "dog|field": 1,
+        "dog|running": 3,
+        "running|field": 0
+      }
+    },
+    "dog|running|forest": {
+      "mixed_held_group_triples": [
+        "dog|running|grass",
+        "dog|running|outdoors",
+        "dog|standing|grass",
+        "dog|standing|outdoors",
+        "dog|walking|beach",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "dog": 28,
+        "forest": 2,
+        "running": 2
+      },
+      "train_pair_deficits": {
+        "dog|forest": 9,
+        "dog|running": 8,
+        "running|forest": 10
+      },
+      "train_pair_source_groups": {
+        "dog|forest": 1,
+        "dog|running": 2,
+        "running|forest": 0
+      }
+    },
+    "dog|running|grass": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|outdoors",
+        "dog|standing|grass",
+        "dog|standing|outdoors",
+        "dog|walking|beach",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "grass": 1,
+        "running": 3
+      },
+      "train_pair_deficits": {
+        "dog|grass": 9,
+        "dog|running": 7,
+        "running|grass": 10
+      },
+      "train_pair_source_groups": {
+        "dog|grass": 1,
+        "dog|running": 3,
+        "running|grass": 0
+      }
+    },
+    "dog|running|outdoors": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|grass",
+        "dog|standing|grass",
+        "dog|standing|outdoors",
+        "dog|walking|beach",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "outdoors": 22,
+        "running": 3
+      },
+      "train_pair_deficits": {
+        "dog|outdoors": 5,
+        "dog|running": 7,
+        "running|outdoors": 10
+      },
+      "train_pair_source_groups": {
+        "dog|outdoors": 5,
+        "dog|running": 3,
+        "running|outdoors": 0
+      }
+    },
+    "dog|sitting|indoors": {
+      "mixed_held_group_triples": [
+        "dog|eating|indoors"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "indoors": 63,
+        "sitting": 12
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 0,
+        "dog|sitting": 10,
+        "sitting|indoors": 0
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 11,
+        "dog|sitting": 0,
+        "sitting|indoors": 12
+      }
+    },
+    "dog|standing|grass": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|grass",
+        "dog|running|outdoors",
+        "dog|standing|outdoors",
+        "dog|walking|beach",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "grass": 1,
+        "standing": 6
+      },
+      "train_pair_deficits": {
+        "dog|grass": 9,
+        "dog|standing": 5,
+        "standing|grass": 10
+      },
+      "train_pair_source_groups": {
+        "dog|grass": 1,
+        "dog|standing": 5,
+        "standing|grass": 0
+      }
+    },
+    "dog|standing|indoors": {
+      "train_atom_source_groups": {
+        "dog": 28,
+        "indoors": 62,
+        "standing": 5
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 0,
+        "dog|standing": 6,
+        "standing|indoors": 10
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 10,
+        "dog|standing": 4,
+        "standing|indoors": 0
+      }
+    },
+    "dog|standing|outdoors": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|grass",
+        "dog|running|outdoors",
+        "dog|standing|grass",
+        "dog|walking|beach",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "dog": 27,
+        "outdoors": 20,
+        "standing": 4
+      },
+      "train_pair_deficits": {
+        "dog|outdoors": 7,
+        "dog|standing": 7,
+        "standing|outdoors": 9
+      },
+      "train_pair_source_groups": {
+        "dog|outdoors": 3,
+        "dog|standing": 3,
+        "standing|outdoors": 1
+      }
+    },
+    "dog|standing|snow": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "snow": 2,
+        "standing": 6
+      },
+      "train_pair_deficits": {
+        "dog|snow": 9,
+        "dog|standing": 5,
+        "standing|snow": 10
+      },
+      "train_pair_source_groups": {
+        "dog|snow": 1,
+        "dog|standing": 5,
+        "standing|snow": 0
+      }
+    },
+    "dog|swimming|lake": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "lake": 0,
+        "swimming": 2
+      },
+      "train_pair_deficits": {
+        "dog|lake": 10,
+        "dog|swimming": 8,
+        "swimming|lake": 10
+      },
+      "train_pair_source_groups": {
+        "dog|lake": 0,
+        "dog|swimming": 2,
+        "swimming|lake": 0
+      }
+    },
+    "dog|swimming|pond": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "pond": 0,
+        "swimming": 2
+      },
+      "train_pair_deficits": {
+        "dog|pond": 10,
+        "dog|swimming": 8,
+        "swimming|pond": 10
+      },
+      "train_pair_source_groups": {
+        "dog|pond": 0,
+        "dog|swimming": 2,
+        "swimming|pond": 0
+      }
+    },
+    "dog|swimming|pool": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "pool": 0,
+        "swimming": 2
+      },
+      "train_pair_deficits": {
+        "dog|pool": 10,
+        "dog|swimming": 8,
+        "swimming|pool": 10
+      },
+      "train_pair_source_groups": {
+        "dog|pool": 0,
+        "dog|swimming": 2,
+        "swimming|pool": 0
+      }
+    },
+    "dog|walking|beach": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|grass",
+        "dog|running|outdoors",
+        "dog|standing|grass",
+        "dog|standing|outdoors",
+        "dog|walking|grass"
+      ],
+      "train_atom_source_groups": {
+        "beach": 2,
+        "dog": 29,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|beach": 9,
+        "dog|walking": 5,
+        "walking|beach": 9
+      },
+      "train_pair_source_groups": {
+        "dog|beach": 1,
+        "dog|walking": 5,
+        "walking|beach": 1
+      }
+    },
+    "dog|walking|forest": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "forest": 3,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|forest": 8,
+        "dog|walking": 5,
+        "walking|forest": 9
+      },
+      "train_pair_source_groups": {
+        "dog|forest": 2,
+        "dog|walking": 5,
+        "walking|forest": 1
+      }
+    },
+    "dog|walking|grass": {
+      "mixed_held_group_triples": [
+        "dog|running|forest",
+        "dog|running|grass",
+        "dog|running|outdoors",
+        "dog|standing|grass",
+        "dog|standing|outdoors",
+        "dog|walking|beach"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "grass": 1,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|grass": 9,
+        "dog|walking": 5,
+        "walking|grass": 10
+      },
+      "train_pair_source_groups": {
+        "dog|grass": 1,
+        "dog|walking": 5,
+        "walking|grass": 0
+      }
+    },
+    "dog|walking|indoors": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "indoors": 63,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|indoors": 0,
+        "dog|walking": 5,
+        "walking|indoors": 9
+      },
+      "train_pair_source_groups": {
+        "dog|indoors": 11,
+        "dog|walking": 5,
+        "walking|indoors": 1
+      }
+    },
+    "dog|walking|night": {
+      "mixed_held_group_triples": [
+        "dog|lying|outdoors",
+        "dog|walking|street"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "night": 0,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|night": 10,
+        "dog|walking": 5,
+        "walking|night": 10
+      },
+      "train_pair_source_groups": {
+        "dog|night": 0,
+        "dog|walking": 5,
+        "walking|night": 0
+      }
+    },
+    "dog|walking|snow": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "snow": 2,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|snow": 9,
+        "dog|walking": 5,
+        "walking|snow": 9
+      },
+      "train_pair_source_groups": {
+        "dog|snow": 1,
+        "dog|walking": 5,
+        "walking|snow": 1
+      }
+    },
+    "dog|walking|street": {
+      "mixed_held_group_triples": [
+        "dog|lying|outdoors",
+        "dog|walking|night"
+      ],
+      "train_atom_source_groups": {
+        "dog": 29,
+        "street": 0,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "dog|street": 10,
+        "dog|walking": 5,
+        "walking|street": 10
+      },
+      "train_pair_source_groups": {
+        "dog|street": 0,
+        "dog|walking": 5,
+        "walking|street": 0
+      }
+    },
+    "dog|walking|water": {
+      "train_atom_source_groups": {
+        "dog": 29,
+        "walking": 15,
+        "water": 0
+      },
+      "train_pair_deficits": {
+        "dog|walking": 5,
+        "dog|water": 10,
+        "walking|water": 10
+      },
+      "train_pair_source_groups": {
+        "dog|walking": 5,
+        "dog|water": 0,
+        "walking|water": 0
+      }
+    },
+    "person|playing|indoors": {
+      "train_atom_source_groups": {
+        "indoors": 59,
+        "person": 2,
+        "playing": 29
+      },
+      "train_pair_deficits": {
+        "person|indoors": 10,
+        "person|playing": 10,
+        "playing|indoors": 0
+      },
+      "train_pair_source_groups": {
+        "person|indoors": 0,
+        "person|playing": 0,
+        "playing|indoors": 22
+      }
+    },
+    "person|walking|beach": {
+      "train_atom_source_groups": {
+        "beach": 2,
+        "person": 6,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "person|beach": 10,
+        "person|walking": 9,
+        "walking|beach": 9
+      },
+      "train_pair_source_groups": {
+        "person|beach": 0,
+        "person|walking": 1,
+        "walking|beach": 1
+      }
+    },
+    "person|walking|forest": {
+      "train_atom_source_groups": {
+        "forest": 3,
+        "person": 6,
+        "walking": 15
+      },
+      "train_pair_deficits": {
+        "person|forest": 10,
+        "person|walking": 9,
+        "walking|forest": 9
+      },
+      "train_pair_source_groups": {
+        "person|forest": 0,
+        "person|walking": 1,
+        "walking|forest": 1
+      }
+    }
+  },
+  "eligible_c1_triples": [],
+  "independent_source_groups": 100,
+  "meets_target_triples": [],
+  "min_train_pair_source_groups": 10,
+  "near_duplicate_hamming": 4,
+  "records": 129,
+  "target_per_triple": 50,
+  "triple_deficits": {
+    "cat|drinking|indoors": 47,
+    "cat|drinking|outdoors": 49,
+    "cat|eating|indoors": 49,
+    "cat|eating|outdoors": 49,
+    "cat|grooming|indoors": 47,
+    "cat|hissing|indoors": 49,
+    "cat|jumping|indoors": 48,
+    "cat|jumping|outdoors": 48,
+    "cat|kneading|indoors": 47,
+    "cat|lying|indoors": 48,
+    "cat|opening_door|indoors": 49,
+    "cat|playing|indoors": 33,
+    "cat|playing|outdoors": 44,
+    "cat|scratching|indoors": 47,
+    "cat|sitting|indoors": 38,
+    "cat|standing|outdoors": 49,
+    "cat|walking|indoors": 49,
+    "cat|walking|outdoors": 44,
+    "cat|walking|snow": 49,
+    "dog|digging|field": 49,
+    "dog|eating|indoors": 49,
+    "dog|eating|outdoors": 49,
+    "dog|howling|indoors": 49,
+    "dog|lying|indoors": 49,
+    "dog|lying|outdoors": 49,
+    "dog|playing|indoors": 45,
+    "dog|playing|outdoors": 49,
+    "dog|rolling|grass": 49,
+    "dog|rolling|indoors": 49,
+    "dog|running|beach": 49,
+    "dog|running|field": 49,
+    "dog|running|forest": 48,
+    "dog|running|grass": 49,
+    "dog|running|outdoors": 49,
+    "dog|sitting|indoors": 49,
+    "dog|standing|grass": 49,
+    "dog|standing|indoors": 48,
+    "dog|standing|outdoors": 47,
+    "dog|standing|snow": 49,
+    "dog|swimming|lake": 49,
+    "dog|swimming|pond": 49,
+    "dog|swimming|pool": 49,
+    "dog|walking|beach": 49,
+    "dog|walking|forest": 49,
+    "dog|walking|grass": 49,
+    "dog|walking|indoors": 49,
+    "dog|walking|night": 49,
+    "dog|walking|snow": 49,
+    "dog|walking|street": 49,
+    "dog|walking|water": 49,
+    "person|playing|indoors": 45,
+    "person|walking|beach": 49,
+    "person|walking|forest": 49
+  },
+  "triple_source_groups": {
+    "cat|drinking|indoors": 3,
+    "cat|drinking|outdoors": 1,
+    "cat|eating|indoors": 1,
+    "cat|eating|outdoors": 1,
+    "cat|grooming|indoors": 3,
+    "cat|hissing|indoors": 1,
+    "cat|jumping|indoors": 2,
+    "cat|jumping|outdoors": 2,
+    "cat|kneading|indoors": 3,
+    "cat|lying|indoors": 2,
+    "cat|opening_door|indoors": 1,
+    "cat|playing|indoors": 17,
+    "cat|playing|outdoors": 6,
+    "cat|scratching|indoors": 3,
+    "cat|sitting|indoors": 12,
+    "cat|standing|outdoors": 1,
+    "cat|walking|indoors": 1,
+    "cat|walking|outdoors": 6,
+    "cat|walking|snow": 1,
+    "dog|digging|field": 1,
+    "dog|eating|indoors": 1,
+    "dog|eating|outdoors": 1,
+    "dog|howling|indoors": 1,
+    "dog|lying|indoors": 1,
+    "dog|lying|outdoors": 1,
+    "dog|playing|indoors": 5,
+    "dog|playing|outdoors": 1,
+    "dog|rolling|grass": 1,
+    "dog|rolling|indoors": 1,
+    "dog|running|beach": 1,
+    "dog|running|field": 1,
+    "dog|running|forest": 2,
+    "dog|running|grass": 1,
+    "dog|running|outdoors": 1,
+    "dog|sitting|indoors": 1,
+    "dog|standing|grass": 1,
+    "dog|standing|indoors": 2,
+    "dog|standing|outdoors": 3,
+    "dog|standing|snow": 1,
+    "dog|swimming|lake": 1,
+    "dog|swimming|pond": 1,
+    "dog|swimming|pool": 1,
+    "dog|walking|beach": 1,
+    "dog|walking|forest": 1,
+    "dog|walking|grass": 1,
+    "dog|walking|indoors": 1,
+    "dog|walking|night": 1,
+    "dog|walking|snow": 1,
+    "dog|walking|street": 1,
+    "dog|walking|water": 1,
+    "person|playing|indoors": 5,
+    "person|walking|beach": 1,
+    "person|walking|forest": 1
+  }
+}

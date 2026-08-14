@@ -1,0 +1,16 @@
+{
+  "article_id": 28287896,
+  "article_path": "provenance/article.json",
+  "article_sha256": "4d19d8cd5684ad8f8ae86033a20f1a9bfd14960e02ad691df87ad2b2c926b79f",
+  "clip_sha256": "17c0a3b0d2958e305290fc69638a25e744d32a642e8349ff57bc0304557cfa0c",
+  "conservative_group": "figshare-article:28287896",
+  "figshare_file_id": 57852742,
+  "full_contact_sha256": "707765f5b7760a196230e82a69f51158203f9c1b28fe8ccb3861efcdd9dbf0eb",
+  "review_evidence_path": "provenance/review-evidence.json",
+  "review_evidence_sha256": "906928d8fed31d49f5707f121742b0867c31efb0221e0f9c900c39b0f9d86ee1",
+  "selected_window_sha256": "475fd8af5b1c8eea4507c345e36c03d3b3c76ae0f099efe858a30897c84e5f44",
+  "source_manifest_sha256": "9a40bcd2bf7df06eccdd44224182e8b25af13c270118c33226a525e1e6236afb",
+  "source_media_path": "source-media/figshare-57852742.mp4",
+  "source_media_sha256": "3e94e6719f8309efbdf34f92b8816a3ee8768c028b377cda216639b41e4a7689",
+  "training_ready": true
+}

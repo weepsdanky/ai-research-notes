@@ -2150,3 +2150,31 @@ held 候选以 `training_ready=false` 单独记录，不能据此改写本批次
 能保守贡献一个 project group；所以正式门禁仍必须依靠多位权利人的自有/逐视频明确授权征集，或等待
 一个同时发布 media bytes、CC0/CC BY、animal/session IDs 和逐 clip action/scene 的新数据版本。不能用
 同一家庭、同一只猫、连续拍摄、多机位或切片数量替代独立 source groups。
+
+### 2026-08-14 执行结果：Figshare held 候选已经 exact import，held 变为 17/50
+
+前述 `review-qualified-pending-import` 随后已通过新增的 `prepare_figshare.py` 执行，不再只是研究建议。
+公开 seam 分成 `create ARTICLE MEDIA REVIEW_EVIDENCE OUTPUT` 与
+`merge BASE BUNDLE --output DATASET`：
+
+- `create` 从同一冻结 article bytes 重验 article ID/version/DOI、发布时间与更新时间、精确
+  `CC BY 4.0` 许可、作者署名、file ID/name/size/MD5/canonical download URL、本地 SHA-256；
+- 它要求审核者、审核 UTC、完整播放、单一动物、连续动作、scene 和无剪辑均显式确认，并锁定全长
+  联系表、密集窗口、规范化 preview 与 pHash；
+- 没有公开 cat/session mapping 时，group 必须严格为 `figshare-article:<article_id>` 且上限 1；
+- 输出 bundle 包含 article snapshot、完整原媒体、审核 evidence、两张联系表和规范化 clip；
+  `merge` 再次解析这些语义契约、拒绝额外文件/符号链接，使用哈希目的名，并把整个 bundle 保存在
+  `figshare-audit/`。与本地 contribution pipeline 一样，旧 merge 结果不能继续作增量 BASE。
+
+真实 file `57852742` 的 bundle evidence SHA-256 为
+`75f9e463f0b6b5c84ccedb8d2c189e6ff4ed0a92760a14963b85a53e9f055912`。从固定 128-record v3 BASE
+重建后的 manifest 为 **129 records / 100 independent groups**，SHA-256
+`78d09faba4d35fc199f9ac2b49b17f45a74e97ec0b6d9941e11cc31d28434ee3`；coverage SHA-256 为
+`9423c84226da17ff6684d99364d8d9558a6fa207e59f8bff77045bec919b2b50`。held
+`cat|playing|indoors` 从 16 增至 **17/50**。把整个 held group 排除后，训练侧仍是
+`cat×indoors=30/10`、`cat×playing=6/10`、`playing×indoors=10/10`；唯一未过的 pair 是
+`cat×playing`，还缺 4 个 non-held groups。`eligible_c1_triples=[]`，所以这次导入仍不授权正式训练。
+
+正式确认实验现在精确缺 **33 个 held 独立 groups** 和 **4 个 non-held `cat×playing` groups**。
+低 coverage pilot 的失败结论不因新增一条数据改变；达到门禁后仍须从头冻结新 manifest/split、模型、
+checkpoint policy、prompts 与 seeds，并重新执行完整盲评与最近邻审计。
