@@ -2389,3 +2389,22 @@ inventory 第 1 条选出的代表 MP4（不是质量挑样）。实现同时修
 hash 与 checkpoint 实际训练 manifest hash 现在分别锁定，不能再误当同一文件。正式下一步保持不变：
 继续补至少 30 个独立 held groups 与 4 个 non-held `cat×playing` groups，重新做 leakage audit；只有
 held≥50 且三种 held-excluded pair 都≥10 时，才重新预注册并启动确认性训练。
+
+### 2026-08-15：两个强标题 Commons pending 经完整时段审核后拒绝
+
+正式 pilot 失败后，扩源优先级仍是补 non-held `cat×playing` 的 4 个独立 groups。现有 pending 池里
+标题/description 最强但尚未完成视觉门禁的两条是 `Play fight between cats.webmhd.webm` 与
+`2023-12-16 at Kitten Academy-0nNV51d0vZk.webm`。本轮重新调用 Commons 官方 API，分别锁定
+page ID `29395322` / `197214178`、page revision `1137990885` / `1260240494`、原媒体 SHA-1
+`2827440099c4e853c780de4db45ddebf1ff879c5` / `4b0c3db023bad0848cd6b692900ada7a356d5ccc`，
+并下载官方 240p review derivative；两条均按完整 duration 的 24 个中点帧审核，而不是只看 poster。
+
+- `Play fight between cats` 的 294.002 秒全段始终是两只同窝幼猫在室内床上互相扑抱、打闹；
+- Kitten Academy 的 435.308 秒全段包含多只 foster cats 和可见人物，主体身份反复变化。
+
+它们都能支持广义“猫在室内玩耍”，却不能满足本实验冻结的单主体、稳定 animal/session 与两秒连续
+窗口契约。把两个文件或多只猫拆成独立 groups 会造成 source/identity 泄漏，因此两条均原子标为
+rejected。Commons 候选状态随之从 127/800/208 更新为 **127 approved / 798 pending / 210 rejected**；
+权威训练 manifest 仍为 132 records / 103 groups，held 20、pair `30/6/10`，coverage 增量为 0。
+可携带联系表与 page/media/hash/decision 绑定见
+[`artifacts/video-dit/commons-multi-subject-negative-review/`](artifacts/video-dit/commons-multi-subject-negative-review/)。

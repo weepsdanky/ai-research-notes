@@ -412,7 +412,7 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,135 条，目前 127 条 approved、800 条 pending、208 条 rejected；pending 绝不
+候选池为 1,135 条，目前 127 条 approved、798 条 pending、210 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 7 条：单人海滩行走、固定机位下单人走入
 森林的 2598--2600 秒片段、两条单人室内台球片段，以及三条不同日期/赛事 session 的单人
 室内 bowling 片段。另有多轮候选因人群、
@@ -701,6 +701,12 @@ prompt top-1 为 11.5%，反而低于 shuffled 19.2%。最近训练视频的 top
 训练分布内条件信号，却不能证明未见组合泛化。可携带证据见
 `docs/case-studies/artifacts/video-dit/c1-current-pilot-v2/results/`。正式门禁仍是 held≥50 且所有
 held-excluded pair≥10；当前 held=20、`cat×playing=6`，因此不会把这次诊断当成正式 C1 成功。
+
+为继续补 `cat×playing`，又对 pending 池中两个标题最强的 Commons 记录做了完整时段 24-frame
+审核。`Play fight between cats` 始终是同窝两猫在室内床上打闹；Kitten Academy 记录则包含多只
+foster cats 和可见人物。两条都违反冻结的单主体/稳定身份契约，已原子标为 rejected，coverage
+增量为 0。联系表与锁定的 page/revision/原媒体 SHA-1、review derivative SHA-256 见
+`docs/case-studies/artifacts/video-dit/commons-multi-subject-negative-review/`。
 
 Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
 SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出

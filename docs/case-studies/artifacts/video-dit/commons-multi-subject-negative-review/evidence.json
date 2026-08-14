@@ -1,0 +1,52 @@
+{
+  "protocol": "Commons full-duration multi-subject rejection evidence v1",
+  "candidate_snapshot_sha256": "691503155d2c9c675fb7e6f13e931753b33079bc03d6978abc0db6e5728cf6e6",
+  "provenance_snapshot_sha256": "1d57836858753b9f83fb6735aaeccbf2e23869f895384dc6c7a3ceee041eb37b",
+  "sampling": "24 frames at duration * (index + 0.5) / 24 over the complete review derivative",
+  "training_ready": false,
+  "coverage_delta": 0,
+  "records": [
+    {
+      "title": "File:Play fight between cats.webmhd.webm",
+      "page_id": 29395322,
+      "source_revision": "1137990885",
+      "original_media_sha1": "2827440099c4e853c780de4db45ddebf1ff879c5",
+      "original_media_timestamp": "2013-11-03T20:14:45Z",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "attribution": "Erik Zachte",
+      "duration_seconds": 294.002,
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/45/Play_fight_between_cats.webmhd.webm/Play_fight_between_cats.webmhd.webm.240p.vp9.webm",
+      "review_derivative_bytes": 14481016,
+      "review_derivative_sha256": "b4ba999e23d27d035344c366f1b1f44f113732db3d287e96b98a2b850a56f61e",
+      "contact_sheet": "play-fight-full-24.jpg",
+      "contact_sheet_sha256": "df6bd08a7ea35d437a83821215385162aba1776e56781372e25071f687863e31",
+      "decision": "rejected",
+      "observed_subject": "two sibling cats",
+      "observed_action": "continuous play-fighting",
+      "observed_scene": "indoors on a bed",
+      "reason": "the frozen experiment requires one stable animal subject; the two-cat sibling session cannot count as an independent single-cat source group"
+    },
+    {
+      "title": "File:2023-12-16 at Kitten Academy-0nNV51d0vZk.webm",
+      "page_id": 197214178,
+      "source_revision": "1260240494",
+      "original_media_sha1": "4b0c3db023bad0848cd6b692900ada7a356d5ccc",
+      "original_media_timestamp": "2026-08-11T05:28:37Z",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "attribution": "Kitten Academy",
+      "duration_seconds": 435.308,
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c7/2023-12-16_at_Kitten_Academy-0nNV51d0vZk.webm/2023-12-16_at_Kitten_Academy-0nNV51d0vZk.webm.240p.vp9.webm",
+      "review_derivative_bytes": 20636668,
+      "review_derivative_sha256": "31321b3c593ebcdfa12d24a0e7802799b1ee81552efc21ebda98f43722e76f84",
+      "contact_sheet": "kitten-academy-full-24.jpg",
+      "contact_sheet_sha256": "c0a455729ed2204370794b6abf7af7e6f78c62a9815ac5beb8de2e79f22c996a",
+      "decision": "rejected",
+      "observed_subject": "multiple foster cats and a visible person",
+      "observed_action": "playing and cuddling interactions",
+      "observed_scene": "indoors",
+      "reason": "subject identity changes across the source and no frozen single-animal two-second window can represent the complete source as one independent group"
+    }
+  ]
+}
