@@ -300,7 +300,7 @@ uv run python prepare_commons.py search \
   --state data/commons_g1/structured-depicts-search.state.json
 
 # 把官方 API 审计得到的精确 File: title 可恢复地追加为 pending；
-# API 回传 title 或既有 subject/query contract 不一致时会拒绝：
+# API 回传 title、正整数 page ID 或既有 subject/query contract 不一致时会拒绝：
 uv run python prepare_commons.py exact \
   configs/commons_pair_exact_candidates.json data/commons_g1/candidates.jsonl
 
@@ -402,11 +402,15 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,128 条，目前 122 条 approved、800 条 pending、206 条 rejected；pending 绝不
+候选池为 1,130 条，目前 122 条 approved、800 条 pending、208 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条
 pending。标题启发式只能排序人工队列，绝不自动批准或生成标签：
+
+最新一次 exact 导入加入两个有明确 indoor-playing metadata 的 person 视频；全时段联系表显示
+一个是多人博物馆场景，另一个是可识别儿童。两条均按预注册的人物权利/单主体门禁拒绝，
+所以 manifest 与 30/5/5 的训练 pair coverage 没有变化，也没有启动训练。
 
 ```bash
 uv run python commons_review.py priority data/commons_g1/candidates.jsonl \

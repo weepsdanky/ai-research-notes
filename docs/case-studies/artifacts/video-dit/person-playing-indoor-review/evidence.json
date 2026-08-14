@@ -1,0 +1,52 @@
+{
+  "protocol": "commons full-duration contact-sheet rejection evidence v1",
+  "candidate_snapshot_sha256": "9641ee51a6c29634edb60f374698a301e428746ddf99e3521e8cebd248368bb9",
+  "provenance_sidecar_sha256": "9490d2c91e72f00d2f6e8b0436cbc5d88ad79d1c61c8e1a43c2a906632da4537",
+  "review_audit_sha256": "d1402052da3f4e93ee92061a4995149212bf8d7eb30140312e51920014164d1e",
+  "sampling": {
+    "cells": 12,
+    "formula_seconds": "duration_seconds * (cell_index + 0.5) / 12",
+    "frame_filter": "scale=96:96:force_original_aspect_ratio=increase,crop=96:96"
+  },
+  "records": [
+    {
+      "title": "File:Muzeo MALI Limo (Peruo).webm",
+      "page_id": 98156360,
+      "source_revision": "1083046856",
+      "original_media_sha1": "e643a5f2ecc94b76adedc8ece9817d88a1e494b1",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b6/Muzeo_MALI_Limo_%28Peruo%29.webm/Muzeo_MALI_Limo_%28Peruo%29.webm.240p.vp9.webm",
+      "review_derivative_sha256": "8a6a602d9e560a73e86451301dbac4574057ccea95cf1c722a72cb7009b4316c",
+      "review_derivative_bytes": 1584624,
+      "review_derivative_downloaded_at_utc": "2026-08-14T11:15:54Z",
+      "duration_seconds": 32.468,
+      "frame_timestamps_seconds": [1.352833, 4.0585, 6.764167, 9.469833, 12.1755, 14.881167, 17.586833, 20.2925, 22.998167, 25.703833, 28.4095, 31.115167],
+      "contact_sheet": "muzeo-mali-contact.jpg",
+      "contact_sheet_sha256": "f5c1fab540efddc6d07bbf0ac890ac50b4d8df821ebfff4af6c43534cbaed847",
+      "decision": "rejected",
+      "reason": "Crowded museum hall with many children and adults; no stable single-primary-person two-second segment, and identifiable minors fail the preregistered gate.",
+      "attribution": "RG72",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "title": "File:Knabo ludas en infanludejo en la aĉetcentro Kristall (Tjumeno).webm",
+      "page_id": 107074981,
+      "source_revision": "898624558",
+      "original_media_sha1": "d516704074ed84d70e51f6c1e919640e89622985",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c7/Knabo_ludas_en_infanludejo_en_la_a%C4%89etcentro_Kristall_%28Tjumeno%29.webm/Knabo_ludas_en_infanludejo_en_la_a%C4%89etcentro_Kristall_%28Tjumeno%29.webm.240p.vp9.webm",
+      "review_derivative_sha256": "d86e9037f4046eaadb7efc0130a3de79f0b8802316b72fc87e39c7409fbb72c4",
+      "review_derivative_bytes": 663432,
+      "review_derivative_downloaded_at_utc": "2026-08-14T11:15:55Z",
+      "duration_seconds": 25.503,
+      "frame_timestamps_seconds": [1.062625, 3.187875, 5.313125, 7.438375, 9.563625, 11.688875, 13.814125, 15.939375, 18.064625, 20.189875, 22.315125, 24.440375],
+      "contact_sheet": "tyumen-playground-contact.jpg",
+      "contact_sheet_sha256": "719f4a0860d1f59ca357db4629461f57b542585d1ebd5472d6e116d8293c5fea",
+      "decision": "rejected",
+      "reason": "One masked child continuously manipulates a toy indoors; the identifiable minor fails the preregistered personality-rights gate.",
+      "attribution": "RG72",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  ],
+  "notes": "The original review derivatives are intentionally not redistributed in Git. Their exact URLs, byte sizes, and SHA-256 digests bind the low-resolution contact sheets to the reviewed bytes. Contact sheets are redistributed under the source files' CC BY-SA 4.0 terms with attribution above."
+}

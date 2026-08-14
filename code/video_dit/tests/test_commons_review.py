@@ -37,7 +37,7 @@ def test_choose_review_derivative_prefers_smallest_usable_video():
 
 
 def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
-    payload = {"query": {"pages": {"7": {"title": "File:Cat runs.webm",
+    payload = {"query": {"pages": {"7": {"pageid": 7, "title": "File:Cat runs.webm",
         "revisions": [{"revid": 123}], "videoinfo": [{
         "url": "https://upload.wikimedia.org/original.webm", "sha1": "abc",
         "timestamp": "2026-08-14T00:00:00Z",
@@ -65,8 +65,10 @@ def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
 
     monkeypatch.setattr("commons_review.urllib.request.urlopen", fake_open)
     media = fetch_review_media("File:Cat runs.webm")
+    assert media["page_id"] == 7
     assert "prop=videoinfo" in captured["url"]
-    assert media == {"preview_url": "https://upload.wikimedia.org/240.webm", "duration": 12.5,
+    assert media == {"page_id": 7,
+                     "preview_url": "https://upload.wikimedia.org/240.webm", "duration": 12.5,
                      "source_revision": "123",
                      "original_media_url": "https://upload.wikimedia.org/original.webm",
                      "original_media_sha1": "abc",
@@ -74,6 +76,26 @@ def test_fetch_review_media_uses_videoinfo_derivatives(monkeypatch):
                      "description_url": "https://commons.wikimedia.org/wiki/File:Cat_runs.webm",
                      "attribution": "Author", "license": "CC BY 4.0",
                      "license_url": "https://creativecommons.org/licenses/by/4.0"}
+
+
+def test_fetch_review_media_requires_a_positive_page_id(monkeypatch):
+    payload = {"query": {"pages": {"7": {
+        "title": "File:Cat.webm", "revisions": [{"revid": 1}],
+        "videoinfo": [{"duration": 2, "derivatives": []}],
+        "imageinfo": [{"descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+                       "extmetadata": {}}],
+    }}}}
+
+    class Response:
+        def __enter__(self): return self
+        def __exit__(self, *_): return None
+        def read(self): return json.dumps(payload).encode()
+
+    monkeypatch.setattr(
+        "commons_review.urllib.request.urlopen", lambda request, timeout: Response(),
+    )
+    with pytest.raises(ValueError, match="positive page ID"):
+        fetch_review_media_batch(["File:Cat.webm"])
 
 
 def test_cache_review_preview_uses_stable_path_and_user_agent(tmp_path, monkeypatch):
@@ -433,7 +455,7 @@ def test_provenance_sidecar_is_resumable_and_never_rewrites_candidates(tmp_path,
     candidates.write_text(original)
     sidecar = tmp_path / "provenance.jsonl"
     sidecar.write_text(json.dumps({
-        "title": "File:A.webm", "source_revision": "1",
+        "title": "File:A.webm", "page_id": 1, "source_revision": "1",
         "original_media_url": "https://upload.wikimedia.org/a.webm",
         "original_media_sha1": "aaa", "original_media_timestamp": "old",
         "review_preview_url": "https://upload.wikimedia.org/a-240.webm",
@@ -444,6 +466,7 @@ def test_provenance_sidecar_is_resumable_and_never_rewrites_candidates(tmp_path,
     calls = []
     monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
         title: calls.append(title) or {
+            "page_id": 2,
             "source_revision": "2", "original_media_url": "https://upload.wikimedia.org/b.webm",
             "original_media_sha1": "bbb", "original_media_timestamp": "now",
             "preview_url": "https://upload.wikimedia.org/b-240.webm", "duration": 4.0,
@@ -477,6 +500,7 @@ def test_provenance_sidecar_rejects_incomplete_api_provenance(tmp_path, monkeypa
     candidates.write_text(json.dumps({"title": "File:A.webm"}) + "\n")
     monkeypatch.setattr("commons_review.fetch_review_media_batch", lambda titles: {
         "File:A.webm": {
+            "page_id": 1,
             "duration": 3, "preview_url": "https://upload.wikimedia.org/a.webm",
             "source_revision": "1", "original_media_url": "https://upload.wikimedia.org/a.webm",
             "original_media_sha1": "", "original_media_timestamp": "now",
@@ -514,10 +538,10 @@ def test_fetch_review_media_batch_uses_one_request_for_multiple_titles(monkeypat
         "extmetadata": {"Artist": {"value": "Author"},
         "LicenseShortName": {"value": "CC0"}, "LicenseUrl": {"value": "https://cc0"}}}]
     payload = {"query": {"pages": {
-        "1": {"title": "File:A.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
+        "1": {"pageid": 1, "title": "File:A.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/a.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
-        "2": {"title": "File:B.webm", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
+        "2": {"pageid": 2, "title": "File:B.webm", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
             "derivatives": [{"src": "https://upload.wikimedia.org/b.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
     }}}
@@ -542,10 +566,10 @@ def test_batch_records_missing_derivative_without_losing_other_rows(monkeypatch)
         "extmetadata": {"Artist": {"value": "Author"},
         "LicenseShortName": {"value": "CC0"}, "LicenseUrl": {"value": "https://cc0"}}}]
     payload = {"query": {"pages": {
-        "1": {"title": "File:Good.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
+        "1": {"pageid": 1, "title": "File:Good.webm", "revisions": [{"revid": 1}], "videoinfo": [{"duration": 2,
             "derivatives": [{"src": "https://upload.wikimedia.org/good.webm",
                              "width": 320, "height": 240, "type": "video/webm"}]}], "imageinfo": imageinfo},
-        "2": {"title": "File:Broken.ogg", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
+        "2": {"pageid": 2, "title": "File:Broken.ogg", "revisions": [{"revid": 2}], "videoinfo": [{"duration": 3,
             "derivatives": []}], "imageinfo": imageinfo},
     }}}
 

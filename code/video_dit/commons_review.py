@@ -106,6 +106,9 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
     for page in pages.values():
         info = page.get("videoinfo", [{}])[0]
         title = str(page["title"])
+        page_id = page.get("pageid")
+        if not isinstance(page_id, int) or isinstance(page_id, bool) or page_id < 1:
+            raise ValueError(f"Commons response lacks a positive page ID for: {title}")
         revision = str((page.get("revisions") or [{}])[0].get("revid", ""))
         if not revision:
             raise ValueError(f"Commons response lacks source revision for: {title}")
@@ -143,6 +146,7 @@ def fetch_review_media_batch(titles: list[str]) -> dict[str, dict[str, object]]:
                 "original_media_timestamp": str(info.get("timestamp", "")),
                 **license_fields,
             }
+        result[title]["page_id"] = page_id
     missing = set(titles) - set(result)
     if missing:
         raise ValueError(f"Commons response lacks videoinfo for: {sorted(missing)[:3]}")
@@ -241,7 +245,7 @@ def merge_provenance_rows(
         return [dict(row) for row in rows]
     sidecar = load_rows(sidecar_path) if sidecar_path is not None else sidecar_rows or []
     allowed_fields = {
-        "title", "duration_seconds", "source_revision", "original_media_url",
+        "title", "page_id", "duration_seconds", "source_revision", "original_media_url",
         "original_media_sha1", "original_media_timestamp", "description_url",
         "attribution", "license", "license_url", "review_preview_url",
         "review_media_error",
@@ -427,7 +431,7 @@ def enrich_provenance_sidecar(candidates_path: Path, sidecar_path: Path) -> dict
     required_fields = (
         "source_revision", "original_media_url", "original_media_sha1",
         "original_media_timestamp", "description_url", "attribution", "license",
-        "license_url", "duration_seconds",
+        "license_url", "duration_seconds", "page_id",
     )
     remaining = [
         title for title in titles
@@ -451,6 +455,10 @@ def enrich_provenance_sidecar(candidates_path: Path, sidecar_path: Path) -> dict
                 "license": str(media["license"]),
                 "license_url": str(media["license_url"]),
             }
+            page_id = media.get("page_id")
+            if not isinstance(page_id, int) or isinstance(page_id, bool) or page_id < 1:
+                raise ValueError(f"Commons API returned invalid page ID for: {title}")
+            row["page_id"] = page_id
             required = (
                 "source_revision", "original_media_url", "original_media_sha1",
                 "original_media_timestamp", "description_url", "attribution",

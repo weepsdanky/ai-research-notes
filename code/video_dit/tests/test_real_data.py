@@ -49,6 +49,14 @@ def test_real_video_record_requires_complete_clip_contract():
         )
 
 
+def test_real_video_record_requires_positive_source_page_id():
+    with pytest.raises(ValueError, match="source_page_id must be a positive integer"):
+        __import__("dataclasses").replace(
+            _record("bad-page", "cat", "playing", "indoors"),
+            source_page_id=0,
+        )
+
+
 def test_independent_coverage_rejects_isolated_triple_even_when_target_is_met():
     rows = [
         __import__("dataclasses").replace(

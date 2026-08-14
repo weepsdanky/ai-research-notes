@@ -40,6 +40,7 @@ class RealVideoRecord:
     sha256: str
     license_url: str | None = None
     original_media_url: str | None = None
+    source_page_id: int | None = None
     page_revision: str | None = None
     original_media_sha1: str | None = None
     original_media_timestamp: str | None = None
@@ -79,6 +80,11 @@ class RealVideoRecord:
             or any(character not in "0123456789abcdefABCDEF" for character in self.downloaded_media_sha256)
         ):
             raise ValueError("downloaded_media_sha256 must contain exactly 64 hexadecimal characters")
+        if self.source_page_id is not None and (
+            not isinstance(self.source_page_id, int) or isinstance(self.source_page_id, bool)
+            or self.source_page_id < 1
+        ):
+            raise ValueError("source_page_id must be a positive integer")
         if self.clip_start_seconds is not None and (
             not math.isfinite(self.clip_start_seconds) or self.clip_start_seconds < 0
         ):

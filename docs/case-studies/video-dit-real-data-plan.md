@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 122 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,128 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
+从现有 122 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,130 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -932,7 +932,7 @@ revision、原媒体 SHA-1/timestamp、许可和 derivative。配置固定在
 为 `82b785e13a1bdf0cab1b16bbaf130ae82094d106311955bd0b70a84a20cfb24c`。三条规范化结果均为
 H.264、96×96、8 fps、16 帧、2 秒，122/122 clip SHA-256 复核无误。
 
-当前候选更新为 **1,128 = 122 approved + 800 pending + 206 rejected**；v3 manifest 为
+在随后两个 exact person 候选导入和审核前，候选曾为 **1,128 = 122 approved + 800 pending + 206 rejected**；v3 manifest 为
 **122 records / 93 independent groups**，manifest/coverage SHA-256 分别为
 `443b9cebbf3eb29591d3ebcb636a5001cd7e6ca101c2eeb8987898d525ea434e` /
 `f6692fb9182e1455c3ee5a6d2d53350e4fb9f5a4d0cdf5f7526f49c631f0f409`。held
@@ -1429,7 +1429,7 @@ velocity 实验只生成了 EMA 三 seed 面板；失败的 epsilon 高噪声微
 本节只补训练侧 `cat×playing`（必须明确 outdoor、不得是 held indoor）和
 `playing×indoors`（必须是非 cat 主体），不继续重复已经闭合的 playing-cat 44 文件、dog-play
 分类树、零视频 toy/fetch/tug 类或既有宽全文查询。审计只用了 Commons 官方 Action API、分类页和
-文件页；与当前 **1,128-row candidates** 做精确标题差集后，下列文件均不在池中。分类/API 命中只是
+文件页；与导入前的 **1,128-row candidates** 做精确标题差集后，下列文件均不在池中。分类/API 命中只是
 召回，**没有任何一条因此 approved，也没有改变 5/10、5/10 或 0 eligible C1**。
 
 #### 最优先：`Videos of children playing` 的两个明确 indoor 文件
@@ -1441,7 +1441,7 @@ indoor 正线索，最适合作为 `person×playing×indoors` 的 metadata-first
 
 | pending 文件 | 官方固定身份与许可 | 官方语义证据 / 审核边界 |
 |---|---|---|
-| [`Muzeo MALI. Limo (Peruo).webm`](https://commons.wikimedia.org/wiki/File:Muzeo_MALI_Limo_(Peruo).webm) | page ID `98156360`；SHA-1 `e643a5f2ecc94b76adedc8ece9817d88a1e494b1`；11,316,831 bytes；32.468 s；CC BY-SA 4.0；artist `RG72` | categories 同时含 `Videos of children playing`、`Children playing inside` 与 `Videos of interiors of buildings`。这是强 scene/action metadata，但仍须全长确认主要人物、持续 playing、稳定 2 秒窗口和第三方可识别人。 |
+| [`Muzeo MALI Limo (Peruo).webm`](https://commons.wikimedia.org/wiki/File:Muzeo_MALI_Limo_(Peruo).webm) | page ID `98156360`；SHA-1 `e643a5f2ecc94b76adedc8ece9817d88a1e494b1`；11,316,831 bytes；32.468 s；CC BY-SA 4.0；artist `RG72` | categories 同时含 `Videos of children playing`、`Children playing inside` 与 `Videos of interiors of buildings`。这是强 scene/action metadata，但仍须全长确认主要人物、持续 playing、稳定 2 秒窗口和第三方可识别人。 |
 | [`Knabo ludas en infanludejo en la aĉetcentro Kristall (Tjumeno).webm`](https://commons.wikimedia.org/wiki/File:Knabo_ludas_en_infanludejo_en_la_a%C4%89etcentro_Kristall_(Tjumeno).webm) | page ID `107074981`；SHA-1 `d516704074ed84d70e51f6c1e919640e89622985`；7,534,479 bytes；25.503 s；CC BY-SA 4.0；artist `RG72` | 官方 description 是男孩在购物中心室内游乐场玩耍，categories 含 `Boys playing`、`Interiors of shopping malls in Tyumen`。同样只可 pending；口罩儿童、其他访客和人物权利必须逐窗审核。 |
 
 第三条较弱候选
@@ -1502,3 +1502,72 @@ hamster/rabbit 不扩 taxonomy、不计 coverage。CC BY/CC BY-SA 是文件页�
 [`API FAQ`](https://help.pexels.com/hc/en-us/categories/900001326143-Pexels-API) 对自动化使用另设条件，
 并不授权未经许可为机器学习批量收集媒体。本轮不申请 key、不调用这些 API、不下载其媒体；站点级
 “free to use”也不能替代逐 item provenance、人物权利和可复现 source-group 证据。
+
+#### 执行结果：两个 indoor person 候选均未通过人物权利门禁
+
+上述两个强 metadata hit 已通过 `prepare_commons.py exact` 精确导入并补齐 sidecar provenance。
+导入时还纠正了 page ID `98156360` 的规范 File title：API 返回的是
+`File:Muzeo MALI Limo (Peruo).webm`，而不是带额外句点的旧转写；原 SHA-1、description URL 和
+page ID 均未改变。两条官方 240p derivative 分别完成全时段 12 帧联系表审核：
+
+- `Muzeo MALI Limo` 是博物馆大厅内大量儿童与成人的群体活动，没有稳定的单一主要人物 2 秒窗口；
+- `Knabo ... Kristall` 是一个戴口罩的儿童持续操作玩具，动作与室内场景相关，但仍是可识别未成年人。
+
+按照本节在看片前写定的“儿童、可识别人物或多主体任一失败即拒绝”，两条均标为 rejected，不能因为
+它们恰好补 `playing×indoors` 就放宽规则。审核 audit 绑定候选快照 SHA-256
+`9641ee51a6c29634edb60f374698a301e428746ddf99e3521e8cebd248368bb9`，audit 自身 SHA-256 为
+`d1402052da3f4e93ee92061a4995149212bf8d7eb30140312e51920014164d1e`。当前候选为
+**1,130 = 122 approved + 800 pending + 208 rejected**；v3 manifest 未改变，重新计算的 coverage
+仍逐字节保持 SHA-256 `f6692fb9182e1455c3ee5a6d2d53350e4fb9f5a4d0cdf5f7526f49c631f0f409`：
+122 records / 93 groups、held 16/50、训练 pair 30/5/5、0 eligible C1。下一来源必须避开儿童和
+群体人物，优先寻找逐文件权利可审计的单犬 indoor playing；本轮没有启动训练。
+
+为避免拒绝证据只留在 gitignored 本机数据里，可携带证据保存在
+[`artifacts/video-dit/person-playing-indoor-review/evidence.json`](artifacts/video-dit/person-playing-indoor-review/evidence.json)：
+它逐条固化 page ID、page revision、原媒体 SHA-1、实际审核 derivative URL/字节数/SHA-256、下载 UTC、
+12 个抽帧时刻、联系表 SHA-256、决定和理由；同目录两张低分辨率联系表按源文件 CC BY-SA 4.0 及
+记录的 RG72 署名发布。原 derivative 不提交 Git，但可由固定 URL 下载并以记录的 SHA-256 复核。
+导入器现在也会把 Commons `pageid` 写入新 candidate；新的 live API 导入或 provenance enrichment
+若缺少正整数 page ID 会 fail-closed，review sidecar 同样持久化该值。上述两条本地 sidecar 已补为
+`98156360/107074981`，当前 sidecar SHA-256 是
+`9490d2c91e72f00d2f6e8b0436cbc5d88ad79d1c61c8e1a43c2a906632da4537`；旧记录允许无 page ID，
+避免把历史 manifest 冒充已迁移，但新审核证据必须按本段 tracked artifact 锁定。
+
+#### 下一批 pair 来源复核：官方高置信新增差集为 0
+
+在上述两个儿童文件已经导入并拒绝后，再以当前 **1,130-row candidates** 的规范 `File:` title
+集合做精确差集。按 Unicode title 升序、每行一个 title 且末尾保留换行的 UTF-8 字节列表 SHA-256 为
+`d166e7e6f8759e4ec31710cf82588f25148ca4d87d3fce66127f6fe8880ba272`，且没有重复 title。本轮只查
+Wikimedia Commons 官方 REST 搜索、Action API、分类页与文件页，优先级依次为
+`dog|playing|indoors`、无儿童且单一成年人的 `person|playing|indoors`、
+`cat|playing|outdoors`；没有把搜索摘要或分类成员资格直接当成标签。
+
+官方 REST title 搜索 `File: dog playing indoors`、`File: dog playing inside` 均返回 0 个视频 title；
+`File: puppy playing house` 唯一视频命中是已在池中的
+[`Puppy playing.webm`](https://commons.wikimedia.org/wiki/File:Puppy_playing.webm)。成年 person 的
+`File: adult playing indoors`、`File: person playing indoors`、`File: people playing indoors`，以及
+outdoor cat 的 `File: cat playing outdoors`、`File: cat playing outside`、
+`File: kitten playing outdoors`，在每个查询最多 100 个官方结果内均为 0 个 `.webm/.ogv` title。
+更宽的 `dog play/puppy play/dog toy` 只召回已收录犬视频、犬展、训练演示或标题歧义内容，没有同时
+由官方 metadata 证明“单犬 + 持续 playing + indoors”的新文件。已穷尽的精确类仍是
+[`Playing dogs`](https://commons.wikimedia.org/wiki/Category:Playing_dogs)、
+[`Videos of cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_cats) 与
+[`Videos of playing cats`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_cats)；这次没有
+通过改写查询重复导入它们的成员。
+
+为确认结果不是同名漏判，Action API 对当前五个最强 indoor-dog 文件重新读取固定身份：
+
+| 已在池中的文件（不是新增 pending） | page ID | 原媒体 SHA-1 | 文件页许可 | 排除出“新增差集”的原因 |
+|---|---:|---|---|---|
+| [`Puppy playing.webm`](https://commons.wikimedia.org/wiki/File:Puppy_playing.webm) | `27014028` | `733210c6cc9a1c2d54b93011b164cbbc1f2e10d8` | CC BY-SA 3.0 | 已 approved；官方 description 明确 puppy playing in house。 |
+| [`-01- Miniature Pinscher puppy.webm`](https://commons.wikimedia.org/wiki/File:-01-_Miniature_Pinscher_puppy.webm) | `195852685` | `7a64bf681973f0283eacad95f8d3a51a327133fb` | CC BY-SA 4.0 | 已 approved；不是新 source。 |
+| [`Пузыри собака.ogv`](https://commons.wikimedia.org/wiki/File:%D0%9F%D1%83%D0%B7%D1%8B%D1%80%D0%B8_%D1%81%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0.ogv) | `15446135` | `b6c1fd97f257c36d04941cdaeed6e3d34d23fe8f` | CC BY-SA 3.0 | 已 approved；不是新 source。 |
+| [`Dog mirror test.ogv`](https://commons.wikimedia.org/wiki/File:Dog_mirror_test.ogv) | `10794688` | `09f4aa6919dafe8befa7e8ac036bde137e66d774` | CC BY 2.0 | 已 approved；同类 mirror-play 已做 grouping 审核。 |
+| [`Dog mirror test 3.ogv`](https://commons.wikimedia.org/wiki/File:Dog_mirror_test_3.ogv) | `10794633` | `f98d207ce9f96882be010fc8924c56e76cd50dd9` | CC BY 2.0 | 已 approved；同类 mirror-play 已做 grouping 审核。 |
+
+因此本轮**没有追加媒体候选，也没有任何文件从 pending 变成 approved**；这比把弱命中包装成新数据更
+符合预注册门禁。coverage 仍是训练 pair `cat×indoors=30/10`、`cat×playing=5/10`、
+`playing×indoors=5/10`，held `cat|playing|indoors=16/50`，**0 eligible C1**。下一次只接受
+官方文件页同时给出 action/scene 正证据、单一非儿童主体、逐 item 许可与原 SHA-1 的新 title；同一
+uploader、同一动物、同日连续上传或同一拍摄事件先保守并为一个 source group。未经全长和密集 2 秒
+窗口审核的命中一律保持 `pending/review_required`，不得计 coverage，也不启动正式训练。

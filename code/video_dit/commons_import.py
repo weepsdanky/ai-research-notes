@@ -34,6 +34,7 @@ class CommonsCandidate:
     action: str
     scene: str
     prompt: str
+    page_id: int | None = None
     start_seconds: float = 0.0
     source_revision: str = ""
     original_media_url: str = ""
@@ -84,7 +85,16 @@ def candidate_from_api(
     if len(pages) != 1:  # type: ignore[arg-type]
         raise ValueError("Commons response must contain exactly one page")
     page = next(iter(pages.values()))  # type: ignore[union-attr]
-    info = page["imageinfo"][0]
+    imageinfo = page.get("imageinfo")
+    if (
+        "missing" in page or not isinstance(imageinfo, list) or len(imageinfo) != 1
+        or not isinstance(imageinfo[0], dict)
+    ):
+        raise ValueError("Commons response must identify an available file with image metadata")
+    info = imageinfo[0]
+    page_id = page.get("pageid")
+    if not isinstance(page_id, int) or isinstance(page_id, bool) or page_id < 1:
+        raise ValueError("Commons response must include a positive file page ID")
     metadata = info["extmetadata"]
 
     def field(name: str) -> str:
@@ -111,6 +121,7 @@ def candidate_from_api(
         action=action,
         scene=scene,
         prompt=prompt,
+        page_id=page_id,
         start_seconds=start_seconds,
         source_revision=str((page.get("revisions") or [{}])[0].get("revid", "")),
         original_media_url=info["url"],
@@ -430,6 +441,7 @@ def normalize_clip(
         sha256=digest,
         license_url=candidate.license_url,
         original_media_url=candidate.original_media_url or candidate.media_url,
+        source_page_id=candidate.page_id,
         page_revision=candidate.source_revision,
         original_media_sha1=candidate.original_media_sha1,
         original_media_timestamp=candidate.original_media_timestamp,

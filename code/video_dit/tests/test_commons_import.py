@@ -18,6 +18,7 @@ def test_candidate_from_api_extracts_required_license_provenance():
         "query": {
             "pages": {
                 "7": {
+                    "pageid": 7,
                     "title": "File:Cat jump.webm",
                     "imageinfo": [
                         {
@@ -50,6 +51,37 @@ def test_candidate_from_api_extracts_required_license_provenance():
     assert candidate.license_url.endswith("/4.0")
     assert candidate.attribution == "Example Author"
     assert candidate.start_seconds == 2.5
+    assert candidate.page_id == 7
+
+
+def test_candidate_from_api_rejects_a_missing_or_non_file_page_cleanly():
+    payload = {
+        "query": {"pages": {"-1": {
+            "ns": 6, "title": "File:Typo.webm", "missing": "",
+        }}},
+    }
+    with pytest.raises(ValueError, match="available file with image metadata"):
+        candidate_from_api(
+            payload, subject="cat", action="playing", scene="indoors",
+            prompt="a cat playing indoors",
+        )
+
+
+def test_candidate_from_api_requires_a_positive_page_id_for_live_imports():
+    payload = {"query": {"pages": {"7": {
+        "title": "File:Cat.webm",
+        "imageinfo": [{
+            "url": "https://upload.wikimedia.org/cat.webm",
+            "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat.webm",
+            "extmetadata": {},
+        }],
+    }}}}
+
+    with pytest.raises(ValueError, match="positive file page ID"):
+        candidate_from_api(
+            payload, subject="cat", action="playing", scene="indoors",
+            prompt="a cat playing indoors",
+        )
 
 
 def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
@@ -65,6 +97,7 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
         action="jumping",
         scene="grass",
         prompt="a cat jumping on grass",
+        page_id=7,
         start_seconds=1.0,
         source_revision="12345",
         original_media_url="https://upload.wikimedia.org/cat.webm",
@@ -96,6 +129,7 @@ def test_normalize_clip_calls_ffmpeg_and_hashes_result(tmp_path, monkeypatch):
     assert record.perceptual_hash is not None
     assert record.license_url == candidate.license_url
     assert record.original_media_url == candidate.media_url
+    assert record.source_page_id == 7
     assert record.page_revision == "12345"
     assert record.original_media_sha1 == "abc123"
     assert record.downloaded_media_url == candidate.media_url
@@ -128,6 +162,7 @@ def test_fetch_candidate_uses_exact_commons_title(monkeypatch):
         "query": {
             "pages": {
                 "7": {
+                    "pageid": 7,
                     "title": "File:Cat jump.webm",
                     "imageinfo": [
                         {
@@ -181,6 +216,7 @@ def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
             "continue": {"gsroffset": 2, "continue": "gsroffset||"},
             "query": {"pages": {
                 "1": {
+                    "pageid": 1,
                     "title": "File:Cat runs.webm",
                     "imageinfo": [{
                         "url": "https://upload.wikimedia.org/cat.webm",
@@ -205,8 +241,9 @@ def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
             }},
         },
         {"query": {"pages": {
-            "3": {
-                "title": "File:Second cat.ogv",
+                "3": {
+                    "pageid": 3,
+                    "title": "File:Second cat.ogv",
                 "imageinfo": [{
                     "url": "https://upload.wikimedia.org/cat.ogv",
                     "descriptionurl": "https://commons.wikimedia.org/wiki/File:Second_cat.ogv",
@@ -255,7 +292,7 @@ def test_search_candidates_keeps_only_video_files_and_paginates(monkeypatch):
 
 def test_search_candidates_accepts_commons_ogv_reported_as_application_ogg(monkeypatch):
     payload = {"query": {"pages": {
-        "1": {"title": "File:Runner.ogv", "imageinfo": [{
+        "1": {"pageid": 1, "title": "File:Runner.ogv", "imageinfo": [{
             "url": "https://upload.wikimedia.org/runner.ogv",
             "descriptionurl": "https://commons.wikimedia.org/wiki/File:Runner.ogv",
             "mime": "application/ogg", "extmetadata": {
@@ -296,6 +333,7 @@ def test_category_candidates_reads_files_from_subcategories(monkeypatch):
             ]}}
         titles = parameters["titles"].split("|")
         return {"query": {"pages": {str(index): {
+                "pageid": index + 1,
                 "title": title, "revisions": [{"revid": index + 1}], "imageinfo": [{
                 "url": "https://upload.wikimedia.org/cat.webm",
                 "descriptionurl": "https://commons.wikimedia.org/cat",
@@ -330,6 +368,7 @@ def test_category_candidates_accepts_commons_ogv_reported_as_application_ogg(mon
                 {"ns": 6, "title": "File:Runner.ogv"},
             ]}}
         return {"query": {"pages": {"1": {
+            "pageid": 1,
             "title": "File:Runner.ogv", "imageinfo": [{
                 "url": "https://upload.wikimedia.org/runner.ogv",
                 "descriptionurl": "https://commons.wikimedia.org/wiki/File:Runner.ogv",
@@ -365,7 +404,7 @@ def test_category_limit_counts_videos_after_mime_filter(monkeypatch):
         result = {}
         for index, title in enumerate(parameters["titles"].split("|")):
             mime = "image/jpeg" if title.endswith(".jpg") else "video/webm"
-            result[str(index)] = {"title": title, "imageinfo": [{
+            result[str(index)] = {"pageid": index + 1, "title": title, "imageinfo": [{
                 "url": "https://upload.wikimedia.org/media", "mime": mime,
                 "descriptionurl": "https://commons.wikimedia.org/media",
                 "extmetadata": {
@@ -393,7 +432,7 @@ def test_category_resume_keeps_unconsumed_titles_from_a_partially_used_page(monk
             ]}}
         pages = {}
         for index, title in enumerate(parameters["titles"].split("|")):
-            pages[str(index)] = {"title": title, "imageinfo": [{
+            pages[str(index)] = {"pageid": index + 1, "title": title, "imageinfo": [{
                 "url": "https://upload.wikimedia.org/media", "mime": "video/webm",
                 "descriptionurl": "https://commons.wikimedia.org/media",
                 "extmetadata": {
