@@ -317,6 +317,19 @@ uv run python temporal_priority.py \
   --subject dog --limit 20 --positive 'a single dog playing indoors' \
   --negative 'a dog sleeping standing or sitting still'
 
+# 在看片前冻结 poster 高分组与确定性随机对照；queue 不含 arm/rank/margin，
+# 只有全部视频完成 approved/rejected 后才用 sealed key 揭盲：
+uv run python blind_review_pool.py create \
+  data/commons_g1/candidates.jsonl data/commons_g1/provenance-v2.jsonl \
+  data/commons_g1/cat-visual-priority.json \
+  data/commons_g1/cat-blind40-queue.json data/commons_g1/cat-blind40-key.json \
+  --subject cat --high-count 20 --control-count 20 --seed 20260814
+uv run python blind_review_pool.py reveal \
+  data/commons_g1/cat-blind40-queue.json data/commons_g1/cat-blind40-key.json \
+  data/commons_g1/candidates.jsonl data/commons_g1/cat-blind40-audit.json \
+  data/commons_g1/cat-blind40-media.json data/commons_g1/cat-blind40-result.json \
+  --target-triple 'cat|playing|indoors'
+
 # Internet Archive 只接受人工列出的精确 item ID；输出仍是 metadata-only pending，
 # 许可、creator、唯一 original 视频以及 size/MD5/SHA-1 任一不完整都会拒绝：
 uv run python prepare_archive.py configs/archive_pair_candidate_specs.json \
@@ -341,7 +354,7 @@ triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×play
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,097 条，目前 119 条 approved、816 条 pending、162 条 rejected；pending 绝不
+候选池为 1,097 条，目前 119 条 approved、776 条 pending、202 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条

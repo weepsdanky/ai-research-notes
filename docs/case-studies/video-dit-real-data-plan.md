@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 816 个仍为 pending，不能计入训练规模或覆盖。
+从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 776 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -870,16 +870,51 @@ SHA-256 为 `49f1648e06c8566205d033ea44c2eaee144b15e4db7737cace2f3d497682622f`�
 人工门禁没有只看模型给出的 2 秒窗口：另对每条完整 derivative 做 16 帧全时长联系表，再看最佳
 窗口的 8 帧密集联系表。结果 **10 rejected / 0 approved**；其余五条分别是药物中毒临床运动、
 实验室叙事/字幕、受控选择实验、慢动作饮水和肌营养不良步态。审核后状态为
-**1,097 = 119 approved + 816 pending + 162 rejected**；v3 manifest/coverage 未变，仍是
+**1,097 = 119 approved + 816 pending + 162 rejected**；这是十片 X-CLIP pilot 结束时的历史快照。v3 manifest/coverage 未变，仍是
 119 records / 91 groups、held 16/50、训练 pairs 28/5/5、0 eligible C1。
 
 此外用缓存中 26 条已有人审终态的 dog 视频做独立诊断，其中严格 `dog|playing|indoors` approved
 为 4 条、其余 22 条为 rejected。全长 8 帧版本的 average precision 为 `0.5238`；recall@1/3/5/10/15
 分别为 `0.25/0.25/0.25/0.75/1.0`。这是小而有选择偏差的诊断集，不是泛化 benchmark；它只说明
 X-CLIP 可把部分已知正例提前，却没有把新 pilot 的 precision 提高到产生 approved。当前不把它扩到
-剩余 816 条全库下载，也不把“有时序模块”误报成“能识别 playing”。下一步应转向有视频级动作标注、
+当时剩余 816 条全库下载，也不把“有时序模块”误报成“能识别 playing”。下一步应转向有视频级动作标注、
 逐文件权利可审计的人工策展来源，或先建立更大的盲标 validation pool 再校准排序器，而不是继续在
 同一 top-10 上调 prompt。
+
+#### Cat 盲审 40：poster 高分与随机对照均为 0/20
+
+为了避免只审核模型最高分后再解释结果，先对全部 587 条 cat pending 运行同一锁定的 OpenAI CLIP
+ViT-B/32 poster pipeline，再在任何人工判断前固定两组：rank 1--20 为 high arm，从其余 567 条用
+seed `20260814` 无放回抽取 20 条 random-control arm。随后打乱 40 条，只向审核队列暴露 blind ID、
+title、完整视频 URL、duration 与媒体 revision；arm、rank 和 margin 只保存在与 queue SHA-256 绑定的
+sealed key。完整 poster report SHA-256 为
+`3dbd67c222a7778a9282e489bf2050b9083b655005b45b72c70badbf619e7bae`。看片前冻结的原始
+queue/key SHA-256 分别为 `13f2fce8f37081bb9575415415469b23ccdd254b4f6174f13ce48268a2b70e81` /
+`ac52c2bffc754bf513e8214054b2c3d74026e7f87ea481476e9eabde3e1437e7`。代码复核后又从精确的
+pre-review candidate snapshot、同一 report/seed 和完全相同的 40 条 assignment 确定性迁移，给 queue
+加入不泄露 arm 的 assignment commitment；当前 queue/key 为
+`45f951a5fc015ea85c42622926b6606824f6f0412aee8c12486e7204a9d0c4b0` /
+`238e047578618a096cffe0f99f322db2e7bbed9030c7abec4ffc26060077959f`。这项迁移让未来篡改 arm
+必然失败，但属于审核后的结构加固，不能倒推成原始运行已有的密码学时间戳；原始 key hash 与实际
+assignment 保留为本轮 pre-review 记录。
+
+40 条官方 derivative 全部下载并按全时长 16 帧联系表盲审；7 条最接近目标者又做 40 帧密集检查，
+拟通过者必须另有连续 2 秒窗口证据。最终 **40 rejected / 0 approved**。典型误报包括室外猫、吃猎物、
+多猫/人手、静止特写、动画，以及“背景有玩具但猫只是走过”；不能把 poster 上出现球等同于 playing。
+全部决定完成后才揭盲：high arm **0/20**，random control **0/20**，yield difference `0.0`；两组
+Wilson 95% interval 都是 `[0, 0.1611]`。audit SHA-256 为
+`c8465f4290cb47bc8b10508230bc0e37fe177c9d70396ec9eb77b5f45a88d537`，reveal report 为
+`caa4d2f3e92e707d4c7a5a14b61c1167c9b8cb806a7b10900822f98845c077fb`。reveal 还强制绑定
+40 条实际 derivative 的 media manifest（SHA-256
+`7de3d0dc315ba0b7a992652b0330a48d0cc00ba0cf23697d56add93bdaa62007`），因此分组、人工决定与
+审核时所见媒体不能只靠文件名人工并列。
+
+这只是冻结 partial pool 的严格 target yield/precision，不是 full-pool recall；0/20 也不能证明剩余
+候选没有正例。但它否决了“poster top-20 比随机抽样更值得继续下载”的当前假设。候选状态更新为
+**1,097 = 119 approved + 776 pending + 202 rejected**；cat 为 72 approved / 547 pending /
+123 rejected。v3 manifest 与 coverage 没有变化，仍是 119 records / 91 groups、held 16/50、
+训练 pairs 28/5/5、0 eligible C1，因此不启动正式训练。下一步不能继续对同一 poster ranking 调 prompt；
+应先取得视频级人工动作标签或新的逐文件权利可审计策展来源，再以新的、预注册盲池检验召回策略。
 
 ### 为什么不是直接训练 800 GB
 
