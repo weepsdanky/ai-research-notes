@@ -405,14 +405,14 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
 合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频、1 条逐文件锁定的 Figshare
 CC BY 4.0 室内玩耍猫视频，以及 3 条 origin/API/rendition 全部锁定的 PeerTube 室内玩耍猫视频。
-当前合并 manifest 为 132 records / 103 个独立组；`cat|playing|indoors` 为 20/50。
+当前合并 manifest 为 133 records / 104 个独立组；`cat|playing|indoors` 为 20/50。
 coverage 还预注册每个 held
 triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=6/10`、
 `playing×indoors=10/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,135 条，目前 127 条 approved、798 条 pending、210 条 rejected；pending 绝不
+候选池为 1,135 条，目前 128 条 approved、797 条 pending、210 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 7 条：单人海滩行走、固定机位下单人走入
 森林的 2598--2600 秒片段、两条单人室内台球片段，以及三条不同日期/赛事 session 的单人
 室内 bowling 片段。另有多轮候选因人群、
@@ -707,6 +707,12 @@ held-excluded pair≥10；当前 held=20、`cat×playing=6`，因此不会把这
 foster cats 和可见人物。两条都违反冻结的单主体/稳定身份契约，已原子标为 rejected，coverage
 增量为 0。联系表与锁定的 page/revision/原媒体 SHA-1、review derivative SHA-256 见
 `docs/case-studies/artifacts/video-dit/commons-multi-subject-negative-review/`。
+
+同一轮还批准了 `Ocicat on Cat Wheel`，但严格标为 `cat|walking|indoors`，没有为了补缺口改成
+playing。完整 63.847 秒只有一只猫和一个固定室内场景，`[10,12)` 的 16-frame 窗口显示连续
+四足步行且无剪辑。重新从 Commons base 构建 Figshare 与三个 PeerTube bundles 后，portable
+manifest 为 133 records / 104 groups；held 仍为 20，训练 pair 为 `31/6/10`，所以正式 C1 仍不
+放行。审核与重建 hash 见 `docs/case-studies/artifacts/video-dit/commons-ocicat-wheel-review/`。
 
 Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
 SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出

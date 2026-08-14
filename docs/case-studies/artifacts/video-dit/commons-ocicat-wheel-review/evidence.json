@@ -1,0 +1,62 @@
+{
+  "protocol": "Commons single-cat action review and portable rebuild v1",
+  "candidate_snapshot_sha256": "e92a3ce8ea506628d29e6ad8b413e92053510eaa839bc4959b6a0d78a88cdb7b",
+  "provenance_snapshot_sha256": "1d57836858753b9f83fb6735aaeccbf2e23869f895384dc6c7a3ceee041eb37b",
+  "title": "File:Ocicat on Cat Wheel.webm",
+  "page_id": 76074090,
+  "source_revision": "773775809",
+  "original_media_sha1": "efdaac4669c26bb1bb8795b9db78a76a4211ad3b",
+  "original_media_timestamp": "2019-01-24T16:02:54Z",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "attribution": "Oldperson",
+  "duration_seconds": 63.847,
+  "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/48/Ocicat_on_Cat_Wheel.webm/Ocicat_on_Cat_Wheel.webm.240p.vp9.webm",
+  "review_derivative_bytes": 1556873,
+  "review_derivative_sha256": "5e4efbdd1b216f10a03897a93183d75701c6792e0803ab45e3e231290404bee9",
+  "full_contact": {
+    "path": "full-24.jpg",
+    "sha256": "6b3322b77541a25fc3164cb1bcc615649f2109cb54ee8d93d59c9a9c3ac4de44",
+    "sampling": "24 frames at duration * (index + 0.5) / 24"
+  },
+  "selected_window": {
+    "start_seconds": 10.0,
+    "duration_seconds": 2.0,
+    "path": "window-10-16.jpg",
+    "sha256": "a7f90cc95987ab0e5700a4d01aec9cff29601a5d78f808895fc91c231b946126",
+    "sampling": "16 ordered frames across the locked two-second review window"
+  },
+  "decision": {
+    "status": "approved",
+    "subject": "cat",
+    "action": "walking",
+    "scene": "indoors",
+    "prompt": "an ocicat walking on a cat wheel indoors",
+    "duplicate_group": "commons-session:oldperson-ocicat-wheel-2019",
+    "reason": "one cat, one fixed indoor scene, continuous four-paw walking on the wheel, and no cut in the selected window; it is deliberately not relabeled as playing"
+  },
+  "normalized_clip": {
+    "sample_id": "ocicat-on-cat-wheel-8336b364d1",
+    "sha256": "5fd1e1964b4b9c5b60ebcacbc8da72a05f6c32ec43798ea3c545e7295d48abf2",
+    "perceptual_hash": "3860e38383818387",
+    "frames": 16,
+    "fps": 8,
+    "size": 96
+  },
+  "rebuilt_dataset": {
+    "records": 133,
+    "independent_source_groups": 104,
+    "manifest_sha256": "2fb6efd214900f71d838679d8ed2e3c651e86fffa6a2e8eb3ac9f213cd2317bb",
+    "coverage_sha256": "adcad3eaddf40242f2d305bbb0fa5e92cb7fa80e91b49252457bfa5169a09108",
+    "held_cat_playing_indoors_groups": 20,
+    "held_excluded_pair_groups": {
+      "cat|indoors": 31,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    },
+    "eligible_c1_triples": []
+  },
+  "coverage_effect": "adds one independent cat|walking|indoors group and improves factor diversity, but does not change the held or cat|playing gate",
+  "training_ready": false,
+  "confirmatory_claim_ready": false
+}

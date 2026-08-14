@@ -12,8 +12,8 @@
 4. **不要把 WebVid-10M 当新实验首选**。官方仓库明确写明自 2024-02-23 起因 cease-and-desist 已不能发布 URL 和 captions；其条款也只授予研究者 12 个月、不可转让的严格非商业研究许可，并要求期满删除。第三方镜像不能自动恢复合法来源或可复现性。[官方仓库](https://github.com/m-bain/webvid) · [官方条款](https://github.com/m-bain/webvid/blob/main/TERMS.md)
 
 如果只做一轮实验，推荐先把 **Commons-1K 审核集**做实，再决定是否扩大到 6K/12K。当前任何来源都不足以支持“已经完成严格组合泛化数据集”的说法。
-截至 2026-08-15，Commons 主集加逐对象锁定的 IA、Figshare 与 PeerTube 增量合计 **132 records /
-103 groups**；held `cat|playing|indoors=20/50`，训练侧 pair 为 `30/6/10`，仍是 0 eligible C1，
+截至 2026-08-15，Commons 主集加逐对象锁定的 IA、Figshare 与 PeerTube 增量合计 **133 records /
+104 groups**；held `cat|playing|indoors=20/50`，训练侧 pair 为 `31/6/10`，仍是 0 eligible C1，
 所以这里只推进数据准备，不启动正式训练。
 
 ## 2026-08-14 官方访问审计：VideoUFO 与 FineVideo
@@ -2408,3 +2408,27 @@ rejected。Commons 候选状态随之从 127/800/208 更新为 **127 approved / 
 权威训练 manifest 仍为 132 records / 103 groups，held 20、pair `30/6/10`，coverage 增量为 0。
 可携带联系表与 page/media/hash/decision 绑定见
 [`artifacts/video-dit/commons-multi-subject-negative-review/`](artifacts/video-dit/commons-multi-subject-negative-review/)。
+
+### 2026-08-15：Ocicat wheel 按真实动作加入训练分布，不冒充 playing
+
+现有 pending 中 `Ocicat on Cat Wheel.webm` 有很强的单主体与权利证据。Commons 官方 API 锁定
+page ID `76074090`、revision `773775809`、原媒体 SHA-1
+`efdaac4669c26bb1bb8795b9db78a76a4211ad3b`、CC0 与 Oldperson 署名；官方 240p derivative 为
+1,556,873 bytes，SHA-256 `5e4efbdd1b216f10a03897a93183d75701c6792e0803ab45e3e231290404bee9`。
+完整 63.847 秒的 24-frame 联系表始终显示一只 Ocicat、同一个室内猫轮与固定机位；`[10,12)` 的
+16-frame 密集窗口显示四足连续步行、无剪辑。因此审核标签固定为
+`cat|walking|indoors`、prompt `an ocicat walking on a cat wheel indoors`，group 为
+`commons-session:oldperson-ocicat-wheel-2019`。没有因为当前缺 `cat×playing` 就把 running wheel
+标题偷换成 playing 动作。
+
+规范化 clip 为 16 frames / 8 fps / 96×96，SHA-256
+`5fd1e1964b4b9c5b60ebcacbc8da72a05f6c32ec43798ea3c545e7295d48abf2`，pHash
+`3860e38383818387`。随后从更新后的 Commons base 重新、一次性构建 Figshare 与 Buster/Žofinka/
+Neptune 三个 PeerTube bundles，而不是在旧 merge 上增量追加。新的 portable manifest 为
+**133 records / 104 independent groups**，SHA-256
+`2fb6efd214900f71d838679d8ed2e3c651e86fffa6a2e8eb3ac9f213cd2317bb`；coverage SHA-256
+`adcad3eaddf40242f2d305bbb0fa5e92cb7fa80e91b49252457bfa5169a09108`。它把 held-excluded
+`cat×indoors` 从 30 增至 31，并使 `cat|walking|indoors` 达到 2 groups；held 仍为 20，
+`cat×playing=6`、`playing×indoors=10`，所以 `eligible_c1_triples=[]`。这条数据改善动作多样性，
+但正式缺口仍精确是 30 个 held groups 与 4 个 non-held `cat×playing` groups。完整审核与 hash
+证据见 [`artifacts/video-dit/commons-ocicat-wheel-review/`](artifacts/video-dit/commons-ocicat-wheel-review/)。
