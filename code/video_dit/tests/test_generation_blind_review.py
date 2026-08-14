@@ -7,6 +7,7 @@ import pytest
 import generation_blind_review
 
 from generation_blind_review import (
+    _balanced_factor_derangement,
     _factor_derangement,
     build_generation_evaluation_spec,
     create_blind_generation_pool,
@@ -229,6 +230,53 @@ def test_spec_requires_two_preregistered_seeds():
         )
 
 
+def test_pilot_spec_freezes_below_confirmatory_coverage_without_claiming_readiness():
+    rows = [
+        _record(1, "train", "cat", "playing", "outdoors", "train cat playing outdoors"),
+        _record(2, "train", "dog", "playing", "indoors", "train dog playing indoors"),
+        _record(3, "train", "cat", "sitting", "indoors", "train cat sitting indoors"),
+        _record(4, "train", "dog", "playing", "outdoors", "train dog playing outdoors"),
+        _record(5, "iid", "dog", "playing", "outdoors", "iid dog playing outdoors"),
+        _record(6, "c1", "cat", "playing", "indoors", "held cat playing indoors"),
+    ]
+    policy = CompositionalSplit(
+        c1_triples={("cat", "playing", "indoors")}, c2_pairs=set(),
+        iid_fraction=0, validation_fraction=0,
+        min_c1_source_groups=1, min_train_pair_source_groups=1,
+    )
+    report = validate_split(rows, policy)
+    manifest = "".join(
+        json.dumps(asdict(row), sort_keys=True) + "\n" for row in rows
+    ).encode()
+    report_bytes = _canonical(report)
+    contract = {
+        "checkpoint_sha256": "0" * 64, "training_step": 1, "weights": "ema",
+        "prediction_type": "velocity", "sampling_steps": 50,
+        "start_timestep": 999, "clip_denoised": False,
+        "effective_cfg_scale": 1.0, "condition_mode": "text",
+        "text_encoder_id": "encoder#tokens-v2",
+        "training_manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+    }
+    with pytest.raises(ValueError, match="formal generation evaluation"):
+        build_generation_evaluation_spec(
+            manifest, report_bytes, generation_contract=contract, seeds=[17, 29],
+        )
+    spec = build_generation_evaluation_spec(
+        manifest, report_bytes, generation_contract=contract, seeds=[17, 29],
+        pilot=True,
+    )
+    assert spec["evaluation_tier"] == "pilot"
+    assert spec["confirmatory_gate"] == {
+        "passes": False,
+        "required_c1_source_groups": 50,
+        "required_train_pair_source_groups": 10,
+        "observed_c1_source_groups": {"cat|playing|indoors": 1},
+        "observed_train_pair_source_groups": {
+            "cat|indoors": 1, "cat|playing": 1, "playing|indoors": 1,
+        },
+    }
+
+
 def test_create_pool_rejects_a_fabricated_factor_spec(tmp_path):
     spec, manifest, report, generation_dir = _write_generations(tmp_path)
     value = json.loads(spec)
@@ -363,3 +411,22 @@ def test_reveal_rejects_shuffled_control_without_factor_derangement(tmp_path):
             _canonical(queue), _canonical(key),
             [_decision(queue, "a", expected), _decision(queue, "b", expected)], media_dir,
         )
+
+
+def test_pilot_can_report_a_strict_derangement_on_a_balanced_subset(tmp_path):
+    rows = [
+        {"blind_id": f"id-{index}", "prompt": f"p-{index}",
+         "expected_subject": "cat" if index < 3 else "dog",
+         "expected_action": "playing" if index < 3 else "standing",
+         "expected_scene": "indoors"}
+        for index in range(4)
+    ]
+
+    selected, replacements = _balanced_factor_derangement(rows)
+
+    assert len(selected) == len(replacements) == 2
+    assert {row["expected_subject"] for row in selected} == {"cat", "dog"}
+    assert all(
+        row["expected_subject"] != replacement["expected_subject"]
+        for row, replacement in zip(selected, replacements, strict=True)
+    )

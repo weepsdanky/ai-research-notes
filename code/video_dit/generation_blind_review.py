@@ -108,10 +108,44 @@ def _factor_derangement(rows: list[dict[str, object]]) -> list[dict[str, object]
     return [rows[replacement_for_original[index]] for index in range(len(rows))]
 
 
+def _balanced_factor_derangement(
+    rows: list[dict[str, object]],
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Return the largest deterministic subset that admits a strict derangement."""
+
+    factors = ("subject", "action", "scene")
+    groups: dict[tuple[object, object, object], list[dict[str, object]]] = {}
+    for row in rows:
+        triple = tuple(row.get(f"expected_{factor}") for factor in factors)
+        groups.setdefault(triple, []).append(row)  # type: ignore[arg-type]
+    dominant = max(groups.values(), key=lambda group: (len(group), str(group[0].get("prompt"))))
+    other_count = len(rows) - len(dominant)
+    if other_count < 1:
+        raise ValueError("cannot construct a balanced factor-triple control subset")
+    retained_ids = {id(row) for row in rows if row not in dominant}
+    retained_ids.update(id(row) for row in dominant[:other_count])
+    selected = [row for row in rows if id(row) in retained_ids]
+    return selected, _factor_derangement(selected)
+
+
 def _evaluation_spec(data: bytes) -> tuple[dict[str, dict[str, str]], dict[str, object]]:
     spec = _json_object(data, "generation evaluation spec")
     if spec.get("protocol") != PROTOCOL or spec.get("training_ready") is not False:
         raise ValueError("generation evaluation spec has an invalid frozen protocol")
+    if spec.get("evaluation_tier") not in {"pilot", "confirmatory"}:
+        raise ValueError("generation evaluation spec has an invalid evaluation tier")
+    gate = spec.get("confirmatory_gate")
+    if (
+        not isinstance(gate, dict)
+        or gate.get("required_c1_source_groups") != 50
+        or gate.get("required_train_pair_source_groups") != 10
+        or not isinstance(gate.get("passes"), bool)
+        or not isinstance(gate.get("observed_c1_source_groups"), dict)
+        or not isinstance(gate.get("observed_train_pair_source_groups"), dict)
+    ):
+        raise ValueError("generation evaluation spec has an invalid confirmatory gate")
+    if spec["evaluation_tier"] == "confirmatory" and gate["passes"] is not True:
+        raise ValueError("confirmatory evaluation spec does not pass its data gate")
     for field in ("training_manifest_sha256", "split_report_sha256"):
         _lower_sha(spec.get(field), f"generation evaluation spec {field}")
     seeds = spec.get("seeds")
@@ -177,7 +211,7 @@ def _manifest_records(data: bytes) -> list[RealVideoRecord]:
 
 def build_generation_evaluation_spec(
     manifest_bytes: bytes, split_report_bytes: bytes, *,
-    generation_contract: dict[str, object], seeds: list[int],
+    generation_contract: dict[str, object], seeds: list[int], pilot: bool = False,
 ) -> dict[str, object]:
     """Derive prompt/factor expectations from a fully revalidated split manifest."""
 
@@ -199,14 +233,34 @@ def build_generation_evaluation_spec(
         )
     except (KeyError, TypeError, ValueError) as error:
         raise ValueError("split validation report has an invalid policy contract") from error
-    if policy.min_c1_source_groups < 50 or policy.min_train_pair_source_groups < 10:
+    recomputed = validate_split(records, policy)
+    if json.loads(json.dumps(recomputed, sort_keys=True)) != report:
+        raise ValueError("split validation report does not match the supplied manifest")
+    coverage = report.get("coverage")
+    if not isinstance(coverage, dict):
+        raise ValueError("split validation report lacks coverage")
+    c1_coverage = coverage.get("c1_triples")
+    train_pair_coverage = coverage.get("train_pairs")
+    if not isinstance(c1_coverage, dict) or not isinstance(train_pair_coverage, dict):
+        raise ValueError("split validation report has invalid coverage")
+    c1_keys = ["|".join(triple) for triple in sorted(policy.c1_triples)]
+    pair_keys = sorted({
+        "|".join(pair)
+        for subject, action, scene in policy.c1_triples
+        for pair in ((subject, action), (subject, scene), (action, scene))
+    })
+    observed_c1 = {key: int(c1_coverage.get(key, 0)) for key in c1_keys}
+    observed_pairs = {key: int(train_pair_coverage.get(key, 0)) for key in pair_keys}
+    confirmatory_passes = (
+        bool(observed_c1)
+        and all(value >= 50 for value in observed_c1.values())
+        and all(value >= 10 for value in observed_pairs.values())
+    )
+    if not pilot and not confirmatory_passes:
         raise ValueError(
             "formal generation evaluation requires at least 50 C1 source groups "
             "and 10 training source groups per held pair"
         )
-    recomputed = validate_split(records, policy)
-    if json.loads(json.dumps(recomputed, sort_keys=True)) != report:
-        raise ValueError("split validation report does not match the supplied manifest")
     prompts: dict[str, dict[str, str]] = {}
     for record in records:
         if record.split not in SPLITS:
@@ -220,6 +274,14 @@ def build_generation_evaluation_spec(
             raise ValueError("one evaluation prompt maps to multiple factor/split contracts")
     spec = {
         "protocol": PROTOCOL,
+        "evaluation_tier": "pilot" if pilot else "confirmatory",
+        "confirmatory_gate": {
+            "passes": confirmatory_passes,
+            "required_c1_source_groups": 50,
+            "required_train_pair_source_groups": 10,
+            "observed_c1_source_groups": observed_c1,
+            "observed_train_pair_source_groups": observed_pairs,
+        },
         "training_manifest_sha256": _sha256(manifest_bytes),
         "split_report_sha256": _sha256(split_report_bytes),
         "generation_contract": generation_contract,
@@ -290,7 +352,7 @@ def create_blind_generation_pool(
     derived_spec = build_generation_evaluation_spec(
         manifest_bytes, split_report_bytes,
         generation_contract=dict(spec["generation_contract"]),
-        seeds=list(spec["seeds"]),
+        seeds=list(spec["seeds"]), pilot=spec.get("evaluation_tier") == "pilot",
     )
     if spec != derived_spec:
         raise ValueError("generation evaluation spec does not match the validated split manifest")
@@ -453,7 +515,9 @@ def _split_metrics(rows: list[dict[str, object]]) -> dict[str, object]:
             "ambiguous_samples": 0, "subject_accuracy": None,
             "action_accuracy": None, "scene_accuracy": None,
             "unanimous_triple_accuracy": None, "triple_accuracy_wilson95": None,
-            "shuffled_triple_accuracy": None, "gain_over_shuffled": None,
+            "shuffled_control_samples": 0, "shuffled_triple_accuracy": None,
+            "matched_triple_accuracy_on_control_subset": None,
+            "gain_over_shuffled": None,
         }
     total = len(rows)
     unanimous = sum(bool(row["unanimous"]) for row in rows)
@@ -461,7 +525,10 @@ def _split_metrics(rows: list[dict[str, object]]) -> dict[str, object]:
     action = sum(bool(row["action_correct"]) for row in rows)
     scene = sum(bool(row["scene_correct"]) for row in rows)
     triples = sum(bool(row["triple_correct"]) for row in rows)
-    shuffled = sum(bool(row["shuffled_triple_correct"]) for row in rows)
+    control_rows = [row for row in rows if row["shuffled_control_included"]]
+    control_total = len(control_rows)
+    shuffled = sum(bool(row["shuffled_triple_correct"]) for row in control_rows)
+    matched_control = sum(bool(row["triple_correct"]) for row in control_rows)
     return {
         "status": "measured", "samples": total,
         "unanimous_samples": unanimous, "ambiguous_samples": total - unanimous,
@@ -469,9 +536,15 @@ def _split_metrics(rows: list[dict[str, object]]) -> dict[str, object]:
         "scene_accuracy": scene / total,
         "unanimous_triple_accuracy": triples / total,
         "triple_accuracy_wilson95": wilson_interval(triples, total),
-        "shuffled_triple_accuracy": shuffled / total,
-        "gain_over_shuffled": (triples - shuffled) / total,
-        "passes_prompt_control": triples > shuffled,
+        "shuffled_control_samples": control_total,
+        "shuffled_triple_accuracy": shuffled / control_total if control_total else None,
+        "matched_triple_accuracy_on_control_subset": (
+            matched_control / control_total if control_total else None
+        ),
+        "gain_over_shuffled": (
+            (matched_control - shuffled) / control_total if control_total else None
+        ),
+        "passes_prompt_control": matched_control > shuffled if control_total else None,
     }
 
 
@@ -480,6 +553,8 @@ def reveal_blind_generation_results(
     key_bytes: bytes,
     decision_bytes: list[bytes],
     media_dir: Path,
+    *,
+    allow_balanced_control: bool = False,
 ) -> dict[str, object]:
     """Verify blinded media and aggregate unanimous human factor judgments."""
 
@@ -561,12 +636,26 @@ def reveal_blind_generation_results(
             raise ValueError("sealed generation seed must be an integer")
         by_seed.setdefault(seed, []).append(row)
     shuffled_expected: dict[str, tuple[str, str, str]] = {}
+    excluded_control_ids: list[str] = []
+    control_mode = "strict_factor_derangement_full_grid"
     for rows in by_seed.values():
         ordered = sorted(rows, key=lambda row: str(row.get("prompt")))
         if len(ordered) < 2:
             raise ValueError("each seed requires at least two prompts for shuffled control")
-        replacement_order = _factor_derangement(ordered)
-        for row, replacement in zip(ordered, replacement_order, strict=True):
+        try:
+            selected = ordered
+            replacement_order = _factor_derangement(selected)
+        except ValueError:
+            if not allow_balanced_control:
+                raise
+            selected, replacement_order = _balanced_factor_derangement(ordered)
+            selected_ids = {str(row["blind_id"]) for row in selected}
+            excluded_control_ids.extend(
+                str(row["blind_id"]) for row in ordered
+                if str(row["blind_id"]) not in selected_ids
+            )
+            control_mode = "strict_factor_derangement_balanced_subset"
+        for row, replacement in zip(selected, replacement_order, strict=True):
             shuffled_expected[str(row["blind_id"])] = tuple(
                 _nonempty(replacement.get(f"expected_{factor}"), f"expected_{factor}")
                 for factor in ("subject", "action", "scene")
@@ -588,7 +677,11 @@ def reveal_blind_generation_results(
             consensus[index] == expected[index] for index in range(3)
         )
         triple_correct = unanimous and consensus == expected
-        shuffled_correct = unanimous and consensus == shuffled_expected[blind_id]
+        control_included = blind_id in shuffled_expected
+        shuffled_correct = (
+            unanimous and consensus == shuffled_expected[blind_id]
+            if control_included else None
+        )
         revealed.append({
             "blind_id": blind_id, "split": assignment.get("split"),
             "seed": assignment.get("seed"), "prompt": assignment.get("prompt"),
@@ -598,6 +691,7 @@ def reveal_blind_generation_results(
             "unanimous": unanimous, "subject_correct": subject_correct,
             "action_correct": action_correct, "scene_correct": scene_correct,
             "triple_correct": triple_correct,
+            "shuffled_control_included": control_included,
             "shuffled_triple_correct": shuffled_correct,
         })
     if any(row["split"] not in SPLITS for row in revealed):
@@ -610,6 +704,17 @@ def reveal_blind_generation_results(
         "split_report_sha256": queue.get("split_report_sha256"),
         "decision_sha256": [_sha256(data) for data in decision_bytes],
         "raters": len(reviewers), "reviewer_ids": reviewers,
+        "shuffled_control": {
+            "mode": control_mode,
+            "samples": len(shuffled_expected),
+            "excluded_samples": len(excluded_control_ids),
+            "excluded_blind_ids": sorted(excluded_control_ids),
+            "note": (
+                "The preregistered full-grid strict derangement was impossible; "
+                "this pilot reports a deterministic maximal balanced subset."
+                if excluded_control_ids else "Every record is in the strict derangement."
+            ),
+        },
         "overall": _split_metrics(revealed),
         **{
             split: _split_metrics([row for row in revealed if row["split"] == split])
@@ -669,6 +774,11 @@ def main(argv: list[str] | None = None) -> int:
     reveal.add_argument("media_dir", type=Path)
     reveal.add_argument("output", type=Path)
     reveal.add_argument("--decisions", type=Path, nargs="+", required=True)
+    reveal.add_argument(
+        "--pilot-balanced-control", action="store_true",
+        help="when the full grid is mathematically unbalanced, report a strict "
+             "derangement on its deterministic maximal balanced subset",
+    )
     spec = commands.add_parser("spec")
     spec.add_argument("split_manifest", type=Path)
     spec.add_argument("split_report", type=Path)
@@ -679,6 +789,10 @@ def main(argv: list[str] | None = None) -> int:
     spec.add_argument("--start-timestep", type=int)
     spec.add_argument("--cfg-scale", type=float, required=True)
     spec.add_argument("--seeds", type=int, nargs="+", required=True)
+    spec.add_argument(
+        "--pilot", action="store_true",
+        help="allow a preregistered diagnostic below the 50/10 confirmatory data gate",
+    )
     args = parser.parse_args(argv)
     if args.command == "spec":
         if args.output.resolve() in {
@@ -692,7 +806,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         value = build_generation_evaluation_spec(
             args.split_manifest.read_bytes(), args.split_report.read_bytes(),
-            generation_contract=contract, seeds=args.seeds,
+            generation_contract=contract, seeds=args.seeds, pilot=args.pilot,
         )
         _atomic_json(args.output, value)
         return 0
@@ -727,6 +841,7 @@ def main(argv: list[str] | None = None) -> int:
     report = reveal_blind_generation_results(
         args.queue.read_bytes(), args.key.read_bytes(),
         [path.read_bytes() for path in args.decisions], args.media_dir,
+        allow_balanced_control=args.pilot_balanced_control,
     )
     _atomic_json(args.output, report)
     return 0

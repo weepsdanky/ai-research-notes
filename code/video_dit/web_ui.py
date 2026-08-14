@@ -9,6 +9,8 @@ from pathlib import Path
 
 from dataset import parse_prompt
 from inference import VideoDiTInference, render_dataset_preview
+from cache_text_embeddings import openai_clip_encoder
+from vae_latents import DiffusersFrameVAE
 
 
 MODEL_MODE = "Trained Video DiT checkpoint"
@@ -20,6 +22,39 @@ PROMPT_EXAMPLES = (
     "a person in a red coat walking right in the snow",
 )
 DEFAULT_CHECKPOINT = Path(__file__).resolve().parent / "demo_artifacts/video_dit_inference.pt"
+
+
+def load_ui_engine(
+    checkpoint: str | Path,
+    *,
+    device: str,
+    text_checkpoint: Path | None = None,
+    vae_model: str | None = None,
+    vae_revision: str | None = None,
+) -> VideoDiTInference:
+    """Load either the bundled structured model or a frozen text/latent stack."""
+
+    text_encode = None
+    text_encoder_id = None
+    if text_checkpoint is not None:
+        text_encoder_id, text_encode = openai_clip_encoder(
+            text_checkpoint, embedding_kind="tokens",
+        )
+    if (vae_model is None) != (vae_revision is None):
+        raise ValueError("vae_model and vae_revision must be supplied together")
+    vae = (
+        DiffusersFrameVAE.from_pretrained(
+            vae_model, revision=vae_revision, device=device,
+        )
+        if vae_model is not None and vae_revision is not None else None
+    )
+    return VideoDiTInference.from_checkpoint(
+        checkpoint,
+        device=device,
+        text_encode=text_encode,
+        text_encoder_id=text_encoder_id,
+        vae_decoder=vae,
+    )
 
 
 def ensure_loopback_proxy_bypass(server_name: str) -> None:
@@ -49,12 +84,15 @@ def run_ui_request(
     *,
     output_dir: str | Path = DEFAULT_OUTPUT_DIR,
     device: str = "cpu",
+    text_checkpoint: str | Path | None = None,
+    vae_model: str | None = None,
+    vae_revision: str | None = None,
 ) -> tuple[str, str | None, dict[str, str], str, str]:
     """Execute one UI request through the same public inference interfaces."""
 
-    spec = parse_prompt(prompt)
-    parsed = asdict(spec)
     if mode == PREVIEW_MODE:
+        spec = parse_prompt(prompt)
+        parsed = asdict(spec)
         result = render_dataset_preview(
             prompt,
             output_dir,
@@ -77,7 +115,21 @@ def run_ui_request(
             "Checkpoint is required for trained-model mode. Train first, or select "
             "the explicitly labelled dataset renderer preview."
         )
-    engine = VideoDiTInference.from_checkpoint(checkpoint_path, device=device)
+    engine = load_ui_engine(
+        checkpoint_path,
+        device=device,
+        text_checkpoint=(
+            Path(text_checkpoint).expanduser().resolve()
+            if text_checkpoint is not None else None
+        ),
+        vae_model=vae_model,
+        vae_revision=vae_revision,
+    )
+    parsed = (
+        asdict(parse_prompt(prompt))
+        if engine.model.config.condition_mode == "structured"
+        else {"text_prompt": prompt}
+    )
     result = engine.generate(
         prompt,
         output_dir,
@@ -105,6 +157,9 @@ def build_ui(
     default_checkpoint: str = str(DEFAULT_CHECKPOINT),
     output_dir: str | Path = DEFAULT_OUTPUT_DIR,
     device: str = "cpu",
+    text_checkpoint: str | Path | None = None,
+    vae_model: str | None = None,
+    vae_revision: str | None = None,
 ):
     """Build the Gradio app without launching a server."""
 
@@ -124,9 +179,9 @@ def build_ui(
             video frames. **Denoising diagnostic (GIF)** advances through
             diffusion sampling steps; it is not the character animation.
 
-            The teaching model uses a closed symbolic prompt vocabulary:
-            cat/dog/person, colors, left/right/bounce/stand, and
-            snow/grass/night/studio. The parsed factors are shown below.
+            The bundled teaching model uses a closed symbolic vocabulary. A
+            text-conditioned latent checkpoint instead accepts free text when
+            its frozen CLIP and VAE dependencies are supplied at launch.
             """
         )
         with gr.Row():
@@ -213,6 +268,9 @@ def build_ui(
                 fps_value,
                 output_dir=output_dir,
                 device=device,
+                text_checkpoint=text_checkpoint,
+                vae_model=vae_model,
+                vae_revision=vae_revision,
             )
 
         generate.click(
@@ -242,6 +300,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--server-name", default="127.0.0.1")
     parser.add_argument("--server-port", type=int, default=7861)
     parser.add_argument("--share", action="store_true")
+    parser.add_argument("--text-checkpoint", type=Path)
+    parser.add_argument("--vae-model")
+    parser.add_argument("--vae-revision")
     return parser.parse_args(argv)
 
 
@@ -252,6 +313,9 @@ def main(argv: list[str] | None = None) -> None:
         default_checkpoint=args.checkpoint,
         output_dir=args.output_dir,
         device=args.device,
+        text_checkpoint=args.text_checkpoint,
+        vae_model=args.vae_model,
+        vae_revision=args.vae_revision,
     )
     demo.launch(
         server_name=args.server_name,

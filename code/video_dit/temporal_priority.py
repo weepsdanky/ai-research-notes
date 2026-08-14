@@ -59,6 +59,7 @@ class LockedVideo:
     derivative_url: str
     derivative_path: str
     derivative_sha256: str
+    source_duration_seconds: float | None = None
 
 
 @dataclass(frozen=True)
@@ -208,6 +209,29 @@ def download_derivative(url: str, destination: Path) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def probe_video_duration(video: Path) -> float:
+    """Return the local derivative's decodable container duration."""
+
+    ffprobe = shutil.which("ffprobe")
+    if ffprobe is None:
+        raise RuntimeError("ffprobe is required")
+    result = subprocess.run(
+        [
+            ffprobe, "-v", "error", "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1", str(video),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    try:
+        duration = float(result.stdout.strip())
+    except ValueError as error:
+        raise RuntimeError("ffprobe did not return a video duration") from error
+    if result.returncode != 0 or not np.isfinite(duration) or duration <= 0:
+        raise RuntimeError("ffprobe did not return a finite positive video duration")
+    return duration
+
+
 def extract_uniform_frames(
     video: Path, *, duration: float, count: int = 8, start_seconds: float = 0.0,
 ) -> tuple[list[Image.Image], tuple[float, ...], tuple[str, ...]]:
@@ -303,16 +327,19 @@ def lock_video(
     derivative_data = path.read_bytes()
     if not derivative_data:
         raise ValueError(f"cached derivative is empty: {title}")
+    source_duration = float(row["duration_seconds"])
+    derivative_duration = probe_video_duration(path)
     windows = extract_temporal_windows(
-        path, duration=float(row["duration_seconds"]),
+        path, duration=derivative_duration,
         window_seconds=window_seconds, max_windows=max_windows,
     )
     return LockedVideo(
-        title=title, duration_seconds=float(row["duration_seconds"]),
+        title=title, duration_seconds=derivative_duration,
         original_media_sha1=str(row["original_media_sha1"]),
         original_media_timestamp=str(row["original_media_timestamp"]),
         derivative_url=url, derivative_path=str(path),
         derivative_sha256=hashlib.sha256(derivative_data).hexdigest(),
+        source_duration_seconds=source_duration,
     ), windows
 
 
@@ -339,11 +366,11 @@ def freeze_model(model_dir: Path, destination: Path) -> dict[str, str]:
 
 
 def load_xclip(model_dir: Path, device: str):
-    from transformers import XCLIPModel, XCLIPProcessor
+    from transformers import XCLIPModel, XCLIPProcessor, __version__
 
     processor = XCLIPProcessor.from_pretrained(model_dir, local_files_only=True)
     model = XCLIPModel.from_pretrained(model_dir, local_files_only=True).eval().to(device)
-    return model, processor
+    return model, processor, __version__
 
 
 def xclip_scores(
@@ -351,7 +378,7 @@ def xclip_scores(
 ) -> tuple[list[float], list[float]]:
     def run(video: list[Image.Image]) -> list[float]:
         inputs = processor(
-            text=prompts, videos=[video], return_tensors="pt", padding=True,
+            text=prompts, images=video, return_tensors="pt", padding=True,
         )
         inputs = {name: value.to(device) for name, value in inputs.items()}
         with torch.inference_mode():
@@ -457,6 +484,7 @@ def write_report(
     provenance_snapshot: Snapshot, upstream_snapshot: Snapshot,
     model_hashes: dict[str, str], positive: list[str], negative: list[str],
     device: str, window_seconds: float, max_windows: int,
+    transformers_version: str,
 ) -> dict[str, object]:
     report = {
         "metric": "X-CLIP eight-frame forward margin with reverse-order diagnostic",
@@ -473,6 +501,7 @@ def write_report(
         "window_seconds": window_seconds, "max_windows": max_windows,
         "positive_prompts": positive, "negative_prompts": negative,
         "device": device, "torch_version": torch.__version__,
+        "transformers_version": transformers_version,
         "records": rows, "training_ready": False,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -520,7 +549,7 @@ def main(argv: list[str] | None = None) -> int:
     with tempfile.TemporaryDirectory(prefix="xclip-model-") as directory:
         frozen_model = Path(directory)
         model_hashes = freeze_model(args.model_dir, frozen_model)
-        model, processor = load_xclip(frozen_model, args.device)
+        model, processor, transformers_version = load_xclip(frozen_model, args.device)
         videos: list[LockedVideo] = []
         forward: list[list[float]] = []
         reverse: list[list[float]] = []
@@ -559,7 +588,7 @@ def main(argv: list[str] | None = None) -> int:
         provenance_snapshot=provenance_value, upstream_snapshot=upstream_value,
         model_hashes=model_hashes, positive=args.positive, negative=args.negative,
         device=args.device, window_seconds=args.window_seconds,
-        max_windows=args.max_windows,
+        max_windows=args.max_windows, transformers_version=transformers_version,
     )
     print(json.dumps({
         "records": len(ranked), "output": str(args.output),

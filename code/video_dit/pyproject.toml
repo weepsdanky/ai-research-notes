@@ -17,6 +17,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+temporal = [
+    "transformers==4.57.6",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

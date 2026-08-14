@@ -180,6 +180,12 @@ uv run python inference.py demo_artifacts/video_dit_inference.pt \
 uv run python web_ui.py \
   --device mps --server-name 127.0.0.1 --server-port 7861 \
   --output-dir runs/canonical-velocity/web_ui
+
+# 自由文本 latent checkpoint 还必须显式绑定训练时的 frozen dependencies：
+uv run python web_ui.py runs/c1/video_dit_inference.pt \
+  --device mps --server-port 7861 --text-checkpoint data/models/ViT-B-32.pt \
+  --vae-model stabilityai/sd-vae-ft-mse \
+  --vae-revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79
 ```
 
 浏览器打开 `http://127.0.0.1:7861/`。界面将最终 MP4 标为 **Final temporal animation (MP4)**，将诊断标为 **Denoising diagnostic (GIF — diffusion time, not animation time)**。另有明确标注的 dataset preview，可在没有训练 checkpoint 时检查 prompt 到真实时间运动的映射；它只是数据渲染器预览，不是模型生成结果。
@@ -316,6 +322,7 @@ uv run python visual_priority.py \
 
 # 对锁定 poster 排序的固定 top-K 再用原生 8-frame X-CLIP 扫描最多 8 个
 # 均匀 2 秒窗口；报告保留逐窗口、倒序诊断及所有模型/媒体/帧哈希：
+uv sync --extra temporal
 uv run python temporal_priority.py \
   data/commons_g1/candidates.jsonl data/commons_g1/provenance-v2.jsonl \
   data/commons_g1/dog-visual-priority.json data/commons_g1/temporal_cache/dog \
@@ -492,8 +499,8 @@ gate 的 cross-attention；encoder ID 的 `#tokens-v2` 表示 padding hidden sta
 metadata 与后来被替换的视频错绑。请用当前 `inference.py` 重新生成旧 artifact。
 
 正式 IID/C1/C2 结果不能只看 CLIP 或挑选好看的 MP4。达到数据门禁后，先从已经重新验证的
-split manifest 和 validation report 派生不可手填的评估 spec，再把每个 prompt × seed 的
-生成视频复制为不暴露 prompt、split 或 seed 的随机 blind ID：
+split manifest 和 validation report 派生不可手填的评估 spec，再原子生成完整
+prompt × seed 网格，并把视频复制为不暴露 prompt、split 或 seed 的随机 blind ID：
 
 ```bash
 uv run python generation_blind_review.py spec \
@@ -501,16 +508,21 @@ uv run python generation_blind_review.py spec \
   --checkpoint runs/c1/video_dit_inference.pt --weights ema \
   --sampling-steps 50 --start-timestep 999 --cfg-scale 2.5 \
   --seeds 17 29 43 61
-# 必须逐项使用 spec 中已经冻结的 prompt × seed；inference 会把 spec SHA 写入 metadata。
-uv run python inference.py runs/c1/video_dit_inference.pt \
-  --prompt '...' --seed 17 --sampling-steps 50 --start-timestep 999 \
-  --cfg-scale 2.5 --evaluation-spec generation-evaluation-spec.json \
-  --output-dir runs/c1/inference ...
+# 生成器只在所有 prompt × seed 都成功后提交输出目录；中途失败不留下可供挑选的半成品。
+uv run python generate_evaluation_grid.py \
+  runs/c1/video_dit_inference.pt generation-evaluation-spec.json runs/c1/inference \
+  --device mps --text-checkpoint data/models/ViT-B-32.pt \
+  --text-conditioning tokens --vae-model stabilityai/sd-vae-ft-mse \
+  --vae-revision c01e0282cf0708e7fdecf07fb5f9089f5bc61c79
 uv run python generation_blind_review.py create \
   runs/c1/inference generation-evaluation-spec.json split.jsonl split-report.json \
   runs/c1/blind-media runs/c1/blind-queue.json runs/c1/sealed-key.json \
   --seed 20260814
 ```
+
+低于 `50/10` 正式门禁时，只能在训练前明确加 `spec --pilot` 创建诊断性 pilot；报告会固化
+实际 held/pair coverage 并把 `confirmatory_gate.passes` 写为 `false`。pilot 无论成功或失败都
+不能改写成正式 unseen-composition 结论，也不能在看过生成后更换 checkpoint、prompt 或 seed。
 
 至少两名互相独立的评审者完整播放 blind MP4，只能从 queue 固定的 subject/action/scene
 词表选择；每个因子都额外提供永远不可能是正确答案的 `absent_or_unclear`，避免强迫评审者
@@ -607,6 +619,16 @@ source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补
 `cat×playing` 仍为 5/10，held `cat|playing|indoors` 仍为 16/50，因此仍是 0 eligible C1，
 没有启动正式训练。逐媒体 provenance、规范化 clip hash 和审核图见
 `docs/case-studies/artifacts/video-dit/commons-bowling-review/`。
+
+在用户明确授权后，另行执行了一次**不满足正式数据门禁的预注册诊断 pilot**；它不是上述“正式训练”。
+协议在训练结束前由 commit `536d0f9` 固化，held triple 的 source/duplicate/pHash 传递闭包全部排除。
+11.99M 参数 latent text Video DiT 从零训练 10,000 updates 后，固定 final EMA 生成完整
+12 prompts×4 seeds 网格。两名独立 prompt-hidden 评审的 IID/C1 unanimous triple accuracy 都是
+0%；frozen CLIP top-1 14.6% 对 shuffled 12.5%，同样没有可信 prompt binding。完整结论是 pilot
+失败：loss 下降但自由生成仍形变、碎片化，且 94 个训练 clips 与 `cat×playing=5`、
+`playing×indoors=8` 都太弱。证据见
+`docs/case-studies/artifacts/video-dit/c1-pilot-v1/results/`；正式确认仍要求 held≥50、每个 pair≥10
+并重新预注册。
 
 Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
 SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出

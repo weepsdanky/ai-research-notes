@@ -285,6 +285,26 @@ def test_source_and_near_duplicate_groups_can_never_cross_splits():
     assert len({r.split for r in assigned if r.duplicate_group == "duplicate-17"}) == 1
 
 
+def test_split_keeps_a_rare_iid_triple_in_training_instead_of_emitting_invalid_iid():
+    records = [
+        _record("rare-0", "cat", "hissing", "indoors"),
+        *[
+            _record(f"common-{index}", "dog", "walking", "outdoors")
+            for index in range(10)
+        ],
+    ]
+    policy = CompositionalSplit(
+        c1_triples=set(), c2_pairs=set(), iid_fraction=0.8,
+        validation_fraction=0.1, seed=7,
+    )
+
+    assigned = split_manifest(records, policy)
+    report = validate_split(assigned, policy)
+
+    assert report["valid"] is True
+    assert next(row for row in assigned if row.sample_id == "rare-0").split == "train"
+
+
 def test_validator_detects_cross_split_near_duplicate_fingerprints():
     train = _record("train", "cat", "walking", "grass")
     iid = _record("iid", "dog", "running", "snow")

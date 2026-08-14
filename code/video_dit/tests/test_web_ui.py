@@ -1,4 +1,7 @@
 from pathlib import Path
+from types import SimpleNamespace
+
+import web_ui as target
 
 from web_ui import (
     PREVIEW_MODE,
@@ -50,6 +53,56 @@ def test_web_ui_cli_accepts_readme_positional_checkpoint():
     args = parse_args(["runs/faithful/video_dit.pt"])
 
     assert args.checkpoint == "runs/faithful/video_dit.pt"
+
+
+def test_text_latent_ui_accepts_free_text_and_frozen_dependencies(tmp_path, monkeypatch):
+    result = SimpleNamespace(
+        video_path=tmp_path / "result.mp4",
+        denoising_path=tmp_path / "denoise.gif",
+        metadata_path=tmp_path / "metadata.json",
+    )
+    for path in (result.video_path, result.denoising_path, result.metadata_path):
+        path.write_bytes(b"x")
+    engine = SimpleNamespace(
+        model=SimpleNamespace(config=SimpleNamespace(condition_mode="text_tokens")),
+        weights_name="ema", training_step=10000,
+        generate=lambda *args, **kwargs: result,
+    )
+    observed = {}
+    monkeypatch.setattr(
+        target, "load_ui_engine",
+        lambda checkpoint, **kwargs: observed.update(kwargs) or engine,
+    )
+
+    _, _, parsed, status, _ = run_ui_request(
+        mode=target.MODEL_MODE,
+        prompt="a kitten improvising with a toy indoors",
+        checkpoint_path="model.pt",
+        seed=17,
+        sampling_steps=50,
+        cfg_scale=2.5,
+        trajectory_frames=2,
+        fps=8,
+        output_dir=tmp_path,
+        device="cpu",
+        text_checkpoint=str(tmp_path / "clip.pt"),
+        vae_model="vae", vae_revision="revision",
+    )
+
+    assert parsed == {"text_prompt": "a kitten improvising with a toy indoors"}
+    assert observed["text_checkpoint"] == tmp_path / "clip.pt"
+    assert observed["vae_model"] == "vae" and observed["vae_revision"] == "revision"
+    assert "step 10000" in status
+
+
+def test_web_ui_cli_freezes_text_and_vae_dependencies():
+    args = parse_args([
+        "model.pt", "--text-checkpoint", "clip.pt", "--vae-model", "vae",
+        "--vae-revision", "revision",
+    ])
+
+    assert args.text_checkpoint == Path("clip.pt")
+    assert args.vae_model == "vae" and args.vae_revision == "revision"
 
 
 def test_ui_defaults_to_the_checkpoint_name_written_by_training():

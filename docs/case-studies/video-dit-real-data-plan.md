@@ -1826,3 +1826,86 @@ SHA-256 `c89bc31afa06f15fd9a3bf157b92f0f35c90ad9beeee4881beef2fddb8103b93`；v3 
 `cat×indoors=30/10`、`cat×playing=5/10`、`playing×indoors=10/10`。这轮确实关闭了一个 pair
 缺口，但 held triple 还差 34 个独立 groups，`cat×playing` 还差 5 个，故仍为 **0 eligible C1**。
 没有生成 split、没有启动正式训练，也不能据此回答 unseen compositional generalization。
+
+### 2026-08-14：Structured Data on Commons 的 cat-playing 严格负结果
+
+本轮把结构化审计的基线更新到当前 **1,135** 个规范 title；title 按 Unicode 升序、逐行写入并保留
+末尾换行后的 SHA-256 是 `13e97e60a8ec003bc4f5eb8c913fdfb6d711206025841f8ec238e288a40a1346`。
+只使用 Commons/Wikidata 的官方 Action API 数据，不把搜索排序、文件名或 category 命中当成动作真值。
+
+Commons 搜索谓词
+[`haswbstatement:P180=Q146 filetype:video`](https://commons.wikimedia.org/w/index.php?search=haswbstatement%3AP180%3DQ146+filetype%3Avideo&title=Special:MediaSearch&type=video)
+返回 **397** 个带 Structured Data on Commons `depicts: cat (Q146)` 的视频。逐个读取这 397 个
+MediaInfo entity 的全部 `P180` statements 后，共有 49 个不同的 depicts item；其中包括 kitten、
+drinking、grooming、sleeping、eating、yawn、interior space 和 outside，但没有
+[`playing (Q1150958)`](https://www.wikidata.org/wiki/Q1150958)。官方搜索中
+`P180=Q146 ∩ P180=Q1150958 ∩ filetype:video`、cat 与 `game (Q11410)`、cat 与
+`play and playthings (Q64893424)` 的交集也都为 **0**。这不是说 397 条视频中绝对没有玩耍，而是说明
+SDC 目前没有提供可据以补充 playing 标签的结构化正例；缺失 statement 不能反推负标签。
+
+相对 1,135-title 基线，397 条中只有以下 **8 个精确 title 差集**。page ID、原媒体 SHA-1 和许可均来自
+各文件页的 `imageinfo/extmetadata`；其中 Commons 对 public-domain 文件没有返回 `LicenseUrl`，所以它们
+还会触发当前非空 license URL 的 fail-closed 门禁。
+
+| SDC cat 视频差集 | page ID / 原媒体 SHA-1 / 许可 | 为什么不是新的 cat-playing 候选 |
+|---|---|---|
+| [`Cat birth 2.ogv`](https://commons.wikimedia.org/wiki/File:Cat_birth_2.ogv) | `1003409` / `d4d5174d8e9a53b20168115ed2618c97bbc2c885` / Public domain，API `LicenseUrl` 为空 | 官方 description 与类别都是猫分娩，并含猫和狗；不是 playing、不是单主体。 |
+| [`Black and white cat drinks from a puddle.ogv`](https://commons.wikimedia.org/wiki/File:Black_and_white_cat_drinks_from_a_puddle.ogv) | `11136217` / `843688c33f6ea3c7b94abf12818788b5ead25520` / Public domain，API `LicenseUrl` 为空 | 官方 description、`Videos of drinking cats` 类和 SDC `drinking` statement 一致，只证明 drinking。 |
+| [`Yawning kitten.ogv`](https://commons.wikimedia.org/wiki/File:Yawning_kitten.ogv) | `22623990` / `8418efa0bf0600ae8ba5043ad015c7537f5f3b32` / Public domain，API `LicenseUrl` 为空 | 官方 description、类别和 SDC statement 都是 yawn；不是 playing。 |
+| [`The boxing cats (Prof. Welton's).ogv`](https://commons.wikimedia.org/wiki/File:The_boxing_cats_(Prof._Welton%27s).ogv) | `23863226` / `6e68ef52e7e03d33fb9741dc6b1a30de1255a10a` / Public domain，API `LicenseUrl` 为空 | 官方页把它标为 1894 年 Edison/Library of Congress 的默片，标题是复数 cats；既没有 SDC playing statement，也不满足自然单猫、稳定两秒 playing 契约，不能把 staged boxing 重标为玩耍。 |
+| [`INTERNATIONALE KATTENTENTOONSTELLING IN DE DIERENTUIN-PGM4011556.webm`](https://commons.wikimedia.org/wiki/File:INTERNATIONALE_KATTENTENTOONSTELLING_IN_DE_DIERENTUIN-PGM4011556.webm) | `84558066` / `3ad6802c06b3f9865a969f2411e6594c79c046e7` / Public domain，API `LicenseUrl` 为空 | 官方 description 是 1939 年国际猫展，明确大量猫与参观者；多主体、历史剪辑，且没有 playing 证据。 |
+| [`Internationale kattententoonstelling.webm`](https://commons.wikimedia.org/wiki/File:Internationale_kattententoonstelling.webm) | `84580846` / `797054845be1c6071fb5d25fdd5d2a9104dffe61` / Public domain，API `LicenseUrl` 为空 | 官方 description 是 1948 年海牙猫展，类别含 cat show/grooming；多主体且不是 playing。 |
+| [`A male cat grooms a female kitten 2021-08-25 August 25.webm`](https://commons.wikimedia.org/wiki/File:A_male_cat_grooms_a_female_kitten_2021-08-25_August_25.webm) | `109487074` / `fe9330a761b094af2e6b9cee91b77a8eb2a45057` / Public domain，API `LicenseUrl` 为空 | 官方 description 与 `Videos of grooming cats` 类明确是两只猫 grooming；动作和单主体都不合格。 |
+| [`Reismand met kat die onraad ruikt en er zo snel mogelijk weer uit wil.ogg`](https://commons.wikimedia.org/wiki/File:Reismand_met_kat_die_onraad_ruikt_en_er_zo_snel_mogelijk_weer_uit_wil.ogg) | `153466011` / `72aaccdf470f9e6560a91a3f749bc5c35607af15` / CC BY-SA 4.0 / [`LicenseUrl`](https://creativecommons.org/licenses/by-sa/4.0) | 荷兰语官方 description 是猫在藤制旅行篮里并想尽快出去；SDC depicts 为 cat + pet carrier，没有 playing statement 或稳定玩耍动作证据。 |
+
+另用 Commons category namespace 对德、法、西、葡、荷、意、波、俄、乌、中、日、韩、土耳其语的
+“猫 + 玩耍”词形做官方 API 查找，没有发现一个独立于既有英文 category tree 的猫玩耍视频类。
+这与此前已经闭合的 `Videos of playing cats` 44 files、`Cat toys`、prey、Lotti/Finchen 系列结果一致；
+多语言词面不是新的 source tree，更不能绕过 page ID/SHA-1 差集。
+
+因此本轮是严格的 **0 个高置信新增 / 0 个可执行 pending**。八个差集命中都不写入 candidates，
+不改变 approved、groups、coverage 或 pilot split。当前权威状态仍为 **1,135 candidates / 127 approved /
+98 groups**，held `cat|playing|indoors=16/50`，训练 pairs 为 `cat×indoors=30/10`、
+`cat×playing=5/10`、`playing×indoors=10/10`，仍是 **0 eligible C1**。
+
+### 2026-08-14：预注册 low-coverage C1 pilot 已执行，结果失败
+
+按用户明确授权，在不把它冒充正式确认实验的前提下，用当前 provenance-locked 127-record v3
+manifest 启动了一次低 coverage 诊断。训练开始前，协议已经以 Git commit `536d0f9` 固化；其
+SHA-256 为 `5ace4b109ec353223c03ab631641dead334fdba5d9fb6bba621c26a0c53a4313`。确定性 split
+使用 seed `20260814`，得到 train/validation/IID/C1=`94/9/5/19`；held triple 的 16 个独立组，
+以及与它共享 source、显式 group 或 pHash Hamming≤4 的整个传递闭包都未进入训练。pilot 训练侧
+pair support 是 `cat×indoors=23`、`cat×playing=5`、`playing×indoors=8`，因此 spec 明确写入
+`evaluation_tier=pilot` 与 `confirmatory_gate.passes=false`。
+
+模型从零训练：KL-f8 latent `16×12×12`、patch 3、hidden 256、8 heads、4 组 spatial/temporal
+blocks、CLIP tokens-v2 cross-attention、velocity prediction，共 11,988,772 参数。固定训练
+10,000 updates、batch 8、lr `1e-4`、EMA `0.99`，耗时 2,267.9 秒。只使用预注册的 final
+step-10000 EMA checkpoint，SHA-256 为
+`25147a4cc6a273205c2acbaf303558872e0345cbd11c68bb1afa0417971b5db5`；first/last 500-step
+loss 均值从 `0.58087` 降到 `0.24438`。这证明优化确实推进，不证明自由生成成功。
+
+评估严格生成 12 prompts×4 seeds=`48/48`，DDIM-50、start 999、CFG 2.5；没有额外或缺失 MP4，
+也没有按结果挑 checkpoint、prompt、seed 或视频。两名彼此隔离的盲评员均完整检查 48×16 帧，
+但 48 项中只有 1 项三因子意见完全一致。把分歧按错误计算后：
+
+| split | samples | subject | action | scene | unanimous triple | Wilson 95% |
+|---|---:|---:|---:|---:|---:|---:|
+| IID | 20 | 0.0% | 5.0% | 55.0% | 0.0% | [0.0%, 16.11%] |
+| C1 | 28 | 7.14% | 0.0% | 28.57% | 0.0% | [0.0%, 12.06%] |
+
+预注册 full-grid strict derangement 还有一个设计缺陷：每个 seed 有 7 个同一 C1 factor triple、只有
+5 个 IID triples，所以 28-vs-20 的全网格一对一全异匹配在数学上不可能。揭盲器先 fail-closed；
+随后只对不看结果、按 factor 计数确定的最大平衡子集做严格 derangement，40 项纳入、8 个 C1 项明确
+排除。该子集 matched 与 deranged triple accuracy 都是 0%，gain=0。这是透明的 pilot 修补，不能
+反称原预注册控制已完整满足。独立 frozen CLIP 诊断同样失败：top-1 `14.58%`、shuffled `12.5%`、
+gain 仅 `2.08` 个百分点，mean margin `-0.01259`；最近训练视频相似度均值/最大为 `0.892/0.933`。
+对最高三组的逐帧联系表核查未见逐帧像素复制，但生成结果是强烈形变、碎片化拼贴，并吸附训练视频的
+宽泛动物/场景纹理。
+
+因此本 pilot 的结论是 **失败**：训练 loss 下降，但 IID 和 C1 的自由文本绑定都没有建立，不能把失败
+单独归因于 unseen composition。最合理的并列解释是：94 个训练 clips 对 11.99M from-scratch 模型过少；
+生成质量/容量与优化仍不足；`cat×playing=5`、`playing×indoors=8` 的 pair support 太弱。完整报告、
+损失抽样、确定性第一条生成 MP4 与最近邻图已跟踪在
+[`artifacts/video-dit/c1-pilot-v1/results/`](artifacts/video-dit/c1-pilot-v1/results/)。正式结论仍必须
+等待 held≥50、每个训练 pair≥10、零 source/event/near-duplicate 泄漏后重新预注册并从头执行。

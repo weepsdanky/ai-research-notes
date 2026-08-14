@@ -105,8 +105,8 @@ def test_freeze_model_requires_official_weight_and_eight_frames(tmp_path, monkey
 
 def test_xclip_scores_runs_forward_and_reverse_order():
     class Processor:
-        def __call__(self, *, text, videos, **kwargs):
-            return {"pixel_values": torch.tensor([[image.getpixel((0, 0))[0] for image in videos[0]]])}
+        def __call__(self, *, text, images, **kwargs):
+            return {"pixel_values": torch.tensor([[image.getpixel((0, 0))[0] for image in images]])}
     class Output:
         def __init__(self, logits): self.logits_per_video = logits
     class Model:
@@ -182,12 +182,13 @@ def test_report_binds_snapshots_and_is_never_training_ready(tmp_path):
         provenance_snapshot=provenance, upstream_snapshot=upstream,
         model_hashes={"model.safetensors": target.MODEL_FILE_SHA256["model.safetensors"]},
         positive=["positive"], negative=["negative"], device="cpu",
-        window_seconds=3.5, max_windows=4,
+        window_seconds=3.5, max_windows=4, transformers_version="4.57.6",
     )
     assert report["candidate_sha256"] == candidate.sha256
     assert report["upstream_report_sha256"] == upstream.sha256
     assert report["training_ready"] is False
     assert report["window_seconds"] == 3.5 and report["max_windows"] == 4
+    assert report["transformers_version"] == "4.57.6"
 
 
 def test_main_rejects_output_inside_model_or_cache_tree(tmp_path):
@@ -218,3 +219,33 @@ def test_lock_video_rejects_revision_drift_before_download(tmp_path, monkeypatch
     with pytest.raises(ValueError, match="changed"):
         target.lock_video(row, tmp_path, request_delay=0)
     assert not list(tmp_path.iterdir())
+
+
+def test_lock_video_samples_the_decodable_derivative_duration(tmp_path, monkeypatch):
+    row = {
+        "title": "File:Dog.webm", "duration_seconds": 12.0,
+        "original_media_sha1": "a" * 40,
+        "original_media_timestamp": "t",
+        "review_preview_url": "https://upload.wikimedia.org/dog.webm",
+    }
+    monkeypatch.setattr(target, "fetch_review_media", lambda title: {
+        "original_media_sha1": row["original_media_sha1"],
+        "original_media_timestamp": row["original_media_timestamp"],
+        "preview_url": row["review_preview_url"],
+    })
+    monkeypatch.setattr(
+        target, "download_derivative", lambda url, path: path.write_bytes(b"video"),
+    )
+    monkeypatch.setattr(target, "probe_video_duration", lambda path: 10.75)
+    observed = {}
+    monkeypatch.setattr(
+        target, "extract_temporal_windows",
+        lambda path, **kwargs: observed.update(kwargs) or [],
+    )
+
+    locked, windows = target.lock_video(row, tmp_path, request_delay=0)
+
+    assert windows == []
+    assert observed["duration"] == 10.75
+    assert locked.duration_seconds == 10.75
+    assert locked.source_duration_seconds == 12.0

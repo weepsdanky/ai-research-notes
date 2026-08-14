@@ -1,0 +1,105 @@
+{
+  "protocol": "low-coverage C1 pilot evidence v1",
+  "conclusion": "failed: neither IID nor C1 free generation passed the prompt-binding gate",
+  "claim_scope": "preliminary diagnostic only; not confirmatory unseen-composition evidence",
+  "preregistration": {
+    "git_commit": "536d0f9",
+    "sha256": "5ace4b109ec353223c03ab631641dead334fdba5d9fb6bba621c26a0c53a4313"
+  },
+  "data": {
+    "source_manifest_records": 127,
+    "source_groups": 98,
+    "training_manifest_sha256": "03be7e94b2916109d3ab132ef889e6cf2a5133f10c2940903e2d7b4d6fa18089",
+    "split_manifest_sha256": "53e7e3cd1de7ec3a3188f57a4dca77cdf4e32952d7f46e3d1e5259673d710b0c",
+    "split_report_sha256": "061cac391187fddb2d3bee4993ac599644a7f91f6247251e95a84467b8ab2221",
+    "split_counts": {"train": 94, "validation": 9, "iid": 5, "c1": 19},
+    "held_triple": "cat|playing|indoors",
+    "held_source_groups": 16,
+    "training_pair_source_groups": {
+      "cat|indoors": 23,
+      "cat|playing": 5,
+      "playing|indoors": 8
+    },
+    "confirmatory_gate": {
+      "required_held_groups": 50,
+      "required_each_training_pair": 10,
+      "passes": false
+    }
+  },
+  "training": {
+    "parameters": 11988772,
+    "optimizer_updates": 10000,
+    "elapsed_seconds": 2267.8752870829776,
+    "checkpoint_sha256": "25147a4cc6a273205c2acbaf303558872e0345cbd11c68bb1afa0417971b5db5",
+    "summary_sha256": "3c1137cde47d9c05fb56f997dabe09b83bd00ff22178cfae4eff663d03287aa1",
+    "full_step_log_sha256": "55f209657015c7b47f4eca67612d14a99f4a22c2d33edfcdb6f91f73a8037d80",
+    "first_500_loss_mean": 0.5808691284060479,
+    "last_500_loss_mean": 0.2443767713457346,
+    "final_loss": 0.2874685823917389,
+    "selection": "final step-10000 EMA only"
+  },
+  "generation": {
+    "evaluation_spec_sha256": "e1f13cbba0c73f8e3cc7a4f181ced580319b43d3451dd1c8897275d12ab401e9",
+    "grid": "12 prompts x 4 seeds = 48/48, no missing or extra records",
+    "sampling": "DDIM-50, start timestep 999, CFG 2.5",
+    "representative_policy": "the tracked MP4 is record 1 in the frozen inventory, not a quality-selected sample",
+    "representative_mp4_sha256": "ce25d6800a947e2ba582001d8eaae25df63e584dbc8a07caac5aa4ad2231f60f"
+  },
+  "two_rater_blind_evaluation": {
+    "report_sha256": "4908f6b6082d26af55e11aca7ffc8d48b6d04b7c945d54667eb46d3433d23483",
+    "raters": 2,
+    "complete_decisions_per_rater": 48,
+    "unanimous_records": 1,
+    "iid": {
+      "samples": 20,
+      "subject_accuracy": 0.0,
+      "action_accuracy": 0.05,
+      "scene_accuracy": 0.55,
+      "triple_accuracy": 0.0,
+      "triple_wilson95": [0.0, 0.16112515805281938]
+    },
+    "c1": {
+      "samples": 28,
+      "subject_accuracy": 0.07142857142857142,
+      "action_accuracy": 0.0,
+      "scene_accuracy": 0.2857142857142857,
+      "triple_accuracy": 0.0,
+      "triple_wilson95": [0.0, 0.12064330476584563]
+    },
+    "strict_factor_control": {
+      "status": "balanced deterministic subset because the preregistered 28-vs-20 full-grid derangement is mathematically impossible",
+      "samples": 40,
+      "excluded_c1_samples": 8,
+      "matched_triple_accuracy": 0.0,
+      "deranged_triple_accuracy": 0.0,
+      "gain": 0.0
+    }
+  },
+  "frozen_clip_diagnostic": {
+    "report_sha256": "a42c66dd1a87c67b5a4076e5e161380474f2920f2ef0fdce32dc889e5ca7fada",
+    "prompt_top1_accuracy": 0.14583333333333334,
+    "prompt_top1_wilson95": [0.07248249326603709, 0.27167176524746284],
+    "shuffled_prompt_top1_accuracy": 0.125,
+    "gain_over_shuffled": 0.020833333333333332,
+    "prompt_margin_mean": -0.012586632122596106,
+    "nearest_training_similarity_mean": 0.8923104691008726,
+    "nearest_training_similarity_max": 0.9332699775695801
+  },
+  "nearest_training_visual_audit": {
+    "policy": "inspect the three highest-similarity generated/training pairs",
+    "result": "no frame-identical copy observed; generated rows are severely fragmented collages with broad semantic/color attraction to training rows",
+    "contact_sheet_sha256": [
+      "75440f8bd59b823b525f7030d68d07a31e20b15c89a85f7c63f312db9e620d45",
+      "fff00e0cef44271730cc5a0a2f4c79dd7e344f4562cbe043eee6598e168a9bac",
+      "91dc723195025e061ff3e4e3388596e69ab0ecacb33265f8660aa85e797edbe2"
+    ]
+  },
+  "diagnosis": [
+    "Capacity/optimization: training loss fell substantially, but free generation remained fragmented and condition-insensitive.",
+    "Training/data scale: 94 training clips are insufficient for a 11.99M-parameter from-scratch text-to-video model.",
+    "Pair support: cat|playing has only 5 independent training groups and playing|indoors has 8, below the 10-group formal floor.",
+    "C1 support: the held triple has 16 independent groups, below the 50-group confirmatory floor."
+  ],
+  "training_ready": false,
+  "confirmatory_claim_ready": false
+}

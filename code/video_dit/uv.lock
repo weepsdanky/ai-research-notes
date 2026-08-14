@@ -558,7 +558,7 @@ wheels = [
 
 [[package]]
 name = "gradio"
-version = "6.24.0"
+version = "6.17.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -593,14 +593,14 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "uvicorn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/1c/f97a1dc890348b6cffb2714a45203eef3a65815d910d89b094b0a4a5b112/gradio-6.24.0.tar.gz", hash = "sha256:2072be0c0803da1859f918a45dc568fafc7b0eebd581943bee8acc78f752e166", size = 44575933, upload-time = "2026-08-12T22:51:40.625Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/27/c1/40e4fffb75a558481ed975c6a9571464403ed61af5c8af0329e5469fcfe0/gradio-6.17.3.tar.gz", hash = "sha256:3822c3ac3e2a5fcbde7821cf6437a01c88592e484efd5f4cd369581b0ce258fb", size = 48557999, upload-time = "2026-06-07T22:05:25.645Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/52/6b/cc8f41dd9bd4fe6efae80e87b4cb91df681e2d7b71cb83765f129fcdf54f/gradio-6.24.0-py3-none-any.whl", hash = "sha256:0a7c97c07ef0facecb86d776c73c0124b3f9803a828e09ea1737ad12219cabb5", size = 30725600, upload-time = "2026-08-12T22:51:36.594Z" },
+    { url = "https://files.pythonhosted.org/packages/28/c9/e179c9b3211b34e139e0998e835dd15fd2fcdd4a18cd99449e3c4600e260/gradio-6.17.3-py3-none-any.whl", hash = "sha256:7e52c65bfbb7bd75ac1c28cb38f93b01e5f6a2ff013224e6213533451bfee517", size = 32329363, upload-time = "2026-06-07T22:05:21.759Z" },
 ]
 
 [[package]]
 name = "gradio-client"
-version = "2.6.0"
+version = "2.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
@@ -609,9 +609,9 @@ dependencies = [
     { name = "packaging" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d6/a2/09b994dca27f17ffc0fdd33ee34f1f455a2ac5eec298499d0c21ebb6d918/gradio_client-2.6.0.tar.gz", hash = "sha256:e648110efa31347bb8b1abda150a7a975b40a9658fdd8562803e2ad6a300d033", size = 60674, upload-time = "2026-07-29T19:39:50.915Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/e6/6b6029f5fe2ad7f1211105d530e34d991014c2cae463f9223033031cfc4f/gradio_client-2.5.0.tar.gz", hash = "sha256:4cde99bad62149595c30c90876ca2e405e3a13687ecf895474f3412cb476673d", size = 59013, upload-time = "2026-04-20T23:16:21.518Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/29/80957aef2f107e5357cb3d8d5d07f40302962c9b829f9e8f970b80bec502/gradio_client-2.6.0-py3-none-any.whl", hash = "sha256:4493a6425560dd23d1eb5427a13290819135c664c5ed9f184eb517b1ea263291", size = 61654, upload-time = "2026-07-29T19:39:49.788Z" },
+    { url = "https://files.pythonhosted.org/packages/78/81/0a861b8e1ff42960139c6cd4c7dd591292fa09ea1ae2d87677441cba4c00/gradio_client-2.5.0-py3-none-any.whl", hash = "sha256:d43e2179c29076292a76485ad7ed2e6eaa19d14ac58283bd7f5beabfe4ca958c", size = 59952, upload-time = "2026-04-20T23:16:20.186Z" },
 ]
 
 [[package]]
@@ -699,22 +699,21 @@ wheels = [
 
 [[package]]
 name = "huggingface-hub"
-version = "1.27.0"
+version = "0.36.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "click" },
     { name = "filelock" },
     { name = "fsspec" },
-    { name = "hf-xet", marker = "platform_machine == 'AMD64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64'" },
-    { name = "httpx" },
+    { name = "hf-xet", marker = "platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64'" },
     { name = "packaging" },
     { name = "pyyaml" },
+    { name = "requests" },
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3e/9b/ddf3d02a8681f1b9ce52fda03d755dad6b74c4f8172304c4c8d2975450f9/huggingface_hub-1.27.0.tar.gz", hash = "sha256:c1fed40ea82a6b41b477f5243546549b792ae0a93abcea608cff66089bf8f8df", size = 942668, upload-time = "2026-08-07T12:48:05.161Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7c/b7/8cb61d2eece5fb05a83271da168186721c450eb74e3c31f7ef3169fa475b/huggingface_hub-0.36.2.tar.gz", hash = "sha256:1934304d2fb224f8afa3b87007d58501acfda9215b334eed53072dd5e815ff7a", size = 649782, upload-time = "2026-02-06T09:24:13.098Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/d8/95b735e183957c1f26d94c52977f09d466d55119cbbc1558ea4975e4c216/huggingface_hub-1.27.0-py3-none-any.whl", hash = "sha256:7df6827c2f956c60fbaa64646e979e566db76f619dd0a9729dfb8c5a3eb4f68d", size = 784926, upload-time = "2026-08-07T12:48:02.905Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/af/48ac8483240de756d2438c380746e7130d1c6f75802ef22f3c6d49982787/huggingface_hub-0.36.2-py3-none-any.whl", hash = "sha256:48f0c8eac16145dfce371e9d2d7772854a4f591bcb56c9cf548accf531d54270", size = 566395, upload-time = "2026-02-06T09:24:11.133Z" },
 ]
 
 [[package]]
@@ -2149,6 +2148,36 @@ wheels = [
 ]
 
 [[package]]
+name = "tokenizers"
+version = "0.22.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "huggingface-hub" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/73/6f/f80cfef4a312e1fb34baf7d85c72d4411afde10978d4657f8cdd811d3ccc/tokenizers-0.22.2.tar.gz", hash = "sha256:473b83b915e547aa366d1eee11806deaf419e17be16310ac0a14077f1e28f917", size = 372115, upload-time = "2026-01-05T10:45:15.988Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/92/97/5dbfabf04c7e348e655e907ed27913e03db0923abb5dfdd120d7b25630e1/tokenizers-0.22.2-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:544dd704ae7238755d790de45ba8da072e9af3eea688f698b137915ae959281c", size = 3100275, upload-time = "2026-01-05T10:41:02.158Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/47/174dca0502ef88b28f1c9e06b73ce33500eedfac7a7692108aec220464e7/tokenizers-0.22.2-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:1e418a55456beedca4621dbab65a318981467a2b188e982a23e117f115ce5001", size = 2981472, upload-time = "2026-01-05T10:41:00.276Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/84/7990e799f1309a8b87af6b948f31edaa12a3ed22d11b352eaf4f4b2e5753/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2249487018adec45d6e3554c71d46eb39fa8ea67156c640f7513eb26f318cec7", size = 3290736, upload-time = "2026-01-05T10:40:32.165Z" },
+    { url = "https://files.pythonhosted.org/packages/78/59/09d0d9ba94dcd5f4f1368d4858d24546b4bdc0231c2354aa31d6199f0399/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:25b85325d0815e86e0bac263506dd114578953b7b53d7de09a6485e4a160a7dd", size = 3168835, upload-time = "2026-01-05T10:40:38.847Z" },
+    { url = "https://files.pythonhosted.org/packages/47/50/b3ebb4243e7160bda8d34b731e54dd8ab8b133e50775872e7a434e524c28/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:bfb88f22a209ff7b40a576d5324bf8286b519d7358663db21d6246fb17eea2d5", size = 3521673, upload-time = "2026-01-05T10:40:56.614Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/fa/89f4cb9e08df770b57adb96f8cbb7e22695a4cb6c2bd5f0c4f0ebcf33b66/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:1c774b1276f71e1ef716e5486f21e76333464f47bece56bbd554485982a9e03e", size = 3724818, upload-time = "2026-01-05T10:40:44.507Z" },
+    { url = "https://files.pythonhosted.org/packages/64/04/ca2363f0bfbe3b3d36e95bf67e56a4c88c8e3362b658e616d1ac185d47f2/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:df6c4265b289083bf710dff49bc51ef252f9d5be33a45ee2bed151114a56207b", size = 3379195, upload-time = "2026-01-05T10:40:51.139Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/76/932be4b50ef6ccedf9d3c6639b056a967a86258c6d9200643f01269211ca/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:369cc9fc8cc10cb24143873a0d95438bb8ee257bb80c71989e3ee290e8d72c67", size = 3274982, upload-time = "2026-01-05T10:40:58.331Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/28/5f9f5a4cc211b69e89420980e483831bcc29dade307955cc9dc858a40f01/tokenizers-0.22.2-cp39-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:29c30b83d8dcd061078b05ae0cb94d3c710555fbb44861139f9f83dcca3dc3e4", size = 9478245, upload-time = "2026-01-05T10:41:04.053Z" },
+    { url = "https://files.pythonhosted.org/packages/6c/fb/66e2da4704d6aadebf8cb39f1d6d1957df667ab24cff2326b77cda0dcb85/tokenizers-0.22.2-cp39-abi3-musllinux_1_2_armv7l.whl", hash = "sha256:37ae80a28c1d3265bb1f22464c856bd23c02a05bb211e56d0c5301a435be6c1a", size = 9560069, upload-time = "2026-01-05T10:45:10.673Z" },
+    { url = "https://files.pythonhosted.org/packages/16/04/fed398b05caa87ce9b1a1bb5166645e38196081b225059a6edaff6440fac/tokenizers-0.22.2-cp39-abi3-musllinux_1_2_i686.whl", hash = "sha256:791135ee325f2336f498590eb2f11dc5c295232f288e75c99a36c5dbce63088a", size = 9899263, upload-time = "2026-01-05T10:45:12.559Z" },
+    { url = "https://files.pythonhosted.org/packages/05/a1/d62dfe7376beaaf1394917e0f8e93ee5f67fea8fcf4107501db35996586b/tokenizers-0.22.2-cp39-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:38337540fbbddff8e999d59970f3c6f35a82de10053206a7562f1ea02d046fa5", size = 10033429, upload-time = "2026-01-05T10:45:14.333Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/18/a545c4ea42af3df6effd7d13d250ba77a0a86fb20393143bbb9a92e434d4/tokenizers-0.22.2-cp39-abi3-win32.whl", hash = "sha256:a6bf3f88c554a2b653af81f3204491c818ae2ac6fbc09e76ef4773351292bc92", size = 2502363, upload-time = "2026-01-05T10:45:20.593Z" },
+    { url = "https://files.pythonhosted.org/packages/65/71/0670843133a43d43070abeb1949abfdef12a86d490bea9cd9e18e37c5ff7/tokenizers-0.22.2-cp39-abi3-win_amd64.whl", hash = "sha256:c9ea31edff2968b44a88f97d784c2f16dc0729b8b143ed004699ebca91f05c48", size = 2747786, upload-time = "2026-01-05T10:45:18.411Z" },
+    { url = "https://files.pythonhosted.org/packages/72/f4/0de46cfa12cdcbcd464cc59fde36912af405696f687e53a091fb432f694c/tokenizers-0.22.2-cp39-abi3-win_arm64.whl", hash = "sha256:9ce725d22864a1e965217204946f830c37876eee3b2ba6fc6255e8e903d5fcbc", size = 2612133, upload-time = "2026-01-05T10:45:17.232Z" },
+    { url = "https://files.pythonhosted.org/packages/84/04/655b79dbcc9b3ac5f1479f18e931a344af67e5b7d3b251d2dcdcd7558592/tokenizers-0.22.2-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:753d47ebd4542742ef9261d9da92cd545b2cacbb48349a1225466745bb866ec4", size = 3282301, upload-time = "2026-01-05T10:40:34.858Z" },
+    { url = "https://files.pythonhosted.org/packages/46/cd/e4851401f3d8f6f45d8480262ab6a5c8cb9c4302a790a35aa14eeed6d2fd/tokenizers-0.22.2-pp310-pypy310_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:e10bf9113d209be7cd046d40fbabbaf3278ff6d18eb4da4c500443185dc1896c", size = 3161308, upload-time = "2026-01-05T10:40:40.737Z" },
+    { url = "https://files.pythonhosted.org/packages/6f/6e/55553992a89982cd12d4a66dddb5e02126c58677ea3931efcbe601d419db/tokenizers-0.22.2-pp310-pypy310_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:64d94e84f6660764e64e7e0b22baa72f6cd942279fdbb21d46abd70d179f0195", size = 3718964, upload-time = "2026-01-05T10:40:46.56Z" },
+    { url = "https://files.pythonhosted.org/packages/59/8c/b1c87148aa15e099243ec9f0cf9d0e970cc2234c3257d558c25a2c5304e6/tokenizers-0.22.2-pp310-pypy310_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:f01a9c019878532f98927d2bacb79bbb404b43d3437455522a00a30718cdedb5", size = 3373542, upload-time = "2026-01-05T10:40:52.803Z" },
+]
+
+[[package]]
 name = "tomli"
 version = "2.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2310,6 +2339,29 @@ wheels = [
 ]
 
 [[package]]
+name = "transformers"
+version = "4.57.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "filelock" },
+    { name = "huggingface-hub" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "packaging" },
+    { name = "pyyaml" },
+    { name = "regex" },
+    { name = "requests" },
+    { name = "safetensors" },
+    { name = "tokenizers" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c4/35/67252acc1b929dc88b6602e8c4a982e64f31e733b804c14bc24b47da35e6/transformers-4.57.6.tar.gz", hash = "sha256:55e44126ece9dc0a291521b7e5492b572e6ef2766338a610b9ab5afbb70689d3", size = 10134912, upload-time = "2026-01-16T10:38:39.284Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/03/b8/e484ef633af3887baeeb4b6ad12743363af7cce68ae51e938e00aaa0529d/transformers-4.57.6-py3-none-any.whl", hash = "sha256:4c9e9de11333ddfe5114bc872c9f370509198acf0b87a832a0ab9458e2bd0550", size = 11993498, upload-time = "2026-01-16T10:38:31.289Z" },
+]
+
+[[package]]
 name = "triton"
 version = "3.7.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2418,6 +2470,9 @@ dependencies = [
 dev = [
     { name = "pytest" },
 ]
+temporal = [
+    { name = "transformers" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -2431,8 +2486,9 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "safetensors", specifier = ">=0.4" },
     { name = "torch", specifier = ">=2.0" },
+    { name = "transformers", marker = "extra == 'temporal'", specifier = "==4.57.6" },
 ]
-provides-extras = ["dev"]
+provides-extras = ["dev", "temporal"]
 
 [[package]]
 name = "wcwidth"

@@ -290,7 +290,8 @@ def split_manifest(
 
     materialized = list(records)
     assigned: list[RealVideoRecord | None] = [None] * len(materialized)
-    for members in _Groups(materialized, policy.near_duplicate_hamming).members():
+    grouped_members = _Groups(materialized, policy.near_duplicate_hamming).members()
+    for members in grouped_members:
         group = [materialized[index] for index in members]
         c1_matches = [record.triple in policy.c1_triples for record in group]
         if any(c1_matches) and not all(c1_matches):
@@ -321,6 +322,28 @@ def split_manifest(
                 split = "train"
         for index in members:
             assigned[index] = replace(materialized[index], split=split)
+    # IID measures the same data distribution as training. If deterministic
+    # hashing sends every independent group for a rare triple to IID, reserve
+    # the first such whole group for training instead of emitting an invalid
+    # split that validate_split must reject.
+    train_triples = {
+        record.triple for record in assigned
+        if record is not None and record.split == "train"
+    }
+    ordered_groups = sorted(
+        grouped_members,
+        key=lambda members: min(materialized[index].sample_id for index in members),
+    )
+    for members in ordered_groups:
+        group = [assigned[index] for index in members]
+        if not group or any(record is None or record.split != "iid" for record in group):
+            continue
+        triples = {record.triple for record in group if record is not None}
+        if triples <= train_triples:
+            continue
+        for index in members:
+            assigned[index] = replace(materialized[index], split="train")
+        train_triples.update(triples)
     return [record for record in assigned if record is not None]
 
 
