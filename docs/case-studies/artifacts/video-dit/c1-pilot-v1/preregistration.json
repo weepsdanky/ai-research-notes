@@ -1,0 +1,95 @@
+{
+  "protocol": "preregistered low-coverage C1 pilot v1",
+  "created_at_utc": "2026-08-14T13:08:38Z",
+  "purpose": "Diagnose conditional binding, collapse, and memorization below the confirmatory data gate; success is preliminary evidence only.",
+  "data": {
+    "source_manifest_sha256": "fa500e664f2c8518c87085c469f8199c52de6f9e84a79db08b9c7a3fa115242c",
+    "split_manifest_sha256": "53e7e3cd1de7ec3a3188f57a4dca77cdf4e32952d7f46e3d1e5259673d710b0c",
+    "split_report_sha256": "061cac391187fddb2d3bee4993ac599644a7f91f6247251e95a84467b8ab2221",
+    "training_manifest_sha256": "03be7e94b2916109d3ab132ef889e6cf2a5133f10c2940903e2d7b4d6fa18089",
+    "split_seed": 20260814,
+    "held_c1_triple": ["cat", "playing", "indoors"],
+    "counts": {"train": 94, "validation": 9, "iid": 5, "c1": 19},
+    "independent_c1_source_groups": 16,
+    "near_duplicate_hamming": 4,
+    "train_pair_source_groups": {
+      "cat|indoors": 23,
+      "cat|playing": 5,
+      "playing|indoors": 8
+    },
+    "leakage_rule": "The held triple and every transitive source_id, duplicate_group, and pHash<=4 group containing it are excluded from training."
+  },
+  "model": {
+    "initialization": "from scratch",
+    "mode": "faithful",
+    "space": "latent",
+    "frames": 16,
+    "latent_size": 12,
+    "latent_channels": 4,
+    "patch_size": 3,
+    "hidden_size": 256,
+    "num_heads": 8,
+    "num_spatial_temporal_pairs": 4,
+    "mlp_ratio": 4.0,
+    "text_conditioning": "tokens-v2 cross-attention",
+    "text_embedding_size": 512,
+    "condition_dropout_prob": 0.1,
+    "prediction_type": "velocity",
+    "learn_sigma": false,
+    "diffusion_timesteps": 1000
+  },
+  "training": {
+    "seed": 20260814,
+    "optimizer_updates": 10000,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "ema_decay": 0.99,
+    "horizontal_flip_probability": 0.0,
+    "timestep_sampling": "uniform",
+    "checkpoint_every": 1000,
+    "selection_rule": "Use only the final step-10000 EMA inference checkpoint; do not select by loss, samples, or evaluation videos."
+  },
+  "generation": {
+    "weights": "ema",
+    "sampling_steps": 50,
+    "start_timestep": 999,
+    "cfg_scale": 2.5,
+    "seeds": [17, 29, 43, 61],
+    "iid_prompts": [
+      "a black cat drinking water indoors",
+      "a cat scratching indoors",
+      "a cat sitting indoors",
+      "a cat sitting on a chair indoors",
+      "a dog standing in a sink indoors"
+    ],
+    "c1_prompts": [
+      "a cat chasing a shadow indoors",
+      "a cat playing indoors",
+      "a cat playing with a laser pointer indoors",
+      "a cat playing with a straw indoors",
+      "a cat playing with a toy lizard indoors",
+      "a cat playing with a toy mouse indoors",
+      "a kitten playing indoors"
+    ],
+    "required_grid": "Every listed prompt crossed with every listed seed exactly once; no extra or missing generation may enter evaluation.",
+    "blind_shuffle_seed": 20260814
+  },
+  "evaluation": {
+    "required": [
+      "IID and C1 subject/action/scene accuracy",
+      "IID and C1 unanimous full-triple accuracy with Wilson 95% intervals",
+      "factor-triple deranged prompt control",
+      "two independent complete prompt-hidden human reviews",
+      "training-video nearest-neighbor audit"
+    ],
+    "confirmatory_gate": {
+      "required_c1_source_groups": 50,
+      "required_train_pair_source_groups": 10,
+      "passes_now": false
+    }
+  },
+  "training_ready": true,
+  "confirmatory_claim_ready": false
+}
