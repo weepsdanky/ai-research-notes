@@ -1,0 +1,98 @@
+{
+  "protocol": "preregistered current-provenance C1 pilot v2",
+  "created_at_utc": "2026-08-14T16:44:47Z",
+  "purpose": "Diagnose conditional binding, collapse, and memorization on the current provenance-locked dataset below the held-50 confirmatory gate; success is preliminary evidence only.",
+  "data": {
+    "source_manifest_sha256": "a9537b79b2dde8a8b26f2ff32e4fe06c5a074073ef0f166a3da8972646231142",
+    "split_manifest_sha256": "b9f4e809877cc1d9bf559142d2bdd64ef4ecb215f0428b27b655a6d0b70d460d",
+    "split_report_sha256": "0285e138085fd2e1c0f50cd31340b6e39ac1da6640ddfab3a7bc98570f0c9f77",
+    "training_source_manifest_sha256": "f63fb011b7b5da556403ada6d7e8cbaba7ba9ce122121d7f36dc80113d1ddabf",
+    "training_manifest_sha256": "1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed",
+    "split_seed": 20260825,
+    "split_seed_selection_rule": "Before training or generation, choose the smallest integer seed at or above 20260815 under iid_fraction=0.10 and validation_fraction=0.05 that retains at least five IID records and all currently available cat-playing=6 and playing-indoors=10 non-held training groups; the first passing seed is 20260825.",
+    "held_c1_triple": ["cat", "playing", "indoors"],
+    "counts": {"train": 101, "validation": 2, "iid": 6, "c1": 23},
+    "independent_c1_source_groups": 20,
+    "near_duplicate_hamming": 4,
+    "train_pair_source_groups": {
+      "cat|indoors": 23,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    },
+    "leakage_rule": "The held triple and every transitive source_id, duplicate_group, and pHash<=4 group containing it are excluded from training."
+  },
+  "model": {
+    "initialization": "from scratch",
+    "mode": "faithful",
+    "space": "latent",
+    "frames": 16,
+    "latent_size": 12,
+    "latent_channels": 4,
+    "patch_size": 3,
+    "hidden_size": 256,
+    "num_heads": 8,
+    "num_spatial_temporal_pairs": 4,
+    "mlp_ratio": 4.0,
+    "text_conditioning": "tokens-v2 cross-attention",
+    "text_embedding_size": 512,
+    "condition_dropout_prob": 0.1,
+    "prediction_type": "velocity",
+    "learn_sigma": false,
+    "diffusion_timesteps": 1000
+  },
+  "training": {
+    "seed": 20260825,
+    "optimizer_updates": 10000,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "ema_decay": 0.99,
+    "horizontal_flip_probability": 0.0,
+    "timestep_sampling": "uniform",
+    "checkpoint_every": 1000,
+    "selection_rule": "Use only the final step-10000 EMA inference checkpoint; do not select by loss, samples, or evaluation videos."
+  },
+  "generation": {
+    "weights": "ema",
+    "sampling_steps": 50,
+    "start_timestep": 999,
+    "cfg_scale": 2.5,
+    "seeds": [17, 29, 43, 61],
+    "iid_prompts": [
+      "a cat scratching fabric indoors",
+      "a cat scratching indoors",
+      "a cat sitting by a window indoors",
+      "a cat sitting inside a bag indoors",
+      "a cat sitting on a chair indoors",
+      "a cat walking outdoors"
+    ],
+    "c1_prompts": [
+      "a cat chasing a shadow indoors",
+      "a cat playing indoors",
+      "a cat playing with a laser pointer indoors",
+      "a cat playing with a straw indoors",
+      "a cat playing with a toy lizard indoors",
+      "a cat playing with a toy mouse indoors",
+      "a kitten playing indoors"
+    ],
+    "required_grid": "Every listed prompt crossed with every listed seed exactly once, for 13x4=52 videos; no extra or missing generation may enter evaluation.",
+    "blind_shuffle_seed": 20260825
+  },
+  "evaluation": {
+    "required": [
+      "IID and C1 subject/action/scene accuracy",
+      "IID and C1 unanimous full-triple accuracy with Wilson 95% intervals",
+      "factor-triple deranged prompt control",
+      "two independent complete prompt-hidden human reviews",
+      "training-video nearest-neighbor audit"
+    ],
+    "confirmatory_gate": {
+      "required_c1_source_groups": 50,
+      "required_train_pair_source_groups": 10,
+      "passes_now": false
+    }
+  },
+  "training_ready": true,
+  "confirmatory_claim_ready": false
+}
