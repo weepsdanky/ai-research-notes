@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 124 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 127 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 124 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,132 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
+从现有 127 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,135 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -1732,3 +1732,97 @@ CC BY-SA 3.0 NL 文件：Arie Bos 与 J. Heilbron。H.J. Robijns 文件页只有
 候选、媒体 manifest、两条本地媒体 SHA-256 与三张审核联系表的哈希由
 [`archive-pair-pilot-v3/evidence.json`](artifacts/video-dit/archive-pair-pilot-v3/evidence.json)
 绑定。该 pilot 没有写入 Commons manifest、没有改变 coverage，也没有触发训练。
+
+### 2026-08-14：下一条可执行路线——三个独立日期的单人室内 bowling pending
+
+本轮先锁当前 **1,132 candidates / 124 approved / 95 groups** 的规范 title 集合；按 Unicode title
+升序、每行一个 title 且保留末尾换行的 UTF-8 列表 SHA-256 为
+`9914f8391b183dfde64442a0d850ba09c305f5a57d6d5a3f389ced4df566ea62`。所有差集均相对这一快照，
+搜索或分类成员只作召回，不作标签或批准决定。
+
+cat 路线先做结构化负查，避免重复此前 44-file playing-cat 类和宽全文查询。Commons Action API 的
+`Playing cats ∩ Outdoor cats`、`Playing cats ∩ Cats on grass`、`Cats with toys`、
+`Cats and balls`、`Cats and catnip toys`、`Cats and stuffed animals` 的视频交集均为 0；
+`Playing kittens` 唯一视频、`Cats playing with their prey` 两个视频都已经在 1,132-row 池中。
+`Cat toys` 的 16 个视频也全部是池内已审核的 Finchen/Lotti 系列或 `round track toy`；
+`Cats on grass` 的两个视频正是已经全长拒绝的 Lotti lying/sitting 片段。因此这些官方分类的高置信
+**cat-playing 新 title 差集为 0**，不能通过换一个类别名重复膨胀 source groups。
+
+接着审计未在旧计划中穷尽的 Commons 官方
+[`Videos of bowling`](https://commons.wikimedia.org/wiki/Category:Videos_of_bowling)。其 16 个直属视频
+相对 1,132-title 集合的精确差集为 **16/16**。公共领域老片继续受当前非空 `license_url` 门禁约束；
+球道机器、空球道、第一视角和只见手/球的文件不能标为 person。对剩余具名成年运动员视频读取
+Action API 的 page ID、原媒体 SHA-1、许可、作者、日期和 description，并直接审核官方原视频完整
+2 fps 联系表。下面三条在不依赖标题猜测的情况下，同时具备单一成年主体、完整投球动作和明确室内
+球道；它们最适合作为下一批 exact import 的 `pending/review_required`：
+
+| pending 文件 | 官方固定身份与许可 | 原视频证据与 source/session 边界 |
+|---|---|---|
+| [`20220715 Kyle Troup two-handed bowling delivery.webm`](https://commons.wikimedia.org/wiki/File:20220715_Kyle_Troup_two-handed_bowling_delivery.webm) | page ID `120676309`；SHA-1 `651d94c548394b53458746f871cb879d2cc5ff16`；3,881,121 bytes；CC BY-SA 4.0；artist `RCraig09`；官方日期 2022-07-15 | 官方 description 明确 Kyle Troup 在 Delaware Mid-County Lanes 的 pro-am 做 two-handed delivery；完整 2 fps 联系表只有一名运动员且大部分背对镜头，投球从助跑到随挥连续，室内球道无歧义。只能 pending；选择两秒窗口时仍须排除脸部转向、其他参赛者进入和剪辑。 |
+| [`20230630 Backup ball two-handed delivery - Eric Jones.webm`](https://commons.wikimedia.org/wiki/File:20230630_Backup_ball_two-handed_delivery_-_Eric_Jones.webm) | page ID `133882229`；SHA-1 `11d415ee95d53b33e6096aa385326a634ebf7445`；1,665,536 bytes；CC BY-SA 4.0；artist `RCraig09`；官方日期 2023-06-30 | 官方 description 明确 Eric Jones 在同一球馆另一场 pro-am 投出 backup ball，并说明原片已剪到 relevant content；完整联系表是单人背向镜头的连续投球。它与 2022 视频同 uploader/venue，但日期、运动员和赛事 session 不同；仍须媒体 pHash/镜头重叠审核后才能声明独立 group。 |
+| [`20240226 François Lavoie.webm`](https://commons.wikimedia.org/wiki/File:20240226_Fran%C3%A7ois_Lavoie.webm) | page ID `146021730`；SHA-1 `48469e533a318757ac60f771875c909bc2545415`；3,918,130 bytes；CC BY-SA 4.0；artist `RCraig09`；官方日期 2024-02-26 | 官方 description 明确 François Lavoie 在同一 Delaware 球馆的 pro-am；完整联系表显示投球阶段是一名成年人、室内球道和持续动作，但结尾本人转脸且邻道出现局部人物。只能从前段选无脸、无旁观者的密集两秒窗口，否则 reject。 |
+
+这三条不是三条已证明的独立 groups。预注册 grouping 应先按
+`RCraig09 + Mid-County Lanes + capture date/event` 建 session key：三个日期暂为三个 provisional sessions；
+同日的其他运动员文件（例如 2019-08-18 两条、2024-06-21 两条）必须各自合并为一个 session，不能按
+运动员或文件数拆组。同一场馆背景会导致高视觉相似，必须在规范化前同时跑时间 pHash、embedding、
+相邻帧和拍摄机位复核；若无法排除同一长录像的切片关系，就继续合并。CC BY-SA 4.0 是版权许可，
+不等于人物 release；三人是官方 description 具名的成年职业运动员、处于公开 pro-am 场景且候选窗口
+尽量不显示脸，这只降低而不消除人格权风险。任何儿童、清晰旁观者或正脸窗口继续 fail-closed。
+
+可执行顺序为：exact import 三个规范 title并锁 page revision/SHA-1/LicenseUrl/attribution；生成完整联系表
+与至少三个两秒候选窗口；先做人物权利和单主体审核，再做 action/scene 审核；最后做跨三条及与现有
+124 clips 的 source/pHash 闭包。只有全部通过才可使 `playing×indoors` 从 7 最多增到 10；现在仍是
+训练 pairs `cat×indoors=30`、`cat×playing=5`、`playing×indoors=7`，held
+`cat|playing|indoors=16/50`，**0 eligible C1**，不得启动正式训练。
+
+### 2026-08-14：标准视频数据集的媒体权利与 source-group 审计
+
+这次只接受数据集维护方的下载页、许可、schema 或官方仓库作为证据，并把三个条件分开检查：媒体是否
+明确获准用于本项目的训练且能否再分发；是否有稳定 media ID；是否公开了足以合并同一作者、参与者或
+拍摄 session 的 group ID。代码仓库的开源许可不自动覆盖视频，annotation 的许可也不自动覆盖底层媒体。
+结论是：这些标准集里没有一个可以在不接受额外协议、不补 grouping 或不改变目标语义的情况下，直接
+并入当前可再分发的 Commons manifest。
+
+| 数据集 | 官方权利与身份事实 | source/session 闭包与本任务结论 |
+|---|---|---|
+| [Ego4D](https://ego4d-data.org/docs/start-here/)（[metadata schema](https://ego4d-data.org/docs/data/metadata/)、[videos](https://ego4d-data.org/docs/data/videos/)、[data-license PDF](https://ego4d-data.org/pdfs/Ego4D-Licenses-Draft.pdf)） | 官方要求先审阅并签署 data license，凭证经批准后发放且约 14 天失效；协议是不可转让、不可再许可的受限使用权，不是逐媒体 CC 许可。master metadata 有稳定 `video_uid`，并公开 `origin_video_id`、`video_source`、`fb_participant_id`、`video_component_uid`、`concurrent_video_set_id` 和 `physical_setting_name`；canonical clip 还能回溯 `clip_uid → video_uid`。 | **唯一仍值得执行的受限 annotation-first pilot**。group key 至少以 participant 为闭包，再用 origin video、concurrent set、physical setting 与时间连续性继续合并，不能按 clip 数计独立来源。只有实际使用者保存当时签署的协议/receipt，并确认本地非商业生成训练及 checkpoint 条款后，才能按前文 exact-version gate 下载；媒体、派生 clip 和 checkpoint 均不得默认公开。它仍只是候选发现路线，不证明含 cat/dog playing 或 indoor。 |
+| [Charades](https://prior.allenai.org/projects/charades)（[README/schema](https://prior.allenai.org/projects/data/charades/README.txt)、[license](https://prior.allenai.org/projects/data/charades/license.txt)） | 官方许可允许 academic/non-profit/government research 和 evaluation，但明确禁止修改后公开数据及向第三方分发；只允许论文所需短片段或静帧。CSV 同时给稳定 video `id`、唯一 `subject` ID、15 类 indoor `scene`、script/descriptions 和时间 action，因此按 `subject` 合并可以闭合“同一演员多视频”泄漏。 | **provenance 最完整，但目标语义仍不成立**。官方 action vocabulary 中的 play 是 phone/camera 或 laptop，不是本计划的 generic playing，更没有 cat/dog；不能为补 `playing×indoors` 把词面命中重标。可作独立的 person-indoor 方法学对照，但不能并入当前三元组门禁，也不能发布其派生媒体包。 |
+| [Something-Something V2](https://www.qualcomm.com/developer/software/something-something-v-2-dataset)（[research-use agreement](https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/jester_something_something_exercise_research_license_final_qti_28jul2022.pdf)） | 官方给 1–220847 的稳定视频编号和 train/val/test annotation；许可只授予内部、非营利 Research Use 的处理权，禁止发布、分发、转让或向第三方披露数据，并明确不保证众包内容的隐私、公开形象或第三方知识产权。 | 官网只报告由大量 crowd actors 创建，公开 annotation/download schema 没有逐视频 actor/uploader/session ID；数字 video ID 不能当 source group。主体又是手与日常物品，scene 也未形成可审计的 indoor/outdoor 标签。**权利受限、grouping 缺失、语义不匹配，排除。** |
+| [AVA / AVA-Kinetics](https://sites.research.google/gr/ava/download/) | 官方 CSV 有稳定 YouTube `video_id`、timestamp、person box、action ID，以及仅用于相邻帧关联同一人的 `person_id`；下载页把其列出的 datasets 标为 CC BY 4.0，并说明 AVA 取 430 个连续 movie segments、AVA-Kinetics 又合入 Kinetics。 | `person_id` 不是跨视频演员/uploader/session ID；按 `video_id` 可阻止同一电影 clip 跨 split，却不能证明不同 YouTube ID、影片版本或 Kinetics 切片独立。官方页也没有逐影片的底层权利链或 subject×scene 标签。**不能把 annotation 页的统一声明当成逐电影来源审计，排除。** |
+| [Kinetics-400/600/700](https://github.com/cvdfoundation/kinetics-dataset) | 官方 CVDF 仓库把 Kinetics 定义为 YouTube URL/clip 集，annotation 以 YouTube ID 和起止时间定位；当前镜像托管 K400/K700-2020 bytes，同时明确警告 K400 validation 大量进入 K700 training，跨版本直接训练/评测会泄漏。 | YouTube ID 能把同一原视频的多个时间窗合并，却没有 uploader/capture-session group、逐 item 许可或统一媒体再分发权利；不同频道转载/剪辑也不会靠 ID 自动闭合。类别只有单一 action class，无 subject×scene 真值。**可做受控动作预训练对照，不能作本次 C1 证据。** |
+| [TAO](https://taodataset.org/)（[官方下载说明](https://github.com/TAO-Dataset/tao/blob/master/docs/download.md)、[仓库许可](https://github.com/TAO-Dataset/tao/blob/master/LICENSE)） | TAO 联邦组合 Charades、LaSOT、ArgoVerse、AVA、YFCC100M、BDD100K、HACS 等不同来源。官方仓库的 MIT 文件明确只适用于 code；下载说明甚至保留媒体权利人/出镜者的删除请求入口，没有给全部视频一份统一媒体许可。 | dataset/video ID 可以回到成员集，却不能替代每个成员集及每条原媒体的许可、uploader/session 和近重复闭包；object tracks 也不是 action/scene 标签。**异构权利链无法以 TAO 名义一次闭合，排除。** |
+| [BDD100K](https://bdd-data.berkeley.edu/download.html) | 官方下载页许可研究、教育、非营利用途下使用、修改和分发数据，并提供稳定的 40 秒 driving-video 文件及 GPS/IMU；商业权利仅限指定成员或另行许可。 | 公开下载/schema 没有可把连续行车片段合并的 driver、vehicle、route 或 capture-session ID；文件名不是独立 session 证明。内容又是 ego-driving outdoor scene，不提供目标 animal/person playing 标签。**许可比多数 web 集清楚，但 grouping 与语义均不合格，排除。** |
+
+因此下一步优先级不变：若实际使用者愿意接受并保存 Ego4D 当时的限制性协议，就执行前文最多 10 UID、
+12 GB 上限的 metadata-first pilot；否则继续 Commons 的逐媒体许可路线。Charades 只保留为 person-indoor
+对照设计参考，不当作缺口数据；其余标准集不下载。该审计完成时的快照仍是
+**1,132 candidates / 124 approved / 95 groups**，held `cat|playing|indoors=16/50`，训练 pairs
+`cat×indoors=30/10`、`cat×playing=5/10`、`playing×indoors=7/10`，仍为 **0 eligible C1**；
+紧随其后的 bowling 执行结果如下。
+
+### 2026-08-14 执行结果：三条 bowling 视频通过，`playing×indoors` 达到预注册下限
+
+上述 bowling 路线已经完整执行。三个规范 title 均以 exact import 进入 pending，锁定 Commons page ID、
+页面 revision、原媒体 SHA-1、CC BY-SA 4.0 license URL、署名和实际审核 derivative SHA-256；随后分别生成
+完整时长 12-frame 联系表和 8 fps 的密集两秒窗口。人工复核确认三个窗口都只有一名具名成年人，动作从
+助跑、出手到随挥连续，场景为室内球道且没有剪辑。Kyle Troup 与 Eric Jones 使用 `[1,3)` 秒窗口，
+François Lavoie 使用 `[0.5,2.5)` 秒窗口以避开结尾转脸和邻道人物。
+
+三条来自同一 uploader 和球馆，但分别属于 2022-07-15、2023-06-30、2024-02-26 的不同运动员/赛事日期；
+因此先按 `uploader + venue + capture date/event` 建三个保守 session group，而不是按文件或运动员名字直接
+计数。规范化后它们的 pHash 分别为 `dc1c3c76ce5e7e3c`、`1b3b1b5b1b39292f`、
+`7c7d5c1cbc9c939a`，并未触发现有 Hamming ≤ 4 的近重复闭包。完整 provenance、clip SHA-256、审核理由
+和 6 张已跟踪审核图由
+[`commons-bowling-review/evidence.json`](artifacts/video-dit/commons-bowling-review/evidence.json)
+绑定。
+
+重建后的当前权威状态是：candidates **1,135 = 127 approved + 800 pending + 208 rejected**，candidate
+SHA-256 `c89bc31afa06f15fd9a3bf157b92f0f35c90ad9beeee4881beef2fddb8103b93`；v3 manifest
+**127 records / 98 independent groups**，manifest SHA-256
+`fa500e664f2c8518c87085c469f8199c52de6f9e84a79db08b9c7a3fa115242c`，coverage SHA-256
+`4bf2778af68423465e45c6419c049f158457f07e8187fe41b9ca298ffef85886`。held
+`cat|playing|indoors` 仍为 **16/50**；整组排除 held 后，训练 pair 为
+`cat×indoors=30/10`、`cat×playing=5/10`、`playing×indoors=10/10`。这轮确实关闭了一个 pair
+缺口，但 held triple 还差 34 个独立 groups，`cat×playing` 还差 5 个，故仍为 **0 eligible C1**。
+没有生成 split、没有启动正式训练，也不能据此回答 unseen compositional generalization。

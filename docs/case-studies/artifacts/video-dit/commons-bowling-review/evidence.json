@@ -1,0 +1,98 @@
+{
+  "artifact_kind": "commons_full_duration_and_dense_window_review",
+  "candidate_sha256": "c89bc31afa06f15fd9a3bf157b92f0f35c90ad9beeee4881beef2fddb8103b93",
+  "coverage_sha256": "4bf2778af68423465e45c6419c049f158457f07e8187fe41b9ca298ffef85886",
+  "manifest_sha256": "fa500e664f2c8518c87085c469f8199c52de6f9e84a79db08b9c7a3fa115242c",
+  "records": [
+    {
+      "contact_sheets": [
+        {
+          "file": "kyle-full.jpg",
+          "sampling": "12 midpoint frames uniformly sampled over 5.907 seconds",
+          "sha256": "9ba1059441dcf103d79f00ece2b8ff6e214ef1a85c7eae8e5aafa93aec8f8263"
+        },
+        {
+          "file": "kyle-1s.jpg",
+          "sampling": "16 frames at 8 fps over the approved [1, 3) second window",
+          "sha256": "152d5ad0cf63e6d4c0bfeb63a3fd73dbb037bf83e1bccd8c4ce5a5604ee5b96f"
+        }
+      ],
+      "decision": "approved",
+      "duplicate_group": "commons-session:rcraig09-mid-county-lanes-2022-07-15",
+      "labels": ["person", "playing", "indoors"],
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "normalized_clip_sha256": "627c660c810dd8b76e071788aee9a8f26224017e889d89d55d215b870553c881",
+      "original_media_sha1": "651d94c548394b53458746f871cb879d2cc5ff16",
+      "page_id": 120676309,
+      "page_revision": "1031625869",
+      "perceptual_hash": "dc1c3c76ce5e7e3c",
+      "reason": "One named adult remains back-facing and continuously approaches, releases, and follows through on a bowling delivery indoors; the selected window has no cut or second person.",
+      "review_derivative_sha256": "7c8713fbe4ed58dd62e49ea12c0a97630327a2d2c43f4768faa384343a3cc85d",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/51/20220715_Kyle_Troup_two-handed_bowling_delivery.webm/20220715_Kyle_Troup_two-handed_bowling_delivery.webm.240p.vp9.webm",
+      "source_url": "https://commons.wikimedia.org/wiki/File:20220715_Kyle_Troup_two-handed_bowling_delivery.webm",
+      "start_seconds": 1.0,
+      "title": "File:20220715 Kyle Troup two-handed bowling delivery.webm"
+    },
+    {
+      "contact_sheets": [
+        {
+          "file": "eric-full.jpg",
+          "sampling": "12 midpoint frames uniformly sampled over 5.254 seconds",
+          "sha256": "1920bb61e58946611aabe3710990774c74e7cf36c6e68c196287c05858fde0bc"
+        },
+        {
+          "file": "eric-1s.jpg",
+          "sampling": "16 frames at 8 fps over the approved [1, 3) second window",
+          "sha256": "cd573ae781e739ebb180ea543744ea402edbd49ba374420844a0ebf73412e13d"
+        }
+      ],
+      "decision": "approved",
+      "duplicate_group": "commons-session:rcraig09-mid-county-lanes-2023-06-30",
+      "labels": ["person", "playing", "indoors"],
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "normalized_clip_sha256": "ac281b47ae4b70e5642da6e679ac52a5d50dd3a5c7304441bf63d9f211d50a9e",
+      "original_media_sha1": "11d415ee95d53b33e6096aa385326a634ebf7445",
+      "page_id": 133882229,
+      "page_revision": "1031625874",
+      "perceptual_hash": "1b3b1b5b1b39292f",
+      "reason": "One named adult remains back-facing and continuously approaches, releases, and follows through on a bowling delivery indoors; the selected window has no cut or second person.",
+      "review_derivative_sha256": "76a1e41597fcd72884cd40b6d139b3514808d695310d85ac6276c703b259c30e",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/14/20230630_Backup_ball_two-handed_delivery_-_Eric_Jones.webm/20230630_Backup_ball_two-handed_delivery_-_Eric_Jones.webm.240p.vp9.webm",
+      "source_url": "https://commons.wikimedia.org/wiki/File:20230630_Backup_ball_two-handed_delivery_-_Eric_Jones.webm",
+      "start_seconds": 1.0,
+      "title": "File:20230630 Backup ball two-handed delivery - Eric Jones.webm"
+    },
+    {
+      "contact_sheets": [
+        {
+          "file": "lavoie-full.jpg",
+          "sampling": "12 midpoint frames uniformly sampled over 6.492 seconds",
+          "sha256": "389e37054ff34f6c3186bdba0f6f59aaee93c671dd02d7fb5ff1ea4eb0422115"
+        },
+        {
+          "file": "lavoie-0.5s.jpg",
+          "sampling": "16 frames at 8 fps over the approved [0.5, 2.5) second window",
+          "sha256": "02c5d7467a0add88ae69f124e0086fb29b3f4ff0ffeac4eefb8952d5b752c71d"
+        }
+      ],
+      "decision": "approved",
+      "duplicate_group": "commons-session:rcraig09-mid-county-lanes-2024-02-26",
+      "labels": ["person", "playing", "indoors"],
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "normalized_clip_sha256": "536037319396d3d9905f41b4daf2f73a92efb17d6733ef99be6c724000136022",
+      "original_media_sha1": "48469e533a318757ac60f771875c909bc2545415",
+      "page_id": 146021730,
+      "page_revision": "1031625875",
+      "perceptual_hash": "7c7d5c1cbc9c939a",
+      "reason": "One named adult continuously approaches and releases a bowling ball indoors; the selected early window precedes the later face turn and contains no other person.",
+      "review_derivative_sha256": "239054d6a083159a7fc5551e30d9b16e4da119e2f112fe316aaa8933e153828a",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d7/20240226_Fran%C3%A7ois_Lavoie.webm/20240226_Fran%C3%A7ois_Lavoie.webm.240p.vp9.webm",
+      "source_url": "https://commons.wikimedia.org/wiki/File:20240226_Fran%C3%A7ois_Lavoie.webm",
+      "start_seconds": 0.5,
+      "title": "File:20240226 François Lavoie.webm"
+    }
+  ],
+  "review_policy": "Approval requires a full-duration contact sheet, a dense two-second window, one intended adult subject, continuous target action, an unambiguous indoor scene, and a stable capture-session group.",
+  "training_blocker": "The playing|indoors pair reaches 10/10, but cat|playing remains 5/10 and the held cat|playing|indoors triple remains 16/50.",
+  "training_ready": false
+}
