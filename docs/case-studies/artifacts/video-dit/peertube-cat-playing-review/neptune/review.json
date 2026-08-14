@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "video": {
+    "uuid": "e8163619-8d9f-4439-9cb6-04ca5306046b",
+    "origin": "https://peertube.tv",
+    "watch_url": "https://peertube.tv/videos/watch/e8163619-8d9f-4439-9cb6-04ca5306046b",
+    "api_snapshot_sha256": "7db82b6cd158aa06c65d6c8337976ed6ea1e119c682140b6d4b4235c6c0fb078",
+    "name": "Void cat catches a squirrel",
+    "description": "This is Neptune. He got annoyed with me tossing a toy up and down.",
+    "duration_seconds": 6,
+    "published_at": "2024-03-23T04:45:32.427Z",
+    "licence_id": 1,
+    "licence_label": "CC BY 4.0"
+  },
+  "account": {
+    "name": "rei",
+    "display_name": "Rei Voclain",
+    "url": "https://peertube.tv/accounts/rei",
+    "description": "Creator of spooky stuff\nhttps://voclain.net — @rei@social.lol",
+    "created_at": "2023-01-02T22:32:29.988Z",
+    "api_snapshot_sha256": "488fbfcc4f65d0f21a31725ceb54f3275e1c52de593d6337540e2f20b6645b4d",
+    "originality_basis": "The creator names the cat Neptune and describes their own repeated toy-tossing interaction in the first person."
+  },
+  "rendition": {
+    "url": "https://peertube.tv/download/web-videos/e8163619-8d9f-4439-9cb6-04ca5306046b-480.mp4",
+    "size_bytes": 871484,
+    "sha256": "6bdf5fc59591ccdf8e4aeb310050166dc89a0190476b36278e8e7ee94019ba3b",
+    "resolution_id": 480
+  },
+  "decision": {
+    "status": "review-qualified-pending-import",
+    "subject": "cat",
+    "action": "playing",
+    "scene": "indoors",
+    "clip_start_seconds": 3.5,
+    "clip_stop_seconds": 5.5,
+    "reviewer_id": "codex-primary-visual-review",
+    "reviewed_at": "2026-08-14T16:33:18Z",
+    "full_duration_reviewed": true,
+    "single_animal_confirmed": true,
+    "continuous_action_confirmed": true,
+    "scene_confirmed": true,
+    "no_edit_in_window": true,
+    "notes": "One black cat continuously tracks, paws, catches and holds a plush squirrel repeatedly tossed by the creator on an indoor cabinet."
+  },
+  "grouping": {
+    "conservative_group": "peertube:peertube.tv:rei-neptune",
+    "reason": "All clips from this creator that name Neptune remain one animal-level group; no other Neptune clip is imported."
+  },
+  "review_artifacts": {
+    "full_contact": {
+      "path": "full.jpg",
+      "sha256": "180f173263a01defe4a6e5c09ed6eeed8c6ce26fb6bea6c70c2a16d7fdf6113b"
+    },
+    "selected_window": {
+      "path": "selected.jpg",
+      "sha256": "e91b8b9aa3191f3b9be7ed7d0012801531b4b6f0d2bd141ad2875598d8834cfa"
+    },
+    "normalized_preview": {
+      "path": "preview.mp4",
+      "sha256": "e603fcdb1d29c9fc1c230657d3d2d2ebeed91f1249b2c5eb4ffa1235cfaeb758",
+      "perceptual_hash": "0343c303010581c1",
+      "frames": 16,
+      "fps": 8,
+      "size": 96
+    }
+  },
+  "validation": {
+    "nearest_existing_phash_distance": 13,
+    "remaining_blocker": "merge with the fixed 129-record base and recompute the formal C1 coverage gate"
+  },
+  "training_ready": false
+}

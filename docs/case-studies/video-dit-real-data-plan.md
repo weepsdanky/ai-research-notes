@@ -2281,3 +2281,65 @@ PeerTube bundles。真实 merged manifest 为 **131 records / 102 independent gr
 
 可复核 API/account snapshots、review JSON、完整联系表、选择窗口和 16-frame preview 位于
 [`artifacts/video-dit/peertube-cat-playing-review/`](artifacts/video-dit/peertube-cat-playing-review/)。
+
+### 2026-08-15：Neptune held exact import
+
+PeerTube origin `peertube.tv` 的 [`Void cat catches a squirrel`](https://peertube.tv/videos/watch/e8163619-8d9f-4439-9cb6-04ca5306046b)
+通过 held 门禁：上传者 Rei Voclain 用第一人称命名 Neptune，并说明自己在反复抛一只毛绒
+松鼠玩具。完整 6.517 s 媒体和 `[3.5,5.5)` 的 16 帧密集窗口显示：一只黑猫在室内柜子上
+连续追踪、扑抓、接住并抱住玩具，无剪辑、无第二只动物。许可为 CC BY 4.0；480p rendition
+为 871,484 bytes，SHA-256 `6bdf5fc59591ccdf8e4aeb310050166dc89a0190476b36278e8e7ee94019ba3b`。
+API/account snapshots 分别锁定为 `7db82b6c…0fb078` / `488fbfcc…5b4d`，规范化 clip pHash
+`0343c303010581c1` 距固定 129-record base 的最近距离为 13。该猫按
+`peertube:peertube.tv:rei-neptune` 保守归组；同账号的 Mercury 因动作不成立未导入，不会被当作
+第二个 group。
+
+为避免递增 BASE 丢失审计链，新数据树从固定 129-record Figshare base 一次性合并 Buster、Žofinka、
+Neptune 三个 bundle，而不是在旧 PeerTube merge 上增量追加。重建结果为 **132 records / 103 groups**：
+held `cat|playing|indoors=20/50`，训练 pair `30/6/10`，`eligible_c1_triples=[]`。可复算的 manifest
+SHA-256 为 `a9537b79b2dde8a8b26f2ff32e4fe06c5a074073ef0f166a3da8972646231142`，coverage SHA-256 为
+`b75020163454e02d8f7791b63ba7bdd4b18751dc5bc32dc445101ec5cbcd9adb`。证据位于同一 PeerTube 审核目录的
+[`neptune/`](artifacts/video-dit/peertube-cat-playing-review/neptune/)。这只增加 held 容量，不修复 non-held pair，
+所以仍不启动正式训练。
+
+### 2026-08-15：PeerTube 户外定向扩源的严格负结果
+
+本轮只把 Sepia Search 当发现入口，判定一律回到视频所在 PeerTube origin 的
+`/api/v1/videos/<uuid>`、本地 account/channel API 和 origin `fileDownloadUrl`。除多语种定向查询外，
+还分页遍历 `peertube.tv/api/v1/search/videos?categoryOneOf=16&count=100&start=0..3500` 的完整 Animals
+类别：官方响应共 3,534 条索引记录；按 UUID 去重并只保留 origin API 标为许可 id `1/2/7/8` 的可再
+分发记录后有 217 条。逐条核对标题、description、origin、账号原创性与画面，得到 **0 个**同时满足
+“家猫、连续主动 playing、非 indoors、单主体、许可和原创性可审计”的新候选。
+
+本轮最接近的记录均在明确边界被拒绝：
+
+| origin record | 许可与媒体锁 | 原创性 / scene / action 证据 | 拒绝原因与 group 上限 |
+|---|---|---|---|
+| [`Pallas' cat kitten playing with dead mouse at Nordens Ark`](https://peertube.wtf/videos/watch/b1121592-4517-4dcf-b1dc-fab7a845fe81)，UUID `b1121592-4517-4dcf-b1dc-fab7a845fe81` | origin API license id `1` Attribution；HLS file id `1934036`，1280×720/30 fps，65,578,738 bytes，[download](https://peertube.wtf/download/streaming-playlists/hls/videos/b1121592-4517-4dcf-b1dc-fab7a845fe81-720-fragmented.mp4)，本地 SHA-256 `9029572b2f5ebe87fbe18fe2ffde3c319bb959c44d50ab42d8c7e9f63a4c113f`，189.533333 s | 本地账号 `moosmood`/AboutZoos、频道 About Zoos，画面带同名 `aboutzoos.info` 水印，`originallyPublishedAt=2015-09-06`；全长与 `[168,170)` 8-fps 窗口显示户外动物园 enclosure 中幼兽持续低头、伸爪和口部操作死鼠 | 物种是 Pallas' cat（`Otocolobus manul`），不是本任务已冻结的 domestic-cat 语义；动作又是捕食后操作死鼠，不能静默改成通用家猫玩耍。即使未来另开 wild-cat/prey 标签，同一 Nordens Ark litter/session 上限 1；本门禁上限 **0** |
+| [`Welcome to the Abode of the Feline Pharaoh!`](https://lone.earth/videos/watch/3a145e71-e669-4327-9af0-c47c1baaf0a0)，UUID `3a145e71-e669-4327-9af0-c47c1baaf0a0` | CC BY-SA（id `2`）；file id `1049550`，608×1080/30 fps，21,087,764 bytes，[download](https://lone.earth/download/streaming-playlists/hls/videos/3a145e71-e669-4327-9af0-c47c1baaf0a0-608-fragmented.mp4)，SHA-256 `8c0db0a928b8a48e13ebf48de5171a52e7351030df98d702825254df54c4da0b`，74.933333 s | 本地 Ashwin Dixit 账号自述 photographer，视频 description 第一人称写“Playing with Libbi ... Bakersfield”；画面是明确 outdoor patio | 全长显示人走近、抚摸 Libbi，猫站立、卧下和接受触摸，没有猫主动追逐、扑击、拨弄或连续 play bout；标题中的“playing with”不能覆盖动作门。上限 **0** |
+| [`Oreo the kitten and the chicks`](https://p.eertu.be/videos/watch/03aa1d13-14f7-4142-9f89-bdbea4654ee2)，UUID `03aa1d13-14f7-4142-9f89-bdbea4654ee2` | CC BY-SA 4.0（id `2`）；file id `2690094`，854×480/25 fps，76,391,910 bytes，[download](https://p.eertu.be/download/streaming-playlists/hls/videos/03aa1d13-14f7-4142-9f89-bdbea4654ee2-480-fragmented.mp4)，SHA-256 `44669bf8ad60ca6080b0c3b42e7272871f6cd56aaa8b41673dca1c79b2aa4d76`，416.499 s | `little_cat` 本地账号称“my kitten”；绝大部分画面在 garden 展示并抚摸 chicks，Oreo 只短暂被抱在腿上 | 无连续猫玩耍窗口，且主体长期不是猫；上限 **0** |
+| [`Cat vs Kitty`](https://vhsky.cz/videos/watch/9067d53b-04c9-4ee6-8c6f-117e84108a55) / [`round 2`](https://vhsky.cz/videos/watch/adae82af-b655-4523-ad7a-bcd0584d847d)，UUID `9067d53b-04c9-4ee6-8c6f-117e84108a55` / `adae82af-b655-4523-ad7a-bcd0584d847d` | 两条均 Attribution（id `1`）；file ids `245117`/`245177`；21,088,760/13,592,432 bytes；SHA-256 `a842b7c6119ccb1eaa8ecf61eca146a74c36df47d532b29cff3d1dcefec11680` / `8c79cb940306cd8cb53e1cf94364b86909d63f2c758841997d940ca502c38e89` | 本地账号 `milu`；全长可见成年猫与幼猫连续互相扑抱和打闹 | 两条都完全在室内地毯/床铺上，且同账号、同两只猫、相邻上传，应合为至多一个 session group；对 non-held 缺口上限 **0** |
+| [`Lucha encarnizada entre especies irreconcilable`](https://veedeo.org/videos/watch/18ffb21c-5a0d-4fb1-8829-433c11455ed1)，UUID `18ffb21c-5a0d-4fb1-8829-433c11455ed1` | Attribution（id `1`）；file id `485113`，854×480/30 fps，14,442,445 bytes，SHA-256 `a91b646fbac71205396dcb9027361a184f9ffb6b5e64ac1c8c919523f33d810f`，151.78585 s | 本地 Joakim/Memorabilia 个人回忆频道；description 具名 dog Linda、cat Felipe、El Toyo、2016；全长为两只动物持续追逐、扑抓和摔跤 | 完全在客厅沙发，且同时含狗和猫，不通过当前单主体/non-held scene 门；保守 group `veedeo.org/joakim/Linda+Felipe/session-El-Toyo-2016`，本缺口上限 **0** |
+
+另有两个户外 near-miss 经 origin 媒体全长审核：`video.netsyms.com` 的 `Kittens` 只在水泥露台坐、走、
+嗅闻和靠近，没有追逐/扑击/打闹；`p.eertu.be` 的 `Picur the cat`（UUID
+`6069f26d-8d2b-4653-9c80-42c517ff3b09`、CC BY-SA 4.0、file id `2690115`、15,920,396 bytes）只在
+garden 探索和接受抚摸。`video.infosec.exchange` 的 `My cat found a lizard friend to play with` 虽由
+description 支持上传者原创，却明确写 scene 是 living room，且本轮 origin API/媒体连接超时，不能作为
+可执行来源。Commons Action API 对 `cat playing outdoors/garden/grass/snow/beach/forest` 的新组合只
+召回已经审过的 `Cat playing with a lizard.webm`、Hargeisa 三猫 `frolicking` 等旧 title，或与猫无关的
+历史影片；相对现有池的新 title/合格 group 均为 0。
+
+精确负查询还覆盖英文的 `cat/kitten + outside/outdoors/garden/yard/grass/forest/beach/snow +
+playing/plays/pouncing/chasing/frolicking/wrestling/batting`，以及 `chat joue dehors/jardin`、
+`gato jugando afuera/jardín`、`gato brincando fora`、`Katze spielt draußen/Garten`、
+`gatto gioca fuori/giardino`、`猫 外で 遊ぶ`、`猫 庭 遊ぶ`。广义 OR 搜索产生大量 gameplay、歌曲、
+“cat-and-mouse”比喻、NC/ND、搬运和 indoor 结果；这些不能因数量大而算 source coverage。
+
+因此本轮是 **0 pending、0 approved、0 新 group**，不修改媒体或 manifest。采用随后 Neptune held
+exact import 后的最新权威基线：**132 records / 103 independent groups**，held
+`cat|playing|indoors=20/50`，仍缺 **30**；排除 held 后训练 pair 为 `cat×indoors=30/10`、
+`cat×playing=6/10`、`playing×indoors=10/10`，所以 non-held `cat×playing` 仍精确缺 **4** 个独立
+groups，`eligible_c1_triples=[]`。在公开 origin 出现新记录前，下一条真正可执行路径仍是不同权利人、
+不同家猫、不同 capture session 的户外自有/逐视频书面授权拍摄；许可必须覆盖训练、派生与规范化审核
+clip 的必要携带，且 contributor/animal/session IDs 不得通过切片或多机位膨胀。

@@ -662,8 +662,12 @@ uv run --offline python prepare_figshare.py merge \
 
 `prepare_peertube.py create` 会锁 video/account API bytes、许可、canonical origin/download URL、
 rendition size/SHA-256、完整联系表、密集窗口与 2 秒规范化 clip；`merge` 再重放同一语义验证、重算
-candidate-to-base pHash，并携带完整 bundle。执行后 manifest 为 **131 records / 102 groups**，held
-`cat|playing|indoors=19/50`；训练侧仍为 `30/6/10`，所以 non-held `cat×playing` 仍缺 4 groups，
+candidate-to-base pHash，并携带完整 bundle。随后同样审核了 PeerTube 上的 Neptune：上传者用第一人称
+命名这只猫并说明自己在抛玩具，`[3.5,5.5)` 中一只黑猫连续追踪、扑抓和抱住毛绒玩具；
+CC BY 4.0、原站 API/账号/媒体与完整视觉证据均已锁定，距固定 129-record base 的最近 pHash 距离为 13。
+
+从固定 Figshare base 一次性重建三个 PeerTube bundle 后，manifest 为 **132 records / 103 groups**，held
+`cat|playing|indoors=20/50`；训练侧仍为 `30/6/10`，所以 non-held `cat×playing` 仍缺 4 groups，
 `eligible_c1_triples=[]`，正式训练仍未启动。审核资产见
 `docs/case-studies/artifacts/video-dit/peertube-cat-playing-review/`。
 
@@ -673,7 +677,8 @@ uv run --offline python prepare_peertube.py merge \
   data/formal_c1_expanded_figshare_v1/source.jsonl \
   data/peertube_cat_playing_v1/buster-bundle \
   data/peertube_cat_playing_v1/zofinka-bundle \
-  --output data/formal_c1_expanded_peertube_v1
+  data/peertube_held_v3/neptune-bundle \
+  --output data/formal_c1_expanded_peertube_v2
 ```
 
 在用户明确授权后，另行执行了一次**不满足正式数据门禁的预注册诊断 pilot**；它不是上述“正式训练”。
