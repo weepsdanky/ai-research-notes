@@ -1,0 +1,99 @@
+{
+  "protocol": "user-authorized low-coverage C1 direct training v3",
+  "created_at_utc": "2026-08-14T23:17:25Z",
+  "purpose": "Test whether substantially more capacity and optimization improve text binding on the current provenance-locked dataset. The user explicitly chose to train without collecting more data; this is diagnostic, not a confirmatory unseen-composition experiment.",
+  "data": {
+    "source_manifest_sha256": "2fb6efd214900f71d838679d8ed2e3c651e86fffa6a2e8eb3ac9f213cd2317bb",
+    "split_manifest_sha256": "4cb720fd2ad946aa8e8f07f840f3c44b2c11188bb4ccf89f597ff8d5d4880fea",
+    "split_report_sha256": "1bd1d2cae957768abe9055a0fae3f223eeaa8d75cfd345a9713478388068f618",
+    "training_source_manifest_sha256": "59d4ed30d9160c913e84eaa5f762d144601423d7397524ff7e913cd78b9406e0",
+    "training_text_manifest_sha256": "9427b102b0807038a09aff011e0924a28350ad8acbd19959705d9d0120fca7c0",
+    "training_manifest_sha256": "dcd895247789565717f7b756af195b0265c3834cc63ea5944acdd09305bf4585",
+    "split_seed": 20260825,
+    "held_c1_triple": ["cat", "playing", "indoors"],
+    "counts": {"train": 102, "validation": 2, "iid": 6, "c1": 23},
+    "independent_c1_source_groups": 20,
+    "near_duplicate_hamming": 4,
+    "train_pair_source_groups": {
+      "cat|indoors": 24,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    },
+    "leakage_rule": "The held triple and every transitive source_id, duplicate_group, and pHash<=4 group containing it are excluded from training.",
+    "known_gate_shortfall": "The held triple has 20 rather than 50 independent groups, and cat|playing has 6 rather than 10 training groups. Results must not be described as confirmatory C1 evidence."
+  },
+  "model": {
+    "initialization": "from scratch",
+    "mode": "faithful",
+    "space": "latent",
+    "frames": 16,
+    "latent_size": 12,
+    "latent_channels": 4,
+    "patch_size": 3,
+    "hidden_size": 320,
+    "num_heads": 8,
+    "num_spatial_temporal_pairs": 5,
+    "mlp_ratio": 4.0,
+    "text_conditioning": "tokens-v2 cross-attention",
+    "text_embedding_size": 512,
+    "condition_dropout_prob": 0.1,
+    "prediction_type": "velocity",
+    "learn_sigma": false,
+    "diffusion_timesteps": 1000
+  },
+  "training": {
+    "seed": 20260826,
+    "optimizer_updates": 30000,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "ema_decay": 0.99,
+    "horizontal_flip_probability": 0.0,
+    "timestep_sampling": "uniform",
+    "checkpoint_every": 2500,
+    "selection_rule": "Use only the final step-30000 EMA inference checkpoint; do not select by loss, samples, or evaluation videos."
+  },
+  "generation": {
+    "weights": "ema",
+    "sampling_steps": 50,
+    "start_timestep": 999,
+    "cfg_scale": 2.5,
+    "seeds": [17, 29, 43, 61],
+    "iid_prompts": [
+      "a cat scratching fabric indoors",
+      "a cat scratching indoors",
+      "a cat sitting by a window indoors",
+      "a cat sitting inside a bag indoors",
+      "a cat sitting on a chair indoors",
+      "a cat walking outdoors"
+    ],
+    "c1_prompts": [
+      "a cat chasing a shadow indoors",
+      "a cat playing indoors",
+      "a cat playing with a laser pointer indoors",
+      "a cat playing with a straw indoors",
+      "a cat playing with a toy lizard indoors",
+      "a cat playing with a toy mouse indoors",
+      "a kitten playing indoors"
+    ],
+    "required_grid": "Every listed prompt crossed with every listed seed exactly once, for 13x4=52 videos; no extra or missing generation may enter evaluation.",
+    "blind_shuffle_seed": 20260826
+  },
+  "evaluation": {
+    "required": [
+      "IID and C1 subject/action/scene accuracy",
+      "IID and C1 unanimous full-triple accuracy with Wilson 95% intervals",
+      "factor-triple deranged prompt control",
+      "two independent complete prompt-hidden human reviews",
+      "training-video nearest-neighbor audit"
+    ],
+    "confirmatory_gate": {
+      "required_c1_source_groups": 50,
+      "required_train_pair_source_groups": 10,
+      "passes_now": false
+    }
+  },
+  "training_ready": true,
+  "confirmatory_claim_ready": false
+}
