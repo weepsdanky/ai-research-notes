@@ -8,6 +8,7 @@ from condition_alignment import discover_generations, evaluate_alignment
 def _metadata(path, prompt, *, mode="trained Video DiT checkpoint"):
     (path.parent / "model.pt").write_bytes(b"checkpoint")
     import hashlib
+    path.with_suffix(".mp4").write_bytes(b"video")
     path.write_text(json.dumps({
         "mode": mode, "prompt": prompt, "seed": 42,
         "checkpoint": str(path.parent / "model.pt"), "training_step": 10,
@@ -17,8 +18,9 @@ def _metadata(path, prompt, *, mode="trained Video DiT checkpoint"):
         "effective_cfg_scale": 2.5, "condition_mode": "text_tokens",
         "text_encoder_id": "clip@sha256:test#tokens-v2",
         "checkpoint_sha256": hashlib.sha256(b"checkpoint").hexdigest(),
+        "video_filename": path.with_suffix(".mp4").name,
+        "video_sha256": hashlib.sha256(b"video").hexdigest(),
     }), encoding="utf-8")
-    path.with_suffix(".mp4").write_bytes(b"video")
 
 
 def test_discovery_ignores_metrics_and_requires_matching_video(tmp_path):
@@ -158,4 +160,12 @@ def test_discovery_rejects_unverifiable_legacy_metadata(tmp_path):
     (tmp_path / "cat.json").write_text(json.dumps(data), encoding="utf-8")
 
     with __import__("pytest").raises(ValueError, match="valid checkpoint SHA-256"):
+        discover_generations(tmp_path)
+
+
+def test_discovery_rejects_generation_video_changed_after_metadata(tmp_path):
+    _metadata(tmp_path / "cat.json", "a cat walking")
+    (tmp_path / "cat.mp4").write_bytes(b"changed")
+
+    with __import__("pytest").raises(ValueError, match="video SHA-256"):
         discover_generations(tmp_path)

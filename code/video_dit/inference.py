@@ -144,6 +144,7 @@ class VideoDiTInference:
         text_encoder_id: str | None = None,
         space: str = "pixel",
         vae_decoder: VAEDecoder | None = None,
+        training_manifest_sha256: str | None = None,
     ) -> None:
         self.model = model
         self.schedule = schedule
@@ -156,6 +157,7 @@ class VideoDiTInference:
         self.text_encoder_id = text_encoder_id
         self.space = space
         self.vae_decoder = vae_decoder
+        self.training_manifest_sha256 = training_manifest_sha256
 
     @classmethod
     def from_checkpoint(
@@ -251,6 +253,10 @@ class VideoDiTInference:
             text_encoder_id=text_encoder_id,
             space=space,
             vae_decoder=vae_decoder,
+            training_manifest_sha256=(
+                str(data_contract["manifest_sha256"])
+                if "manifest_sha256" in data_contract else None
+            ),
         )
 
     @torch.inference_mode()
@@ -266,6 +272,7 @@ class VideoDiTInference:
         fps: float = 8,
         start_timestep: int | None = None,
         save_trajectory_videos: bool = False,
+        evaluation_spec: bytes | None = None,
     ) -> GenerationResult:
         """Generate one temporal clip plus a separate denoising diagnostic."""
 
@@ -294,6 +301,33 @@ class VideoDiTInference:
         cfg_was_trained = self.model.config.condition_dropout_prob > 0
         effective_cfg_scale = cfg_scale if cfg_was_trained else 1.0
         guided = effective_cfg_scale != 1.0
+        evaluation_spec_sha256 = None
+        if evaluation_spec is not None:
+            try:
+                frozen = json.loads(evaluation_spec)
+            except (UnicodeDecodeError, json.JSONDecodeError) as error:
+                raise ValueError("evaluation spec must be valid UTF-8 JSON") from error
+            if not isinstance(frozen, dict):
+                raise ValueError("evaluation spec must be a JSON object")
+            prompts = {
+                row.get("prompt") for row in frozen.get("records", [])
+                if isinstance(row, dict)
+            }
+            if prompt not in prompts or seed not in frozen.get("seeds", []):
+                raise ValueError("prompt and seed must be preregistered in the evaluation spec")
+            actual_contract = {
+                "checkpoint_sha256": hashlib.sha256(self.checkpoint_path.read_bytes()).hexdigest(),
+                "training_step": self.training_step, "weights": self.weights_name,
+                "prediction_type": self.prediction_type, "sampling_steps": steps,
+                "start_timestep": start, "clip_denoised": self.space == "pixel",
+                "effective_cfg_scale": effective_cfg_scale,
+                "condition_mode": self.model.config.condition_mode,
+                "text_encoder_id": self.text_encoder_id,
+                "training_manifest_sha256": self.training_manifest_sha256,
+            }
+            if frozen.get("generation_contract") != actual_contract:
+                raise ValueError("inference settings differ from the preregistered generation contract")
+            evaluation_spec_sha256 = hashlib.sha256(evaluation_spec).hexdigest()
         batch = 2 if guided else 1
         if spec is not None:
             condition_ids = spec.condition_ids().unsqueeze(0).repeat(batch, 1)
@@ -386,6 +420,7 @@ class VideoDiTInference:
         )
         stem = f"model_{prompt_slug}_seed-{seed}_{request_hash}_{run_id}"
         video_path = save_video_mp4(video, destination / f"{stem}.mp4", fps=fps)
+        video_sha256 = hashlib.sha256(video_path.read_bytes()).hexdigest()
         denoising_path = save_denoising_gif(
             diagnostic_states,
             destination / f"{stem}_denoising-diagnostic.gif",
@@ -415,6 +450,10 @@ class VideoDiTInference:
             "checkpoint_sha256": hashlib.sha256(
                 self.checkpoint_path.read_bytes()
             ).hexdigest(),
+            "training_manifest_sha256": self.training_manifest_sha256,
+            "evaluation_spec_sha256": evaluation_spec_sha256,
+            "video_filename": video_path.name,
+            "video_sha256": video_sha256,
             "training_step": self.training_step,
             "weights": self.weights_name,
             "prediction_type": self.prediction_type,
@@ -438,6 +477,10 @@ class VideoDiTInference:
                 )
                 trajectory_metadata = dict(metadata)
                 trajectory_metadata.update({
+                    "video_filename": trajectory_path.name,
+                    "video_sha256": hashlib.sha256(
+                        trajectory_path.read_bytes()
+                    ).hexdigest(),
                     "mode": "trained Video DiT trajectory state",
                     "trajectory_timestep": int(trajectory_timestep),
                     "trajectory_phase": (
@@ -482,6 +525,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--vae-model", default=None)
     parser.add_argument("--vae-revision", default=None)
+    parser.add_argument("--evaluation-spec", type=Path)
     return parser.parse_args(argv)
 
 
@@ -518,6 +562,9 @@ def main(argv: list[str] | None = None) -> GenerationResult:
         cfg_scale=args.cfg_scale,
         trajectory_frames=args.trajectory_frames,
         fps=args.fps,
+        evaluation_spec=(
+            args.evaluation_spec.read_bytes() if args.evaluation_spec is not None else None
+        ),
     )
     print(f"Temporal animation: {result.video_path}")
     print(f"Denoising diagnostic (not animation time): {result.denoising_path}")

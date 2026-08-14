@@ -1155,6 +1155,19 @@ container、video/audio codec、duration、fps、frame count 与
 
 最重要的对照：同一架构分别使用随机 split 与 C1 split。随机 split 成功而 C1 失败，说明模型学会了数据内插，并没有学会组合。
 
+生成结果的人审也必须真正盲化，而不是先看 prompt 再给一条好看的 MP4 贴标签。当前
+`generation_blind_review.py` 已实现未来正式实验的证据链：评估 spec 只能从重新执行
+`validate_split()` 后逐字节一致的 manifest/report 派生，并在任何推理前冻结训练 manifest、
+checkpoint SHA、EMA/raw、采样参数和至少两个明确 seed；每个 seed 必须生成完全相同的 prompt
+集合，且推理 metadata 必须绑定同一 spec、checkpoint、训练 manifest 与输出 MP4 的 SHA-256。
+创建 queue 时把 MP4 复制为
+随机 blind ID，公开文件不含 prompt、split 或 seed，sealed key 用 commitment 绑定完整 assignment。
+至少两名独立评审者从冻结 factor vocabulary 判断 subject/action/scene；三类词表都包含不可能成为
+expected label 的 `absent_or_unclear`，避免无主体/无动作的失败样本被迫猜成真标签；揭盲时任一因子分歧都作为
+ambiguous/incorrect，分别报告 IID/C1/C2 的三因子与完整 triple accuracy、Wilson 95% 区间，以及
+同 seed 内按 factor triple 严格 derangement 的错配对照（无法错配即拒绝）。该工具尚未产生 C1 结果，因为当前 0 eligible C1；它是
+防止未来用 cherry-picked artifact 冒充组合泛化的预注册评估门，而不是当前成功证据。
+
 ## 合法与可复现的数据获取原则
 
 任意网络抓取不理想，不只是“下载脚本容易坏”：
@@ -1410,3 +1423,82 @@ velocity 实验只生成了 EMA 三 seed 面板；失败的 epsilon 高噪声微
 只是代理，必须同时目视审核主体、动作与时间一致性。当前只通过 G0 的基础运动/拟合 gate，
 未通过文本三因子门禁，更不构成 C1 未见组合泛化证据。下一步继续准备并审核 G1 数据，
 同时修复多步语义形成过晚的问题；文本门禁通过前不启动 1K/6K 正式训练。
+
+### 2026-08-14：训练侧 pair 的新 Commons 精确入口（全部 pending）
+
+本节只补训练侧 `cat×playing`（必须明确 outdoor、不得是 held indoor）和
+`playing×indoors`（必须是非 cat 主体），不继续重复已经闭合的 playing-cat 44 文件、dog-play
+分类树、零视频 toy/fetch/tug 类或既有宽全文查询。审计只用了 Commons 官方 Action API、分类页和
+文件页；与当前 **1,128-row candidates** 做精确标题差集后，下列文件均不在池中。分类/API 命中只是
+召回，**没有任何一条因此 approved，也没有改变 5/10、5/10 或 0 eligible C1**。
+
+#### 最优先：`Videos of children playing` 的两个明确 indoor 文件
+
+[`Category:Videos of children playing`](https://commons.wikimedia.org/wiki/Category:Videos_of_children_playing)
+当前为 **10 个直属 files / 0 subcats**；逐文件 `imageinfo` 为 6 个 `video/webm` 与 4 个
+`.ogv + application/ogg`。这是未在既有计划中穷尽的新精确 action 类；其中只有下面两条同时有官方
+indoor 正线索，最适合作为 `person×playing×indoors` 的 metadata-first pending：
+
+| pending 文件 | 官方固定身份与许可 | 官方语义证据 / 审核边界 |
+|---|---|---|
+| [`Muzeo MALI. Limo (Peruo).webm`](https://commons.wikimedia.org/wiki/File:Muzeo_MALI_Limo_(Peruo).webm) | page ID `98156360`；SHA-1 `e643a5f2ecc94b76adedc8ece9817d88a1e494b1`；11,316,831 bytes；32.468 s；CC BY-SA 4.0；artist `RG72` | categories 同时含 `Videos of children playing`、`Children playing inside` 与 `Videos of interiors of buildings`。这是强 scene/action metadata，但仍须全长确认主要人物、持续 playing、稳定 2 秒窗口和第三方可识别人。 |
+| [`Knabo ludas en infanludejo en la aĉetcentro Kristall (Tjumeno).webm`](https://commons.wikimedia.org/wiki/File:Knabo_ludas_en_infanludejo_en_la_a%C4%89etcentro_Kristall_(Tjumeno).webm) | page ID `107074981`；SHA-1 `d516704074ed84d70e51f6c1e919640e89622985`；7,534,479 bytes；25.503 s；CC BY-SA 4.0；artist `RG72` | 官方 description 是男孩在购物中心室内游乐场玩耍，categories 含 `Boys playing`、`Interiors of shopping malls in Tyumen`。同样只可 pending；口罩儿童、其他访客和人物权利必须逐窗审核。 |
+
+第三条较弱候选
+[`Speech-in-action-degree-of-hand-preference-for-grasping-predicts-speech-articulation-competence-in-Video1.ogv`](https://commons.wikimedia.org/wiki/File:Speech-in-action-degree-of-hand-preference-for-grasping-predicts-speech-articulation-competence-in-Video1.ogv)
+为 page ID `36916325`、SHA-1 `4a599638f9ac5b07af9ba18684353c30c41f636b`、4,184,040 bytes、
+22.689 s、CC BY 4.0；它属于 `Videos of children playing` 与 `Lego`，但官方 description 为空且没有
+indoor category，只应在前两条之后做 poster/全长 scene 复核，不能预标 indoors。
+
+两条强候选来自同一 artist `RG72`，但 metadata 给出的事件分别是 2014-08-03 Lima 与 2021-06-24
+Tyumen。不同日期/国家是“可能独立事件”的证据，不自动等于两个 source groups；在保存 revision、原
+SHA-1、完整时间联系表和人物/场景记录前仍按保守 grouping。即使两条都通过，这个 10-file 小类也不能
+单独把 5/10 扩到长期 50 级规模；可把同一分类 API 查询作为增量上传监视入口。
+
+#### `Videos of playing animals` 与兔子线索：可召回，但不能直接补当前门禁
+
+[`Category:Videos of playing animals`](https://commons.wikimedia.org/wiki/Category:Videos_of_playing_animals)
+当前为 **6 个直属 files / 1 subcat**；唯一子类是已经闭合的 `Videos of playing cats`。直属六条是
+meerkat、两条 dwarf-hamster disc、black-bear cubs、African wild dogs 和 fossas。两条 hamster
+分别为 page IDs `21925981/21929186`、SHA-1
+`96bd7c1a933759b92f892d6b46f806c201b83ff0` / `7ac311eb074c4657d8cd5306c06fa55d53ade466`，
+均为 CC0、同一 uploader、同日且同为多只 hamster 在 exercise disc 上跑；最多一个 series/source
+group，而且“running on disc”与 indoors 都未由官方 metadata 证明。其余四条的官方描述指向 zoo、
+wildlife park 或 private game reserve，也没有 indoor 正证据。因此该分类适合保留为低成本增量监视，
+当前没有一条可直接计入 `playing×indoors`。
+
+独立文件
+[`Conill béliere jugant i esperant menjar.ogv`](https://commons.wikimedia.org/wiki/File:Conill_b%C3%A9liere_jugant_i_esperant_menjar.ogv)
+为 page ID `77688284`、SHA-1 `e459edec9a764ede18747ae93e1bc46010ef2a24`、6,801,897 bytes、
+45.650 s、CC BY-SA 4.0；官方 description 明确为 lop rabbit playing/waiting for food，但 categories
+只有 lop rabbits/self-published，没有 indoor/outdoor 证据。更重要的是当前精确导入 taxonomy 只接受
+`cat|dog|person`，所以它只能作为未来扩 taxonomy 的 pending，不得冒充当前 pair support。
+Action API 的精确 File-namespace 查询 `"rabbit playing" filetype:video` 当前正好 **1 hit**，即该
+page ID；因此这条路线的可审计上限就是一个 scene 未知文件，不具备扩展性。
+
+可复现 API（读取 `continue`，并以 page ID 为主键、原 SHA-1 为内容键）：
+
+```text
+# 分类精确计数
+action=query&prop=categoryinfo&titles=Category:Videos_of_children_playing|
+Category:Videos_of_playing_animals&format=json&formatversion=2
+
+# 直属文件、MIME、SHA-1、许可、描述与 categories
+action=query&generator=categorymembers&gcmtitle=Category:Videos_of_children_playing&
+gcmtype=file&gcmlimit=max&prop=imageinfo|categories|revisions&
+iiprop=mime|sha1|url|size|extmetadata&cllimit=max&rvprop=ids|timestamp&
+format=json&formatversion=2
+```
+
+执行顺序是：① 精确导入上述两个 indoor 强候选为 `pending/review_required`；② 锁 page revision、原媒体
+timestamp/SHA-1、artist、LicenseUrl 和 attribution，再做全长及密集 2 秒审核；③ 人物可识别、儿童、
+多主体、剪辑或 action 不稳定任一失败即 reject；④ Lego 文件只在 scene 视觉证据通过后考虑；⑤
+hamster/rabbit 不扩 taxonomy、不计 coverage。CC BY/CC BY-SA 是文件页的版权许可声明，要求相应署名、
+许可链接及适用的 share-alike；它不替代可识别人物的隐私/人格权审核，见 Commons 官方
+[`Personality rights warning`](https://commons.wikimedia.org/wiki/Template:Personality_rights)。
+
+不把图库 API 当作替代扩容路线：[`Pixabay API documentation`](https://pixabay.com/api/docs/) 与
+[`Pixabay Terms`](https://pixabay.com/service/terms/)、以及 Pexels 官方
+[`API FAQ`](https://help.pexels.com/hc/en-us/categories/900001326143-Pexels-API) 对自动化使用另设条件，
+并不授权未经许可为机器学习批量收集媒体。本轮不申请 key、不调用这些 API、不下载其媒体；站点级
+“free to use”也不能替代逐 item provenance、人物权利和可复现 source-group 证据。

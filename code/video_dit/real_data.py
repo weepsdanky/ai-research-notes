@@ -602,6 +602,7 @@ def validate_split(
             "c2_source_groups": policy.min_c2_source_groups,
             "iid_source_groups": policy.min_iid_source_groups,
             "train_pair_source_groups": policy.min_train_pair_source_groups,
+            "near_duplicate_hamming": policy.near_duplicate_hamming,
         },
     }
 

@@ -31,6 +31,7 @@ def _tiny_checkpoint(path, *, condition_dropout_prob=0.1):
             "model": model.state_dict(),
             "ema": model.state_dict(),
             "step": 7,
+            "data_contract": {"space": "pixel", "manifest_sha256": "a" * 64},
         },
         path,
     )
@@ -78,6 +79,10 @@ def test_checkpoint_prompt_becomes_reproducible_temporal_video_and_separate_diag
     }
     assert metadata["elapsed_seconds"] >= 0
     assert len(metadata["checkpoint_sha256"]) == 64
+    assert metadata["video_filename"] == first.video_path.name
+    assert metadata["video_sha256"] == __import__("hashlib").sha256(
+        first.video_path.read_bytes()
+    ).hexdigest()
     assert metadata["clip_denoised"] is True
     assert metadata["start_timestep"] == 5
 
@@ -99,6 +104,41 @@ def test_inference_can_export_each_denoising_state_as_a_labelled_video(tmp_path)
         assert metadata["mode"] == "trained Video DiT trajectory state"
         assert isinstance(metadata["trajectory_timestep"], int)
         assert metadata["trajectory_phase"] in {"noisy", "final_clean"}
+
+
+def test_inference_binds_and_enforces_preregistered_evaluation_spec(tmp_path):
+    checkpoint = tmp_path / "tiny.pt"
+    _tiny_checkpoint(checkpoint)
+    engine = VideoDiTInference.from_checkpoint(checkpoint, device="cpu")
+    prompt = "an orange cat walking right in the snow"
+    contract = {
+        "checkpoint_sha256": __import__("hashlib").sha256(checkpoint.read_bytes()).hexdigest(),
+        "training_step": 7, "weights": "ema", "prediction_type": "epsilon",
+        "sampling_steps": 3, "start_timestep": 5, "clip_denoised": True,
+        "effective_cfg_scale": 2.5, "condition_mode": "structured",
+        "text_encoder_id": None, "training_manifest_sha256": "a" * 64,
+    }
+    spec = json.dumps({
+        "generation_contract": contract, "seeds": [17, 29],
+        "records": [{"prompt": prompt}],
+    }, sort_keys=True).encode()
+    result = engine.generate(
+        prompt, tmp_path / "bound", seed=17, sampling_steps=3,
+        cfg_scale=2.5, evaluation_spec=spec,
+    )
+    metadata = json.loads(result.metadata_path.read_text())
+    assert metadata["evaluation_spec_sha256"] == __import__("hashlib").sha256(spec).hexdigest()
+
+    contract["sampling_steps"] = 4
+    drifted = json.dumps({
+        "generation_contract": contract, "seeds": [17, 29],
+        "records": [{"prompt": prompt}],
+    }).encode()
+    with __import__("pytest").raises(ValueError, match="preregistered generation contract"):
+        engine.generate(
+            prompt, tmp_path / "rejected", seed=17, sampling_steps=3,
+            cfg_scale=2.5, evaluation_spec=drifted,
+        )
 
 
 def test_dataset_preview_is_explicitly_labelled_as_renderer_not_model_output(tmp_path):

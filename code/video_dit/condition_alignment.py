@@ -21,8 +21,11 @@ from real_data import decode_video_clip, load_manifest
 class Generation:
     prompt: str
     video_path: Path
+    video_sha256: str
     seed: int
     contract: tuple[object, ...]
+    training_manifest_sha256: str | None = None
+    evaluation_spec_sha256: str | None = None
 
 
 def discover_generations(
@@ -50,6 +53,16 @@ def discover_generations(
         video_path = metadata_path.with_suffix(".mp4")
         if not video_path.is_file():
             raise ValueError(f"generation metadata has no matching MP4: {metadata_path}")
+        if metadata.get("video_filename") != video_path.name:
+            raise ValueError(f"generation metadata does not bind its video filename: {metadata_path}")
+        video_hash = metadata.get("video_sha256")
+        actual_video_hash = hashlib.sha256(video_path.read_bytes()).hexdigest()
+        if (
+            not isinstance(video_hash, str) or len(video_hash) != 64
+            or any(character not in "0123456789abcdef" for character in video_hash)
+            or video_hash != actual_video_hash
+        ):
+            raise ValueError(f"generation video SHA-256 mismatch: {metadata_path}")
         prompt = metadata.get("prompt")
         if not isinstance(prompt, str) or not prompt.strip():
             raise ValueError(f"generation metadata has no prompt: {metadata_path}")
@@ -80,7 +93,24 @@ def discover_generations(
             expected_contract = contract
         elif contract != expected_contract:
             raise ValueError("generation contract differs across evaluation directory")
-        rows.append(Generation(prompt.strip(), video_path, int(metadata["seed"]), contract))
+        training_manifest_sha256 = metadata.get("training_manifest_sha256")
+        if training_manifest_sha256 is not None and (
+            not isinstance(training_manifest_sha256, str)
+            or len(training_manifest_sha256) != 64
+            or any(character not in "0123456789abcdef" for character in training_manifest_sha256)
+        ):
+            raise ValueError(f"generation metadata has invalid training manifest SHA-256: {metadata_path}")
+        evaluation_spec_sha256 = metadata.get("evaluation_spec_sha256")
+        if evaluation_spec_sha256 is not None and (
+            not isinstance(evaluation_spec_sha256, str)
+            or len(evaluation_spec_sha256) != 64
+            or any(character not in "0123456789abcdef" for character in evaluation_spec_sha256)
+        ):
+            raise ValueError(f"generation metadata has invalid evaluation spec SHA-256: {metadata_path}")
+        rows.append(Generation(
+            prompt.strip(), video_path, video_hash, int(metadata["seed"]), contract,
+            training_manifest_sha256, evaluation_spec_sha256,
+        ))
     return rows
 
 

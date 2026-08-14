@@ -482,7 +482,52 @@ gate 的 cross-attention；encoder ID 的 `#tokens-v2` 表示 padding hidden sta
 也必须一致。CLIP 检索与最近邻只是
 诊断代理，不替代对主体、动作和时间连续性的目视审核。
 旧推理 metadata 若没有生成时写入的 `checkpoint_sha256`，会被明确视为不可验证，不能
-混入 locked comparison；请用当前 `inference.py` 重新生成。
+混入 locked comparison；当前版本还会写入 MP4 文件名和 `video_sha256`，防止 prompt
+metadata 与后来被替换的视频错绑。请用当前 `inference.py` 重新生成旧 artifact。
+
+正式 IID/C1/C2 结果不能只看 CLIP 或挑选好看的 MP4。达到数据门禁后，先从已经重新验证的
+split manifest 和 validation report 派生不可手填的评估 spec，再把每个 prompt × seed 的
+生成视频复制为不暴露 prompt、split 或 seed 的随机 blind ID：
+
+```bash
+uv run python generation_blind_review.py spec \
+  split.jsonl split-report.json generation-evaluation-spec.json \
+  --checkpoint runs/c1/video_dit_inference.pt --weights ema \
+  --sampling-steps 50 --start-timestep 999 --cfg-scale 2.5 \
+  --seeds 17 29 43 61
+# 必须逐项使用 spec 中已经冻结的 prompt × seed；inference 会把 spec SHA 写入 metadata。
+uv run python inference.py runs/c1/video_dit_inference.pt \
+  --prompt '...' --seed 17 --sampling-steps 50 --start-timestep 999 \
+  --cfg-scale 2.5 --evaluation-spec generation-evaluation-spec.json \
+  --output-dir runs/c1/inference ...
+uv run python generation_blind_review.py create \
+  runs/c1/inference generation-evaluation-spec.json split.jsonl split-report.json \
+  runs/c1/blind-media runs/c1/blind-queue.json runs/c1/sealed-key.json \
+  --seed 20260814
+```
+
+至少两名互相独立的评审者完整播放 blind MP4，只能从 queue 固定的 subject/action/scene
+词表选择；每个因子都额外提供永远不可能是正确答案的 `absent_or_unclear`，避免强迫评审者
+把垃圾帧猜成某个真实标签。决定分别保存为 `blinded generated-video factor review v1` JSON。揭盲要求
+两份决定覆盖完整队列、媒体 SHA 未变化、sealed assignment commitment 未变化；任一因子
+分歧都按错误而不是择优仲裁：
+
+```bash
+uv run python generation_review_ui.py \
+  runs/c1/blind-queue.json runs/c1/blind-media runs/c1/rater-a.json \
+  --reviewer-id rater-a --server-port 7863
+# 第二名评审者在独立会话使用不同 reviewer-id 和 decision 文件。
+
+uv run python generation_blind_review.py reveal \
+  runs/c1/blind-queue.json runs/c1/sealed-key.json runs/c1/blind-media \
+  runs/c1/blind-human-evaluation.json \
+  --decisions runs/c1/rater-a.json runs/c1/rater-b.json
+```
+
+报告分别保留 IID/C1/C2 的 subject、action、scene、完整 triple accuracy、Wilson 95% 区间，
+并把同一 seed 的 expected factor triple 做严格 derangement 作为显式对照；若无法构造不同
+三元组的错配就直接拒绝评估。这个人工门禁仍须与训练集最近邻
+报告共同解释；它不能单独排除记忆复制。
 
 latent 采样不会把预测的 clean latent 裁剪到 `[-1,1]`；该裁剪只适用于归一化 pixel。
 训练视频上的条件绑定可用 `teacher_forced_alignment.py` 在固定噪声/时间步下诊断，但它
