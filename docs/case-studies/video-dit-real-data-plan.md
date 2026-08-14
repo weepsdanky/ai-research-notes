@@ -2040,3 +2040,113 @@ non-held `cat×playing` 缺口从 5 缩到 **4**；held 仍缺 **34** groups，`
 家庭或连续事件换成新 ID，因此正式 split 前仍保留人工身份/事件审计和 pHash/embedding 近重复门禁。
 这一实现消除了授权素材到 manifest 之间的手工 JSON 环节，但没有伪造新数据：当前仍是
 128 records / 99 groups，held 16/50，`cat×playing=6/10`，0 eligible C1。
+
+### 2026-08-14 补充：Figshare 物体恒存实验发现 1 个 held 候选，但尚未入 manifest
+
+在上述按标题检索得到严格负结果后，又按 Figshare 官方 public API 的实际文件清单复核了
+[`Data and supplementary materials for Object permanence in domestic cats`](https://api.figshare.com/v2/articles/28287896)
+（article `28287896`、version `2`、DOI `10.25377/sussex.28287896.v2`）。这条记录是明确的
+[`CC BY 4.0`](https://creativecommons.org/licenses/by/4.0/)，不是论文开放获取向媒体的推断；官方
+article API 直接托管 3 个 MP4，并给出稳定 file ID、下载 URL、byte size 与 MD5。2025-09-11 的完整
+API 响应本地 SHA-256 是 `4d19d8cd5684ad8f8ae86033a20f1a9bfd14960e02ad691df87ad2b2c926b79f`。
+
+三条原视频均已从 Figshare `ndownloader` 取回并逐字节核对官方 MD5：
+
+| file ID | 官方文件 | bytes | MD5 | 本地 SHA-256 | 全长视觉结论 |
+|---:|---|---:|---|---|---|
+| `57852748` | `Supplementary Video 1 single visible displacement.mp4` | 50,948,064 | `5f37e3a46ed076440dcea38b580d39aa` | `73aedae05c90fdfaf9e49c7314c9fa9b9a4bfd6a1f3f193ed4cb9eab875ef5f3` | 单猫室内，但主要是观察/寻找盒中物，不把探索重标成 playing |
+| `57852745` | `Supplementary Video 2 consistent event.mp4` | 46,242,906 | `3cdddd625652841971baf286bf17c816` | `225dd3449562037d38f836f16e57cb281ca0d2450b12235a35167a7a220f5be6` | 单猫室内，主要检查纸箱；没有稳定两秒的主动玩耍证据 |
+| `57852742` | `Supplementary Video 3 violation event.mp4` | 33,194,026 | `eec2976c543cf528ed9b706f7272b3f1` | `3e94e6719f8309efbdf34f92b8816a3ee8768c028b377cda216639b41e4a7689` | `[40,42)` 秒为一只虎斑猫连续翻滚、伸爪并拨弄揭示出的玩具，明确 indoor；通过视觉语义门 |
+
+第三条的两秒窗口已规范化为 16 帧、8 fps、96×96，SHA-256
+`17c0a3b0d2958e305290fc69638a25e744d32a642e8349ff57bc0304557cfa0c`，pHash
+`0030a0f8f8f8e606`；与当前 128 条的最小 pHash Hamming 距离为 20，不是已知近重复。可复核的全长
+联系表、密集窗口、规范化 preview 与文件/API hashes 已跟踪在
+[`figshare-object-permanence-review-v1/evidence.json`](artifacts/video-dit/figshare-object-permanence-review-v1/evidence.json)。
+
+三条视频肉眼上是不同猫和不同房间，但公开 article 没有把 supplementary file ID 映射到研究中的稳定
+cat/session ID。为避免把三个 exemplar 冒充三个独立来源，当前全部保守归为同一个
+`figshare-article:28287896` group，因此即使第三条最终导入也最多贡献 **1 个 held group**。
+它目前仍是 `review-qualified-pending-import`、`training_ready=false`：下一步须实现专用 Figshare exact
+importer，在写 manifest 前重新锁 article/version/DOI/license、file ID/size/MD5/download URL、作者署名、
+本地 SHA-256、article-level group 与审核窗口。不能用本地 contribution receipt 代替官方 CC BY provenance。
+
+所以本节尚不改变权威 coverage：仍为 **128 records / 99 groups**、held `16/50`、
+`cat×playing=6/10`、0 eligible C1。若 importer 和最终重验通过，预期只会变成 held `17/50`；正式门禁
+仍需另外至少 33 个 held 独立 groups 和 4 个 non-held `cat×playing` groups。
+
+### 2026-08-14：Commons 细分类、Zenodo 与 Figshare 第一轮标题检索的严格负结果
+
+本轮以已经合入 IA outdoor clip 后的 **128 records / 99 groups** 为固定差集基线；只使用 Commons
+Action API、Zenodo OAI-PMH/record page 和 Figshare public API 等一手接口。没有把仓库默认许可、论文
+开放获取或 metadata 的 CC0 自动外推到底层媒体，也没有把 restricted 文件当成可下载数据。
+
+#### Commons 尚未单独闭合的 playing/toy 细分类
+
+先用 Commons 官方 category-namespace search 枚举 title 中含 `cat(s)/kitten + play` 以及 `cat toy`
+的类别，再对尚未在计划中单独列出的类别读 category members、MIME、page ID 和 SHA-1，并与当前
+1,136 个 Commons/IA candidate titles 做精确差集。结果仍为 **0 个新视频**：
+
+- [`Playing Siberian cats`](https://commons.wikimedia.org/wiki/Category:Playing_Siberian_cats) 只有两张
+  JPEG；`Playing Siamese cats`、`Playing cats by breed` 也没有新的 video member。
+- [`Kittens playing`](https://commons.wikimedia.org/wiki/Category:Kittens_playing) 只是指向
+  [`Playing kittens`](https://commons.wikimedia.org/wiki/Category:Playing_kittens) 的空 redirect；后者
+  141 个直属文件里唯一视频是已经在池中的 `File:Black and tuxedo kittens.webm`，并非新 source。
+- `Cats carrying toys in mouth` 的 1 个文件、`Cats and stuffed mice` 的 20 个文件、`Cat food puzzles`
+  的 2 个文件均不是视频；`Cats and toys` 没有直属文件。`Cat wheels` 的 7 个文件中唯一视频是已在池中
+  的 `File:Ocicat on Cat Wheel.webm`（page ID `76074090`、SHA-1
+  `efdaac4669c26bb1bb8795b9db78a76a4211ad3b`），不能重复导入或把跑轮重标为玩耍。
+
+类别名仍只作召回：即使以后上述类别增加新文件，也必须读取该文件自己的许可、description 和原媒体
+digest，并全长确认动作与 scene；category 页自身的 CC0/CC BY-SA 页脚不是成员视频的版权许可。
+
+#### Zenodo：最相关视频集不可下载，开放集又不包含 playing
+
+Zenodo 官方 OAI-PMH `GetRecord` 对
+[`oai:zenodo.org:19498944`](https://zenodo.org/records/19498944) 返回固定 DOI
+`10.5281/zenodo.19498944`、version `1.0`、datestamp `2026-04-13T12:15:45Z`，并同时声明
+`cc-by-4.0` 与 `info:eu-repo/semantics/restrictedAccess`。该 **Cat Royale Comprehensive Dataset**
+确实最贴近目标：官方 metadata 说 800+ action clips 与 800+ caption clips 来自三只猫、同一家庭、
+同一 bespoke enclosure、连续 12 天和 9 个机位。然而 record page 明确显示 files restricted、0 bytes
+可公开下载、0 downloads；未登录并获 depositor 批准就没有 file IDs、逐文件 checksums 或可审计媒体。
+因此它现在不是 exact import 来源，不能因为 record 层 CC BY 4.0 就绕过 access control。
+
+即使未来取得书面访问批准，多机位的同一时刻必须合并，同一家庭/三只猫/同一装置/连续项目也不能按
+800 clips 膨胀 source coverage；在发布方提供 cat identity、capture day/session 与 timestamp mapping，
+并完成跨机位近重复闭包前，正式门禁的保守上限是 **1 个 Cat Royale project group**。精确下一步只能是
+向 record depositor 请求访问，同时要求公开或随授权提供 file manifest/checksums、三只猫的匿名稳定 ID、
+camera ID、capture date/session/timestamps、action vocabulary、逐 clip caption，以及允许本项目保留和
+再分发规范化审核 clip 的书面确认；缺任一项仍 fail-closed。
+
+另一个官方开放结果
+[`Vocalisations of the domestic cat`](https://zenodo.org/records/8404046) 有 DOI
+`10.5281/zenodo.8404046` 和 12 个具名 MP4/MD5，但文件依次是 chatter、chirp、copulatory、growl、
+hiss、yawn、yowl、meow、purr、sneeze、spit、trill。关联的 MDPI 原论文也明确 supplementary video
+只服务 vocalisation category；它没有 playing clip，不能因研究采集了 170 只猫就贡献本任务 group。
+
+#### Figshare：许可合格不等于动作合格
+
+Figshare public API 对 article `21611121` 返回 DOI `10.6084/m9.figshare.21611121.v1`、CC BY 4.0，
+以及可下载文件 ID `38303676`：`12915_2022_1369_MOESM2_ESM.mp4`，311,903,015 bytes、MD5
+`fcf153a3b4be042fde9dad789241acdc`。但官方 BMC Biology 论文将它定义为六只猫对 catnip、silver vine、
+honeysuckle、valerian、nettle 和单一挥发物的 **video ethogram**；编码动作是 sniff、head rubbing、
+rolling、licking、biting、holding/raking 等 catnip response，文章没有把这些片段标成 play。故它有稳定
+ID、下载和许可，却在 action gate 被拒绝，不能为了补数把刺激反应重标为 generic playing。
+
+Figshare 的其他精确词面命中也没有可导入媒体：article `30343624`（`Cat play or cat fray?`，
+CC BY 4.0）只含一个 CSV 和四个 R scripts；article `30197155`（human recognition of cat play，
+CC BY 4.0）只含 PDF；article `24400894`（105 组 inter-cat interactions）只发布三个字节相同的 PDF，
+其原研究视频来自 owners/YouTube，没有随记录发布逐视频许可或 bytes；`32016189` 是一张 TIFF 且为
+CC BY-NC-SA 4.0。Zenodo/Figshare 上“研究关于 play”因此不能替代“逐视频可下载并获准训练”。这个
+标题检索批次没有命中前一节单独按 official file list 审计的 Figshare article `28287896`；后者的 1 条
+held 候选以 `training_ready=false` 单独记录，不能据此改写本批次的检索结果。
+
+本标题检索批次本身的严格结论是 **0 个新 pending / 0 approved / group 上限 0**，不改变任何 manifest
+或 coverage；全局待办则另有前一节锁定的 1 条 Figshare `review-qualified-pending-import`，它也尚未
+进入 manifest。
+当前仍为 **128 records / 99 groups**，held `cat|playing|indoors=16/50`，训练侧
+`cat×playing=6/10`、`playing×indoors=10/10`，故确认性实验精确还缺 **34 个 held 独立 groups** 和
+**4 个 non-held `cat×playing` groups**。公开仓库中最接近规模化来源的 Cat Royale 尚不可下载且最多只
+能保守贡献一个 project group；所以正式门禁仍必须依靠多位权利人的自有/逐视频明确授权征集，或等待
+一个同时发布 media bytes、CC0/CC BY、animal/session IDs 和逐 clip action/scene 的新数据版本。不能用
+同一家庭、同一只猫、连续拍摄、多机位或切片数量替代独立 source groups。
