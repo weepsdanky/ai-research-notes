@@ -401,10 +401,11 @@ timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license U
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
-满足新契约；当前 v3 的 127 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
+满足新契约；Commons v3 的 127 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并，当前为 98 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
-triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=5/10`、
+合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频。当前合并 manifest 为
+128 records / 99 个独立组；`cat|playing|indoors` 仍只有 16/50。coverage 还预注册每个 held
+triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=6/10`、
 `playing×indoors=10/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
@@ -600,7 +601,7 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 127 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 provenance-first：从现有 127 条 Commons approved 与 1 条经同等门禁审核的 IA CC0 视频继续扩展，逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。
@@ -619,6 +620,14 @@ source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补
 `cat×playing` 仍为 5/10，held `cat|playing|indoors` 仍为 16/50，因此仍是 0 eligible C1，
 没有启动正式训练。逐媒体 provenance、规范化 clip hash 和审核图见
 `docs/case-studies/artifacts/video-dit/commons-bowling-review/`。
+
+再随后，Internet Archive exact-license 审计找到 `catvideo_0003`：原始 MP4 为 CC0 1.0，
+官方 size/SHA-1/MD5 与本地流式下载结果一致。完整 75.78 秒联系表与 `[10,12)` 秒的
+16-frame 密集窗口显示一只真实猫在户外灌木下连续伸爪/拨弄，因此只批准为
+`cat|playing|outdoors`，不计入 held triple。它与现有 clips 的最小 pHash Hamming 距离为 21；
+按 creator 保守归为一个新 group。合并 manifest 因此达到 128 records / 99 groups，
+`cat×playing` 从 5 增到 6，held 仍是 16/50，仍为 0 eligible C1。审核 MP4、联系表与
+逐对象 hash 见 `docs/case-studies/artifacts/video-dit/archive-cat-playing-review-v1/`。
 
 在用户明确授权后，另行执行了一次**不满足正式数据门禁的预注册诊断 pilot**；它不是上述“正式训练”。
 协议在训练结束前由 commit `536d0f9` 固化，held triple 的 source/duplicate/pHash 传递闭包全部排除。

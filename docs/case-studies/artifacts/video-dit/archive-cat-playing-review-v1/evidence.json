@@ -1,0 +1,64 @@
+{
+  "artifact_kind": "internet_archive_full_duration_approved_review_evidence",
+  "approved_for_manifest": true,
+  "candidate_sha256": "1f446272c30b9fbcd8de2e08d2a9d7fd6ce5cca520009ac00f8c4306a9cf4a51",
+  "clip": {
+    "file": "approved-10-12.mp4",
+    "fps": 8,
+    "frames": 16,
+    "height": 96,
+    "perceptual_hash": "860cbc6860a5a521",
+    "sha256": "7f18a83afa469c6ba678856130b91bd9c3e3db7079fbfd9e55cb3444c5802dbb",
+    "start_seconds": 10.0,
+    "width": 96
+  },
+  "contact_sheets": [
+    {
+      "file": "full-contact.jpg",
+      "sampling": "24 frames across the 75.776122-second source using ffmpeg fps=24/75.776122",
+      "sha256": "c3c4f5c5fd86c0d41345b4cf955f2c7914eebd435982b5a5c06289008f36de12"
+    },
+    {
+      "file": "window-10s.jpg",
+      "sampling": "16 frames at 8 fps across the selected [10,12)-second window",
+      "sha256": "512cd3d741463f64332d9708d169e9c720b3251176d2f73177fad2d797e4e299"
+    }
+  ],
+  "coverage_after_review": {
+    "coverage_sha256": "36ae275e03d972648ec08c943c89f7424b962665e210c04689296ba3c4ce4071",
+    "eligible_c1_triples": [],
+    "held_cat_playing_indoors_groups": 16,
+    "independent_source_groups": 99,
+    "records": 128,
+    "source_manifest_sha256": "75775aa9776a8cb3cd1448be25b17ac3c229578bba8dfce6db637101f18836d8",
+    "train_pair_groups": {
+      "cat|indoors": 30,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    }
+  },
+  "decision": {
+    "action": "playing",
+    "prompt": "a cat playing outdoors",
+    "reason": "The full source shows one real cat outdoors repeatedly reaching and pawing into low branches. The selected two-second window contains one cat, continuous active pawing/reaching, an unambiguous outdoor ground-and-shrub scene, and no edit.",
+    "scene": "outdoors",
+    "subject": "cat"
+  },
+  "formal_c1_ready": false,
+  "identifier": "catvideo_0003",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "media_manifest_sha256": "a23c013ac013a5bcafd89d0e4b7ee74d16961fe4eea15a185887ce4f9b0ce164",
+  "nearest_existing_perceptual_hash_hamming": 21,
+  "original_media": {
+    "bytes": 163639292,
+    "md5": "ef5868a16164bafa01d84bbfa65f5361",
+    "sha1": "295ee52bed9e1f3b1bcdb479357cd29eac08518c",
+    "sha256": "73b0ef30c798ba3c62467609484718c36c412115dbcab6af0684f62b82c5e216",
+    "url": "https://archive.org/download/catvideo_0003/20200206_174812.mp4"
+  },
+  "review_policy": "A metadata description is retrieval evidence only. Approval requires full-duration review, one intended subject, a continuous two-second action window, an unambiguous scene, compatible per-file rights, and source/event/near-duplicate closure.",
+  "scan_report_sha256": "5037fc107f7d63b054f5c129e9164bf2ed7d2691192c0df53ddce0846236f745",
+  "source_group": "internet-archive-creator:1a16175c8e4a96324e7c6e3a3ddfd221ccf18d9f721fe99d55f2758433535df8",
+  "source_url": "https://archive.org/details/catvideo_0003",
+  "spec_sha256": "2a33af0a424c381ab5b65e869a2131f5803906c3a6a1339be68088698fdc7485"
+}

@@ -1909,3 +1909,104 @@ gain 仅 `2.08` 个百分点，mean margin `-0.01259`；最近训练视频相似
 损失抽样、确定性第一条生成 MP4 与最近邻图已跟踪在
 [`artifacts/video-dit/c1-pilot-v1/results/`](artifacts/video-dit/c1-pilot-v1/results/)。正式结论仍必须
 等待 held≥50、每个训练 pair≥10、零 source/event/near-duplicate 泄漏后重新预注册并从头执行。
+
+### 2026-08-14：现有 pending cat 池的高精度复审仍不足以触发正式门禁
+
+在 low-coverage pilot 失败后，本轮没有继续扩大低精度网页搜索，而是回到当前锁定的
+1,135-row Commons candidates 快照，只复审其中 `review_status=pending` 且 `subject=cat`
+的 **563** 条。为避免把检索 query 当成动作真值，筛选只使用规范 title 和 Commons 官方
+description；`play/toy/ball/laser/mouse/string/feather/chase/wrestle/romp/game/kitten` 词面共命中
+**89** 条。
+
+这 89 条中的高分项主要是与目标无关的词面假阳性，例如球类运动、玩具乐器、游戏预告、会议录屏、
+历史片和多猫合集。真正带猫动作证据的少数项也不能提供新独立 group：
+
+- `Play fight between cats` 的官方 description 明确是同窝两只幼猫，不满足单主体契约；
+- `2023-12-16 at Kitten Academy` 明确是多只 foster cats 与人的长视频，不满足稳定单猫窗口的先验；
+- `Interframe motion interpolation` 引用第三方 Pexels 猫玩玩具片段，但 Commons 文件本身是算法对比派生版，
+  不能代替原媒体许可与 source/event 锁定；
+- 大量 `LJUBLJANA doma` 项来自同一长期上传/动物系列，即使其中个别窗口经全长复审后可重标为 playing，
+  在没有新的动物身份和拍摄 event 证据前也只能作为一个保守 group，不能用文件数膨胀 coverage。
+
+因此，对当前 pending 池继续调低排序阈值不是可行的正式数据路线：它会增加人工审核量，但不会可靠地
+把 held `cat|playing|indoors` 从 **16** 提升到 **50**，也不会把训练侧 `cat×playing` 从
+**5** 提升到 **10**。正式实验仍精确缺 **34 个 held 独立 groups** 和 **5 个 non-held
+`cat×playing` groups**。下一批数据必须来自新的、逐文件权利清晰且能稳定归并动物身份/拍摄事件的来源；
+若没有这类外部授权或用户自有视频，则不得通过放宽单主体、动作、scene 或 group 定义来伪造门禁通过。
+
+### 2026-08-14：Internet Archive 许可过滤结果与正式数据阻断
+
+本轮不再重复已经闭合的 Commons 分类树，只查询 Internet Archive 官方
+[`Advanced Search API`](https://archive.org/advancedsearch.php) 和逐 item
+[`metadata API`](https://archive.org/metadata/catvideo_0003)。对 `cat playing`、`kitten playing`、
+`cat plays`、`kitten plays`、`cat with toy`、`cat toy`、`playing with a cat`、
+`playing with cat`、`playing with kitten` 九组 title/description 精确词组，加
+`mediatype:movies AND licenseurl:*` 后，官方 API 分别返回 `8/4/5/0/0/3/2/0/0` 条。逐 item 排除
+NC、ND、NC-SA、NC-ND、仅 Public Domain Mark、动画/音乐/转载和非真实猫后，只剩 **1 个可执行
+pending、0 approved**；它不在当前 1,135-row title 池中：
+
+- [`catvideo_0003`](https://archive.org/details/catvideo_0003)：官方 metadata 的 creator 为
+  `AprilDolphin`、date 为 `2020-02-06`、许可为
+  [`CC0 1.0`](https://creativecommons.org/publicdomain/zero/1.0/)。原文件
+  `20200206_174812.mp4` 为 163,639,292 bytes、75.78 s、SHA-1
+  `295ee52bed9e1f3b1bcdb479357cd29eac08518c`、MD5
+  `ef5868a16164bafa01d84bbfa65f5361`；IA 审核 derivative
+  `20200206_174812.ia.mp4` 为 7,442,654 bytes、75.83 s、SHA-1
+  `243acffbc7c472da75f4bb89b9a3c8c7b8d6af03`。本轮读取的 7,074-byte metadata 响应 SHA-256 为
+  `347034513f6b3011dd551cf69b774e27836c2cf0d09eb1c6be527a5037bfa301`。title 是
+  `20200206 174812`，description 只写 `Footage of cat playing`，所以 subject/action 只是召回
+  证据，scene 尚未证明。为避免复制公开邮箱，source key 取 uploader 精确 UTF-8 值的 SHA-256：
+  `archive-uploader-sha256:898c6f29f8ed4b4484fd62bccb7f74a83c35f686599055c2f0006deecc588ddf`，
+  再与 creator/date/item ID 联合闭包；本 item 最多贡献 **1** 个 provisional group，不能按原文件、
+  derivative 或多个窗口重复计数。
+
+exact import 必须固定 `archive.org/details/catvideo_0003` 与
+`archive.org/download/catvideo_0003/20200206_174812.mp4`，把单 item 下载硬帽显式提高到
+`170,000,000` bytes，先核对 IA size/SHA-1/MD5，再流式重算本地 SHA-256 与 ffprobe。随后以完整时间
+联系表和密集窗口确认：单只真实猫、连续至少两秒主动玩耍、明确 indoor/outdoor、无剪辑、可识别人或
+敏感屏幕；最后与该 uploader 的其他 items 及现有 127 clips 做 source/event、时间 pHash 和 embedding
+闭包。任一项不明即 reject，不得因 description 含 playing 直接批准，也不得看片后选择性分配到 held
+或 train。
+
+其他高相关结果不能使用：`lady_20191207` 与 `bandit_baby` 只有
+[`Public Domain Mark`](https://creativecommons.org/public-domain/pdm/)；`GodingFamilyHomeMovie09`、
+`MsKitka`、`catplayssticksgamewithowner` 分别是 CC BY-NC、CC BY-NC-ND、CC BY-NC；
+`cat-playing-a-piano-public-domain` 虽标 CC BY 4.0，但官方 metadata 明确是 1931 动画的 colour
+restoration/manipulation。不能把 PDM 当授权、删除 NC/ND 条件或把动画当真实 held triple。
+
+因此当前正式门禁仍是 held `cat|playing|indoors=16/50`（缺 **34**）、训练侧
+`cat×playing=5/10`（缺 **5**）、`playing×indoors=10/10`，仍为 **0 eligible C1**。即使唯一 IA
+pending 审核通过，也远不能补齐门禁。Commons 官方分类/SDC 与本轮 IA 许可过滤都没有发现可一次扩到
+确认性规模的公开来源；下一条现实路径必须是用户自有或逐视频明确授权、允许本项目训练及派生物分发的
+拍摄征集：至少另取 34 个 held 独立猫/家庭/session groups，并另取 5 个不属于 held triple 的
+`cat×playing` groups。每条仍须稳定 media ID、书面许可/署名、原媒体 digest、
+uploader/animal/session group 和全长审核，不能把同一家庭、同一只猫或同次拍摄拆成多个 groups。
+
+### 2026-08-14 执行结果：IA `catvideo_0003` 只补入一个 non-held group
+
+上述 IA 条目随后已按 exact ID 执行，不再只是 pending 计划。`prepare_archive.py` 从官方
+metadata API 生成 1 条锁定 candidate，candidate/spec SHA-256 分别为
+`1f446272c30b9fbcd8de2e08d2a9d7fd6ce5cca520009ac00f8c4306a9cf4a51` 和
+`2a33af0a424c381ab5b65e869a2131f5803906c3a6a1339be68088698fdc7485`。下载前的 170,000,000-byte
+硬帽大于锁定的 163,639,292 bytes；流式下载后 size、SHA-1 和 MD5 均与 IA 文件记录一致，
+本地 SHA-256 为 `73b0ef30c798ba3c62467609484718c36c412115dbcab6af0684f62b82c5e216`。
+
+完整 75.776122 秒视频显示一只虎斑猫在户外树干与灌木下活动。全长 24-frame 联系表与
+`[10,12)` 秒的 16-frame/8-fps 密集窗口显示它连续起身、伸爪和拨弄低处枝条；窗口内只有一只猫、
+无剪辑，地面、树干与灌木使 outdoor scene 无歧义。因此它通过审核的标签是
+`cat|playing|outdoors`，**不是** held `cat|playing|indoors`。选定 clip 规范化为 16 帧、8 fps、
+96×96，SHA-256 `7f18a83afa469c6ba678856130b91bd9c3e3db7079fbfd9e55cb3444c5802dbb`，
+pHash `860cbc6860a5a521`；它与原 127 clips 的最小 pHash Hamming 距离为 21。
+
+分组沿用 importer 的 privacy-safe 契约：上一节中的 uploader hash 是搜索时的实时审计下界，
+不持久化；真正写入 manifest 的 `source_id`/`duplicate_group` 是公开 creator `AprilDolphin`
+的规范化 SHA-256 group，以后发现同 creator/item series 必须传递合并。审核证据在
+[`archive-cat-playing-review-v1/evidence.json`](artifacts/video-dit/archive-cat-playing-review-v1/evidence.json)，
+并跟踪全长联系表、密集窗口和实际训练 clip。
+
+重建 coverage 后，合并 provenance manifest 为 **128 records / 99 independent groups**，manifest
+SHA-256 `75775aa9776a8cb3cd1448be25b17ac3c229578bba8dfce6db637101f18836d8`，coverage SHA-256
+`36ae275e03d972648ec08c943c89f7424b962665e210c04689296ba3c4ce4071`。held 仍为 **16/50**；
+训练侧现为 `cat×indoors=30/10`、`cat×playing=6/10`、`playing×indoors=10/10`。所以这轮只把
+non-held `cat×playing` 缺口从 5 缩到 **4**；held 仍缺 **34** groups，`eligible_c1_triples=[]`，
+仍不得启动正式训练。
