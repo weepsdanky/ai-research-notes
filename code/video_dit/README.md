@@ -714,6 +714,13 @@ playing。完整 63.847 秒只有一只猫和一个固定室内场景，`[10,12)
 manifest 为 133 records / 104 groups；held 仍为 20，训练 pair 为 `31/6/10`，所以正式 C1 仍不
 放行。审核与重建 hash 见 `docs/case-studies/artifacts/video-dit/commons-ocicat-wheel-review/`。
 
+截至本轮审计，正式门禁已到达外部素材阻断：所有已批准 non-held `cat|playing` 共 8 records，
+按 Nairobi/Lotti 等同 series 闭包后只有 6 groups；现有公开来源与优先审核队列没有更多合格记录。
+继续正式 C1 至少需要用户提供或逐视频取得书面许可的 4 个独立非室内 playing groups 和 30 个
+独立室内 playing groups。精确缺口、已耗尽路线与每条素材必须满足的 receipt/identity/session/
+完整时段/pHash 契约记录在
+`docs/case-studies/artifacts/video-dit/formal-c1-data-blocker-v1/evidence.json`。
+
 Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
 SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出
 `training_ready=false`：

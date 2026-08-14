@@ -2432,3 +2432,27 @@ Neptune 三个 PeerTube bundles，而不是在旧 merge 上增量追加。新的
 `cat×playing=6`、`playing×indoors=10`，所以 `eligible_c1_triples=[]`。这条数据改善动作多样性，
 但正式缺口仍精确是 30 个 held groups 与 4 个 non-held `cat×playing` groups。完整审核与 hash
 证据见 [`artifacts/video-dit/commons-ocicat-wheel-review/`](artifacts/video-dit/commons-ocicat-wheel-review/)。
+
+### 2026-08-15：正式 C1 数据门禁的外部素材阻断已确认
+
+在 133-record portable 数据上重新枚举所有 non-held `cat|playing` 记录：共有 8 records，但 Nairobi
+与 Lotti 各有两条同 series 视频，按 source/session 传递闭包后只有 **6 个独立 groups**。现有 1,135
+条 Commons 候选为 128 approved / 797 pending / 210 rejected；exact 44-member playing-cat 池、分类/
+全文/SDC/多语言差集、poster/temporal 优先队列，以及 VideoUFO、IA、Figshare、GBIF、PeerTube 等
+逐来源审计均已闭合。剩余强 metadata hits 是多猫、eating/hunting、edited、权利不清或词面假阳性；
+把它们继续切片或重标不会产生新的合法 source group。
+
+因此正式实验当前有一个可证实的外部状态依赖，而不是代码或算力问题：工作区和已批准公开来源中没有
+另外 4 个独立 non-held `cat×playing` groups，也没有另外 30 个 held groups。解除阻断所需的最小输入是：
+
+1. 四条来自四只不同猫、家庭和 capture session 的非室内连续 playing 视频；
+2. 三十条来自三十只不同猫、家庭和 capture session 的室内连续 playing 视频；
+3. 每条都有允许模型训练、派生与规范化 clip 携带的 rights receipt，稳定 contributor/animal/session ID、
+   原媒体 SHA-256/recorded_at、完整时段审核和无剪辑两秒窗口；
+4. 全部输入到齐后，从 fixed pristine base 加所有 approved bundles 一次性重建，再运行 pHash/source
+   closure 与 coverage；不能在旧 merged dataset 上递增追加。
+
+这一阻断不否定已经完成的低覆盖 pilot；它只说明确认性结论尚不能合法启动。机器可读审计见
+[`artifacts/video-dit/formal-c1-data-blocker-v1/evidence.json`](artifacts/video-dit/formal-c1-data-blocker-v1/evidence.json)。
+收到新的自有/逐视频授权媒体后，从 `prepare_local_contribution.py create/approve` 继续；在此之前不得
+重复搜索同一已闭合来源、放宽单主体/动作/scene，或把 8 records 当作 8 independent groups。

@@ -1,0 +1,70 @@
+{
+  "protocol": "formal C1 external-media blocker audit v1",
+  "audited_at": "2026-08-15",
+  "authoritative_dataset": {
+    "records": 133,
+    "independent_source_groups": 104,
+    "manifest_sha256": "2fb6efd214900f71d838679d8ed2e3c651e86fffa6a2e8eb3ac9f213cd2317bb",
+    "coverage_sha256": "adcad3eaddf40242f2d305bbb0fa5e92cb7fa80e91b49252457bfa5169a09108",
+    "eligible_c1_triples": []
+  },
+  "candidate_pool": {
+    "records": 1135,
+    "approved": 128,
+    "pending": 797,
+    "rejected": 210,
+    "snapshot_sha256": "e92a3ce8ea506628d29e6ad8b413e92053510eaa839bc4959b6a0d78a88cdb7b",
+    "provenance_sha256": "1d57836858753b9f83fb6735aaeccbf2e23869f895384dc6c7a3ceee041eb37b"
+  },
+  "formal_gate": {
+    "held_triple": "cat|playing|indoors",
+    "required_held_groups": 50,
+    "observed_held_groups": 20,
+    "missing_held_groups": 30,
+    "required_each_held_excluded_pair": 10,
+    "observed_pair_groups": {
+      "cat|indoors": 31,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    },
+    "missing_nonheld_cat_playing_groups": 4,
+    "passes": false
+  },
+  "nonheld_cat_playing_inventory": {
+    "records": 8,
+    "independent_groups": 6,
+    "groups": [
+      "commons-series:ljubljana-cat-mouse-2022-06-13",
+      "commons-uploader:c24b85c238820ae0",
+      "commons-uploader:baaa968458495f0a",
+      "commons-series:cat-play-nairobi",
+      "commons-series:radevormwald-lotti-outdoor",
+      "internet-archive-creator:1a16175c8e4a96324e7c6e3a3ddfd221ccf18d9f721fe99d55f2758433535df8"
+    ],
+    "anti_inflation_note": "the Nairobi and Lotti series each contain two records but contribute one transitive source/session group"
+  },
+  "exhausted_local_routes": [
+    "the exact 44-member Commons playing-cat category has been fully reviewed",
+    "Commons category, full-text, structured-data and multilingual deltas have no remaining high-confidence unseen title",
+    "the frozen poster and temporal priority queues produced no additional approved cat-playing group",
+    "the two strongest remaining multi-subject titles were reviewed over their full duration and rejected",
+    "VideoUFO sampled shards, Internet Archive, Figshare, GBIF, PeerTube and other first-party source audits yielded no further eligible non-held record",
+    "remaining strong metadata hits are multi-cat, eating/hunting, edited, rights-unclear or lexical false positives"
+  ],
+  "blocking_condition": "no additional provenance-locked, single-cat, continuously playing media from an independent animal/household/session is available in the audited workspace or approved public-source inventory",
+  "minimum_external_state_change": {
+    "nonheld": "four videos from four independently identified cats, households and capture sessions, with scene not indoors",
+    "held": "thirty videos from thirty independently identified cats, households and capture sessions, with scene indoors",
+    "per_video_contract": [
+      "rights receipt grants model training, derivatives and normalized-clip redistribution",
+      "stable contributor_id, animal_id and capture_session_id",
+      "locked original-media SHA-256 and recorded_at timestamp",
+      "full-duration review plus a no-cut two-second 16-frame action window",
+      "single visible cat continuously playing",
+      "source/session grouping and pHash near-duplicate closure before split"
+    ]
+  },
+  "resume_command_path": "use prepare_local_contribution.py create/approve for each new media item, then rebuild from the fixed pristine base with all approved bundles and rerun prepare_real_data.py coverage",
+  "training_ready": false,
+  "confirmatory_claim_ready": false
+}
