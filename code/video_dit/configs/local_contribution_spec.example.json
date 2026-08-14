@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "contribution_id": "luna-play-001",
+  "media_path": "source.mp4",
+  "subject": "cat",
+  "action": "playing",
+  "scene": "indoors",
+  "prompt": "a cat playing indoors",
+  "clip_start_seconds": 0.5
+}

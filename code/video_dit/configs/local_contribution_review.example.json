@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "contribution_id": "luna-play-001",
+  "reviewer_id": "reviewer-01",
+  "reviewed_at": "2026-08-14T13:00:00Z",
+  "source_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "rights_receipt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "clip_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "full_contact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "selected_window_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "subject": "cat",
+  "action": "playing",
+  "scene": "indoors",
+  "prompt": "a cat playing indoors",
+  "full_duration_reviewed": true,
+  "single_subject_confirmed": true,
+  "continuous_action_confirmed": true,
+  "scene_confirmed": true,
+  "no_edit_in_window": true,
+  "review_notes": "One cat continuously paws a toy in the selected indoor window."
+}

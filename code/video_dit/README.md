@@ -661,6 +661,58 @@ uv run --offline python prepare_archive_media.py \
 是户外，Neve 猫视频没有清晰持续的 playing 动作。审核证据在
 `docs/case-studies/artifacts/video-dit/archive-pair-pilot-v3/`，因此 IA 本轮没有改变 coverage。
 
+#### 自有/逐视频授权素材的两阶段导入
+
+公开数据源不足以补齐正式 C1 时，使用 `prepare_local_contribution.py`。它不会把一份许可
+JSON 直接当成已审训练数据：`create` 只生成 `training_ready=false` 的待审 bundle，包含锁定
+原媒体 SHA-256、rights receipt、规范化 16-frame clip、锁定的完整原视频、全长 24-frame 联系表和密集两秒窗口。
+`approve` 必须再绑定完整审核决定；任一主体/动作/scene/无剪辑确认不是显式 `true`，或哈希不匹配，
+就不能进入 `merge`。
+
+复制三个 `configs/local_contribution_*.example.json` 到与原 MP4 同一输入目录，先把 receipt 中的
+`media_sha256` 替换为原文件实算值：
+
+```bash
+cd code/video_dit
+shasum -a 256 /path/to/contribution/source.mp4
+
+uv run --offline python prepare_local_contribution.py create \
+  /path/to/contribution/spec.json \
+  /path/to/contribution/receipt.json \
+  data/local-contributions/luna-play-001-staged
+```
+
+先播放并完整查看 `source-media/` 中的原视频；`review/full-contact.jpg` 只用于快速导航，不能替代
+逐段播放。再查看 `review/selected-window.jpg`，并用 staged `evidence.json`、
+`source.jsonl` 和 receipt 中的实算哈希替换 review 模板里的占位值：
+
+```bash
+uv run --offline python prepare_local_contribution.py approve \
+  data/local-contributions/luna-play-001-staged \
+  /path/to/contribution/review.json \
+  data/local-contributions/luna-play-001-approved
+
+uv run --offline python prepare_local_contribution.py merge \
+  data/commons_g1_provenance_v3/source.jsonl \
+  data/local-contributions/luna-play-001-approved \
+  --output data/formal-c1-expanded-v1
+
+uv run --offline python prepare_real_data.py coverage \
+  data/formal-c1-expanded-v1/source.jsonl --target-per-triple 50 \
+  --min-train-pair-source-groups 10 \
+  --report data/formal-c1-expanded-v1/coverage.json
+```
+
+`merge` 不原地修改基础数据；它重建一个新的可移动目录，并重验每个 clip、完整原视频、receipt、
+联系表、human review 与 manifest 哈希。每个批准 bundle 的完整副本会保存在
+`contribution-audit/`，因此移动或删除输入目录后仍可独立复核。`BASE` 必须始终是固定的原始
+Commons 数据树；为避免丢掉旧审计链，CLI 会拒绝把上一次 merge 输出继续作增量 BASE。每次扩容都应
+从同一 BASE 传入截至当时的**全部** approved bundles。`contributor_id`/`animal_id`/
+`capture_session_id` 只用于生成稳定哈希组；同一动物与同次拍摄不得为了 coverage 拆成多个
+session。软件能强制相同 ID 的分组一致，但不能自动识别人为改名的同一动物/事件；正式 split 前仍需
+人工身份/事件审计与 pHash/embedding 近重复检查。这条链路只解决可审计导入，不会降低 held≥50
+和每个训练 pair≥10 的正式门禁。
+
 复现 metadata 扫描与 tar 解析（原始文件位于仓库外/ignored 的 `data/raw/videoufo`）：
 
 ```bash

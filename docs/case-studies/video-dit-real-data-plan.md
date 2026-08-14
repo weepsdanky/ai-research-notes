@@ -2010,3 +2010,33 @@ SHA-256 `75775aa9776a8cb3cd1448be25b17ac3c229578bba8dfce6db637101f18836d8`，cov
 训练侧现为 `cat×indoors=30/10`、`cat×playing=6/10`、`playing×indoors=10/10`。所以这轮只把
 non-held `cat×playing` 缺口从 5 缩到 **4**；held 仍缺 **34** groups，`eligible_c1_triples=[]`，
 仍不得启动正式训练。
+
+### 2026-08-14：授权自有视频的 fail-closed 导入入口已实现
+
+公开来源审计已经证明，剩余 34 个 held groups 不能靠调低 Commons/IA 搜索阈值获得。为了让
+用户自有或逐条书面授权的素材能直接进入同一 provenance 契约，现已新增
+`prepare_local_contribution.py`，但它不把“用户给了一个文件”等同于“可训练”。
+
+契约分为三个公开 CLI seam：
+
+1. `create SPEC RECEIPT OUTPUT`：校验原媒体 SHA-256、UTC 时间、权利人/署名、许可 URL，以及
+   `model_training/create_derivatives/redistribute_normalized_clips` 三个显式 grant；绑定稳定的
+   contributor/animal/capture-session IDs，产生 16 帧、8 fps、96×96 的两秒 clip，并把锁定的
+   完整原视频、全长导航联系表和密集窗口一起保存在 bundle 中。这一阶段固定为
+   `training_ready=false`；24 帧联系表只用于导航，不能代替完整播放原视频。
+2. `approve STAGED REVIEW OUTPUT`：必须用同一 manifest/receipt/clip/两张联系表的 SHA-256 绑定
+   人工决定，且 full-duration、single-subject、continuous-action、scene 和 no-edit 五个审核门坎
+   都必须显式为 `true`。
+3. `merge BASE APPROVED... --output NEW_DATASET`：不原地修改 base，而是在临时目录重新解析 rights
+   receipt 的授权、身份和媒体契约，重验 clip、完整原视频、联系表、human-review 和 manifest 绑定后，
+   把每个 approved bundle 的完整审计副本写入 `contribution-audit/`，再原子提交可移动数据树。
+   `BASE` 只能是固定的 pristine Commons 数据树；CLI 拒绝把旧 merge 结果再次作为增量 BASE，扩容时
+   必须从同一 BASE 一次传入全部 approved bundles，防止上一代完整审计副本在下一代静默丢失。
+
+模板位于 `code/video_dit/configs/local_contribution_{spec,receipt,review}.example.json`，完整命令见
+`code/video_dit/README.md`。`RealVideoRecord` 现在可选持久化 `contribution_id`/
+`rights_receipt_path`/`rights_receipt_sha256`，老 manifest 仍可读，新 contribution 则必须三字段 all-or-none。
+相同的稳定 ID 会导出相同 source/session group；但代码无法自动发现贡献者故意或误把同一动物、
+家庭或连续事件换成新 ID，因此正式 split 前仍保留人工身份/事件审计和 pHash/embedding 近重复门禁。
+这一实现消除了授权素材到 manifest 之间的手工 JSON 环节，但没有伪造新数据：当前仍是
+128 records / 99 groups，held 16/50，`cat×playing=6/10`，0 eligible C1。

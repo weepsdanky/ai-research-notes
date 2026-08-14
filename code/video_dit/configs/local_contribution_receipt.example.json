@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "contribution_id": "luna-play-001",
+  "contributor_id": "household-017",
+  "animal_id": "cat-luna",
+  "capture_session_id": "2026-08-14-living-room-01",
+  "rights_holder": "Example Contributor",
+  "accepted_at": "2026-08-14T12:00:00Z",
+  "recorded_at": "2026-08-14T11:30:00Z",
+  "media_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "license_id": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Example Contributor",
+  "grants": {
+    "model_training": true,
+    "create_derivatives": true,
+    "redistribute_normalized_clips": true
+  }
+}

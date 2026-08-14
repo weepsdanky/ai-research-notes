@@ -48,6 +48,9 @@ class RealVideoRecord:
     downloaded_media_kind: str | None = None
     downloaded_media_sha256: str | None = None
     downloaded_at: str | None = None
+    contribution_id: str | None = None
+    rights_receipt_path: str | None = None
+    rights_receipt_sha256: str | None = None
     clip_start_seconds: float | None = None
     clip_frames: int | None = None
     clip_fps: int | None = None
@@ -80,6 +83,21 @@ class RealVideoRecord:
             or any(character not in "0123456789abcdefABCDEF" for character in self.downloaded_media_sha256)
         ):
             raise ValueError("downloaded_media_sha256 must contain exactly 64 hexadecimal characters")
+        receipt_contract = (
+            self.contribution_id, self.rights_receipt_path, self.rights_receipt_sha256,
+        )
+        if any(value is not None for value in receipt_contract) and not all(
+            isinstance(value, str) and value.strip() for value in receipt_contract
+        ):
+            raise ValueError("contribution receipt contract must be all present or all absent")
+        if self.rights_receipt_sha256 is not None and (
+            len(self.rights_receipt_sha256) != 64
+            or any(
+                character not in "0123456789abcdefABCDEF"
+                for character in self.rights_receipt_sha256
+            )
+        ):
+            raise ValueError("rights_receipt_sha256 must contain exactly 64 hexadecimal characters")
         if self.source_page_id is not None and (
             not isinstance(self.source_page_id, int) or isinstance(self.source_page_id, bool)
             or self.source_page_id < 1
