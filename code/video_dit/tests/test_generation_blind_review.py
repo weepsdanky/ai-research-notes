@@ -255,7 +255,7 @@ def test_pilot_spec_freezes_below_confirmatory_coverage_without_claiming_readine
         "start_timestep": 999, "clip_denoised": False,
         "effective_cfg_scale": 1.0, "condition_mode": "text",
         "text_encoder_id": "encoder#tokens-v2",
-        "training_manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+        "training_manifest_sha256": "f" * 64,
     }
     with pytest.raises(ValueError, match="formal generation evaluation"):
         build_generation_evaluation_spec(
@@ -266,6 +266,8 @@ def test_pilot_spec_freezes_below_confirmatory_coverage_without_claiming_readine
         pilot=True,
     )
     assert spec["evaluation_tier"] == "pilot"
+    assert spec["split_manifest_sha256"] == hashlib.sha256(manifest).hexdigest()
+    assert spec["training_manifest_sha256"] == "f" * 64
     assert spec["confirmatory_gate"] == {
         "passes": False,
         "required_c1_source_groups": 50,

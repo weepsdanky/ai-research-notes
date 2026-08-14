@@ -148,6 +148,8 @@ def _evaluation_spec(data: bytes) -> tuple[dict[str, dict[str, str]], dict[str, 
         raise ValueError("confirmatory evaluation spec does not pass its data gate")
     for field in ("training_manifest_sha256", "split_report_sha256"):
         _lower_sha(spec.get(field), f"generation evaluation spec {field}")
+    split_manifest_sha = spec.get("split_manifest_sha256", spec["training_manifest_sha256"])
+    _lower_sha(split_manifest_sha, "generation evaluation spec split_manifest_sha256")
     seeds = spec.get("seeds")
     if (
         not isinstance(seeds, list) or len(seeds) < 2
@@ -282,7 +284,8 @@ def build_generation_evaluation_spec(
             "observed_c1_source_groups": observed_c1,
             "observed_train_pair_source_groups": observed_pairs,
         },
-        "training_manifest_sha256": _sha256(manifest_bytes),
+        "split_manifest_sha256": _sha256(manifest_bytes),
+        "training_manifest_sha256": generation_contract["training_manifest_sha256"],
         "split_report_sha256": _sha256(split_report_bytes),
         "generation_contract": generation_contract,
         "seeds": sorted(seeds),
@@ -443,6 +446,9 @@ def create_blind_generation_pool(
         "protocol": QUEUE_PROTOCOL,
         "evaluation_spec_sha256": _sha256(spec_bytes),
         "training_manifest_sha256": spec["training_manifest_sha256"],
+        "split_manifest_sha256": spec.get(
+            "split_manifest_sha256", spec["training_manifest_sha256"]
+        ),
         "split_report_sha256": spec["split_report_sha256"],
         "generation_contract": spec["generation_contract"],
         "seeds": list(spec["seeds"]), "prompts_per_seed": len(specs),
@@ -701,6 +707,9 @@ def reveal_blind_generation_results(
         "queue_sha256": queue_sha, "key_sha256": _sha256(key_bytes),
         "evaluation_spec_sha256": queue.get("evaluation_spec_sha256"),
         "training_manifest_sha256": queue.get("training_manifest_sha256"),
+        "split_manifest_sha256": queue.get(
+            "split_manifest_sha256", queue.get("training_manifest_sha256")
+        ),
         "split_report_sha256": queue.get("split_report_sha256"),
         "decision_sha256": [_sha256(data) for data in decision_bytes],
         "raters": len(reviewers), "reviewer_ids": reviewers,

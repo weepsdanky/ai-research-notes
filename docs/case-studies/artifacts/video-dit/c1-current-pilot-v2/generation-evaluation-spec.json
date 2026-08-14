@@ -1,0 +1,133 @@
+{
+  "confirmatory_gate": {
+    "observed_c1_source_groups": {
+      "cat|playing|indoors": 20
+    },
+    "observed_train_pair_source_groups": {
+      "cat|indoors": 23,
+      "cat|playing": 6,
+      "playing|indoors": 10
+    },
+    "passes": false,
+    "required_c1_source_groups": 50,
+    "required_train_pair_source_groups": 10
+  },
+  "evaluation_tier": "pilot",
+  "generation_contract": {
+    "checkpoint_sha256": "f17d93e8758007ef84d4e8d14f2b9e2697210d93b66a6c304dc733839e23b509",
+    "clip_denoised": false,
+    "condition_mode": "text_tokens",
+    "effective_cfg_scale": 2.5,
+    "prediction_type": "velocity",
+    "sampling_steps": 50,
+    "start_timestep": 999,
+    "text_encoder_id": "openai/CLIP-ViT-B-32@sha256:40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af#tokens-v2",
+    "training_manifest_sha256": "1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed",
+    "training_step": 10000,
+    "weights": "ema"
+  },
+  "protocol": "frozen compositional generation evaluation v1",
+  "records": [
+    {
+      "action": "playing",
+      "prompt": "a cat chasing a shadow indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a cat playing indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a cat playing with a laser pointer indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a cat playing with a straw indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a cat playing with a toy lizard indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a cat playing with a toy mouse indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "playing",
+      "prompt": "a kitten playing indoors",
+      "scene": "indoors",
+      "split": "c1",
+      "subject": "cat"
+    },
+    {
+      "action": "scratching",
+      "prompt": "a cat scratching fabric indoors",
+      "scene": "indoors",
+      "split": "iid",
+      "subject": "cat"
+    },
+    {
+      "action": "scratching",
+      "prompt": "a cat scratching indoors",
+      "scene": "indoors",
+      "split": "iid",
+      "subject": "cat"
+    },
+    {
+      "action": "sitting",
+      "prompt": "a cat sitting by a window indoors",
+      "scene": "indoors",
+      "split": "iid",
+      "subject": "cat"
+    },
+    {
+      "action": "sitting",
+      "prompt": "a cat sitting inside a bag indoors",
+      "scene": "indoors",
+      "split": "iid",
+      "subject": "cat"
+    },
+    {
+      "action": "sitting",
+      "prompt": "a cat sitting on a chair indoors",
+      "scene": "indoors",
+      "split": "iid",
+      "subject": "cat"
+    },
+    {
+      "action": "walking",
+      "prompt": "a cat walking outdoors",
+      "scene": "outdoors",
+      "split": "iid",
+      "subject": "cat"
+    }
+  ],
+  "seeds": [
+    17,
+    29,
+    43,
+    61
+  ],
+  "split_manifest_sha256": "b9f4e809877cc1d9bf559142d2bdd64ef4ecb215f0428b27b655a6d0b70d460d",
+  "split_report_sha256": "0285e138085fd2e1c0f50cd31340b6e39ac1da6640ddfab3a7bc98570f0c9f77",
+  "training_manifest_sha256": "1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed",
+  "training_ready": false
+}
