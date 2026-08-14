@@ -403,9 +403,10 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
 满足新契约；Commons v3 的 127 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频，以及 1 条逐文件锁定的 Figshare
-CC BY 4.0 室内玩耍猫视频。当前合并 manifest 为 129 records / 100 个独立组；
-`cat|playing|indoors` 为 17/50。coverage 还预注册每个 held
+合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频、1 条逐文件锁定的 Figshare
+CC BY 4.0 室内玩耍猫视频，以及 2 条 origin/API/rendition 全部锁定的 PeerTube 室内玩耍猫视频。
+当前合并 manifest 为 131 records / 102 个独立组；`cat|playing|indoors` 为 19/50。
+coverage 还预注册每个 held
 triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=6/10`、
 `playing×indoors=10/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
@@ -651,6 +652,28 @@ uv run --offline python prepare_figshare.py merge \
   data/commons_g1_provenance_v3/source.jsonl \
   data/figshare_cat_object_permanence_v1/bundle-v1 \
   --output data/formal_c1_expanded_figshare_v1
+```
+
+再随后，Sepia Search 只用于发现候选，实际证据全部回到各 PeerTube origin 的官方 API。
+五条强标题候选中，军方水印转发视频因上传者权利不清直接拒绝，Mercury 片段因动作只是翻滚/
+自我接触而拒绝；只有 Buster 与 Žofinka 两条通过。两条均为单猫、室内、连续玩玩具，账号快照分别
+明确把动物称为上传者的猫/具名 kitten，许可分别为 CC0 1.0 与 CC BY-SA 4.0。它们来自不同 origin、
+账号、动物与事件，pHash 距离当前 base 分别为 23 和 19。
+
+`prepare_peertube.py create` 会锁 video/account API bytes、许可、canonical origin/download URL、
+rendition size/SHA-256、完整联系表、密集窗口与 2 秒规范化 clip；`merge` 再重放同一语义验证、重算
+candidate-to-base pHash，并携带完整 bundle。执行后 manifest 为 **131 records / 102 groups**，held
+`cat|playing|indoors=19/50`；训练侧仍为 `30/6/10`，所以 non-held `cat×playing` 仍缺 4 groups，
+`eligible_c1_triples=[]`，正式训练仍未启动。审核资产见
+`docs/case-studies/artifacts/video-dit/peertube-cat-playing-review/`。
+
+```bash
+uv run --offline python prepare_peertube.py create VIDEO.json ACCOUNT.json SOURCE.mp4 REVIEW.json BUNDLE
+uv run --offline python prepare_peertube.py merge \
+  data/formal_c1_expanded_figshare_v1/source.jsonl \
+  data/peertube_cat_playing_v1/buster-bundle \
+  data/peertube_cat_playing_v1/zofinka-bundle \
+  --output data/formal_c1_expanded_peertube_v1
 ```
 
 在用户明确授权后，另行执行了一次**不满足正式数据门禁的预注册诊断 pilot**；它不是上述“正式训练”。

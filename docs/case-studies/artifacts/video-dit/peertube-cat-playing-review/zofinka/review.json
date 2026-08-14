@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "video": {
+    "uuid": "9a4b180f-5144-4c2e-bd01-f2a85fa890f4",
+    "origin": "https://peertube.wtf",
+    "watch_url": "https://peertube.wtf/videos/watch/9a4b180f-5144-4c2e-bd01-f2a85fa890f4",
+    "api_snapshot_sha256": "e73ca0b6d39055fc5f8b57b1a1f42fda08d1ae16426e1d239089548bcd99c991",
+    "name": "Kitten play 🐈🧶",
+    "description": "Žofinka",
+    "duration_seconds": 50,
+    "published_at": "2026-08-07T10:45:36.181Z",
+    "licence_id": 2,
+    "licence_label": "Attribution - Share Alike"
+  },
+  "account": {
+    "name": "amarok",
+    "display_name": "Jan P.",
+    "url": "https://peertube.wtf/accounts/amarok",
+    "description": "Czech Republic / Czechia (EU).\n\n🍥GNU/Linux\n🎹🐱🐶🌿\n\nOriginal instance URL:\npeertube.wtf/a/amarok/video-channels",
+    "created_at": "2025-04-22T20:42:23.657Z",
+    "api_snapshot_sha256": "eb866fad691494a695172e2d8e2843c7afef336d056016a54b074b6aa82cd0a5",
+    "originality_basis": "The local-origin account names the kitten as Žofinka and presents itself as an individual creator account."
+  },
+  "rendition": {
+    "url": "https://peertube.wtf/download/streaming-playlists/hls/videos/9a4b180f-5144-4c2e-bd01-f2a85fa890f4-360-fragmented.mp4",
+    "size_bytes": 3657399,
+    "sha256": "1a6da9efc3595c5fddddde0a815599704f33a6e66b5187b47b950c6af3d6682c",
+    "resolution_id": 360
+  },
+  "decision": {
+    "status": "review-qualified-pending-import",
+    "subject": "cat",
+    "action": "playing",
+    "scene": "indoors",
+    "clip_start_seconds": 10.0,
+    "clip_stop_seconds": 12.0,
+    "reviewer_id": "codex-primary-visual-review",
+    "reviewed_at": "2026-08-14T16:00:00Z",
+    "full_duration_reviewed": true,
+    "single_animal_confirmed": true,
+    "continuous_action_confirmed": true,
+    "scene_confirmed": true,
+    "no_edit_in_window": true,
+    "notes": "One kitten repeatedly tracks, reaches for and bats a feather wand beside a cardboard box indoors."
+  },
+  "grouping": {
+    "conservative_group": "peertube:peertube.wtf:amarok-zofinka",
+    "reason": "All videos from this uploader that name Žofinka remain one animal-level group."
+  },
+  "review_artifacts": {
+    "full_contact": {"path": "full.jpg", "sha256": "9f2588709bdb71ab4fcee89c6b737a526c5f4726ee35cbc08225bfc06b7eefe4"},
+    "selected_window": {"path": "selected.jpg", "sha256": "8b6fb3bde767bcfb8f142ea7f817c0559497941c434ca88cbed61c553322e257"},
+    "normalized_preview": {
+      "path": "preview.mp4",
+      "sha256": "7185850407352224632fb65fa91cf27e406c2dfdc6d02a0cc522903426c154a6",
+      "perceptual_hash": "2628222737103030",
+      "frames": 16,
+      "fps": 8,
+      "size": 96
+    }
+  },
+  "validation": {
+    "nearest_existing_phash_distance": 19,
+    "remaining_blocker": "portable PeerTube importer and merge validation"
+  },
+  "training_ready": false
+}

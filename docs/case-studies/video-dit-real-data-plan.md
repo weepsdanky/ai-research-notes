@@ -12,6 +12,9 @@
 4. **不要把 WebVid-10M 当新实验首选**。官方仓库明确写明自 2024-02-23 起因 cease-and-desist 已不能发布 URL 和 captions；其条款也只授予研究者 12 个月、不可转让的严格非商业研究许可，并要求期满删除。第三方镜像不能自动恢复合法来源或可复现性。[官方仓库](https://github.com/m-bain/webvid) · [官方条款](https://github.com/m-bain/webvid/blob/main/TERMS.md)
 
 如果只做一轮实验，推荐先把 **Commons-1K 审核集**做实，再决定是否扩大到 6K/12K。当前任何来源都不足以支持“已经完成严格组合泛化数据集”的说法。
+截至 2026-08-15，Commons 主集加逐对象锁定的 IA、Figshare 与 PeerTube 增量合计 **131 records /
+102 groups**；held `cat|playing|indoors=19/50`，训练侧 pair 为 `30/6/10`，仍是 0 eligible C1，
+所以这里只推进数据准备，不启动正式训练。
 
 ## 2026-08-14 官方访问审计：VideoUFO 与 FineVideo
 
@@ -2178,3 +2181,103 @@ held 候选以 `training_ready=false` 单独记录，不能据此改写本批次
 正式确认实验现在精确缺 **33 个 held 独立 groups** 和 **4 个 non-held `cat×playing` groups**。
 低 coverage pilot 的失败结论不因新增一条数据改变；达到门禁后仍须从头冻结新 manifest/split、模型、
 checkpoint policy、prompts 与 seeds，并重新执行完整盲评与最近邻审计。
+
+### 2026-08-14：GBIF/Agouti 逐媒体审计为 0 个 playing 候选
+
+为优先寻找 non-held `cat|playing|outdoors`，本轮只查询可回到发布机构和原媒体的官方接口。GBIF
+occurrence API 的精确查询
+[`taxon_key=2435035&media_type=MovingImage`](https://api.gbif.org/v1/occurrence/search?taxon_key=2435035&media_type=MovingImage&limit=300)
+返回 `count=5`、`endOfRecords=true`，共 8 个 `MovingImage` assets；它们全部属于 National Museum of
+Natural History, Luxembourg 发布的
+[`Luxembourg farmland bird survey 2020 - 2024`](https://api.gbif.org/v1/dataset/1290a78f-098c-4336-84e4-74de27a658f1)
+（dataset key `1290a78f-098c-4336-84e4-74de27a658f1`、DOI `10.15468/v4bky9`）。occurrence records 是
+CC0；每条 media object 则各自明确声明 [`CC BY 4.0`](https://creativecommons.org/licenses/by/4.0/)，
+rights holder 为 `SIAS`。因此这不是把 dataset 许可外推到未知文件：8 条下载 URL、asset UUID 和媒体许可
+均来自同一个官方 occurrence 响应。
+
+8 个原文件均已完整下载，`ffprobe` 可读，并以每秒 2 帧的全时长联系表人工审核；下表 SHA-256 是下载
+bytes 的本地重算值，不是从文件名或 occurrence 标签推断：
+
+| GBIF occurrence / event | Agouti asset UUID（官方原文件） | duration / bytes | 本地 SHA-256 | 全长动作结论 |
+|---|---|---:|---|---|
+| `5053572120` / `e050db40-5217-4233-be7e-3f51eadb449f` | [`1cd0f305-52ba-419c-a5c2-b27af28d3395`](https://multimedia.agouti.eu/assets/1cd0f305-52ba-419c-a5c2-b27af28d3395/file) | 5.023243 s / 10,172,075 | `b726e2ae50394bdba75d6729a3804504a656886e4b08e3c354ea94c491c13ad9` | 猫低头嗅闻并横穿画面，无 play bout |
+| `5053574803` / `db69cdd0-a45e-4637-adf7-b8f5c804aa92` | [`e34c803c-95d1-4225-87b7-61b8dfae65e6`](https://multimedia.agouti.eu/assets/e34c803c-95d1-4225-87b7-61b8dfae65e6/file) | 5.023243 s / 4,686,573 | `b951c2df23f15ff05c8c54799a3328ac4cea585db80a93ebb9485892c67fc5d0` | 猫贴近镜头后离开，无 play bout |
+| `5053529618` / `69d7e0f4-6791-400c-ba79-5a115e91dab2` | [`fab28a25-c143-4a40-b607-3a2ba039220b`](https://multimedia.agouti.eu/assets/fab28a25-c143-4a40-b607-3a2ba039220b/file) | 5.023243 s / 7,490,768 | `59278f141a59ad8004891ce134351ce5e99e7bf4bdaeff473b76aae21ac3bbb9` | 空触发画面 |
+| 同上 | [`76387388-2d51-43cd-ad2f-bb08a4621821`](https://multimedia.agouti.eu/assets/76387388-2d51-43cd-ad2f-bb08a4621821/file) | 8.023243 s / 12,278,043 | `5e5b94fbe625b2efa120ae8a93dda17320636ad539beeae2d049224450d0427e` | 动物停留、转身和离开；无连续主动玩耍 |
+| 同上 | [`da890d21-0cca-472c-a10e-5cc013e6dc67`](https://multimedia.agouti.eu/assets/da890d21-0cca-472c-a10e-5cc013e6dc67/file) | 8.023243 s / 14,479,276 | `bf4c64ea72c5c419f35b67ce4df7aa61f50524f293cd99ba9205a63216ec3f0a` | 猫行走、蹲伏和嗅闻；无 play bout |
+| `5053587218` / `ba0e33bf-029a-4152-a355-f3bb7f32223a` | [`67e9ca30-9211-4815-9191-02ba0cfae7ee`](https://multimedia.agouti.eu/assets/67e9ca30-9211-4815-9191-02ba0cfae7ee/file) | 5.023243 s / 13,010,566 | `59769d40ac89056cf0d6ae75b84de4bdabcf2442aaafbcc0426d89a231c03f77` | 空触发画面 |
+| 同上 | [`ce0771e1-a7b6-4f8a-835a-9f58172f0328`](https://multimedia.agouti.eu/assets/ce0771e1-a7b6-4f8a-835a-9f58172f0328/file) | 8.023243 s / 19,162,486 | `ea2608cb2bda68de02ffdb35ff42d62b2c1c185154ed5ca6b313bf4d6d94343a` | 猫单向横穿画面，无 play bout |
+| `5053556079` / `7b82845b-0b6a-4afa-915c-2020caf72a4d` | [`e1528844-0bc7-4cab-97bf-0919cce5fef2`](https://multimedia.agouti.eu/assets/e1528844-0bc7-4cab-97bf-0919cce5fef2/file) | 5.023243 s / 15,159,030 | `47780dee694c8c2063ff7554c0b03cbc3265a10342a1eac7d6562eb714ebd828` | 猫嗅闻、短暂停坐后离开，无 play bout |
+
+这批记录还有一个不能忽略的 provenance 异常。GBIF 给出的两个 `parentEventID` 分别是
+`1126d1bd-e660-4752-a32f-202628fae275` 与 `b4553181-e28e-4e8a-973f-edc974ad3e9c`，可作为同一
+deployment/session 的保守分组上限；但多个 Agouti 下载文件名统一以 `20201123` 开头，而画面内相机
+叠字实际跨 2020-03 至 2020-05。后三个 occurrence 的 GBIF `eventDate` 甚至分别为 2020-11-23 或
+1970-01-01，同时相关画面叠字为 2020-04/05，部分画面站点叠字也与 occurrence 的 site code 不一致。
+所以即使动作合格，也必须先向数据发布方解决 occurrence-to-asset、站点和 capture timestamp 映射，
+不能用错误日期拆出伪独立 groups。按现有公开 provenance，理论 source/session 上限是两个
+`parentEventID` groups；按本任务动作门，实际可贡献上限是 **0 groups**。
+
+同轮还通过 Internet Archive 官方 Advanced Search 以 `cat/kitten +
+playing/pouncing/batting/chasing + outside/outdoors/garden/yard/grass/snow` 及法、西、葡、意、德、俄、中、日
+对应词做许可过滤，并用 Commons Action API 搜索 `cat pouncing`、`cat batting toy`、`kitten chasing`、
+`cat play outdoors` 等未闭合词面，新增 eligible 差集仍为 0。IA 的精确词面命中
+`GodingFamilyHomeMovie14`（确有 yard playing）是 CC BY-NC 3.0，
+`2011-cats-kitten-playing-outside-barn` 是 CC BY-NC-ND 4.0，均不能用于训练及必要派生物分发；
+`vid-20221231-wa-0038` 是已审拒绝的重复 item。另一个可再分发命中
+[`1959-1960-1961`](https://archive.org/metadata/1959-1960-1961) 虽是 CC BY-SA 4.0，官方 metadata 只证明
+孩子在雪中玩、另一个片段有牵绳 kitten，并不证明猫在玩；原文件 `1959-1960-1961.mp4` 为
+1,116,315,581 bytes、IA SHA-1 `752e7c2c0d8a98aa6164edbb8916bb55a7074d49`，且是含可识别儿童的
+894.35 秒多场景家庭影片，故在 metadata/privacy gate 直接拒绝，不进入 pending。
+
+可执行结论是：本轮 **0 pending、0 approved、0 新 group**，不导入任何 GBIF/IA/Commons 媒体，也不
+改变权威 **129 records / 100 groups**。held 仍为 `cat|playing|indoors=17/50`，精确缺 **33** 个独立
+held groups；排除整个 held group 后训练侧仍为 `30/6/10`，其中 non-held `cat×playing` 精确缺
+**4** groups。下一次复查 GBIF 时可重跑上述固定 API，并只对新增 occurrence key 执行：保存原始 JSON
+及 SHA-256，锁 dataset/occurrence/event/parentEvent/asset UUID 与逐媒体许可，下载后记录 bytes/SHA-256/
+ffprobe，人工全长审动作与 scene，最后再做 identity/session 和近重复闭包。现有 8 条不得重复审核。
+在官方接口出现新行为标注视频前，最快且可真正补门禁的来源仍是多位权利人的自有或逐视频明确授权
+拍摄：授权必须覆盖训练、派生物与规范化审核 clip 的必要携带，并提供稳定 contributor、animal、
+capture-session ID；同一只猫、家庭、连续事件或多机位不能拆成多个独立 groups。
+
+### 2026-08-15：PeerTube origin-locked pilot 新增 2 个 held groups
+
+本轮发现阶段使用 [Sepia Search 官方 API](https://sepiasearch.org/api/v1/search/videos)，但候选判定和
+导入不信任聚合搜索结果：每条都回到发布视频的 PeerTube origin，冻结
+`/api/v1/videos/<uuid>` 和 `/api/v1/accounts/<name>` 的原始响应，再从响应中选择精确
+`fileDownloadUrl`。允许许可仅限 PeerTube license id `1/2/7`（CC BY、CC BY-SA、Public Domain
+Dedication）；许可标签仍不是原创性证明，因此另外审核账号描述、视频描述和是否像转发素材。
+
+有界候选的结果如下：
+
+- `Cat having fun with a ground drone` 虽标 Public Domain Dedication，但画面带乌克兰部队水印，
+  上传账号并未证明拥有原始拍摄权，rights/origin gate 拒绝；
+- `Cat hunting a fluffy snake` 虽是本地 origin 的 CC BY 视频，完整 12 秒与 16-frame 密集窗口主要显示
+  猫翻滚和自我接触，不能稳定确认连续玩外部玩具，action gate 拒绝；
+- Buster UUID `5163701d-4e33-4fe1-8f10-492dcdab3ee6`：账号明确写“my cat Buster”，视频描述写
+  Buster 玩上传者找到的新玩具；120 秒、Public Domain Dedication。完整联系表和 `[60,62)` 窗口显示
+  一只橘猫在室内地毯上连续伸爪接触电动玩具丝带；
+- Žofinka UUID `9a4b180f-5144-4c2e-bd01-f2a85fa890f4`：本地个人账号、标题/描述具名 Žofinka，
+  50 秒、Attribution-ShareAlike；`[10,12)` 窗口显示一只 kitten 在室内连续追踪并拨打羽毛逗猫棒。
+
+两条批准来源的原媒体 SHA-256 分别为
+`e033cd65577d017d5a52ea4dd77565a5a4b62578de73c020b6d30fd337eabb23` 与
+`1a6da9efc3595c5fddddde0a815599704f33a6e66b5187b47b950c6af3d6682c`；规范化 clips 分别为
+`6e18f19bdc611f007fbdc19f2a06810425b2276def3a3175b408d630b7b9f2c3` 与
+`7185850407352224632fb65fa91cf27e406c2dfdc6d02a0cc522903426c154a6`。与 129-record base 的最近
+pHash Hamming 距离为 23/19。账号分别保守归为
+`peertube:nightshift.minnix.dev:minnix-buster` 和
+`peertube:peertube.wtf:amarok-zofinka`；未来同账号同动物视频不能再增加独立 group。
+
+新增 `prepare_peertube.py` 形成可携带 seam：`create` 同时重验 video/account snapshots、许可、origin、
+canonical download URL、rendition bytes、全长/窗口审核和 clip 可复现性；`merge` 重新解析 bundle，拒绝
+manifest 协调改写、cross-bundle pHash 近重复和输入树内输出，并携带先前 Figshare audit 与两个完整
+PeerTube bundles。真实 merged manifest 为 **131 records / 102 independent groups**，SHA-256
+`7b22e41b711dc04d3ca85053833f66f02f9ef7910d9fdebb13c42ff17c1732f4`；coverage SHA-256
+`6244e953ca1e0304540e6fb56f0cea126702056ebfd6f48ac0dcde17542b4378`。held
+`cat|playing|indoors` 由 17 增至 **19/50**；把 held groups 全部排除后，训练侧仍为
+`cat×indoors=30`、`cat×playing=6`、`playing×indoors=10`。因此 held 仍缺 **31**，non-held
+`cat×playing` 仍缺 **4**，`eligible_c1_triples=[]`，不能 split 或启动正式训练。
+
+可复核 API/account snapshots、review JSON、完整联系表、选择窗口和 16-frame preview 位于
+[`artifacts/video-dit/peertube-cat-playing-review/`](artifacts/video-dit/peertube-cat-playing-review/)。

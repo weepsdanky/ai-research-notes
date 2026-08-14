@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "video": {
+    "uuid": "5163701d-4e33-4fe1-8f10-492dcdab3ee6",
+    "origin": "https://nightshift.minnix.dev",
+    "watch_url": "https://nightshift.minnix.dev/videos/watch/5163701d-4e33-4fe1-8f10-492dcdab3ee6",
+    "api_snapshot_sha256": "1b35a2183dcef4c0c585b99620e73987dd11fc7d2038296a42d975be9673f0c1",
+    "name": "Buster cat's new toy",
+    "description": "A couple of minutes of Buster playing with a cool toy I found at Aldi ",
+    "duration_seconds": 120,
+    "published_at": "2023-08-16T07:03:27.633Z",
+    "licence_id": 7,
+    "licence_label": "Public Domain Dedication"
+  },
+  "account": {
+    "name": "minnix",
+    "display_name": "minnix",
+    "url": "https://nightshift.minnix.dev/accounts/minnix",
+    "description": "I post whatever projects I'm working on, my aquariums, mountain biking, electronics, computing, and my cat Buster.",
+    "created_at": "2022-04-29T02:53:11.644Z",
+    "api_snapshot_sha256": "ae54ecda45a8bf6482e46e9488fe24c3a4c52643750d1d58fb9d296f0bf55fcf",
+    "originality_basis": "The uploader describes Buster as their cat and describes the toy as one they personally found."
+  },
+  "rendition": {
+    "url": "https://nightshift.minnix.dev/download/streaming-playlists/hls/videos/5163701d-4e33-4fe1-8f10-492dcdab3ee6-480-fragmented.mp4",
+    "size_bytes": 25954748,
+    "sha256": "e033cd65577d017d5a52ea4dd77565a5a4b62578de73c020b6d30fd337eabb23",
+    "resolution_id": 480
+  },
+  "decision": {
+    "status": "review-qualified-pending-import",
+    "subject": "cat",
+    "action": "playing",
+    "scene": "indoors",
+    "clip_start_seconds": 60.0,
+    "clip_stop_seconds": 62.0,
+    "reviewer_id": "codex-primary-visual-review",
+    "reviewed_at": "2026-08-14T16:00:00Z",
+    "full_duration_reviewed": true,
+    "single_animal_confirmed": true,
+    "continuous_action_confirmed": true,
+    "scene_confirmed": true,
+    "no_edit_in_window": true,
+    "notes": "One orange cat repeatedly reaches for and contacts the moving ribbons of an electronic toy on an indoor rug."
+  },
+  "grouping": {
+    "conservative_group": "peertube:nightshift.minnix.dev:minnix-buster",
+    "reason": "All videos from this uploader that identify Buster remain one animal-level group."
+  },
+  "review_artifacts": {
+    "full_contact": {"path": "full.jpg", "sha256": "849f805e02ec818a4e69b2e6a9d3879ff25b97c3dbb276a58b089ccd83d42afa"},
+    "selected_window": {"path": "selected.jpg", "sha256": "c7b1102b3c5b72b8c404e022ff25f538524b777ae0450217241c06e4c08007af"},
+    "normalized_preview": {
+      "path": "preview.mp4",
+      "sha256": "6e18f19bdc611f007fbdc19f2a06810425b2276def3a3175b408d630b7b9f2c3",
+      "perceptual_hash": "c78e8e8c0920424a",
+      "frames": 16,
+      "fps": 8,
+      "size": 96
+    }
+  },
+  "validation": {
+    "nearest_existing_phash_distance": 23,
+    "remaining_blocker": "portable PeerTube importer and merge validation"
+  },
+  "training_ready": false
+}
