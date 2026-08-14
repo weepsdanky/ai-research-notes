@@ -404,8 +404,8 @@ SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash �
 满足新契约；Commons v3 的 127 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
 合并；随后又加入 1 条逐媒体锁定的 Internet Archive CC0 猫视频、1 条逐文件锁定的 Figshare
-CC BY 4.0 室内玩耍猫视频，以及 2 条 origin/API/rendition 全部锁定的 PeerTube 室内玩耍猫视频。
-当前合并 manifest 为 131 records / 102 个独立组；`cat|playing|indoors` 为 19/50。
+CC BY 4.0 室内玩耍猫视频，以及 3 条 origin/API/rendition 全部锁定的 PeerTube 室内玩耍猫视频。
+当前合并 manifest 为 132 records / 103 个独立组；`cat|playing|indoors` 为 20/50。
 coverage 还预注册每个 held
 triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=6/10`、
 `playing×indoors=10/10`，mixed-held group 已经消解，但只补 held triple
@@ -690,6 +690,17 @@ uv run --offline python prepare_peertube.py merge \
 `playing×indoors=8` 都太弱。证据见
 `docs/case-studies/artifacts/video-dit/c1-pilot-v1/results/`；正式确认仍要求 held≥50、每个 pair≥10
 并重新预注册。
+
+随后又在**当前 132-record 数据快照**上执行了新的预注册诊断 pilot。训练前 commit `a46e418`
+锁定 split、10,000-step 训练配方和 13 prompts×4 seeds；生成前 commit `b1bfd4f` 再锁定 final EMA
+checkpoint、DDIM-50、CFG 2.5 与完整 52-video inventory。101 条 train clips 的 loss 从前 500
+步均值 0.584 降至后 500 步 0.255，但两名独立 prompt-hidden 评审只在 IID 得到 3/24
+unanimous triple 命中；C1 为 0/28，subject/action accuracy 都是 0，scene 为 42.9%。frozen CLIP
+prompt top-1 为 11.5%，反而低于 shuffled 19.2%。最近训练视频的 top-3 视觉审计没有发现逐帧
+复制，但显示生成集中吸附到少数训练视频的颜色/纹理模式。结论仍是失败：它说明模型有很弱的
+训练分布内条件信号，却不能证明未见组合泛化。可携带证据见
+`docs/case-studies/artifacts/video-dit/c1-current-pilot-v2/results/`。正式门禁仍是 held≥50 且所有
+held-excluded pair≥10；当前 held=20、`cat×playing=6`，因此不会把这次诊断当成正式 C1 成功。
 
 Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
 SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出

@@ -12,8 +12,8 @@
 4. **不要把 WebVid-10M 当新实验首选**。官方仓库明确写明自 2024-02-23 起因 cease-and-desist 已不能发布 URL 和 captions；其条款也只授予研究者 12 个月、不可转让的严格非商业研究许可，并要求期满删除。第三方镜像不能自动恢复合法来源或可复现性。[官方仓库](https://github.com/m-bain/webvid) · [官方条款](https://github.com/m-bain/webvid/blob/main/TERMS.md)
 
 如果只做一轮实验，推荐先把 **Commons-1K 审核集**做实，再决定是否扩大到 6K/12K。当前任何来源都不足以支持“已经完成严格组合泛化数据集”的说法。
-截至 2026-08-15，Commons 主集加逐对象锁定的 IA、Figshare 与 PeerTube 增量合计 **131 records /
-102 groups**；held `cat|playing|indoors=19/50`，训练侧 pair 为 `30/6/10`，仍是 0 eligible C1，
+截至 2026-08-15，Commons 主集加逐对象锁定的 IA、Figshare 与 PeerTube 增量合计 **132 records /
+103 groups**；held `cat|playing|indoors=20/50`，训练侧 pair 为 `30/6/10`，仍是 0 eligible C1，
 所以这里只推进数据准备，不启动正式训练。
 
 ## 2026-08-14 官方访问审计：VideoUFO 与 FineVideo
@@ -2343,3 +2343,49 @@ exact import 后的最新权威基线：**132 records / 103 independent groups**
 groups，`eligible_c1_triples=[]`。在公开 origin 出现新记录前，下一条真正可执行路径仍是不同权利人、
 不同家猫、不同 capture session 的户外自有/逐视频书面授权拍摄；许可必须覆盖训练、派生与规范化审核
 clip 的必要携带，且 contributor/animal/session IDs 不得通过切片或多机位膨胀。
+
+### 2026-08-15：当前 132-record 快照的预注册 C1 诊断仍然失败
+
+用户明确授权在正式门禁未满足时先做一次诊断，因此本轮没有把 `eligible_c1_triples=[]` 改写为通过，
+而是在看任何新生成结果之前冻结了一个独立 pilot。训练协议由 commit `a46e418` 固化，生成协议由
+commit `b1bfd4f` 固化；两者都早于对应运行。固定 source manifest 为 132 records / 103 groups，
+SHA-256 `a9537b79b2dde8a8b26f2ff32e4fe06c5a074073ef0f166a3da8972646231142`。
+split 使用第一枚满足“`cat×playing=6`、`playing×indoors=10` 且 IID 至少 5 records”的确定性 seed
+`20260825`，得到 train/validation/IID/C1=`101/2/6/23`；split SHA-256 为
+`b9f4e809877cc1d9bf559142d2bdd64ef4ecb215f0428b27b655a6d0b70d460d`，训练用 latent/text manifest
+SHA-256 为 `1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed`。held 有 20 个独立组，
+完整排除 held groups 后训练 pair 为 `cat×indoors=23`、`cat×playing=6`、`playing×indoors=10`；
+因此它仍是低覆盖诊断，不是正式 C1。
+
+模型与采样完全沿用预注册值：11,988,772 参数的 latent text Video DiT 从零训练 10,000 updates，
+velocity target、batch 8、lr `1e-4`、EMA `0.99`；只选择 final step-10000 EMA。训练 checkpoint SHA-256
+为 `f17d93e8758007ef84d4e8d14f2b9e2697210d93b66a6c304dc733839e23b509`。前 500 步 loss 均值
+0.5835，后 500 步 0.2551，final loss 0.2151。生成固定为 DDIM-50、start timestep 999、CFG 2.5，
+seeds `[17,29,43,61]`，6 个 IID prompts 与 7 个 C1 prompts 的完整网格共 52/52 条；inventory SHA-256
+为 `b32747c68598bc75910725b8c86a3ff1400ac30514f6a89b9730cfcf4b710182`，没有事后删 seed 或挑样本。
+
+两名独立、prompt-hidden 的评审员各自逐段检查全部 52 个 16-frame MP4；分歧按错误处理。结果如下：
+
+| split | n | subject | action | scene | unanimous triple | Wilson 95% |
+|---|---:|---:|---:|---:|---:|---:|
+| IID | 24 | 45.8% | 29.2% | 83.3% | 12.5%（3/24） | [4.34%, 31.00%] |
+| C1 | 28 | 0% | 0% | 42.9% | 0%（0/28） | [0%, 12.06%] |
+
+IID 的三个完整命中只出现在室内 sitting prompts，说明模型有一点训练分布内条件信号；C1 的 subject
+和 action 都是 0，不能说明未见组合绑定。预注册要求 strict factor derangement，但完整 28-C1/24-IID
+网格不存在全体一一错配；报告没有偷偷放宽条件，而是使用确定性的最大平衡 48-record 子集，并明确排除
+4 个 blind IDs。IID matched/shuffled triple 为 12.5%/0%，C1 为 0%/0%；所以只有 IID control 通过。
+
+冻结的 CLIP proxy 也给出负证据：prompt top-1 为 11.5%（Wilson [5.40%, 22.97%]），低于
+deterministic shuffled 的 19.2%，mean margin 为 -0.0139。nearest-training similarity 均值 0.9037、
+最大 0.9214；top-3 联系表没有发现逐帧复制，但生成呈现明显的形变、纹理拼贴，并集中吸附到少数训练
+视频。最合理的诊断是：101 个 train clips 对 11.99M 参数从零训练仍太小，输出质量和条件可辨性不足；
+同时 non-held `cat×playing=6` 和 held=20 本身也没有达到预注册的 10/50 正式门槛。
+
+因此本轮结论是 **pilot failed**，不是“弱成功”或“初步证明 C1”。可携带证据位于
+[`artifacts/video-dit/c1-current-pilot-v2/results/`](artifacts/video-dit/c1-current-pilot-v2/results/)：
+包括两份独立盲评、揭盲报告、CLIP/nearest 报告、top-3 联系表、训练摘要/抽样 loss，以及严格按冻结
+inventory 第 1 条选出的代表 MP4（不是质量挑样）。实现同时修正了一个证据契约问题：split manifest
+hash 与 checkpoint 实际训练 manifest hash 现在分别锁定，不能再误当同一文件。正式下一步保持不变：
+继续补至少 30 个独立 held groups 与 4 个 non-held `cat×playing` groups，重新做 leakage audit；只有
+held≥50 且三种 held-excluded pair 都≥10 时，才重新预注册并启动确认性训练。

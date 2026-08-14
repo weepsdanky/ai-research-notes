@@ -1,0 +1,45 @@
+{
+  "condition_alignment_sha256": "0d9adb570d10e83fb1767c062d2fea1072ce8a610aad7e09ecbc73ca74e66ced",
+  "pixel_copy_claim": "requires human inspection; CLIP similarity alone is not pixel-copy evidence",
+  "protocol": "visual audit of top-3 frozen-CLIP nearest training videos v1",
+  "records": [
+    {
+      "contact_sheet": "top1.png",
+      "contact_sheet_sha256": "7b13f7e1f7d4886e2460695eea27c39e49cb2d736b2561217bdeee36763e0526",
+      "generated_video": "model_a-cat-sitting-on-a-chair-indoors_seed-61_309810c24f_4f0bfdcf.mp4",
+      "generated_video_sha256": "20f98a845995d5242ea440ff5dd72864e815567db7b8dd9998165a997bbb6c8c",
+      "nearest_train_id": "commons-video-a20ecef529",
+      "prompt": "a cat sitting on a chair indoors",
+      "seed": 61,
+      "similarity": 0.9213882088661194,
+      "train_clip_path": "clips/e37915e7f53747be06c1a8a3.mp4",
+      "train_clip_sha256": "3d4870094cff64882a9a02371112828683bfd5014b856647ee90ca7deaee3dd0"
+    },
+    {
+      "contact_sheet": "top2.png",
+      "contact_sheet_sha256": "72a0eb5f4009ca7d17fda9ac22d5280af0367ab02c11fb67ba47565c2e6312e8",
+      "generated_video": "model_a-cat-sitting-on-a-chair-indoors_seed-29_fb3272b331_1ca4836c.mp4",
+      "generated_video_sha256": "71bf6458f3ce7f0c2e1016c784f29a6f926f398ce58e3688f1d02401f00f61d2",
+      "nearest_train_id": "batumi2025dog-laying-relax-eb0ef064e4",
+      "prompt": "a cat sitting on a chair indoors",
+      "seed": 29,
+      "similarity": 0.9176632761955261,
+      "train_clip_path": "clips/7177c2aebdfaca0e02aa1921.mp4",
+      "train_clip_sha256": "19d4229297e33bf1f5f0a798413896fff412eb8e23eaeb4570851563b8dd0529"
+    },
+    {
+      "contact_sheet": "top3.png",
+      "contact_sheet_sha256": "d6defa34c082bb2c20ca747cba993bc5a9ef7585f10d69ffa8318dd105ffa74d",
+      "generated_video": "model_a-cat-playing-with-a-toy-mouse-indoors_seed-17_379af456a5_18a05ff0.mp4",
+      "generated_video_sha256": "678fe159d08610520a3c9ae2de666fde1e522515a8be6de37a080f1544b20a1b",
+      "nearest_train_id": "nora-tr-r-d-hegn-finding-stick-3af5a6b47f",
+      "prompt": "a cat playing with a toy mouse indoors",
+      "seed": 17,
+      "similarity": 0.9166080355644226,
+      "train_clip_path": "clips/a4f5f0f5a55c0427ab728ac4.mp4",
+      "train_clip_sha256": "0474c7a1ab8f20d2e5a8e2293ddc8b745b8882d4b34a54de0c4db1ea579cdce6"
+    }
+  ],
+  "selection_rule": "three highest nearest_train_similarity values over the complete preregistered 52-video grid",
+  "training_manifest_sha256": "1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed"
+}

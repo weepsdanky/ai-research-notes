@@ -1,0 +1,39 @@
+{
+  "device": "mps",
+  "parameters": 11988772,
+  "steps": 10000,
+  "updates_this_run": 10000,
+  "final_loss": 0.21512727439403534,
+  "checkpoint": "runs/c1-current-pilot-v2/train/video_dit.pt",
+  "inference_checkpoint": "runs/c1-current-pilot-v2/train/video_dit_inference.pt",
+  "dry_run": false,
+  "mode": "faithful",
+  "curriculum": "real-manifest",
+  "prediction_type": "velocity",
+  "data_contract": {
+    "device_type": "mps",
+    "seed": 20260825,
+    "batch_size": 8,
+    "horizontal_flip_prob": 0.0,
+    "num_workers": 0,
+    "dataset": "real",
+    "space": "latent",
+    "manifest_sha256": "1ecf4b247fe8b05e0a4d7b58270822c399ec3d1ad1345e9ae6bd161e8523e9ed",
+    "text_encoder_id": "openai/CLIP-ViT-B-32@sha256:40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af#tokens-v2",
+    "text_embedding_kind": "tokens",
+    "vae_id": "stabilityai/sd-vae-ft-mse@c01e0282cf0708e7fdecf07fb5f9089f5bc61c79",
+    "vae_scaling": 0.18215
+  },
+  "optimization_contract": {
+    "effective_ema_decay": 0.99,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "timestep_sampling": "uniform",
+    "high_noise_start": 900,
+    "high_noise_fraction": 0.75
+  },
+  "resumed_from": null,
+  "initialized_from": null,
+  "elapsed_seconds": 2001.5924402500095
+}

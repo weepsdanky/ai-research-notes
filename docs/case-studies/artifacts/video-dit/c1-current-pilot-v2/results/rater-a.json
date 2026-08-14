@@ -1,0 +1,423 @@
+{
+  "protocol": "blinded generated-video factor review v1",
+  "queue_sha256": "89d77b493e261aa0ea511f5b0085c56378745e0eee286ae5fbce286d1dae2829",
+  "records": [
+    {
+      "blind_id": "generation-0001",
+      "notes": "A triangular-eared furry cat remains crouched on pale indoor furniture through all 16 frames; its body does not coherently translate.",
+      "observed_video_sha256": "295eea61b428e1fec71ec72b432ef63955e6629682d0e4c916350bfb8e17f95d",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0002",
+      "notes": "Bright counters and wall-like planes suggest an interior, but severe fragmentation prevents a stable feline head/body or coherent action from persisting across frames.",
+      "observed_video_sha256": "f0829bd510bd13a0d43caaa6867653fa9643ea8f59800651f8be62213e4752a5",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0003",
+      "notes": "A gray-brown cat with pointed ears and a compact seated body stays beside pale indoor furniture across the sequence, with only local appearance changes.",
+      "observed_video_sha256": "a6f332a304c87782ec93918648853e549e9a808ba62c7b7b191826e74d7264f8",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0004",
+      "notes": "Furniture-like surfaces and room clutter are visible, but the central dark and tan fragments never form a stable cat or a readable temporal action.",
+      "observed_video_sha256": "b45189a9267b649a7e26b7b296f97259176a82731c29884340efa617f5233115",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0005",
+      "notes": "The sequence contains indoor furniture-like edges and furry-colored fragments, but no consistent feline anatomy or coherent motion can be followed for 16 frames.",
+      "observed_video_sha256": "aa915126a02803c09dca9ac8ac4157c7e4bcd0bb2f96ba3bcb329335a36f4e53",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0006",
+      "notes": "A gray cat-like body remains upright and nearly fixed against an interior wall or cabinet; there is no frame-to-frame locomotion.",
+      "observed_video_sha256": "20f98a845995d5242ea440ff5dd72864e815567db7b8dd9998165a997bbb6c8c",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0007",
+      "notes": "A compact gray furry cat with a head/body silhouette remains stationary on an indoor surface throughout the ordered frames.",
+      "observed_video_sha256": "c696a8d889e770fad160225ba1e1a3aabb114115cdc92ef0f762d7a347eb9eca",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0008",
+      "notes": "A black-and-white cat changes position and body orientation across grass and open ground, producing a coherent outdoor walking trajectory.",
+      "observed_video_sha256": "96d24bca1d165d146ad29792270bd0df86a83dc7b58cf4ebf2ba278e5d17c48f",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0009",
+      "notes": "A black-and-white cat advances through grass near a fence; its body location shifts consistently across the 16 outdoor frames.",
+      "observed_video_sha256": "868eb2735e1d1b5bc8572ee2cd6fde7de96a67412e7afc965606ce9feaaccd4e",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0010",
+      "notes": "A pointed-eared furry cat stays crouched on pale indoor furniture, with no coherent displacement across the sequence.",
+      "observed_video_sha256": "505291f7757b68ca823006f859765fce0fc27722f05a00574b7ed3dab7fc1594",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0011",
+      "notes": "The entire sequence is a shifting collage of dark mechanical-looking and pale fragments; neither a stable subject, a readable action, nor a definite indoor/outdoor setting is visible.",
+      "observed_video_sha256": "8cf3b0648b5403ed47bc3c6b03e9312a30f4daa80b9588ee88a48f14b03fe0eb",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0012",
+      "notes": "A gray furry cat-like head and compact body remain centered on an indoor ledge or furnishing; the pose is stationary rather than locomoting.",
+      "observed_video_sha256": "07466ff69d000cbb4b05a3288fb971e750dba2214b335520e5449cafcd7ceac9",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0013",
+      "notes": "A triangular-eared gray-brown cat remains seated beside pale furniture throughout all ordered frames.",
+      "observed_video_sha256": "11ec28e62da833d70d5dba73583cefe84957bccd9cf5876a21a686ea93fdada5",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0014",
+      "notes": "Most of each frame is black with only thin vertically stretched image strips, so no subject, action, or setting can be identified.",
+      "observed_video_sha256": "5c547ce3edd5f6c6d4088e8f5d74b65b3f14cafb959d5d5e669cee357d4e6de7",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0015",
+      "notes": "A gray-and-white cat is visible in close view on dark indoor furniture and maintains the same crouched/seated pose across frames.",
+      "observed_video_sha256": "cfdfe40f0df2c74d048d070ca5a9d59e49b28661e41ba0a09256c816c9aeefb0",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0016",
+      "notes": "Only narrow vertically stretched strips separated by black fields are present; recognizable feline anatomy, temporal action, and scene are absent.",
+      "observed_video_sha256": "c68681405596384f98fb31422346f5a282e8fbe4085b915d8bba9879b0f8bb89",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0017",
+      "notes": "A bright fragmented room with counter and wall-like planes is visible, but no stable cat silhouette or coherent action persists.",
+      "observed_video_sha256": "521088d106666072da20c141f89deb42525832f50bdb01c9dc995282bb6b4c0e",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0018",
+      "notes": "Foliage, fence-like lines, and open-air textures indicate outdoors, but the dark central fragments do not resolve into a reliable cat or action.",
+      "observed_video_sha256": "bbd7e012876f6b46bb5bf264db2604a36d474b476253be15f13f00faf2ee1e0e",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0019",
+      "notes": "Highly fragmented gray, green, and dark forms shift without a stable animal, coherent action, or unambiguous indoor/outdoor context.",
+      "observed_video_sha256": "76d3fd5444f18570fe09c709049051b0f64e7cdf2e16776338f547b307dedb7e",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0020",
+      "notes": "Indoor counter and furnishing cues recur, but multiple dark and furry fragments morph too strongly to identify one cat or a specific action.",
+      "observed_video_sha256": "14daf144d36c5c3ce8e6ca87ae02d7dafa09263ac382e3fe2575456fa585fe55",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0021",
+      "notes": "A gray cat is visibly perched on a couch or padded indoor surface and remains in a fixed seated posture for all frames.",
+      "observed_video_sha256": "4ee7b924165bc75807d6347d7df8657da31d1687aae0ae30548682f5f85b17f4",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0022",
+      "notes": "A doorway, floor, and furniture-like interior remain visible, but no stable feline body or temporal action appears.",
+      "observed_video_sha256": "f681bd89662a596637facd16844ab56332254a94091faf76e8c285662066cd1c",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0023",
+      "notes": "The frames consistently depict an empty-looking interior with doorway and floor planes; dark edge fragments do not form a cat or action.",
+      "observed_video_sha256": "852e946d8b0ecceb9e1e61b14f1da744e71a47b4e9dedb353f7e64937b8f2ecb",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0024",
+      "notes": "A furry pointed-eared cat remains crouched beside pale indoor furniture with no coherent whole-body displacement.",
+      "observed_video_sha256": "540ea16361bc3edafb562193f15f739cf4d429b819edf7cf559fd6a666689dd5",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0025",
+      "notes": "A dark, reddish furniture-filled interior is visible, but the central light and dark shapes never form stable feline anatomy or a readable action.",
+      "observed_video_sha256": "9a5508f7e37a72b35211d29f6f3170d88fe488234ca03f008f8437f805271ea8",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0026",
+      "notes": "Gray and pale indoor wall/furniture regions persist, while the central fuzzy fragments lack a reliable cat head/body and coherent motion.",
+      "observed_video_sha256": "71bf6458f3ce7f0c2e1016c784f29a6f926f398ce58e3688f1d02401f00f61d2",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0027",
+      "notes": "A gray furry cat-like silhouette remains compact and stationary on an interior surface across all 16 frames.",
+      "observed_video_sha256": "cc844fb87cd75954734129c8f21e564fc31a97a0f28f66fcdabd2cc7c2747129",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0028",
+      "notes": "A gray cat-like head and compact body remain centered among indoor furnishings, without coherent locomotion.",
+      "observed_video_sha256": "f122a01679411c7b0fe80e2bad334b6f1b76d0e3aa865e1085dc1793e387bcee",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0029",
+      "notes": "A pointed-eared cat remains seated or crouched against pale interior furniture for the full sequence.",
+      "observed_video_sha256": "fb98c4a7862316d6dbc0eaec984cf9e8e4ba3a2af0a4941cd657e6e16cc8ec0c",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0030",
+      "notes": "The video shows a stable doorway, floor, and wall-like interior but no recognizable feline subject or temporal action.",
+      "observed_video_sha256": "9534dabd533e4a2dd8c38730059eb8611115676ecab382f5250c3e901607a9c7",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0031",
+      "notes": "Dark vertical occlusion and reddish furniture-like forms dominate; no consistent cat anatomy or coherent action is visible.",
+      "observed_video_sha256": "2f158093778f3922f864615be60c4307915cf8a82b6f83279295949ed25a1384",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0032",
+      "notes": "A fuzzy gray mass occupies an indoor furnishing, but its head, limbs, and body are too unstable to identify a cat or a specific action.",
+      "observed_video_sha256": "b1228c8e8db90d57ad5d2a751ae9581403fd2542d991374d42a542958b045b91",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0033",
+      "notes": "The frames contain fragmented gray, green, and mechanical-looking forms with no stable animal, coherent action, or definite scene category.",
+      "observed_video_sha256": "678fe159d08610520a3c9ae2de666fde1e522515a8be6de37a080f1544b20a1b",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0034",
+      "notes": "A dark vertical mass and reddish furniture-like background persist indoors, but the mass never resolves into a stable cat or readable action.",
+      "observed_video_sha256": "61afed34737def833b658f908a2b963e0f5bdf36c85ccc1a9ffa2756323ce6b1",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0035",
+      "notes": "Pale furniture and floor-like planes indicate an interior, while the gray central fragments lack consistent feline anatomy and action.",
+      "observed_video_sha256": "eeb5984792338d1895109cb40e6b409bb6610e358b1cbad5327f751c4b0dc953",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0036",
+      "notes": "A gray fuzzy form changes shape among indoor surfaces, but no stable cat head/body or coherent movement can be tracked.",
+      "observed_video_sha256": "07355588e4ec75d7b8e682485de46b4c0ab3db2ed4ba2cb8436b0a85725cbd68",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0037",
+      "notes": "A gray cat with visible face, ears, and compact body remains perched on padded indoor furniture in a stationary pose.",
+      "observed_video_sha256": "36996cba0f71d9282e1e787423843396d7d8faebca8fdd334a59f1bc7bdbf1f0",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0038",
+      "notes": "A brown-gray furry cat form with a discernible head and body recurs on indoor furniture and remains locally stationary despite artifacts.",
+      "observed_video_sha256": "e7cf750ae8625733efdec85fe0e5af4d376b9f0e0f39438412015708439fd28d",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0039",
+      "notes": "A dark central obstruction and reddish interior furnishings are visible, but no stable cat silhouette or action emerges.",
+      "observed_video_sha256": "caa217d7ab7e99d79a7aa968e85d3371c496f21e93239da6bcbb964827bdf339",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0040",
+      "notes": "A compact gray-beige cat-like head and body remain on an indoor surface without a coherent change of location.",
+      "observed_video_sha256": "cbd974e0a3e0179631823344d0b74838d8b04ac642f8ecd2953b6e9ef019a886",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0041",
+      "notes": "A triangular-eared gray-brown cat remains seated beside pale indoor furniture across all 16 frames.",
+      "observed_video_sha256": "96d0587547e58330ff6e9ebee30ae21cd93867f650bd21d581b5b48f73666549",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0042",
+      "notes": "A furry pointed-eared cat stays crouched in the same area of a pale interior; no locomotion or object interaction is coherent.",
+      "observed_video_sha256": "beb89bdb9e114aafe54b2e5d471ee8ecb6926c5187b374856094c91476437910",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0043",
+      "notes": "A black-and-white cat moves across grass near a fence, with consistent whole-body displacement and changing gait posture.",
+      "observed_video_sha256": "eadeefb6faffcdac24e3b4ee99049a665a83f55925d199656c2a8d1ec5352582",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0044",
+      "notes": "A bright fragmented room and counters are visible, but no stable feline anatomy or coherent action persists across frames.",
+      "observed_video_sha256": "a5c789abfde3265532a7e11457abbfcd6178f9e43eb5662e26e05bc8ccbac42d",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0045",
+      "notes": "A doorway, wall, and floor define an interior; the space contains no recognizable cat and no subject-driven action.",
+      "observed_video_sha256": "6fe947926f43c70104918cb6f4c9a4e86f47c620e38ac52c3c0450c8e84a4df8",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0046",
+      "notes": "Pale counters and wall-like planes indicate indoors, while the scattered dark fragments do not form a stable cat or action.",
+      "observed_video_sha256": "9299925bd773e44923e4cbe5c5cefef52c0982b081be71cac445df9d3e27ca64",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0047",
+      "notes": "Cluttered indoor furnishings and dark furry-colored fragments are present, but anatomy and motion are too inconsistent to label a cat or action.",
+      "observed_video_sha256": "f2dddcfe9009be42547b0881001e8e0241f6001daa3d5fb2ff521b8533de614c",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0048",
+      "notes": "The video is reduced to narrow vertically stretched strips separated by black, leaving subject, action, and scene unreadable.",
+      "observed_video_sha256": "807b7f29b21c2b3f731b8281a8cdcdc96a58859ef6e58cc2a74e216c8ca00d48",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0049",
+      "notes": "A black-and-white cat progresses through grass beside a fence; its location and body pose change coherently over the outdoor sequence.",
+      "observed_video_sha256": "2c3fb243ba331abc951e325303f965b484c3e9b4aa30918ccaec5f255894e964",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0050",
+      "notes": "A furry feline-like head/body appears repeatedly among indoor objects, but severe morphing prevents distinguishing sitting, walking, playing, or scratching.",
+      "observed_video_sha256": "8ab4ea4300a6f491c97c895eb84865a5aca0914df97d325fc68054b65a3b02e3",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0051",
+      "notes": "Furniture-like planes suggest an interior, but the tan, gray, and dark fragments do not maintain stable feline anatomy or a coherent action.",
+      "observed_video_sha256": "effcf16baf51d6c48e4e596f563b3495b48f2a36fc6bd410bae83e48558b2c42",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0052",
+      "notes": "A cluttered interior contains changing black and tan animal-like fragments, but no stable cat body or specific temporal action is reliably visible.",
+      "observed_video_sha256": "2850354ed5639ac269d50868e8f46f2495d3a652cc3b8880dfc5c333078d4e50",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "absent_or_unclear"
+    }
+  ],
+  "reviewer_id": "current-independent-rater-a"
+}
