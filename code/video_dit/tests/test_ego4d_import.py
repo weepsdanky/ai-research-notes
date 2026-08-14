@@ -61,6 +61,7 @@ def test_scan_freezes_matching_uids_and_provenance_contract():
     assert candidates[1]["duplicate_group"] == "ego4d-participant:university-x:7"
     assert all(row["review_status"] == "pending" for row in candidates)
     assert report["selected_video_uids"] == ["video-a", "video-b"]
+    assert report["dataset_release"] == "v2_1"
     assert report["uid_file_sha256"] == hashlib.sha256(b"video-a\nvideo-b\n").hexdigest()
     assert report["download_contract"] == {
         "dataset": "video_540ss", "max_bytes": 12_000_000_000,
@@ -135,6 +136,12 @@ def test_scan_sorts_temporal_context_and_requires_release_identity():
             json.dumps(value).encode(), narrations, license_bytes, receipt,
             max_video_uids=10,
         )
+    value = json.loads(metadata); value["version"] = "v1"
+    with pytest.raises(ValueError, match="v2.1"):
+        scan_ego4d_annotations(
+            json.dumps(value).encode(), narrations, license_bytes, receipt,
+            max_video_uids=10,
+        )
 
 
 def test_scan_prefers_distinct_source_groups_before_filling_uid_budget():
@@ -166,4 +173,13 @@ def test_scan_prefers_distinct_source_groups_before_filling_uid_budget():
         scan_ego4d_annotations(
             metadata, json.dumps(value).encode(), license_bytes, receipt,
             max_video_uids=10,
+        )
+    metadata_value = json.loads(metadata)
+    metadata_value["videos"][0]["video_uid"] = "../escape"
+    narration_value = json.loads(narrations)
+    narration_value["../escape"] = narration_value.pop("video-b")
+    with pytest.raises(ValueError, match="video_uid"):
+        scan_ego4d_annotations(
+            json.dumps(metadata_value).encode(), json.dumps(narration_value).encode(),
+            license_bytes, receipt, max_video_uids=10,
         )

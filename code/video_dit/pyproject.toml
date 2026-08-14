@@ -12,6 +12,7 @@ dependencies = [
     "diffusers>=0.35,<0.38",
     "safetensors>=0.4",
     "huggingface-hub>=0.25",
+    "boto3>=1.28",
 ]
 
 [project.optional-dependencies]

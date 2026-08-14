@@ -25,6 +25,8 @@ OUTDOOR_PATTERN = re.compile(
     r"\b(outside|outdoor|outdoors|garden|park|street|yard|beach|forest|field)\b",
     re.IGNORECASE,
 )
+VIDEO_UID_PATTERN = re.compile(r"\A[a-z0-9][a-z0-9_-]{0,127}\Z")
+EXPECTED_METADATA_VERSION = "v2.1"
 UTC_TIMESTAMP_PATTERN = re.compile(
     r"\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z\Z"
 )
@@ -85,6 +87,10 @@ def scan_ego4d_annotations(
     metadata = _json_object(metadata_bytes, "Ego4D metadata")
     narrations = _json_object(narration_bytes, "Ego4D narrations")
     dataset_version = _required_string(metadata, "version", "Ego4D metadata")
+    if dataset_version != EXPECTED_METADATA_VERSION:
+        raise ValueError(
+            f"Ego4D metadata version must be {EXPECTED_METADATA_VERSION} for release v2_1"
+        )
     metadata_date = _required_string(metadata, "date", "Ego4D metadata")
     videos_value = metadata.get("videos")
     if not isinstance(videos_value, list):
@@ -94,6 +100,8 @@ def scan_ego4d_annotations(
         if not isinstance(row, dict):
             raise ValueError("Ego4D video metadata rows must be objects")
         video_uid = _required_string(row, "video_uid", "Ego4D video")
+        if VIDEO_UID_PATTERN.fullmatch(video_uid) is None:
+            raise ValueError(f"Ego4D video_uid is not a safe lowercase identifier: {video_uid}")
         if video_uid in videos:
             raise ValueError(f"duplicate Ego4D video_uid: {video_uid}")
         duration = row.get("duration_sec")
@@ -234,6 +242,7 @@ def scan_ego4d_annotations(
     uid_file_bytes = "".join(f"{video_uid}\n" for video_uid in selected_uids).encode()
     report = {
         "dataset": "ego4d",
+        "dataset_release": "v2_1",
         "dataset_version": dataset_version,
         "metadata_date": metadata_date,
         "metadata_sha256": hashlib.sha256(metadata_bytes).hexdigest(),

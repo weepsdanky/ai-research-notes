@@ -965,7 +965,7 @@ Ego4D 的最小 pilot 采用如下 fail-closed 顺序；它是**数据源可行�
 
    ```bash
    ego4d --output_directory data/raw/ego4d_pair_pilot \
-     --datasets annotations --metadata
+     --version v2_1 --datasets annotations --metadata
    ```
 
    在约 2 GB annotation 中检索 narration 的 `cat|kitten|dog|puppy` 与
@@ -975,12 +975,9 @@ Ego4D 的最小 pilot 采用如下 fail-closed 顺序；它是**数据源可行�
    UID，优先选择来自不同 source、时间文本明确且可能补 `cat×playing` 或非 cat 的
    `playing×indoors`；若 metadata 阶段为 0 命中，就以 0 结果结束，不改词后追分。
 4. 只对冻结 UID 取 540-short-side 视频，并把下载上限设为 12 GB，为 2 GB annotations、裁片和临时文件
-   留空间；超预算则停止而不是转下全量：
-
-   ```bash
-   ego4d --output_directory data/raw/ego4d_pair_pilot \
-     --datasets video_540ss --video_uid_file ego4d_pair_uids.txt
-   ```
+   留空间；超预算则停止而不是转下全量。媒体阶段**不调用官方 CLI 的非版本化下载命令**，而是执行下文
+   `prepare_ego4d.py preflight` 和 `download`：先冻结官方 manifest 与每个 S3 VersionId，再做 exact GET
+   和流式 byte cap。
 
 5. 每个候选保存 license/version、`video_uid`、`annotation_uid`、narration 原文与 timestamp、
    `video_source`、实际下载文件 SHA-256、裁片起止、人工决定和拒绝原因。看片确认主体、持续 playing、
@@ -1004,6 +1001,96 @@ participant/origin group，独立组不足时才按稳定 UID 顺序补满预算
 自由许可。它只说明：在本轮候选里，Ego4D 是唯一能先用人工时间文本筛选、再以稳定 UID 定向取得受同一
 协议约束的视频，并把每一步写入 provenance 的可执行路线。Charades 可追溯但语义错误；Animal Kingdom
 语义较近但许可未闭合；YouTube-8M、ActivityNet 与 AVA 的 annotation 权利不能补齐底层媒体权利。
+
+#### Ego4D `video_540ss` 的真实落盘与下载后验证契约
+
+以下事实核对自 Ego4D 官方 CLI 仓库 commit
+[`4bd10ed40b4f8d8ad26344afc2c8526f7d1dedeb`](https://github.com/facebookresearch/Ego4d/tree/4bd10ed40b4f8d8ad26344afc2c8526f7d1dedeb/ego4d/cli)，
+而不是根据未执行的下载猜测；本轮没有取得凭证、接受协议或下载受限媒体。
+
+- [官方 README](https://github.com/facebookresearch/Ego4d/blob/4bd10ed40b4f8d8ad26344afc2c8526f7d1dedeb/ego4d/cli/README.md)
+  说明每个 dataset 放在 `<output>/<version>/<dataset>/`。源码进一步明确版本目录只取 major：
+  `v2_1` 也写到 `<output>/v2/`。显式 `--metadata` 下载的主 metadata 则写在
+  `<output>/ego4d.json`，不在 `v2/video_540ss/` 内。
+- [`manifest.py`](https://github.com/facebookresearch/Ego4d/blob/4bd10ed40b4f8d8ad26344afc2c8526f7d1dedeb/ego4d/cli/manifest.py)
+  先把该 release 的完整 manifest 写为 `<output>/v2/video_540ss/manifest.csv`。视频 row 以
+  `video_uid` 作为 UID；`type=mp4|video` 时本地文件名强制为 `<video_uid>.mp4`，不沿用 S3
+  object basename。`--video_uid_file` 是 whitespace-delimited UID 列表；视频 dataset 缺少任一请求
+  UID 时 CLI 报错，不静默缩小集合。
+- [`download.py`](https://github.com/facebookresearch/Ego4d/blob/4bd10ed40b4f8d8ad26344afc2c8526f7d1dedeb/ego4d/cli/download.py)
+  在 `<output>/v2/video_540ss/manifest.ver` 保存 `uid,version,filename`；`version` 是下载时 S3 object
+  version ID。它不是内容 hash。CLI 下载前 HEAD 每个 S3 object，累加 `content_length` 并显示预计 GiB；
+  下载后完整性检查仅比较本地文件字节数与该 `content_length`。源码仍留有损坏后重试 TODO，且没有
+  SHA-256 校验。
+- [主 metadata schema](https://ego4d-data.org/docs/data/metadata/) 可验证 `video_uid`、
+  `duration_sec`、`scenarios`、`video_source`、participant/origin 关系，以及 canonical video 的
+  `fps/num_frames/video_codec/resolution/mp4_duration_sec`。后面这些是 canonical metadata，**不能**
+  冒充 `video_540ss` 派生文件的精确 codec、分辨率、字节数或内容 hash；540ss 实际媒体属性必须下载后
+  `ffprobe`。
+
+因此原计划中的 `download_contract.max_bytes=12_000_000_000` 目前只是冻结的本地门禁，不是官方 CLI
+已经实现的 `--max-bytes` 参数。实际获批后应按下面顺序执行，超出任一步就保持
+`training_ready=false`：
+
+1. 固定 Ego4D release、用于审计 manifest/layout 的官方源码 commit、本地 exact-version downloader
+   与 boto3 lock、执行 UTC、license/receipt SHA、UID 文件内容与 SHA。保持 `≤10` 个 UID；不走
+   官方 CLI 的 `-y`、`--skip-s3-checks`、`--bypass-existing` 或 latest-object fallback。
+2. 在确认下载前，以 `manifest.csv` 中每个目标 UID 的 S3 path 做 HEAD，保存 object version ID 与精确
+   `ContentLength`，按十进制 bytes 求和；总和大于 12,000,000,000 就停止。官方源码以 `bytes/1024^3`
+   计算却显示为 GB，所以十进制 12 GB 硬帽对应提示值最多约 **11.17587**；交互值还只显示四位，适合
+   人工 sanity check，不足以替代精确 byte gate。若不写预检 wrapper 或独立配额卷，就不能声称硬性
+   12 GB 已执行。
+3. 不直接调用官方 CLI 的非版本化 GET：它在 GET 前读取 version，但下载调用本身没有传 `VersionId`，
+   object 若在 HEAD 与 GET 之间更新，同尺寸新对象可能被旧 `manifest.ver` 错绑。改由本地 wrapper 对每条
+   显式传入预检 `VersionId`，边流式读取边执行单文件和累计 byte cap；响应 version/ETag/ContentLength
+   任一漂移都停止，不回退到 latest object。完成后写兼容格式的 `manifest.ver`。
+4. 下载后要求 UID 集合与 `<uid>.mp4` 文件集合完全相等，无额外/缺失/零字节文件；逐条核对
+   `manifest.ver` 的 UID、文件名和预检 S3 version，再核对本地 byte size 与预检 `ContentLength`。
+5. 对每条 MP4 另算 SHA-256 并运行 `ffprobe`，保存 container、video/audio codec、duration、fps、frame
+   count、display/sample resolution。duration 只能与 `ego4d.json` 作带容差的一致性检查；不要强行要求
+   540ss codec/resolution 等于 canonical metadata。
+6. 生成只读 media manifest，绑定 `ego4d.json`、官方 dataset `manifest.csv` 的 S3 version/hash、
+   `manifest.ver`、UID file、下载 receipt、license/receipt 和每个 MP4 的 SHA/bytes/ffprobe。随后才裁 2 秒片段并人工审 subject/action/
+   scene；裁片再记录自己的 SHA 和 source/duplicate group。S3 ETag 可能是 multipart ETag，不能未经证明
+   当作 MD5，更不能代替本地 SHA-256。
+
+上述外部硬门现已由 `prepare_ego4d.py` 落地，而不是只停留在建议。`preflight` 先验证 scanner 的
+metadata/narration/license/receipt/candidate/UID 绑定，从固定官方 S3 path 以 version-specific GET 冻结
+`manifest.csv`，仅允许官方源码列出的 Ego4D media buckets，再逐 UID HEAD 锁定 version ID、精确
+`ContentLength` 和 ETag；总和超过十进制 12 GB 就在视频下载前失败。`download` 对已锁 VersionId 做
+精确 GET 并流式执行 byte cap，避免官方 CLI 的 HEAD→latest-GET 竞态；完成后写下载 UTC、boto3 版本、
+plan hash、逐文件流式 SHA-256 与 `manifest.ver` hash。`verify` 再要求
+receipt/manifest.ver/UID/filename/version/下载时 SHA 全部一致，
+本地文件必须是普通非符号链接且 byte size 等于预检值，然后流式计算 SHA-256、以容差核对
+`ego4d.json` duration（预注册为 `max(1.0 秒, metadata duration × 1%)`），并用 ffprobe 固化
+container、video/audio codec、duration、fps、frame count 与
+分辨率。三个报告继续是 `training_ready=false`；它们只把获得许可后的下载变成可审计输入，不能替代
+用户接受协议，也不能替代 2 秒窗口人工审核。
+
+#### 无需代用户接受新协议的替代源：没有新的标准数据集通过三项门禁
+
+这次又核对了三个第一方、无需由 agent 代签协议即可查看的近邻来源；它们分别只满足“动作”“猫狗”或
+“明确许可”的一部分，没有一个可替代 Commons：
+
+- [DogCentric Activity Dataset 官方页](https://robotics.ait.kyushu-u.ac.jp/yumi/db/first_dog.html)
+  给出匿名 FTP 的 320×240、48 fps 分段视频，并有 `playing with a ball` 等 10 个动作；四只狗佩戴
+  GoPro，路线含住宅、河边公园、沙滩、田野和街道。这是语义最接近的标准 action dataset，但官方页未给
+  dataset/media license 或训练与派生产物授权。匿名可下载不等于获得版权许可，因此**不下载、不纳入**。
+- [COP3D 官方仓库](https://github.com/facebookresearch/cop3d) 有 4,200 个不同 cat/dog pet sequences，
+  明确为 CC BY-NC 4.0，不要求新的访问协议；但压缩数据 322 GB、以约 20 GB chunks 发布，格式是
+  sequence images/masks/point cloud，不是带 action/scene caption 的短视频。24 GB 本机无法在留出解压与
+  审核空间的同时安全处理一个 20 GB chunk，也无法 metadata-first 定向找 playing，故**不采用**。
+- [SA-V 官方仓库](https://github.com/facebookresearch/sam2/blob/main/sav_dataset/README.md) 直接发布
+  51K MP4 与 643K masklets，标 CC BY 4.0；[官方数据页](https://ai.meta.com/datasets/segment-anything-video/)
+  的 train JSON 有 `video_id/duration/frame_count/height/width/video_environment`，可给 Indoor/Outdoor，
+  但官方明确没有 class labels，因此没有 cat/dog 或 playing 标签。没有可审计的主体/动作定向筛选键时，
+  不能为当前缺口下载大池后再碰运气，故**不采用**。
+
+结论分为事实与决策两层：确有“无需新协议”的公开动物视频源，但本轮未找到同时具备目标语义键、逐媒体
+可审计权利和 24 GB 定向下载能力的**新标准数据集**。当前仍只有 Wikimedia Commons 满足可逐文件查询
+许可、标题/description/categories/depicts 召回和按单文件下载；它不是标准 T2V benchmark，且每个命中仍
+须人工审批。Ego4D 保持“用户自行接受许可后再做 metadata-first pilot”的备用路线，不能由本次研究替用户
+跨过协议门槛，也不改变当前 0 eligible C1 / 不训练状态。
 
 ### 为什么不是直接训练 800 GB
 

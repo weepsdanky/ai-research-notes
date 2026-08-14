@@ -354,8 +354,35 @@ uv run python ego4d_import.py \
   data/ego4d_pair_pilot/candidates.jsonl data/ego4d_pair_pilot/video-uids.txt \
   data/ego4d_pair_pilot/scan-report.json \
   --max-video-uids 10
-# 只有 scanner 报告和许可复核都通过后，UID 文件才可交给官方 CLI；报告固定
+# 只有 scanner 报告和许可复核都通过后，UID 文件才可进入下面的本地
+# preflight/download wrapper；不要把它直接交给官方媒体 CLI。报告固定
 # video_540ss、12 GB hard stop，超预算不得回退到全量下载。
+
+# 获得用户自己的 Ego4D/AWS 访问后，preflight 会以 version-specific GET 冻结
+# 官方 v2_1 manifest，再逐 UID HEAD 并锁定精确 S3 version/ContentLength/ETag；
+# 这一步先执行十进制 12,000,000,000-byte hard gate：
+uv run python prepare_ego4d.py preflight \
+  data/ego4d_pair_pilot/candidates.jsonl data/ego4d_pair_pilot/video-uids.txt \
+  data/ego4d_pair_pilot/scan-report.json data/ego4d_pair_pilot/download-plan.json \
+  --aws-profile ego4d
+
+# 人工确认 plan 后，由本工具按已冻结的 VersionId 做 exact GET；不会退回 latest
+# object，也不会在流式字节数超过 plan/hard cap 后继续写入：
+uv run python prepare_ego4d.py download \
+  data/ego4d_pair_pilot/download-plan.json \
+  data/raw/ego4d_pair_pilot/v2/video_540ss \
+  data/ego4d_pair_pilot/download-receipt.json \
+  --aws-profile ego4d
+
+# 下载后再绑定 metadata duration、下载 receipt、manifest.ver、逐文件 SHA-256
+# 和 ffprobe 媒体属性；输出仍然 training_ready=false：
+uv run python prepare_ego4d.py verify \
+  data/ego4d_pair_pilot/candidates.jsonl data/ego4d_pair_pilot/video-uids.txt \
+  data/ego4d_pair_pilot/scan-report.json data/raw/ego4d_pair_pilot/ego4d.json \
+  data/ego4d_pair_pilot/download-plan.json data/ego4d_pair_pilot/download-receipt.json \
+  data/raw/ego4d_pair_pilot/v2/video_540ss/manifest.ver \
+  data/raw/ego4d_pair_pilot/v2/video_540ss \
+  data/ego4d_pair_pilot/verified-media.json
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
