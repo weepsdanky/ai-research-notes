@@ -1,0 +1,68 @@
+{
+  "artifact_kind": "commons_full_duration_and_dense_window_review",
+  "candidate_sha256": "9b3af3137bb4d4fa928ae8ae9ba50280a73447552e6c64853962c2a500c11833",
+  "manifest_sha256": "06b75c5684c5430f13ecd1639a1e5274a18c333610ab4e6afda2ac648dcc3479",
+  "records": [
+    {
+      "contact_sheets": [
+        {
+          "file": "arie-full.jpg",
+          "sampling": "20 frames uniformly sampled over 96.470204 seconds",
+          "sha256": "f94dee78ba699477809668fdea3a0f0c578f0e97c088f26be1d82be35f4d66c4"
+        },
+        {
+          "file": "arie-8s.jpg",
+          "sampling": "16 frames at 8 fps over the approved [8, 10) second window",
+          "sha256": "3aca2cf6b9181c2651c614b2b325c1971b1377fa7ccf5299a3f1e5d459a30fe1"
+        }
+      ],
+      "decision": "approved",
+      "duplicate_group": "commons-event:polygoon-arie-bos-billiards-1938-04-04",
+      "labels": ["person", "playing", "indoors"],
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+      "normalized_clip_sha256": "8d1bf3d3e350f9af89d8dc43ef3b0a9bb3ec19cae2164566ba59e742b98850df",
+      "page_revision": "801317249",
+      "review_derivative_sha256": "964b361d393d7f4fa57373386217f3167f6b79eb27e2c24ebf433ea7ec92e7c0",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f4/Arie_Bos_Nederlands_kampioen_biljarten_driebanden-524299.ogv/Arie_Bos_Nederlands_kampioen_biljarten_driebanden-524299.ogv.240p.vp9.webm",
+      "original_media_sha1": "5335eb4274cb9b7d455912bd76ba4cfdf4df9c2c",
+      "original_media_sha256": "96c9345467529f45ef7e9d378c08d06733fc0195106809aee874e83f5c715f25",
+      "page_id": 35084511,
+      "reason": "One named adult remains the sole subject and continuously performs a cue shot at an indoor billiards table; the selected two-second window has no cut or second person.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Arie_Bos_Nederlands_kampioen_biljarten_driebanden-524299.ogv",
+      "start_seconds": 8.0,
+      "title": "File:Arie Bos Nederlands kampioen biljarten driebanden-524299.ogv"
+    },
+    {
+      "contact_sheets": [
+        {
+          "file": "heilbron-full.jpg",
+          "sampling": "20 frames uniformly sampled over 90.044082 seconds",
+          "sha256": "088609811cbeaa5e51ea22f18137ca314f69c9b5e56b2a1bebff52112160d345"
+        },
+        {
+          "file": "heilbron-8s.jpg",
+          "sampling": "16 frames at 8 fps over the approved [8, 10) second window",
+          "sha256": "da291465e10f51a800164bdc38fa06becc2cd6f67736497f0adce384f1304b76"
+        }
+      ],
+      "decision": "approved",
+      "duplicate_group": "commons-event:polygoon-heilbron-billiards-1934-08-24",
+      "labels": ["person", "playing", "indoors"],
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+      "normalized_clip_sha256": "58d0c68d0aea5cfd3c25357b42f0791b641fb2cf3815b685bbcb10fdb6696d8a",
+      "page_revision": "1198081554",
+      "review_derivative_sha256": "ef2374e387e71f50b3af3e05da1742cf56c6502c40968b0f9cfbd4fc69718596",
+      "review_derivative_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9a/De_vermaarde_handbiljarter_J._Heilbron-508928.ogv/De_vermaarde_handbiljarter_J._Heilbron-508928.ogv.240p.vp9.webm",
+      "original_media_sha1": "42a1aecbcd18c66b3ee385e6cc6698e41f3495cf",
+      "original_media_sha256": "5921c2b41bff021497b0d0335c36658dbd4018931f8d2bd228c30f8a52738990",
+      "page_id": 35084522,
+      "reason": "One named adult remains the sole subject and continuously demonstrates a hand billiards shot indoors; the selected two-second window has no cut or second person.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:De_vermaarde_handbiljarter_J._Heilbron-508928.ogv",
+      "start_seconds": 8.0,
+      "title": "File:De vermaarde handbiljarter J. Heilbron-508928.ogv"
+    }
+  ],
+  "review_policy": "Approval requires a full-duration contact sheet, a dense two-second window, one intended adult subject, continuous target action, an unambiguous indoor scene, and a stable event-level duplicate group.",
+  "training_ready": false,
+  "training_blocker": "The global C1 gate still has only 16/50 held groups and 7/10 playing|indoors training groups."
+}

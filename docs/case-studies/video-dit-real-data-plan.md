@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 122 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 124 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 122 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,130 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
+从现有 124 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,132 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -1571,3 +1571,164 @@ outdoor cat 的 `File: cat playing outdoors`、`File: cat playing outside`、
 官方文件页同时给出 action/scene 正证据、单一非儿童主体、逐 item 许可与原 SHA-1 的新 title；同一
 uploader、同一动物、同日连续上传或同一拍摄事件先保守并为一个 source group。未经全长和密集 2 秒
 窗口审核的命中一律保持 `pending/review_required`，不得计 coverage，也不启动正式训练。
+
+#### 从“play”全文改为游戏分类交集：三个成年单人 indoor pending
+
+上一轮的 0 差集只覆盖英文 title/description 查询；它不能证明 Commons 没有被按具体游戏分类、但
+标题不含 `play` 的视频。因此本轮改走官方分类结构。Commons 官方
+[`Videos of people playing`](https://commons.wikimedia.org/wiki/Category:Videos_of_people_playing)
+当前只有 `Videos of children playing` 一个子类、没有成年直属视频，故这条显式 people/activity 树的
+成年差集仍是 0。随后审计
+[`Videos of board games`](https://commons.wikimedia.org/wiki/Category:Videos_of_board_games) 的 7 个
+直属文件：7 个 title 均不在当前 1,130-row 集合，但原视频只显示棋盘、游戏画面、手或前臂，或同时
+出现两名玩家；官方 metadata 也没有同时证明“单一成年 person + indoors”。例如 `Carrom playing`
+虽明确是 playing，但全长只见一只前臂；`9x9 Go` 是 tournament 且两名玩家的手交替出现。这 7 条
+都不能因为场景看似室内就直接预标 person/indoors。
+
+真正可执行的新入口是官方
+[`Videos of billiards`](https://commons.wikimedia.org/wiki/Category:Videos_of_billiards)：24 个直属视频的
+规范 title 与 1,130-row 集合差集为 **24**。Action API 固定 page ID、原媒体 SHA-1 与许可后，又对
+官方原视频做完整低频联系表，而不是只看搜索摘要。`Quick Pool Break` 只在末尾出现手指，`Piqué`
+只显示手和球杆，`Carom billiards` 有两名选手及裁判，赛事新闻片通常也有多名人物；这些都不进入
+下面的高优先 pending。只有三条历史演示持续以一名成年男子为主要主体，且室内台球桌、击球动作与
+单人构图在完整时序中稳定：
+
+| pending 文件 | 官方固定身份与许可 | action / scene / 人物与 grouping 边界 |
+|---|---|---|
+| [`Arie Bos Nederlands kampioen biljarten driebanden-524299.ogv`](https://commons.wikimedia.org/wiki/File:Arie_Bos_Nederlands_kampioen_biljarten_driebanden-524299.ogv) | page ID `35084511`；SHA-1 `5335eb4274cb9b7d455912bd76ba4cfdf4df9c2c`；9,866,592 bytes；CC BY-SA 3.0 NL；Polygoon-Profilti / Nederlands Instituut voor Beeld en Geluid；官方日期 1938-04-04 | 官方 description 明确荷兰三库仑台球冠军 Arie Bos 逐项 demonstration；原视频联系表显示单一成年男子和台球桌贯穿多数镜头，scene 为明确室内布景。只能 `pending/review_required`；同题的 page `84556061`、SHA-1 `1392ac…` WebM 是同一 Arie Bos 新闻片路线，先按同一 source/near-duplicate group，不能算第二组。 |
+| [`De vermaarde handbiljarter J. Heilbron-508928.ogv`](https://commons.wikimedia.org/wiki/File:De_vermaarde_handbiljarter_J._Heilbron-508928.ogv) | page ID `35084522`；SHA-1 `42a1aecbcd18c66b3ee385e6cc6698e41f3495cf`；19,275,705 bytes；CC BY-SA 3.0 NL；同一官方馆藏；官方日期 1934-08-24 | 官方 description 明确一名男子在 Haarlem 用手指而非球杆演示多种 billiards shots；完整 240p derivative 联系表为单一成年男子、室内台球桌和持续击球。与 Arie Bos 是不同人物/日期/事件，但仍须按原影片标识、pHash 和片段重叠确认后才能声明独立 source group。 |
+| [`Biljartdemonstratie door H.J. Robijns.webm`](https://commons.wikimedia.org/wiki/File:Biljartdemonstratie_door_H.J._Robijns.webm) | page ID `88210054`；SHA-1 `9e77a6e777c534214343bf029e34dd8f6942b933`；28,366,770 bytes；文件页标为 Public Domain；Polygoon Hollands Nieuws / Nederlands Instituut voor Beeld en Geluid；官方日期 1932-01-11 | 官方 description 明确世界冠军 H.J. Robijns 演示手势与击球，但也说明片头由 I.L. Pinto 介绍。完整联系表存在大量稳定单人 Robijns 窗口；导入后必须只选无助手、无剪辑的密集两秒窗口。1932/1934/1938 是三个不同事件的正证据，不替代近重复闭包。 |
+
+上述三条只是在看片前规则下值得进入 exact import 的 **pending**，不是 approved，更没有立即贡献三个
+groups。执行时应只导入表中规范 title，锁 source revision、原 SHA-1、许可/署名和官方日期，再为每条
+生成完整联系表及候选两秒窗口；人物切换、字幕/剪辑污染、主体不足或 action 不连续即 reject。Arie Bos
+的 OGV/WebM 变体必须合并；同一 Polygoon 馆藏不自动等于同一拍摄源，但也不能仅凭不同文件名拆组。
+人物均为 1930 年代公开新闻片中的已具名成年人，风险显著低于儿童或当代无 release 人物；这仍不把
+文件版权许可等同于人格权保证。
+
+dog 结构化交集也做了独立负查：官方 CirrusSearch
+`haswbstatement:P180=Q144 incategory:"Playing dogs" filetype:video` 只返回
+[`Two poodles playing.ogv`](https://commons.wikimedia.org/wiki/File:Two_poodles_playing.ogv)（page ID
+`10794007`、SHA-1 `72dd708bd5433482aadbf194b48af015ab04a8df`、CC BY-SA 2.0），它已在当前池并因多犬、
+outdoors 被拒绝。放宽为 dog depicts + `playing` 的 5 个视频 title 也全部已在 1,130-row 集合；
+`Puppies playing` 精确类是 0 个视频。因此 dog 结构化高置信新增差集仍为 **0**。
+
+这次发现 pending 不改变权威 coverage：训练 pair 仍为 `cat×indoors=30/10`、
+`cat×playing=5/10`、`playing×indoors=5/10`，held `cat|playing|indoors=16/50`，
+**0 eligible C1**；在 exact import、逐窗审核、source/pHash 闭包和重新生成 manifest 前不得把三条台球
+视频计入 5/10 缺口，也不得启动正式训练。
+
+### 2026-08-14：SA-V 官方审计——可做 305-ID 可行性 pilot，不能直接计独立来源
+
+结论先行：Meta 的 Segment Anything Video Dataset（SA-V）比不透明网页抓取更适合做**有许可、固定 ID、
+有界数量**的候选发现实验，但当前公开版本不能直接解决本计划最关键的 source-group 门禁。官方
+[`SA-V 数据页`](https://ai.meta.com/datasets/segment-anything-video/)说明视频和 annotations 采用
+CC BY 4.0，约 51K 视频来自签约第三方组织的 crowdworkers；官方
+[`SAM 2 仓库的数据说明`](https://github.com/facebookresearch/sam2/blob/main/sav_dataset/README.md)
+给出 50,583 个 train MP4、155 个 val 和 150 个 test 视频。可是公开 JSON 只有不透明的
+`video_id`、时长/帧数/尺寸、`video_environment`（Indoor/Outdoor）、split 和 masklet 统计；官方同时明确
+mask 是 class-agnostic，**没有类别或文本标签**。因此 SA-V 只能按粗粒度 indoor/outdoor 预筛，不能用
+官方 metadata 查询 cat、dog、person 或 playing，更不能把自动 caption/classifier 的结果直接当真值。
+
+#### 许可、下载与 100–500 条有界机制
+
+- 官方 landing page 和仓库均把**视频及 annotations**声明为 CC BY 4.0；但 SAM 2 论文 dataset card 还明确
+  要求用户在下载或使用前同意下载页的 Terms of Use。CC BY 声明不能替代对当时 ToU 的保存与复核，
+  本轮没有接受条款、没有请求下载链接、也没有下载媒体。正式 pilot 必须保存接受日期、ToU 快照、
+  dataset/version 标识和归因文本，不能仅记录“CC BY”。见官方论文
+  [`Appendix H.2 / Distribution`](https://arxiv.org/html/2408.00714)及
+  [`下载入口`](https://ai.meta.com/datasets/segment-anything-video-downloads/)。
+- 最干净的 bounded pilot 不是先吞下 50,583 个 train MP4，而是下载官方 **val 155 + test 150 = 305 个
+  video IDs**。仓库说明这两部分提供 24 fps JPEG frames、6 fps PNG masks 与 split ID list；305 正好落在
+  预注册的 100–500 范围内。若为了现有审核工具把 frames 封装为 MP4，必须同时保留原 archive SHA-256、
+  原 `video_id`、frame-list hash、转换命令和派生 MP4 SHA-256，并注明发生格式转换。
+- train 端是每个 `{video_id}.mp4` 配 `{video_id}_manual.json`，部分另有 `_auto.json`。官方 repo 没有
+  文档化一个受支持、带版本/checksum contract 的“按 subject/action 查询并只取 100–500 个 train MP4”
+  API；官方 SAM 3 数据准备说明也把 SA-V 下载描述为从 Meta 页面取得 **dynamic links**，并以
+  `videos_fps_6.tar` 链接为例。参见 Meta 官方
+  [`SAM 3 SA-V preparation`](https://github.com/facebookresearch/sam3/blob/main/scripts/eval/silver/README.md#sa-v)。
+  Dataset Explorer 的当前前端确实使用 cursor/`first` 查询并返回签名媒体 URL；2026-08-14 的只读探测
+  以 `video_environment=Indoor, first=500` 请求得到 501 个唯一 `video_id`、仍有下一页（ID 列表
+  SHA-256 `b568e8554c4a4eee85fd31fbad4da074eff6d4a1c2f4cde5e7294b7ff9b7c18a`，未请求 URL、未下载
+  视频）。这证明技术上可以分页浏览，但返回数的 off-by-one、动态签名 URL 和未文档化 API 都意味着
+  它不能作为稳定 acquisition contract；若以后使用，必须本地截断、锁 cursor/ID/响应 hash，并按 exact
+  ID 下载后重算媒体 hash。
+
+#### source group、近重复和人物权利的硬边界
+
+官方论文说明 SA-V 的 train/val/test 是按**视频作者及其地理位置**拆分，以尽量减少相似物体重叠；这使
+官方 val+test pilot 比随机抽取 train 更适合测试 pipeline。然而作者/位置字段没有随上述 JSON schema
+公开。更关键的是，dataset card 明确说虽然视频文件彼此 distinct，仍有若干视频拍摄了同一 subject
+matter，并明确回答实例间关系没有显式提供；原始视频也没有保留，发布物只是统一重采样为 24 fps 的
+MP4。参见官方论文 [`§5.2 与 Appendix H.2`](https://arxiv.org/html/2408.00714)。所以：
+
+- `sav_XXXXXX` 不等于独立 uploader、作者、动物或拍摄事件；连续 ID 也不能被解释为或排除同一 series。
+- 发布说明没有 per-video 原始来源 ID、作者 ID、capture-session ID、官方内容 hash 或 duplicate cluster。
+  pilot 必须计算发布字节 SHA-256、时间 pHash/embedding，人工复核同一动物、背景、镜头和连续事件；
+  但这些仍只能解决 exact/near duplicate，不能恢复缺失的作者来源关系。
+- 在 Meta 不提供 author/capture-group mapping 前，SA-V 命中只能保持 `pending/review_required`。严格计数时
+  最保守做法是把全部 SA-V 候选视为 **1 个未验证 source group**；不能因为得到 305 个 ID 就贡献 305 个
+  pair-support groups。可以向 `segment-anything@meta.com` 请求稳定 version/checksum manifest 和经过匿名化
+  的 author/session group IDs，再决定是否放宽。
+
+人物与隐私方面，dataset card 记录了 face-blurring model、crowdworker consent forms、第三方对所需
+notice/consent 的承诺、撤回机会及内部 review；这比普通网络视频的 provenance 强。但官方没有声称零可识别
+人物，也没有给每个 `video_id` 发布人物授权/同意记录，且 metadata 不标人、年龄或未成年人。因此人脸模糊
+不能替代本项目的全长审核：任何未充分模糊的可识别人、儿童、旁观者、屏幕/住址等敏感信息继续 fail-closed；
+只有 `cat|dog|person × action × Indoor|Outdoor` 经外部模型召回、两阶段人工逐窗确认、权利审核和
+source/near-duplicate 闭包后，才可从 pending 进入候选审核。
+
+SA-V 的下一步仅是一个**不计 coverage 的 305-ID feasibility pilot**：衡量 cat/dog/person 与 playing 的
+命中率、解码/存储成本、人物权利拒绝率、近重复簇比例，并验证 frame-to-clip 与 provenance 流程；不能把
+val/test 当成已经满足 C1 的数据，也不能因此启动训练。该审计完成时的 Commons 快照是
+**1,130 titles**，训练 pair 为 `cat×indoors=30/10`、`cat×playing=5/10`、
+`playing×indoors=5/10`，held `cat|playing|indoors=16/50`，**0 eligible C1**；紧随其后的台球
+审核把当前快照推进到 1,132 / 124 approved / `playing×indoors=7/10`，但仍为 0 eligible C1。
+本节没有新增 SA-V pending/approved media，所有 SA-V 结论均为 pending-only。
+
+### 2026-08-14 执行结果：两条台球视频通过，pair support 从 5 增到 7
+
+上述 billiards 路线已经按预注册边界执行，而不是停在搜索建议。exact import 最终只保留两条
+CC BY-SA 3.0 NL 文件：Arie Bos 与 J. Heilbron。H.J. Robijns 文件页只有 Public Domain Mark、没有
+本项目 Commons provenance gate 要求的非空 `license_url`，因此导入过程 fail-closed，未通过修改
+通用许可门禁把它塞入数据。这个处理也与 Creative Commons 的官方说明一致：
+[`Public Domain Mark`](https://creativecommons.org/public-domain/pdm/) 是标识已知公版作品的标签，
+不是像 [`CC0`](https://creativecommons.org/public-domain/cc0/) 那样的权利放弃/贡献工具。
+
+两条通过许可门的原 OGV 均重新下载并逐字节核对 Commons SHA-1；完整 20-frame 联系表和每条
+`[8,10)` 秒、8 fps 的 16-frame 密集窗口显示：一名已具名成年人是唯一人物，持续演示台球击球，
+场景稳定为室内，且所选窗口无剪辑。二者分别绑定
+`commons-event:polygoon-arie-bos-billiards-1938-04-04` 与
+`commons-event:polygoon-heilbron-billiards-1934-08-24`，没有因为同一馆藏/制片方而冒充同一事件，
+也没有把 Arie 的 OGV/WebM 变体拆成两组。原媒体、review derivative、规范化 96×96×16 clip、
+页面 revision、page ID、原 SHA-1、许可和审核图 hash 均记录在
+[`commons-billiards-review/evidence.json`](artifacts/video-dit/commons-billiards-review/evidence.json)。
+
+重建后的权威数据为：candidates **1,132 = 124 approved + 800 pending + 208 rejected**；v3 manifest
+**124 records / 95 independent groups**，manifest SHA-256
+`06b75c5684c5430f13ecd1639a1e5274a18c333610ab4e6afda2ac648dcc3479`，coverage SHA-256
+`95fea2349d0e5a0c19c2ee8523d27bf978eea6bc153a943cec5adbc7a9cdf27a`。held
+`cat|playing|indoors` 仍是 **16/50**；整组排除 held 后，训练 pair 为
+`cat×indoors=30/10`、`cat×playing=5/10`、`playing×indoors=7/10`。因此仍是
+**0 eligible C1**，这两条确实缩小了 pair 缺口，但不允许启动正式训练。
+
+### 2026-08-14 执行结果：Internet Archive 定向 pilot 全部不进入训练
+
+为避免只看 metadata，本轮增加 `prepare_archive_media.py`：冻结候选 bytes/hash，在网络请求前检查
+总字节硬帽；只接受绑定 `archive.org/details/<id>` 与 `archive.org/download/<id>/<original>` 的
+原文件；流式核对 IA `size + SHA-1 + MD5`，再记录本地 SHA-256 与 ffprobe 的 codec/尺寸/fps/帧数/
+时长。任一下载、digest 或 probe 失败都会清理 staging，最终 manifest 明确
+`training_ready=false`。
+
+4 个 exact specs 中，两个现代家庭上传只声明 PDM，按上面的许可规则在 metadata 阶段拒绝；剩余
+2 条共 75,256,255 bytes 在 100,000,000-byte hard cap 内完整验证。全长审核结论仍为 0 approved：
+
+- `Playing with Ruby Dog Sep 2012 Philly` 的狗确实玩球，但全片为公园/喷泉户外并出现成年人，不能
+  支撑 `dog|playing|indoors`。
+- `Cat Neve hunting a Mechanic Toy -Dog` 明确室内，猫会跟随/潜行接近机械玩具狗；但完整联系表及
+  0/4/8/16/22 秒附近密集窗口均没有清晰、持续的扑抓或玩耍，源标题本身也是 “hunting”，所以按
+  action fail-closed，而不是为了补数改成 playing。
+
+候选、媒体 manifest、两条本地媒体 SHA-256 与三张审核联系表的哈希由
+[`archive-pair-pilot-v3/evidence.json`](artifacts/video-dit/archive-pair-pilot-v3/evidence.json)
+绑定。该 pilot 没有写入 Commons manifest、没有改变 coverage，也没有触发训练。

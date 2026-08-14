@@ -394,23 +394,24 @@ timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license U
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
-满足新契约；当前 v3 的 122 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
+满足新契约；当前 v3 的 124 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并，当前为 93 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
+合并，当前为 95 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
 triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=5/10`、
-`playing×indoors=5/10`，mixed-held group 已经消解，但只补 held triple
+`playing×indoors=7/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,130 条，目前 122 条 approved、800 条 pending、208 条 rejected；pending 绝不
-计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
-森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
-而拒绝，person 仍有 109 条
+候选池为 1,132 条，目前 124 条 approved、800 条 pending、208 条 rejected；pending 绝不
+计作训练数据或组合覆盖。人物审核目前批准 4 条：单人海滩行走，以及固定机位下单人走入
+森林的 2598--2600 秒片段；另外两条是本轮通过的单人室内台球片段。另有多轮候选因人群、
+第一视角、延时摄影、旅行 vlog 或动作不符而拒绝，person 仍有 109 条
 pending。标题启发式只能排序人工队列，绝不自动批准或生成标签：
 
-最新一次 exact 导入加入两个有明确 indoor-playing metadata 的 person 视频；全时段联系表显示
+此前一次 exact 导入加入两个有明确 indoor-playing metadata 的 person 视频；全时段联系表显示
 一个是多人博物馆场景，另一个是可识别儿童。两条均按预注册的人物权利/单主体门禁拒绝，
-所以 manifest 与 30/5/5 的训练 pair coverage 没有变化，也没有启动训练。
+所以当时的 manifest 与 30/5/5 训练 pair coverage 没有变化，也没有启动训练；后续台球审核
+才把 `playing×indoors` 推进到 7/10。
 
 ```bash
 uv run python commons_review.py priority data/commons_g1/candidates.jsonl \
@@ -586,10 +587,39 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 122 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 Commons-first：把现有 124 approved、逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。
+
+最新一轮从 Commons 台球分类补入两条不同人物、日期与事件的 CC BY-SA 历史演示，经完整
+视频联系表和 `[8,10)` 秒密集窗口审核后标为 `person|playing|indoors`。v3 manifest 现为
+124 records / 95 independent groups；held `cat|playing|indoors` 仍为 16/50，训练侧
+`cat×indoors=30/10`、`cat×playing=5/10`、`playing×indoors=7/10`，仍是 0 eligible C1，
+所以没有启动正式训练。审核截图和逐媒体 hash 在
+`docs/case-studies/artifacts/video-dit/commons-billiards-review/`。
+
+Internet Archive 的有界媒体验证入口如下；它在联网前检查总字节硬帽，流式核对 IA 的
+SHA-1/MD5/size，保存本地 SHA-256 与 ffprobe 媒体契约，并始终输出
+`training_ready=false`：
+
+```bash
+uv run --offline python prepare_archive.py \
+  configs/archive_pair_candidate_specs_v2.json \
+  data/archive_pair_pilot_v3/candidates.jsonl \
+  data/archive_pair_pilot_v3/scan-report.json
+uv run --offline python prepare_archive_media.py \
+  data/archive_pair_pilot_v3/candidates.jsonl \
+  data/archive_pair_pilot_v3/media \
+  data/archive_pair_pilot_v3/media-manifest.json \
+  --max-total-bytes 100000000
+```
+
+该 pilot 的 4 个定向 item 中，两个现代家庭视频只使用 Public Domain Mark，许可门禁直接
+拒绝；Creative Commons 明确说明 PDM 是给已经属于公版的作品加标签，不是把作品投入公版的
+法律工具。其余两个许可相容视频下载后也因 full-duration 语义不满足目标而拒绝：Ruby 狗视频
+是户外，Neve 猫视频没有清晰持续的 playing 动作。审核证据在
+`docs/case-studies/artifacts/video-dit/archive-pair-pilot-v3/`，因此 IA 本轮没有改变 coverage。
 
 复现 metadata 扫描与 tar 解析（原始文件位于仓库外/ignored 的 `data/raw/videoufo`）：
 

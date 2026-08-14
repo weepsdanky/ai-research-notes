@@ -15,7 +15,6 @@ _ALLOWED_LICENSE_PATHS = (
     re.compile(r"^/licenses/by/(?:1\.0|2\.0|2\.5|3\.0|4\.0)/?$"),
     re.compile(r"^/licenses/by-sa/(?:1\.0|2\.0|2\.5|3\.0|4\.0)/?$"),
     re.compile(r"^/publicdomain/zero/(?:1\.0)/?$"),
-    re.compile(r"^/publicdomain/mark/(?:1\.0)/?$"),
     re.compile(r"^/licenses/publicdomain/?$"),
 )
 
@@ -49,7 +48,7 @@ class ArchiveItemCandidate:
         }
 
 
-def _license_allowed(url: str) -> bool:
+def license_allowed(url: str) -> bool:
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme not in {"http", "https"} or parsed.hostname != "creativecommons.org":
         return False
@@ -91,7 +90,7 @@ def parse_archive_item(
     if not isinstance(license_value, str):
         raise ValueError("Internet Archive license must be a string")
     license_url = license_value.strip()
-    if not _license_allowed(license_url):
+    if not license_allowed(license_url):
         raise ValueError("Internet Archive item license is absent or incompatible")
     originals = [
         row for row in files

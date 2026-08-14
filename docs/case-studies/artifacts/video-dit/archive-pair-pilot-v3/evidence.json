@@ -1,0 +1,77 @@
+{
+  "artifact_kind": "internet_archive_full_duration_review_evidence",
+  "candidate_sha256": "251e5c4628f4ac46036ca33ff339e17bb61b8a6a8dd9ed0d7de6f4ce24fe15c9",
+  "media_manifest_sha256": "730faa21ca26494f1f31f14d796345834a7d3785011c226286c6f95cb812349f",
+  "records": [
+    {
+      "contact_sheets": [
+        {
+          "file": "ruby-dog-full.jpg",
+          "sampling": "12 frames uniformly sampled at (i + 0.5) * duration / 12",
+          "sha256": "d17f6ec1657d73f05a7ebc033e2c6df7280857abb56e29727538e8f596dd955c"
+        }
+      ],
+      "decision": "rejected",
+      "duration_seconds": 44.077344,
+      "identifier": "THEBAbbLER_PchewyPlayingwithRubyDogSep2012Philly",
+      "license_url": "http://creativecommons.org/licenses/by/2.5/",
+      "media_bytes": 55150882,
+      "media_sha256": "4979842ace33a07315cc22e64bf0844b624dedcc9d9f186e23812580aa8188c5",
+      "reason": "The dog plays with a ball, but the full video is outdoors in a park/fountain setting and also contains a visible adult; it cannot support dog|playing|indoors.",
+      "source_url": "https://archive.org/details/THEBAbbLER_PchewyPlayingwithRubyDogSep2012Philly",
+      "target": "dog|playing|indoors"
+    },
+    {
+      "contact_sheets": [
+        {
+          "file": "cat-neve-full.jpg",
+          "sampling": "12 frames uniformly sampled at (i + 0.5) * duration / 12",
+          "sha256": "c18cf633b9ace23fc5feec9c004329dd76a027bff8ccf511991cc481f9f4cea2"
+        },
+        {
+          "file": "cat-neve-dense-0s.jpg",
+          "sampling": "16 frames across the first two seconds",
+          "sha256": "57980df0ad963b6c0a10e9dfbde13ea78e075e104a1fffdbddf068072c49475d"
+        },
+        {
+          "file": "cat-neve-window-0s.jpg",
+          "sampling": "dense two-second window beginning at 0 seconds",
+          "sha256": "b04b31b3cd4a8b2fd4d80d8b99f911ba354dd6fde014de166904b70cb3869d7a"
+        },
+        {
+          "file": "cat-neve-window-4s.jpg",
+          "sampling": "dense two-second window beginning at 4 seconds",
+          "sha256": "1d5aee1cd8752b13dd7cdbc76c4e9da48cbf3d34cbc6e713e2cd379463bedf07"
+        },
+        {
+          "file": "cat-neve-window-8s.jpg",
+          "sampling": "dense two-second window beginning at 8 seconds",
+          "sha256": "b0f21a984528b18fc9286b943ea74a87b864c85f8d397c985681a80203680e5c"
+        },
+        {
+          "file": "cat-neve-window-16s.jpg",
+          "sampling": "dense two-second window beginning at 16 seconds",
+          "sha256": "78bfb088ea98b82c8ebd15ece73cab4cc130633b1e40b38b30defd727fa2d4e3"
+        },
+        {
+          "file": "cat-neve-window-22s.jpg",
+          "sampling": "dense two-second window beginning at 22 seconds",
+          "sha256": "beffff7334d06ffbf80516a564ae250aa3450a0b0068c64fef17659dfd658b54"
+        }
+      ],
+      "decision": "rejected",
+      "duration_seconds": 26.002729,
+      "identifier": "vid-20221231-wa-0038",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "media_bytes": 20105373,
+      "media_sha256": "6b5d156efd7f5285ce46c6dfe1174ac779c2f6669def982d610b79ef549f3322",
+      "reason": "The cat is indoors and follows or stalks a mechanical toy dog, but full-duration and dense windows do not show an unambiguous sustained play interaction; the source title itself describes hunting.",
+      "source_url": "https://archive.org/details/vid-20221231-wa-0038",
+      "target": "cat|playing|indoors"
+    }
+  ],
+  "review_policy": "A title or search hit is retrieval evidence only. Acceptance requires a full-duration contact sheet plus a dense two-second window with one intended subject, continuous target action, and the target scene.",
+  "scan_report_sha256": "c2adc19bcddd44497758fd5bfeec6aed445114477999b84b94cdd594ed50c43c",
+  "spec_sha256": "3ee9b08f9d29b3e52e548e24d373df762aae9c6f9d5e71d01e1a3281ec6941ef",
+  "training_ready": false
+}
