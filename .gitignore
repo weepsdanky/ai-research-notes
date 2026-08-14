@@ -21,6 +21,7 @@ code/video_dit/data/
 data/models/
 data/real_video_pilot/
 data/raw/
+data/private/
 !code/video_dit/demo_artifacts/
 !code/video_dit/demo_artifacts/**
 tmp/

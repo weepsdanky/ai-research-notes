@@ -292,6 +292,13 @@ uv run python prepare_commons.py search \
   data/commons_g1/candidates.jsonl \
   --state data/commons_g1/pair-deficit-search.state.json
 
+# 用 Commons Structured Data 的 depicts QID 补足分类/全文检索漏项；
+# Q146=cat、Q144=dog，只作为 subject 召回，动作和场景仍须人工审核：
+uv run python prepare_commons.py search \
+  configs/commons_structured_depicts_search.json \
+  data/commons_g1/candidates.jsonl \
+  --state data/commons_g1/structured-depicts-search.state.json
+
 # 把官方 API 审计得到的精确 File: title 可恢复地追加为 pending；
 # API 回传 title 或既有 subject/query contract 不一致时会拒绝：
 uv run python prepare_commons.py exact \
@@ -335,6 +342,20 @@ uv run python blind_review_pool.py reveal \
 uv run python prepare_archive.py configs/archive_pair_candidate_specs.json \
   data/archive_pair_pilot/candidates.jsonl \
   data/archive_pair_pilot/scan-report.json
+
+# Ego4D 只有在实际使用者接受并保存数据许可后才能运行。scanner 先冻结
+# metadata/narrations/许可/receipt 四份字节快照，按时间排序 narration 上下文，
+# 优先覆盖不同 participant/origin group，最多输出 10 个 UID；不下载视频、
+# 不自动生成标签，输出仍为 training_ready=false：
+uv run python ego4d_import.py \
+  data/raw/ego4d_pair_pilot/ego4d.json \
+  data/raw/ego4d_pair_pilot/narrations.json \
+  data/private/ego4d-license.pdf data/private/ego4d-license-receipt.json \
+  data/ego4d_pair_pilot/candidates.jsonl data/ego4d_pair_pilot/video-uids.txt \
+  data/ego4d_pair_pilot/scan-report.json \
+  --max-video-uids 10
+# 只有 scanner 报告和许可复核都通过后，UID 文件才可交给官方 CLI；报告固定
+# video_540ss、12 GB hard stop，超预算不得回退到全量下载。
 ```
 
 下载只接受 `approved`、标签完整且来源为 Wikimedia HTTPS 的记录；若审核时已缓存
@@ -346,15 +367,15 @@ timestamp/SHA-1，并分别保留原页面、原始媒体 URL、逐条 license U
 时间，以及**实际下载对象**（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip
 SHA-256 和感知 hash。页面 revision、原媒体版本和 derivative hash 是三个不同对象，不会
 混称为“原始媒体 hash”。旧版 101-record manifest 曾缺少其中若干独立字段，不能冒充为
-满足新契约；当前 v3 的 119 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
+满足新契约；当前 v3 的 122 条已全部重新 enrich、重新规范化，并记录片段起点、预处理
 参数和显式来源组。按上传者保守初分后，又用关键帧审核明显不同的猫身份并保留疑似同猫
-合并，当前为 91 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
-triple 的训练侧 pair 下限为 10；当前 `cat×indoors=28/10`、`cat×playing=5/10`、
+合并，当前为 93 个独立组；`cat|playing|indoors` 只有 16/50。coverage 还预注册每个 held
+triple 的训练侧 pair 下限为 10；当前 `cat×indoors=30/10`、`cat×playing=5/10`、
 `playing×indoors=5/10`，mixed-held group 已经消解，但只补 held triple
 仍不能放行。错误搜索命中（例如机器人
 狗、纪录片或主体过小）必须拒绝。搜索按 API page 原子保存候选和 continuation token；
 网络 429 或进程中断后可继续当前 query，已完成 query 不会重复抓取。当前 G1 Commons
-候选池为 1,097 条，目前 119 条 approved、776 条 pending、202 条 rejected；pending 绝不
+候选池为 1,128 条，目前 122 条 approved、800 条 pending、206 条 rejected；pending 绝不
 计作训练数据或组合覆盖。人物审核目前批准 2 条：单人海滩行走，以及固定机位下单人走入
 森林的 2598--2600 秒片段；另有多轮候选因人群、第一视角、延时摄影、旅行 vlog 或动作不符
 而拒绝，person 仍有 109 条
@@ -489,7 +510,7 @@ uv run python train.py \
 视频混合继承 Panda、ChronoMagic、Open-Sora-Plan、CelebV-HQ 等上游来源条件，不能把
 仓库顶层的 license 标签当成逐 clip 权利证明；Panda-70M 和 InternVid 主要发布网页视频
 metadata，并带非商业/上游权利限制。因此这些来源只作 metadata coverage 参考，不进入
-当前 checkpoint。训练主线改为 Commons-first：把现有 119 approved、逐文件记录许可和
+当前 checkpoint。训练主线改为 Commons-first：把现有 122 approved、逐文件记录许可和
 署名的样本扩到 1K，优先补 person 与稀疏猫狗组合；达不到每个 C1 triple 50 个独立
 source groups 时就缩小矩阵并公开缺口，不用来源不明的视频补数。完整证据与固定 revision
 见学习计划。

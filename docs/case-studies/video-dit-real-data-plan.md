@@ -107,7 +107,7 @@ FineVideo 条款要求遵守每个原视频的 Creative Commons 许可证及署�
 
 当前唯一进入训练主线的替代源是 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia)。这是因为 Commons 的项目范围要求自由许可/公有领域媒体，MediaWiki `imageinfo` + `extmetadata` API 能对每个文件返回直接下载 URL、作者/credit、license short name 与 `LicenseUrl`；是否满足署名、相同方式共享或公有领域标识仍须逐文件执行，不能只记一个站点级标签。
 
-24 GB Mac 的下一步保持小而可审计：先把现有 119 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
+24 GB Mac 的下一步保持小而可审计：先把现有 122 approved 扩到 1K，优先补 `cat|playing|indoors` 及其训练侧 pair support；每条分别保存 Commons 描述页 revision、原媒体 timestamp/SHA-1、原文件 URL、作者、license URL、下载时间、实际下载对象（原文件或审核 derivative）的 URL/type/SHA-256、规范化 clip SHA-256、片段起点、预处理参数、人工标签和 source/duplicate group。只允许 `approved` 且这些字段完整的 clip 进入 manifest。1K 达标后再按 coverage table 决定是否扩到 6K；达不到每个 C1 triple 50 个独立 source groups，或训练侧任一 pair 达不到预注册的 10 个独立 groups，就缩小组合矩阵并公开缺口，不用来源不明的视频补数。
 
 这里的代价也要明说：Commons caption 常是文件描述而非精细动作句，搜索分布不均，人物/跑步素材尤其稀疏，因此需要人工裁切与结构化 caption；它是**权利可审计的教学子集**，不是“大规模标准 T2V benchmark”。OpenVid 只在未来能得到逐 row 原始来源及兼容许可后重审；Panda/InternVid 只可作为非商业研究的 metadata coverage 参考，不下载视频、不混入 checkpoint。
 
@@ -158,7 +158,7 @@ scene   = grass/field | forest | beach | snow | indoor/home
 
 ### 当前 Phase：Commons-1K → coverage gate
 
-从现有 119 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,097 个候选中的 776 个仍为 pending，不能计入训练规模或覆盖。
+从现有 122 个 approved clips 出发，优先审核/补搜 `cat|playing|indoors` 及稀疏训练侧组合；只有逐文件许可、署名、来源、原始/裁切 SHA-256、人工三因子标签和 source/duplicate group 完整的 `approved` 样本才能进入 manifest。达到约 1K 后重新计算 source-group/pHash 闭包下的三元组覆盖：每个拟留出 C1 triple 至少 50 个独立 groups，且其每个训练侧 pair 至少 10 个独立 groups，才进入正式训练；否则缩小组合矩阵并公开缺口。当前 1,128 个候选中的 800 个仍为 pending，不能计入训练规模或覆盖。
 
 ### 2026-08-14 Commons 结构化分类审计
 
@@ -915,6 +915,95 @@ Wilson 95% interval 都是 `[0, 0.1611]`。audit SHA-256 为
 123 rejected。v3 manifest 与 coverage 没有变化，仍是 119 records / 91 groups、held 16/50、
 训练 pairs 28/5/5、0 eligible C1，因此不启动正式训练。下一步不能继续对同一 poster ranking 调 prompt；
 应先取得视频级人工动作标签或新的逐文件权利可审计策展来源，再以新的、预注册盲池检验召回策略。
+
+#### Commons Structured Data 差集：31 条新增、3 条非 playing 通过
+
+分类树、全文关键词和 poster 排序之外，Commons 官方 Structured Data 还提供稳定 API 搜索语法
+`haswbstatement:P180=<QID>`。固定查询
+`filetype:video haswbstatement:P180=Q146`（cat）和 Q144（dog）在执行时分别返回 397 / 68 个视频；
+与已有候选按精确 File title 去重后新增 21 cat + 10 dog。`P180` 只证明 media 被标注为描绘该主体，
+不证明 playing 或 indoors，因此 31 条全部以 `review_required` 进入 pending，且每条重新锁 description
+revision、原媒体 SHA-1/timestamp、许可和 derivative。配置固定在
+`configs/commons_structured_depicts_search.json`，可恢复 state 不把 API 总命中数冒充新增数。
+
+先按 description 选出 7 条可能包含稳定单动物片段，下载完整官方 derivative 并检查全时长 20 帧联系表。
+结果 3 approved / 4 rejected：新通过的是单猫室内 walking、sitting、lying 各一条；拒绝项是场景不可判的
+发情翻滚、人与狗共同主导和多犬室外。其余 24 条仍为 pending，没有按标题批量拒绝。七条 audit SHA-256
+为 `82b785e13a1bdf0cab1b16bbaf130ae82094d106311955bd0b70a84a20cfb24c`。三条规范化结果均为
+H.264、96×96、8 fps、16 帧、2 秒，122/122 clip SHA-256 复核无误。
+
+当前候选更新为 **1,128 = 122 approved + 800 pending + 206 rejected**；v3 manifest 为
+**122 records / 93 independent groups**，manifest/coverage SHA-256 分别为
+`443b9cebbf3eb29591d3ebcb636a5001cd7e6ca101c2eeb8987898d525ea434e` /
+`f6692fb9182e1455c3ee5a6d2d53350e4fb9f5a4d0cdf5f7526f49c631f0f409`。held
+`cat|playing|indoors` 仍为 16/50；整组移除 held 后，训练 pair 变成 30/5/5，仅 cat×indoors 增加，
+两个 playing pair 完全没有改善，仍是 0 eligible C1。因此 structured depicts 是有效的 subject 差集，
+不是动作标签来源，也不构成启动训练的理由。
+
+### 下一来源门禁：有条件采用 Ego4D 的 annotation-first 小样本路线
+
+以下审计日期为 **2026-08-14**。这里把三个条件同时当作硬门槛：有视频级动作描述或时间标注；
+每个下载文件能回溯到稳定 ID 和适用的数据许可；能先筛 metadata 再定向取少量媒体。annotation
+可下载、仓库代码开源或网页上能播放，都不等于底层视频可用于训练或允许发布派生 checkpoint。
+
+| 来源 | 官方事实 | 对当前缺口的判断 | 决策 |
+|---|---|---|---|
+| [Something-Something V2](https://www.qualcomm.com/developer/software/something-something-v-2-dataset) | 220,847 个 12 fps、240 px VP9 WebM，174 个预定义的“人操作日常物品”动作类；官方直接托管 19.4 GB 分卷，但须登录并接受 research-use Data License Agreement。视频以 `1..220847` 编号，train/val/test 为 168,913/24,777/27,157，另有 label/object annotations。 | 媒体与标签可按 ID 对齐，但主体定义就是人和物，不提供 cat/dog playing；规模可装下不代表语义适合。 | **排除**，不为凑数量下载。 |
+| [Charades](https://prior.allenai.org/projects/charades)（[README](https://prior.allenai.org/projects/data/charades/README.txt)，[license](https://prior.allenai.org/projects/data/charades/license.txt)） | 9,848 个室内日常活动 MP4、267 subjects、157 action classes、66,500 个时间段动作标注和 27,847 条描述；官方直接托管 13 GB 的 480p 版。CSV 逐视频保存 `id/subject/scene/script/descriptions/actions/start/end/length`，15 个 scene 都是室内。许可只允许 academic/non-profit/government research 或 evaluation，禁止营利用途、修改后公开和向第三方分发数据。 | 官方 class 文件中含 play 的仅 `Playing with a phone/camera` 与 `Working/Playing on a laptop`，没有 pet/cat/dog/generic playing；不能把词面 play 当成这里的动物玩耍动作。 | **目标主线排除**；也不把它包装成 `playing×indoors` 正例。 |
+| [Ego4D](https://ego4d-data.org/docs/start-here/)（[CLI](https://ego4d-data.org/docs/CLI/)，[schema](https://ego4d-data.org/docs/data/annotations-schemas/)，[video/metadata](https://ego4d-data.org/docs/data/videos/)） | 完整 primary dataset 约 7.1 TB，annotations 约 2 GB、benchmark clips 约 1 TB。先接受 [data license](https://ego4d-data.org/pdfs/Ego4D-Licenses-Draft.pdf)，官方称凭证审批约 48 小时且 14 天失效。`narrations.json` 以 `video_uid` 为键，逐条保存 `timestamp_sec/narration_text/annotation_uid`；master metadata 保存 `video_uid/duration_sec/scenarios/video_source/fps/codec/resolution`。CLI 可用 `--video_uids` 或 `--video_uid_file` 定向取 `clips`、`video_540ss` 或 canonical video。 | narration 可以先检索 cat/kitten/dog/puppy 与 play/chase/toy/fetch/tug 的共现，再按 UID 取视频；这是本轮唯一同时具备时间文本、稳定媒体 ID、许可入口和定向下载能力的候选。但第一视角 narration 命中仍不证明目标动物、playing 或 indoor，且项目级协议不是逐文件 CC 许可。 | **有条件采用**：仅在本项目主体接受许可后做内部、受限 pilot；未复核协议对训练产物的约束前，不发布 clips 或 checkpoint。 |
+| [YouTube-8M](https://research.google.com/youtube8m/download.html) | 官方发布约 6.1M 视频的 TFRecord 特征；segment 版约 237K 人工验证片段、1,000 类。frame features 为 1.53 TB，video-level mean features 为 31 GB；记录是匿名 `id/labels`，segment 另有起止与 score。 | CC BY 4.0 可归于 Google 发布的 dataset/特征/标签，不能外推到底层 YouTube 视频；官方不直接托管原视频，匿名映射也会因下架变化。 | **排除为训练视频源**；少量 shard 只能做标签/特征实验。 |
+| [ActivityNet 1.3](https://activity-net.org/download.html) | 200 个人类活动类；train 10,024 视频/15,410 instances，val 4,926/7,654，test 5,044。JSON 保存 YouTube provenance、duration、subset 与 `segment/label`，下载器可按 class/max duration/max samples 筛；失效视频补发链接需申请且只有七天。 | 时间动作标注强，但仍依赖 YouTube 或临时补发；官方页未给底层视频统一媒体许可，类别也不是猫狗玩耍。 | **排除**。 |
+| [AVA / AVA-Kinetics](https://research.google.com/ava/download.html) | AVA v2.2 为 430 个 15 分钟 movie clips，每秒标人框与 80 个 atomic actions；CSV 是 `video_id/timestamp/person_box/action_id/person_id`。官方下载给 annotations，不直接给 430 部影片。 | 标签明确绑定 person，且 YouTube 电影媒体权利不能从 annotations 的 CC BY 4.0 推出。 | **排除**。 |
+| [Animal Kingdom](https://sutdcv.github.io/Animal-Kingdom/Animal_Kingdom/)（[action README](https://sutdcv.github.io/Animal-Kingdom/Animal_Kingdom/action_recognition/README_action_recognition.html)，[论文](https://openaccess.thecvf.com/content/CVPR2022/papers/Ng_Animal_Kingdom_A_Large_and_Diverse_Dataset_for_Animal_Behavior_CVPR_2022_paper.pdf)） | 30,100 个 action-recognition clips、140 个细粒度多标签动作、850+ species；AR annotation 用 `clip_id/clip_number/frame_number/clip_path/action_labels`，15.6 GB 视频 tar 可经表单下载。官方描述素材来自 YouTube 的野生动物纪录片、trap 和个人录像。 | 语义上可能补 `cat×playing`，但不是 indoor 主导，也不能下载前按 clip 定向取视频。更重要的是本轮官方项目页/repo 未展示明确 dataset/media license；公开表单不是训练或再分发授权。 | **在作者书面确认数据许可、训练与产物范围前排除**，不先下载 15.6 GB。 |
+
+Ego4D 的最小 pilot 采用如下 fail-closed 顺序；它是**数据源可行性审计**，不是训练启动：
+
+1. 先由实际使用者接受并保存当时的 Ego4D data license、访问批准时间和许可文件 SHA-256；若条款
+   不能明确覆盖本地非商业训练与内部 checkpoint，就在下载媒体前停止。代码仓库的 MIT 许可不替代
+   data license。
+2. 只取 annotations 与 master metadata：
+
+   ```bash
+   ego4d --output_directory data/raw/ego4d_pair_pilot \
+     --datasets annotations --metadata
+   ```
+
+   在约 2 GB annotation 中检索 narration 的 `cat|kitten|dog|puppy` 与
+   `play|playing|chase|toy|fetch|tug`，保留前后时间上下文，同时记录负场景词。先冻结全部命中、查询式、
+   annotation release 与文件 SHA；关键词只排序 pending，不自动生成 subject/action/scene 标签。
+3. 按 `video_uid` 去重并保守合并同一 `video_source`、同一拍摄段和相邻 narration。预注册最多 10 个
+   UID，优先选择来自不同 source、时间文本明确且可能补 `cat×playing` 或非 cat 的
+   `playing×indoors`；若 metadata 阶段为 0 命中，就以 0 结果结束，不改词后追分。
+4. 只对冻结 UID 取 540-short-side 视频，并把下载上限设为 12 GB，为 2 GB annotations、裁片和临时文件
+   留空间；超预算则停止而不是转下全量：
+
+   ```bash
+   ego4d --output_directory data/raw/ego4d_pair_pilot \
+     --datasets video_540ss --video_uid_file ego4d_pair_uids.txt
+   ```
+
+5. 每个候选保存 license/version、`video_uid`、`annotation_uid`、narration 原文与 timestamp、
+   `video_source`、实际下载文件 SHA-256、裁片起止、人工决定和拒绝原因。看片确认主体、持续 playing、
+   indoor/outdoor、第三方屏幕/音乐与可识别人；同一 source/主体/房间/连续事件及近重复必须同组。
+6. 只有出现至少 5 个**新的独立 approved groups**，且许可复核允许本地模型训练，才把它们加入下一版
+   provenance manifest。否则记录为 0-yield/低-yield pilot 并结束。无论结果如何，当前
+   **122 records / 93 groups、held 16/50、训练 pairs 30/5/5、0 eligible C1** 均不变，仍不启动正式训练。
+
+仓库已经实现 `ego4d_import.py` 的离线 metadata seam，但没有代替实际使用者接受许可或下载数据。它要求
+同时提供 `ego4d.json`、`narrations.json`、当时许可文件和本地 receipt；receipt 必须把许可 SHA-256 与
+`permits_local_noncommercial_training=true` 显式绑定。scanner 只接受同一句 narration 中动物词
+`cat|kitten|dog|puppy` 与动作词 `play|chase|toy|fetch|tug` 共现，验证 UID、annotation UID、duration、
+timestamp 与 metadata 归属，按 participant（缺失时 origin video）保守分组，并最多冻结 10 个 UID。
+输入必须含非空 annotation version/date，许可 receipt 必须给出完整 UTC 日期时间；每个 pass 的 narration
+先按 timestamp 排序再保存前后上下文。UID 选择先按 indoor/outdoor 线索排序，再优先覆盖不同
+participant/origin group，独立组不足时才按稳定 UID 顺序补满预算。
+候选和报告绑定四份输入 SHA、完整查询策略与 candidate SHA，始终写
+`training_ready=false`；没有真实许可 receipt 时这条 CLI 无法合法越过媒体下载门禁。
+
+这个选择并不声称 Ego4D 已含目标三元组，也不声称其 consent/data agreement 等价于 Commons 的逐文件
+自由许可。它只说明：在本轮候选里，Ego4D 是唯一能先用人工时间文本筛选、再以稳定 UID 定向取得受同一
+协议约束的视频，并把每一步写入 provenance 的可执行路线。Charades 可追溯但语义错误；Animal Kingdom
+语义较近但许可未闭合；YouTube-8M、ActivityNet 与 AVA 的 annotation 权利不能补齐底层媒体权利。
 
 ### 为什么不是直接训练 800 GB
 

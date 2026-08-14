@@ -1,0 +1,18 @@
+[
+  {
+    "query": "filetype:video haswbstatement:P180=Q146",
+    "subject": "cat",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the cat action and scene",
+    "limit": 500
+  },
+  {
+    "query": "filetype:video haswbstatement:P180=Q144",
+    "subject": "dog",
+    "action": "review_required",
+    "scene": "review_required",
+    "prompt": "review the dog action and scene",
+    "limit": 100
+  }
+]
