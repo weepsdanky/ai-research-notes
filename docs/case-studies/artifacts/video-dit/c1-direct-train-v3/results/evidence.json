@@ -1,0 +1,115 @@
+{
+  "protocol": "user-authorized low-coverage C1 direct training v3 evidence",
+  "conclusion": "failed: the larger and longer-trained model improved IID fitting but produced zero held-C1 triple accuracy and visibly reconstructed training videos",
+  "claim_scope": "preliminary diagnostic only; not confirmatory unseen-composition evidence",
+  "preregistration": {
+    "git_commit": "0e184596d7b2287d349bfd83c8f0fa20f2605224",
+    "sha256": "2b087df45a26d8819c56afea09420e32047d351c536ca02ff6b6fe7ebaf6b789"
+  },
+  "generation_freeze": {
+    "git_commit": "cebd5b7a5f7ec1f507c6ca5d8eb523ec7e77ca5b",
+    "evaluation_spec_sha256": "9270c7e1ad3a00f357a8a6934c3c001d25cbf44c9bef54f9f00add1dec20e938"
+  },
+  "data": {
+    "records": 133,
+    "independent_source_groups": 104,
+    "source_manifest_sha256": "2fb6efd214900f71d838679d8ed2e3c651e86fffa6a2e8eb3ac9f213cd2317bb",
+    "split_manifest_sha256": "4cb720fd2ad946aa8e8f07f840f3c44b2c11188bb4ccf89f597ff8d5d4880fea",
+    "split_report_sha256": "1bd1d2cae957768abe9055a0fae3f223eeaa8d75cfd345a9713478388068f618",
+    "training_source_manifest_sha256": "59d4ed30d9160c913e84eaa5f762d144601423d7397524ff7e913cd78b9406e0",
+    "training_manifest_sha256": "dcd895247789565717f7b756af195b0265c3834cc63ea5944acdd09305bf4585",
+    "split_counts": {"train": 102, "validation": 2, "iid": 6, "c1": 23},
+    "held_triple": "cat|playing|indoors",
+    "held_source_groups": 20,
+    "training_pair_source_groups": {"cat|indoors": 24, "cat|playing": 6, "playing|indoors": 10},
+    "confirmatory_gate": {"required_held_groups": 50, "required_each_training_pair": 10, "passes": false}
+  },
+  "training": {
+    "parameters": 23170276,
+    "optimizer_updates": 30000,
+    "elapsed_seconds": 16386.100071458,
+    "checkpoint_sha256": "07b602b865b0afb09094b48efb6b2024ae0e7ca7052982cf70ce2a9257a93adc",
+    "summary_sha256": "f75b2b7364bdcdddb7197133077f65184e11bed77653524a10338157d3dbc333",
+    "full_step_log_sha256": "7e1da60abeb2db654c7b426df4f1de1dc00f91f568857bbc15f8fbbb2be2c620",
+    "sampled_loss_log_sha256": "974458f8af24e076e0fdea9349fc6e391c233a96c92edad80699690c326d009f",
+    "first_500_loss_mean": 0.5676283988952636,
+    "last_500_loss_mean": 0.1168173601180315,
+    "last_1000_loss_mean": 0.11554106650222093,
+    "final_loss": 0.18048347532749176,
+    "selection": "final step-30000 EMA only"
+  },
+  "generation": {
+    "grid_inventory_sha256": "f990deec0a3fa13b0575c7e929497dcdf59504d3eb605932dcf34d3704fe5729",
+    "grid": "13 prompts x 4 preregistered seeds = 52/52, no missing or extra records",
+    "sampling": "DDIM-50, start timestep 999, CFG 2.5",
+    "blind_queue_sha256": "301db7e6f471518f219daaadc70de21c731777289dcd4b1b4eee30e267a9db99",
+    "sealed_key_sha256": "f18bc8c7c7df6feb5f0b2e3861e8aad22ffac43cdd44b312c2fdb195d14492d7",
+    "representative_policy": "the tracked MP4 is record 1 in the frozen inventory, not a quality-selected sample",
+    "representative_prompt": "a cat chasing a shadow indoors",
+    "representative_seed": 17,
+    "representative_mp4_sha256": "28179884fe25ce222ee60aa6043ab8dd98fc82b9457096547c69c79e53b92d55",
+    "mean_adjacent_frame_mse": 0.009543249788783634,
+    "mean_endpoint_frame_mse": 0.03449567293640799
+  },
+  "two_rater_blind_evaluation": {
+    "report_sha256": "133da152c67de808e55959bfa3069677a55e4549418ca1c5b3324af389817557",
+    "rater_decision_sha256": ["4cbd525ccf675ad446dd1edb5c29f26922806e65c673091e6ea37b16915f0592", "448686a0f680c868cadcfe271895388b4d90bedee47148da29663197bfae0d92"],
+    "raters": 2,
+    "complete_decisions_per_rater": 52,
+    "iid": {
+      "samples": 24,
+      "subject_accuracy": 0.8333333333333334,
+      "action_accuracy": 0.3333333333333333,
+      "scene_accuracy": 0.3333333333333333,
+      "unanimous_triple_accuracy": 0.3333333333333333,
+      "triple_wilson95": [0.1797219032729775, 0.5329368316186824],
+      "ambiguous_samples": 16,
+      "matched_control_accuracy": 0.3333333333333333,
+      "deranged_control_accuracy": 0.0,
+      "passes_prompt_control": true
+    },
+    "c1": {
+      "samples": 28,
+      "subject_accuracy": 0.2857142857142857,
+      "action_accuracy": 0.0,
+      "scene_accuracy": 0.5714285714285714,
+      "unanimous_triple_accuracy": 0.0,
+      "triple_wilson95": [1.3877787807814457e-17, 0.12064330476584563],
+      "ambiguous_samples": 24,
+      "matched_control_accuracy": 0.0,
+      "deranged_control_accuracy": 0.0,
+      "passes_prompt_control": false
+    },
+    "strict_factor_control": {
+      "status": "deterministic maximal balanced subset because the preregistered 28-C1/24-IID full-grid derangement is mathematically impossible",
+      "samples": 48,
+      "excluded_samples": 4,
+      "excluded_blind_ids": ["generation-0017", "generation-0029", "generation-0040", "generation-0050"]
+    }
+  },
+  "frozen_clip_diagnostic": {
+    "report_sha256": "fd3a8d7031152c5d08fed225546376dea329f67be533786b0c486838c9064d69",
+    "prompt_top1_accuracy": 0.15384615384615385,
+    "prompt_top1_wilson95": [0.08007685016780322, 0.2752408517641015],
+    "shuffled_prompt_top1_accuracy": 0.15384615384615385,
+    "gain_over_shuffled": 0.0,
+    "prompt_margin_mean": -0.018167281093505714,
+    "nearest_training_similarity_mean": 0.9080537007405207,
+    "nearest_training_similarity_max": 0.9793001413345337
+  },
+  "nearest_training_visual_audit": {
+    "report_sha256": "21618a1397e405d2ce82b5970d5af57f0bac18cc15e98356dcd50a0e77a55eb8",
+    "policy": "inspect the three highest frozen-CLIP nearest-training similarities over the complete grid",
+    "result": "two near-frame-identical reconstructions and one strongly source-matched reconstruction; this is memorization evidence",
+    "contact_sheet_sha256": ["0e7d04a8205582c5d590f0427adb0cc01677d25acdb06a75be6f5f5c287d9e1c", "9e9cebc3f7d4b7dd4a8e0da0ca5254ea42a8c95bb76b90c86d9b6ecc51b3ad02", "d53ee5810a71fc114d4109736c8ea5e5f3fae7b2d9d3678fa50c9e08df2f2b75"]
+  },
+  "diagnosis": [
+    "Compared with the previous 10k-step 11.99M-parameter pilot, the 30k-step 23.17M-parameter model improved unanimous IID triple accuracy from 12.5% to 33.3%, but held-C1 triple accuracy remained zero.",
+    "C1 action accuracy was zero and 24 of 28 C1 videos had at least one rater disagreement, so the model did not bind the unseen playing action reliably.",
+    "Frozen CLIP prompt retrieval equaled its shuffled baseline and had a negative mean margin, providing no automated text-binding evidence.",
+    "The top nearest-training comparisons visibly reconstruct training clips, showing that more capacity and training mainly increased memorization on this 102-video training set.",
+    "The held triple has only 20 independent groups and cat|playing only 6 training groups, both below the preregistered confirmatory gate."
+  ],
+  "training_ready": false,
+  "confirmatory_claim_ready": false
+}

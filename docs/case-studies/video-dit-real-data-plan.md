@@ -2456,3 +2456,26 @@ Neptune 三个 PeerTube bundles，而不是在旧 merge 上增量追加。新的
 [`artifacts/video-dit/formal-c1-data-blocker-v1/evidence.json`](artifacts/video-dit/formal-c1-data-blocker-v1/evidence.json)。
 收到新的自有/逐视频授权媒体后，从 `prepare_local_contribution.py create/approve` 继续；在此之前不得
 重复搜索同一已闭合来源、放宽单主体/动作/scene，或把 8 records 当作 8 independent groups。
+
+### 2026-08-15：按用户决定直接训练，30k-step 大模型 pilot 仍未通过 C1
+
+用户明确决定不再等待额外数据，因此在当前 133 records / 104 groups 的 portable 数据上预注册并
+执行了低覆盖诊断。split 固定为 train 102、validation 2、IID 6、C1 23；held
+`cat|playing|indoors` 为 20 groups，held-excluded pairs 为 `24/6/10`，仍低于正式 `50/10`
+门禁。训练使用 23.17M 参数 latent Video DiT（hidden 320、5 spatial-temporal pairs、patch 3、
+tokens-v2 cross-attention、velocity），MPS 上从零训练 30,000 updates，耗时 16,386 秒。最终只使用
+预注册的 step-30000 EMA；loss 的 first/last 500-step 均值由 0.5676 降至 0.1168。
+
+训练前冻结 13 prompts × 4 seeds，完整生成 52/52 后才提交网格。两名互相独立、prompt-hidden 的
+评审者各审核 52/52：IID full-triple 为 **8/24 = 33.3%**（Wilson 95%
+`[18.0%, 53.3%]`），但 C1 full-triple 为 **0/28**（Wilson 上界 12.1%）；C1 subject/action/scene
+分别为 28.6% / **0%** / 57.1%，24/28 至少有一个因子存在评审分歧。确定性 48-sample strict
+derangement 上 IID matched 33.3%、control 0%，C1 matched/control 都是 0%。冻结 CLIP prompt top-1
+为 15.4%，与 shuffled 15.4% 完全相同，mean margin -0.0182，也不支持文本绑定。
+
+nearest-training 审计给出更强的失败证据：最大 CLIP similarity 0.9793；top-3 联系表中两个输出与训练
+片段近乎逐帧重建（对齐 PSNR 约 26.5 dB），另一个也保持同一构图与运动轨迹。因此更大容量与更长
+优化提高了 IID 拟合，却没有产生 held composition，并放大了训练视频记忆。结论严格为
+**pilot failed / memorization observed**，不能描述为 unseen compositional generalization。
+可携带结果、两份盲评、Wilson 报告、CLIP/nearest 审计、训练曲线与冻结网格第一条 MP4 位于
+[`artifacts/video-dit/c1-direct-train-v3/results/`](artifacts/video-dit/c1-direct-train-v3/results/)。

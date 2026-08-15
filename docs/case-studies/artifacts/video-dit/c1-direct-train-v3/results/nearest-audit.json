@@ -1,0 +1,52 @@
+{
+  "condition_alignment_sha256": "fd3a8d7031152c5d08fed225546376dea329f67be533786b0c486838c9064d69",
+  "contact_sheet_layout": "top row: 8 generated frames; bottom row: 8 nearest-training frames",
+  "pixel_copy_claim": "Visual inspection found two near-frame-identical reconstructions and one strongly source-matched reconstruction; the high CLIP similarities are therefore evidence of memorization risk, not compositional generalization.",
+  "protocol": "visual audit of top-3 frozen-CLIP nearest training videos v1",
+  "records": [
+    {
+      "contact_sheet": "top1.png",
+      "contact_sheet_sha256": "0e7d04a8205582c5d590f0427adb0cc01677d25acdb06a75be6f5f5c287d9e1c",
+      "contact_sheet_aligned_mae": 17.3240966796875,
+      "contact_sheet_aligned_psnr_db": 20.892952912019748,
+      "generated_video": "model_a-cat-walking-outdoors_seed-43_1bf916a80a_c21b7c4f.mp4",
+      "generated_video_sha256": "a1fcea35a264b6baec6be0fa4111f37745720ff019ae0a73eda7e0ad85c7c106",
+      "nearest_train_id": "hiirepyyk-kass-koer-2022-edc0368ec3",
+      "prompt": "a cat walking outdoors",
+      "seed": 43,
+      "similarity": 0.9793001413345337,
+      "train_clip_path": "clips/6a4bfdd600af635ad86cff00.mp4",
+      "train_clip_sha256": "c1eefcfb1335022631170ac40eebb1878545415e1c31972ae1e10e142a977b95"
+    },
+    {
+      "contact_sheet": "top2.png",
+      "contact_sheet_sha256": "9e9cebc3f7d4b7dd4a8e0da0ca5254ea42a8c95bb76b90c86d9b6ecc51b3ad02",
+      "contact_sheet_aligned_mae": 7.947758427372685,
+      "contact_sheet_aligned_psnr_db": 26.481534537023993,
+      "generated_video": "model_a-cat-sitting-by-a-window-indoors_seed-61_f2afd9d943_3ebaf231.mp4",
+      "generated_video_sha256": "95d56054b46a8058862dfaf012d5c15b1db150d0ab70ae0e59803b5279f8bc70",
+      "nearest_train_id": "cat-making-noises-at-the-birds-outside-4407852dca",
+      "prompt": "a cat sitting by a window indoors",
+      "seed": 61,
+      "similarity": 0.9787207841873169,
+      "train_clip_path": "clips/a92558a1489fcb7ec5df6ea0.mp4",
+      "train_clip_sha256": "7d7cf057ea20b6e4f10439ae1f0e61b087219308e3f26055a58fa91127cc80b9"
+    },
+    {
+      "contact_sheet": "top3.png",
+      "contact_sheet_sha256": "d53ee5810a71fc114d4109736c8ea5e5f3fae7b2d9d3678fa50c9e08df2f2b75",
+      "contact_sheet_aligned_mae": 7.922697844328703,
+      "contact_sheet_aligned_psnr_db": 26.454326962936744,
+      "generated_video": "model_a-cat-sitting-by-a-window-indoors_seed-17_8f6e6a8c40_13771443.mp4",
+      "generated_video_sha256": "e87d65c849d50c5af7d18e5e2a32e667df874708c80cc01ee3a9ee00176da366",
+      "nearest_train_id": "cat-making-noises-at-the-birds-outside-4407852dca",
+      "prompt": "a cat sitting by a window indoors",
+      "seed": 17,
+      "similarity": 0.9774789214134216,
+      "train_clip_path": "clips/a92558a1489fcb7ec5df6ea0.mp4",
+      "train_clip_sha256": "7d7cf057ea20b6e4f10439ae1f0e61b087219308e3f26055a58fa91127cc80b9"
+    }
+  ],
+  "selection_rule": "three highest nearest_train_similarity values over the complete preregistered 52-video grid",
+  "training_manifest_sha256": "dcd895247789565717f7b756af195b0265c3834cc63ea5944acdd09305bf4585"
+}

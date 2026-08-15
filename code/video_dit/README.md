@@ -839,3 +839,15 @@ uv run --offline python prepare_videoufo.py extract \
 25,991 个视频 ID 中，caption 匹配 cat/dog 的视频约为 1,415/600，匹配
 cat+snow/dog+snow 约为 25/71。这是候选规模统计，不是人工确认标签；VATEX 官方不
 分发视频本体，因此视频本体的来源权利仍须逐条审计。
+
+## Direct C1 training v3 结果
+
+用户选择不再扩数据后，当前 133-record 数据上已完成预注册的 23.17M 参数、30,000-update latent
+Video DiT 训练。最终 EMA checkpoint 位于本地 ignored 路径
+`runs/c1-direct-train-v3/train/video_dit_inference.pt`，SHA-256 为
+`07b602b865b0afb09094b48efb6b2024ae0e7ca7052982cf70ce2a9257a93adc`。
+
+完整 13×4 网格的双人盲评结果是：IID triple 8/24（33.3%），held C1 triple 0/28；C1 action
+也是 0/28。CLIP prompt 检索 15.4%，等于 shuffled control。top-3 nearest-training 可见两个近乎
+逐帧重建的训练片段，所以这是“改善 IID 拟合但 C1 失败并出现记忆”的诊断，不是组合泛化成功。
+可携带证据见 `../../docs/case-studies/artifacts/video-dit/c1-direct-train-v3/results/`。

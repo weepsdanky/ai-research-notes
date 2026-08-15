@@ -1,0 +1,423 @@
+{
+  "protocol": "blinded generated-video factor review v1",
+  "queue_sha256": "301db7e6f471518f219daaadc70de21c731777289dcd4b1b4eee30e267a9db99",
+  "records": [
+    {
+      "blind_id": "generation-0001",
+      "notes": "16\u5e27\u53ef\u8fa8\u767d\u8272\u732b\u4f53\u4e0e\u5934\u90e8\uff0c\u4f46\u80a2\u4f53\u63a5\u89e6\u548c\u80cc\u666f\u5747\u8fc7\u4e8e\u6a21\u7cca\uff0c\u65e0\u6cd5\u53ef\u9760\u5224\u5b9a\u52a8\u4f5c\u6216\u573a\u666f\u3002",
+      "observed_video_sha256": "6c137018d8f081f3443043284476d5375683e91a691e2b4c30198f0ca4207a9e",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0002",
+      "notes": "16\u5e27\u663e\u793a\u6a58\u732b\u5728\u5ba4\u5916\u786c\u8d28\u5730\u9762\u6301\u7eed\u6539\u53d8\u4f4d\u7f6e\uff0c\u6b65\u884c\u8bc1\u636e\u6e05\u695a\u3002",
+      "observed_video_sha256": "e404fa455a72f9e82d4730fd23ff905f70191256258704f1514b37a98dba4671",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0003",
+      "notes": "16\u5e27\u53ef\u89c1\u732b\u6837\u5934\u8033\u548c\u8eab\u4f53\u4f4d\u4e8e\u8f6f\u8d28\u5ba4\u5185\u73af\u5883\uff0c\u4f46\u5177\u4f53\u52a8\u4f5c\u4e0d\u53ef\u5206\u8fa8\u3002",
+      "observed_video_sha256": "4f98231dffe0c130ed51cf28cb3dae93ab8a9866b7999b4a88d758b11f3aca81",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0004",
+      "notes": "\u516816\u5e27\u4ec5\u89c1\u4f4e\u5bf9\u6bd4\u68d5\u8272\u6a21\u7cca\u5f62\u4f53\uff0c\u7f3a\u5c11\u8db3\u591f\u8f6e\u5ed3\u6765\u786e\u8ba4\u4e3b\u4f53\u3001\u52a8\u4f5c\u6216\u573a\u666f\u3002",
+      "observed_video_sha256": "896902a06be5636581d7f30adc250d0277752012c70b684d4165932440248d7d",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0005",
+      "notes": "16\u5e27\u5747\u4e3a\u7070\u8910\u8272\u91cd\u5ea6\u4f2a\u5f71\uff0c\u52a8\u7269\u8f6e\u5ed3\u4e0e\u73af\u5883\u8fb9\u754c\u90fd\u4e0d\u53ef\u9760\u3002",
+      "observed_video_sha256": "68157a8d4b6487b238655bb90454656d9fc872b5abad78dfd4de937d952d61c1",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0006",
+      "notes": "\u767d\u732b\u5728\u5ba4\u5185\u5bb6\u5177\u8868\u9762\u4fdd\u6301\u660e\u786e\u5750\u59ff\uff0c16\u5e27\u4ec5\u5934\u90e8\u8f7b\u5fae\u8f6c\u52a8\u3002",
+      "observed_video_sha256": "7270504dd783550481ff8a0b26c8f8f0999fcd694d0370616c6f2ec04d8b4923",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0007",
+      "notes": "\u867d\u6709\u660e\u663e\u6a21\u7cca\uff0c16\u5e27\u4ecd\u53ef\u89c1\u5c16\u8033\u732b\u5f62\u4fdd\u6301\u76f4\u7acb\u5750\u59ff\uff0c\u80cc\u666f\u5448\u5ba4\u5185\u5730\u9762\u4e0e\u5899\u9762\u3002",
+      "observed_video_sha256": "28179884fe25ce222ee60aa6043ab8dd98fc82b9457096547c69c79e53b92d55",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0008",
+      "notes": "16\u5e27\u53ef\u8fa8\u767d\u8272\u732b\u4f53\u4e0e\u5934\u90e8\uff0c\u4f46\u80a2\u4f53\u63a5\u89e6\u548c\u80cc\u666f\u5747\u8fc7\u4e8e\u6a21\u7cca\uff0c\u65e0\u6cd5\u53ef\u9760\u5224\u5b9a\u52a8\u4f5c\u6216\u573a\u666f\u3002",
+      "observed_video_sha256": "c01cde5d1b357fd27c8c1d762a2571f4ed1d6cc84966dc5e6c2003ded8dcc7c3",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0009",
+      "notes": "\u6a58\u732b\u5728\u5ba4\u5916\u8def\u9762\u8de8\u8d8a\u591a\u4e2a\u4f4d\u7f6e\uff0c\u5b8c\u6574\u5e8f\u5217\u652f\u6301\u6b65\u884c\u52a8\u4f5c\u3002",
+      "observed_video_sha256": "ae9578ce5e3eb28c35cf947b392632ed6b405b05e618caedc9010f93a27a3712",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0010",
+      "notes": "\u7eff\u8272\u7070\u8272\u7eb9\u7406\u5360\u636e\u5168\u5e8f\u5217\uff0c\u672a\u5f62\u6210\u53ef\u7a33\u5b9a\u8bc6\u522b\u7684\u732b\u6216\u660e\u786e\u73af\u5883\u3002",
+      "observed_video_sha256": "f95daa9e7bba4290e62da3ab1006342df54eb06174ccda1cca14a3b8806bd419",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0011",
+      "notes": "\u767d\u8272\u732b\u5f62\u572816\u5e27\u4e2d\u53ef\u8fa8\uff0c\u4f46\u524d\u80a2\u8fd0\u52a8\u548c\u80cc\u666f\u542b\u4e49\u4e0d\u8db3\u4ee5\u5206\u7c7b\u3002",
+      "observed_video_sha256": "881ccb6986796e583440c86005d3161edc137eff5f7365c8a366b57d5a552848",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0012",
+      "notes": "\u5168\u5e8f\u5217\u7eb9\u7406\u5316\u4e25\u91cd\uff0c\u4e3b\u4f53\u8f6e\u5ed3\u3001\u8fd0\u52a8\u65b9\u5f0f\u53ca\u5ba4\u5185\u5916\u5747\u65e0\u6cd5\u786e\u8ba4\u3002",
+      "observed_video_sha256": "966f0d8a61944b5d87d3a71f66d089368a70e839fbdddcc7275569f264947600",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0013",
+      "notes": "\u9ed1\u8272\u732b\u6837\u4e3b\u4f53\u5728\u690d\u88ab\u4e0e\u843d\u53f6\u95f4\u8de8\u5e27\u6539\u53d8\u4f4d\u7f6e\uff0c\u5224\u4e3a\u5ba4\u5916\u6b65\u884c\u3002",
+      "observed_video_sha256": "f5b075fed89ee21a3a7be1d99c896e00b82c70dafb9405b5d0c91ffe33aa2186",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0014",
+      "notes": "\u68d5\u8272\u4e2d\u592e\u5f62\u4f53\u65e0\u6e05\u6670\u5934\u8033\u6216\u80a2\u4f53\uff0c16\u5e27\u4e0d\u8db3\u4ee5\u53ef\u9760\u8bc6\u522b\u3002",
+      "observed_video_sha256": "5899aa622b0457ca190d107993ab7a67a77132d973cc9923bc967ba4600e5bd3",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0015",
+      "notes": "\u9ed1\u767d\u732b\u5728\u8349\u5730\u4e0a\u5411\u524d\u79fb\u52a8\u5e76\u6539\u53d8\u843d\u811a\u4f4d\u7f6e\uff0c\u5ba4\u5916\u6b65\u884c\u6e05\u695a\u3002",
+      "observed_video_sha256": "a1fcea35a264b6baec6be0fa4111f37745720ff019ae0a73eda7e0ad85c7c106",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0016",
+      "notes": "\u5c16\u8033\u732b\u5f62\u5728\u5ba4\u5185\u6837\u80cc\u666f\u524d\u4fdd\u6301\u5750\u59ff\uff0c\u867d\u7136\u4f4e\u6e05\u4f46\u59ff\u6001\u8de816\u5e27\u4e00\u81f4\u3002",
+      "observed_video_sha256": "38db5ae13082ae99b1e6fb68d5911114d1017c4521b58dba3c7a158a623f1661",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0017",
+      "notes": "16\u5e27\u4e2d\u53ef\u89c1\u5c0f\u578b\u68d5\u8272\u732b\u6837\u4e3b\u4f53\u5904\u4e8e\u5ba4\u5185\u7269\u4ef6\u4e4b\u95f4\uff0c\u4f46\u52a8\u4f5c\u88ab\u751f\u6210\u4f2a\u5f71\u906e\u853d\u3002",
+      "observed_video_sha256": "0847e2ffcba44ca7d2779b98e38eee1999ade428113c647fea745aeea2ce0ea4",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0018",
+      "notes": "\u767d\u8272\u732b\u4e3b\u4f53\u53ef\u8fa8\uff0c\u7136\u800c16\u5e27\u4e0d\u652f\u6301\u5728\u7ed9\u5b9a\u52a8\u4f5c\u8bcd\u8868\u4e2d\u53ef\u9760\u9009\u62e9\uff0c\u573a\u666f\u4e5f\u542b\u6df7\u3002",
+      "observed_video_sha256": "9ec10ed6a273654241ad7f7abdfdd45a890ad93a74c4c68a74892fedd360ffae",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0019",
+      "notes": "\u7070\u8910\u7eb9\u7406\u4e2d\u6ca1\u6709\u7a33\u5b9a\u7684\u732b\u8f6e\u5ed3\uff0c\u52a8\u4f5c\u548c\u5ba4\u5185\u5916\u540c\u6837\u65e0\u6cd5\u786e\u8ba4\u3002",
+      "observed_video_sha256": "9403c1e257c1823a3d8952a5b248575bbd38b373bdb8dc37ba97fce13bfc0d39",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0020",
+      "notes": "\u6697\u8272\u5c16\u8033\u732b\u5f62\u5728\u6d45\u8272\u80cc\u666f\u4e2d\u4fdd\u6301\u5750\u59ff\uff1b\u73af\u5883\u7ec6\u8282\u4e0d\u8db3\u4ee5\u5224\u65ad\u5ba4\u5185\u5916\u3002",
+      "observed_video_sha256": "d094ec87489f765441cfd8cd08354e6e0375b93511e68d7fdd3686bbad16932e",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0021",
+      "notes": "16\u5e27\u5747\u663e\u793a\u5c16\u8033\u732b\u6837\u4e3b\u4f53\u76f4\u7acb\u9759\u5750\uff0c\u80cc\u666f\u7ed3\u6784\u66f4\u7b26\u5408\u5ba4\u5185\u3002",
+      "observed_video_sha256": "ff4b7d485c5e7c4c790b97b5c93ff1f13266f403f3435409a8fe88a070f0f77d",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0022",
+      "notes": "\u68d5\u7070\u732b\u5728\u767d\u8272\u8f6f\u8d28\u8868\u9762\u53cd\u590d\u4f4e\u5934\u5e76\u4ee5\u524d\u80a2\u63a5\u89e6\uff0c\u6309\u53ef\u89c1\u8bc1\u636e\u5224\u4e3a\u5ba4\u5185\u6293\u6320\u3002",
+      "observed_video_sha256": "9ef29da3ee7fec391691b24ff3457a06cd8fbba23001a11f6c217056b5465039",
+      "predicted_action": "scratching",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0023",
+      "notes": "\u5b8c\u6574\u5e8f\u5217\u663e\u793a\u732b\u5728\u767d\u8272\u7ec7\u7269\u6837\u8868\u9762\u6301\u7eed\u4ee5\u524d\u80a2\u4f5c\u7528\uff0c\u5224\u4e3a\u6293\u6320\u3002",
+      "observed_video_sha256": "1066ee4adbb95ae6b182374bb08322ea417673e85de83071f9eff44e115f04a1",
+      "predicted_action": "scratching",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0024",
+      "notes": "\u732b\u5934\u8033\u4e0e\u8eab\u4f53\u53ef\u8fa8\u4e14\u5904\u4e8e\u8f6f\u8d28\u5ba4\u5185\u73af\u5883\uff0c\u5177\u4f53\u52a8\u4f5c\u4ecd\u88ab\u6a21\u7cca\u4f2a\u5f71\u906e\u853d\u3002",
+      "observed_video_sha256": "49afef3e75e08cb0a9f259fe960687725ac265283b0ce806a60d776bdadb0e35",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0025",
+      "notes": "\u6697\u8272\u5c16\u8033\u8f6e\u5ed3\u6301\u7eed\u5448\u5750\u59ff\uff0c\u4f46\u80cc\u666f\u7f3a\u4e4f\u53ef\u7528\u5ba4\u5185\u5916\u7ebf\u7d22\u3002",
+      "observed_video_sha256": "061cba38cde5387cdfddb06e1ca8c6cb389e72a1a9bb8496c493d86dbed42ec5",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0026",
+      "notes": "16\u5e27\u4e2d\u7eff\u8272\u7070\u8272\u5757\u72b6\u7eb9\u7406\u672a\u5f62\u6210\u53ef\u4fe1\u4e3b\u4f53\u6216\u573a\u666f\u3002",
+      "observed_video_sha256": "552b12a78944fe9688dfc7080020b1c7b78f3e743b3a09451a080bbc2ba8d31b",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0027",
+      "notes": "\u53ef\u89c1\u7a33\u5b9a\u7684\u5c16\u8033\u5750\u59ff\u526a\u5f71\uff0c\u73af\u5883\u4ec5\u4e3a\u6a21\u7cca\u6d45\u8272\u80cc\u666f\uff0c\u6545\u573a\u666f\u4e0d\u786e\u5b9a\u3002",
+      "observed_video_sha256": "c26387ab7da5c65b2aa9ba3ecd95d5e1da551528bdfcabf6be4cf28e9085df30",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0028",
+      "notes": "\u91cd\u5ea6\u566a\u58f0\u548c\u5f62\u53d8\u4f7f\u4e3b\u4f53\u3001\u52a8\u4f5c\u3001\u80cc\u666f\u4e09\u9879\u5747\u4e0d\u53ef\u53ef\u9760\u5224\u5b9a\u3002",
+      "observed_video_sha256": "6908b56d525d8fce01e44013c7a5d6856036d2fef6ce1bb602c6d9490b286b6f",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0029",
+      "notes": "\u5c0f\u578b\u68d5\u8272\u732b\u6837\u5f62\u4f53\u5728\u5ba4\u5185\u7269\u4ef6\u4e4b\u95f4\u8fd0\u52a8\uff0c\u4f46\u52a8\u4f5c\u7c7b\u522b\u4e0d\u591f\u6e05\u6670\u3002",
+      "observed_video_sha256": "e1ce5cb875208f990a78523c1f627b3ba9a3f4305b6e4e6c1987dcd2f7b83745",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0030",
+      "notes": "\u6697\u8272\u732b\u6837\u4e3b\u4f53\u7a7f\u884c\u4e8e\u53f6\u7247\u548c\u5730\u8868\u690d\u88ab\uff0c\u8de8\u5e27\u4f4d\u79fb\u652f\u6301\u5ba4\u5916\u6b65\u884c\u3002",
+      "observed_video_sha256": "d71691cd7af5f85a843f8aaf637696e2592a2eca8b080b2761712e348815f117",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0031",
+      "notes": "\u732b\u5728\u767d\u8272\u7ec7\u7269\u6837\u8868\u9762\u6301\u7eed\u4f4e\u5934\u5e76\u4ee5\u524d\u80a2\u53cd\u590d\u63a5\u89e6\uff0c\u6293\u6320\u8bc1\u636e\u53ef\u89c1\u3002",
+      "observed_video_sha256": "ad391f9213663b7119fa18cb6e0daf980618467052239b66568a228d5f8e54fa",
+      "predicted_action": "scratching",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0032",
+      "notes": "16\u5e27\u4e2d\u732b\u6837\u4e3b\u4f53\u5728\u690d\u88ab\u95f4\u53d1\u751f\u8fde\u7eed\u4f4d\u79fb\uff0c\u5224\u4e3a\u5ba4\u5916\u6b65\u884c\u3002",
+      "observed_video_sha256": "03effbe3a8923fa8a7b715761c0935e2253aab2c174e5aab22cc3859f600d370",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0033",
+      "notes": "\u9ed1\u8272\u732b\u6837\u4e3b\u4f53\u5728\u843d\u53f6\u4e0e\u7eff\u8272\u690d\u88ab\u95f4\u79fb\u52a8\uff0c\u6237\u5916\u4e0e\u6b65\u884c\u5747\u6709\u8de8\u5e27\u8bc1\u636e\u3002",
+      "observed_video_sha256": "e439d9ab918a1922b3136b260c1f0ed0b3b6b2fc9fe322f39067707a254cd29b",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0034",
+      "notes": "\u6697\u8272\u732b\u6837\u526a\u5f71\u4fdd\u6301\u76f4\u7acb\u5750\u59ff\uff0c\u80cc\u666f\u4fe1\u606f\u4e0d\u8db3\u4ee5\u5224\u65ad\u573a\u666f\u3002",
+      "observed_video_sha256": "2ab414be3ab765775d13c23316653361da79ed0774b9bf2a2fc8688a4a310be1",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0035",
+      "notes": "\u7eff\u8272\u7070\u8272\u6a21\u7cca\u533a\u57df\u6ca1\u6709\u7a33\u5b9a\u53ef\u8fa8\u7684\u732b\u3001\u52a8\u4f5c\u6216\u5ba4\u5185\u5916\u8fb9\u754c\u3002",
+      "observed_video_sha256": "dfe8a6438f8a14863c19b7d5fb89406539c6ea7c3429aa59d62544f4973e1f05",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0036",
+      "notes": "\u4e2d\u592e\u68d5\u8272\u5f62\u4f53\u5728\u5168\u5e8f\u5217\u4e2d\u7f3a\u5c11\u53ef\u786e\u8ba4\u7684\u89e3\u5256\u8f6e\u5ed3\u4e0e\u73af\u5883\u7ebf\u7d22\u3002",
+      "observed_video_sha256": "eb8c3aa55875c9318a100b5b2978f7e60525b58ef0545bf23d51820563073cbb",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0037",
+      "notes": "16\u5e27\u4e2d\u6697\u8272\u5c16\u8033\u732b\u5f62\u57fa\u672c\u9759\u6b62\u5e76\u5448\u5750\u59ff\uff0c\u73af\u5883\u4e0d\u53ef\u5224\u3002",
+      "observed_video_sha256": "5fcbf0e2f3fbeca2b9f91b931c2c80842548b13b5facef891ab8e6f6f582ff4e",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0038",
+      "notes": "\u9ed1\u767d\u732b\u5728\u8349\u5730\u4e0a\u524d\u79fb\u4e14\u843d\u811a\u70b9\u53d8\u5316\uff0c\u5224\u4e3a\u6237\u5916\u6b65\u884c\u3002",
+      "observed_video_sha256": "d0ca37dea129bf628ae70e303cc6bf69c2747b48d167a1d87d21b0c46914d894",
+      "predicted_action": "walking",
+      "predicted_scene": "outdoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0039",
+      "notes": "\u6e05\u6670\u767d\u732b\u5728\u5bb6\u5177\u8868\u9762\u4fdd\u6301\u5750\u59ff\uff0c\u4ec5\u5934\u90e8\u968f\u65f6\u95f4\u8f6c\u52a8\uff0c\u5ba4\u5185\u660e\u786e\u3002",
+      "observed_video_sha256": "95d56054b46a8058862dfaf012d5c15b1db150d0ab70ae0e59803b5279f8bc70",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0040",
+      "notes": "\u53ef\u8fa8\u5c0f\u578b\u68d5\u8272\u732b\u6837\u4e3b\u4f53\u548c\u5ba4\u5185\u7269\u4ef6\uff0c\u4f46\u5f62\u53d8\u4f7f\u52a8\u4f5c\u65e0\u6cd5\u5f52\u7c7b\u3002",
+      "observed_video_sha256": "e3414813fa9583bd57f0ef0c465970ca0fe410facacfef544537b6cd35bbb93c",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0041",
+      "notes": "\u6697\u8272\u5c16\u8033\u5750\u59ff\u8f6e\u5ed3\u8de816\u5e27\u7a33\u5b9a\uff0c\u80cc\u666f\u65e0\u53ef\u9760\u5ba4\u5185\u5916\u7279\u5f81\u3002",
+      "observed_video_sha256": "d671b46cd735e344be8564580548eaba5aaacce30e6bf77fbeaaa51817bcdefd",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0042",
+      "notes": "\u767d\u732b\u5728\u5ba4\u5185\u684c\u6905\u6837\u8868\u9762\u660e\u786e\u9759\u5750\uff0c16\u5e27\u59ff\u6001\u7a33\u5b9a\u3002",
+      "observed_video_sha256": "e87d65c849d50c5af7d18e5e2a32e667df874708c80cc01ee3a9ee00176da366",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0043",
+      "notes": "\u4f4e\u6e05\u5e8f\u5217\u4ecd\u5448\u73b0\u5c16\u8033\u732b\u5f62\u7684\u7a33\u5b9a\u5750\u59ff\uff0c\u80cc\u666f\u66f4\u50cf\u5ba4\u5185\u5e73\u9762\u3002",
+      "observed_video_sha256": "8a5f3ba930b9092ef7b23998f41e8ec2e78b56f66321f1d1269b74b418d43c97",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0044",
+      "notes": "\u732b\u6837\u6697\u8272\u526a\u5f71\u6301\u7eed\u4fdd\u6301\u5750\u59ff\uff0c\u4f46\u573a\u666f\u7eb9\u7406\u4e0d\u8db3\u4ee5\u5206\u7c7b\u3002",
+      "observed_video_sha256": "5d0b54cd4e6b42f628f6557c2ae9e7327d94f20380a8b0173be07753f517129d",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0045",
+      "notes": "\u516816\u5e27\u4ec5\u6709\u68d5\u8272\u6a21\u7cca\u5f62\u4f53\uff0c\u65e0\u6cd5\u786e\u8ba4\u5176\u4e3a\u732b\u6216\u6307\u5b9a\u52a8\u4f5c\u3002",
+      "observed_video_sha256": "1552462bba2bc7c21a545600b678cf54f5be12ee1716f08b48e3d2a4b9a2e38c",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0046",
+      "notes": "\u6697\u8272\u5c16\u8033\u8f6e\u5ed3\u7684\u5750\u59ff\u5728\u5b8c\u6574\u5e8f\u5217\u4e2d\u4e00\u81f4\uff0c\u573a\u666f\u542b\u6df7\u3002",
+      "observed_video_sha256": "bb8e0a8bdfa3a514c2b0b697b58b101584e7a02055d49037c29c92115c33b1bd",
+      "predicted_action": "sitting",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0047",
+      "notes": "\u68d5\u7070\u732b\u5728\u767d\u8272\u8f6f\u8868\u9762\u53cd\u590d\u4f4e\u5934\u5e76\u79fb\u52a8\u524d\u80a2\uff0c\u89c6\u89c9\u4e0a\u7b26\u5408\u5ba4\u5185\u6293\u6320\u3002",
+      "observed_video_sha256": "7747bad236114e51ffa6b9cd582bf5265ea35db8df135cbda8bfedb06bc84204",
+      "predicted_action": "scratching",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0048",
+      "notes": "\u732b\u6837\u5934\u8033\u4e0e\u8eab\u4f53\u53ef\u8fa8\u4e14\u73af\u5883\u50cf\u5ba4\u5185\u8f6f\u8868\u9762\uff0c\u4f46\u52a8\u4f5c\u7ec6\u8282\u4e0d\u6e05\u3002",
+      "observed_video_sha256": "6d2b3ade5a1af909900aa5d14cc90d1f9ef2b95bc6e03ecca5479bbd7af9622b",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0049",
+      "notes": "\u7070\u8910\u751f\u6210\u4f2a\u5f71\u906e\u853d\u4e86\u4e3b\u4f53\u8f6e\u5ed3\uff0c\u65e0\u6cd5\u53ef\u9760\u6807\u6ce8\u52a8\u4f5c\u6216\u573a\u666f\u3002",
+      "observed_video_sha256": "159fa7ff9e170dfc1f205ae0a334df7a34c46872e931e4c69d0c3e8dc60bb2ac",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "absent_or_unclear",
+      "predicted_subject": "absent_or_unclear"
+    },
+    {
+      "blind_id": "generation-0050",
+      "notes": "\u5c0f\u578b\u68d5\u8272\u732b\u6837\u4e3b\u4f53\u4f4d\u4e8e\u660e\u663e\u5ba4\u5185\u7269\u4ef6\u4e4b\u95f4\uff0c\u52a8\u4f5c\u65e0\u6cd5\u4ece16\u5e27\u4e2d\u8fa8\u6e05\u3002",
+      "observed_video_sha256": "045d9e842714fbf443fed7931943e261fdb5335b758d233f43b23480f92f815c",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0051",
+      "notes": "\u6e05\u6670\u767d\u732b\u5728\u5ba4\u5185\u8868\u9762\u4fdd\u6301\u5750\u59ff\u5e76\u8f7b\u5fae\u8f6c\u5934\u3002",
+      "observed_video_sha256": "81bab2536059715367a47b0cd8b715d976bbe691664a69f65d8e1e8b77540895",
+      "predicted_action": "sitting",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    },
+    {
+      "blind_id": "generation-0052",
+      "notes": "\u53ef\u8fa8\u732b\u6837\u5934\u8033\u548c\u8eab\u4f53\u53ca\u8f6f\u8d28\u5ba4\u5185\u73af\u5883\uff0c\u4f46\u6ca1\u6709\u6e05\u6670\u53ef\u5206\u7c7b\u52a8\u4f5c\u3002",
+      "observed_video_sha256": "8e092039126c97c644d0882d50a254d9a9f142d6ad284a24087c3f3f74d0483d",
+      "predicted_action": "absent_or_unclear",
+      "predicted_scene": "indoors",
+      "predicted_subject": "cat"
+    }
+  ],
+  "reviewer_id": "direct-independent-rater-b"
+}
