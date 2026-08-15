@@ -31,7 +31,7 @@
     "checkpoint_sha256": "07b602b865b0afb09094b48efb6b2024ae0e7ca7052982cf70ce2a9257a93adc",
     "summary_sha256": "f75b2b7364bdcdddb7197133077f65184e11bed77653524a10338157d3dbc333",
     "full_step_log_sha256": "7e1da60abeb2db654c7b426df4f1de1dc00f91f568857bbc15f8fbbb2be2c620",
-    "sampled_loss_log_sha256": "974458f8af24e076e0fdea9349fc6e391c233a96c92edad80699690c326d009f",
+    "sampled_loss_log_sha256": "ee6bd5434726ffcc6d51818f061e167b6455ab32846783439119305592251a62",
     "first_500_loss_mean": 0.5676283988952636,
     "last_500_loss_mean": 0.1168173601180315,
     "last_1000_loss_mean": 0.11554106650222093,
