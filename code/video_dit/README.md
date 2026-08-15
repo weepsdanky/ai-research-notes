@@ -848,6 +848,7 @@ Video DiT 训练。最终 EMA checkpoint 位于本地 ignored 路径
 `07b602b865b0afb09094b48efb6b2024ae0e7ca7052982cf70ce2a9257a93adc`。
 
 完整 13×4 网格的双人盲评结果是：IID triple 8/24（33.3%），held C1 triple 0/28；C1 action
-也是 0/28。CLIP prompt 检索 15.4%，等于 shuffled control。top-3 nearest-training 可见两个近乎
-逐帧重建的训练片段，所以这是“改善 IID 拟合但 C1 失败并出现记忆”的诊断，不是组合泛化成功。
+也是 0/28。CLIP prompt 检索 15.4%，等于 shuffled control。top-3 nearest-training 只有特征、
+低频颜色/构图相似，不能证明人眼可见的逐帧复制；用户看到的固定样本仍是移动马赛克。所以这是
+“改善 IID 拟合但 C1 与语义可辨识度失败”的诊断，另有记忆风险待审计，不是组合泛化成功。
 可携带证据见 `../../docs/case-studies/artifacts/video-dit/c1-direct-train-v3/results/`。

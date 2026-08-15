@@ -1,7 +1,7 @@
 {
   "condition_alignment_sha256": "fd3a8d7031152c5d08fed225546376dea329f67be533786b0c486838c9064d69",
   "contact_sheet_layout": "top row: 8 generated frames; bottom row: 8 nearest-training frames",
-  "pixel_copy_claim": "Visual inspection found two near-frame-identical reconstructions and one strongly source-matched reconstruction; the high CLIP similarities are therefore evidence of memorization risk, not compositional generalization.",
+  "pixel_copy_claim": "The CLIP-selected pairs share low-frequency color, composition, or coarse subject layout, and their downsampled contact sheets have elevated PSNR. This is a memorization-risk signal only: it does not prove human-visible, frame-identical copying, and the user judged the displayed generation to be moving mosaic.",
   "protocol": "visual audit of top-3 frozen-CLIP nearest training videos v1",
   "records": [
     {

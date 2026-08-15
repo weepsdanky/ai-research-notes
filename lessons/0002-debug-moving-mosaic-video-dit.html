@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>三分钟定位 Video DiT 的移动马赛克</title><link rel="stylesheet" href="../assets/lesson.css"></head>
+<body><main>
+<h1>三分钟定位“移动马赛克”</h1>
+<p class="lede">今天只学一个技能：不要问“模型为什么坏了”，而要问“坏在 VAE、denoiser、condition，还是 sampler 的哪条边界？”</p>
+
+<div class="axes">
+  <section class="axis video"><h2>当前已通过</h2><p>VAE 重建仍看得见猫；MP4 的相邻帧确实变化；数值 finite；337 个实现测试通过。</p></section>
+  <section class="axis image"><h2>当前未通过</h2><p>从纯噪声恢复语义；C1 动作为 0/28；CLIP matched 与 shuffled 都是 15.4%。</p></section>
+</div>
+
+<h2>所以故障在哪里？</h2>
+<p class="flow">真实 RGB → VAE latent ✓ → 加噪/denoiser/condition/sampler ✗ → VAE decode → 移动马赛克</p>
+<p>VAE 可以显示结构，但模型没有生成出带结构的 latent。下一步应对真实 latent 分别加到 t=100、500、900、999，再从该处还原；第一个失败的 timestep 就把故障范围缩小了。</p>
+
+<div class="check"><strong>这次最可疑的配置：</strong><code>12×12 latent / patch 3 = 每帧仅 4×4 token</code>。每个 token 横跨约 24×24 输出像素，主体轮廓很容易被压成粗色块。</div>
+
+<h2>检索练习</h2>
+<details><summary>VAE 重建清楚、纯噪声生成模糊，应该先更换 VAE 吗？</summary><p class="answer">不应该。先检查 denoiser 在不同噪声等级的重建以及 sampler；VAE 已提供了一个可辨识上限。</p></details>
+<details><summary>训练 loss 继续下降，是否足以决定再训练 30k？</summary><p class="answer">不足。必须看高噪声 bucket、固定 seed 自由生成和文本交换；总 loss 会把关键失败平均掉。</p></details>
+<details><summary>下一次最小、信息量最大的架构变更是什么？</summary><p class="answer">单 clip 下只把 patch 1→2→3，其余完全固定；它能直接检验空间 token 是否过粗。</p></details>
+
+<p>一手阅读从 <a href="https://arxiv.org/abs/2006.11239">DDPM</a> 的 q-sample/reverse step 开始，再读 <a href="https://arxiv.org/abs/2212.09748">DiT</a> 的 patchify 与 adaLN-Zero；完整顺序见<a href="../docs/case-studies/video-dit-moving-mosaic-diagnosis-and-next-actions.md">行动文档</a>，速查见<a href="../reference/video-dit-moving-mosaic-debug-ladder.html">排查阶梯</a>。不清楚的地方继续问我。</p>
+</main></body></html>

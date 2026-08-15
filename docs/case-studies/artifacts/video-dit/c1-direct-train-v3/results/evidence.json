@@ -1,6 +1,6 @@
 {
   "protocol": "user-authorized low-coverage C1 direct training v3 evidence",
-  "conclusion": "failed: the larger and longer-trained model improved IID fitting but produced zero held-C1 triple accuracy and visibly reconstructed training videos",
+  "conclusion": "failed: the larger and longer-trained model improved IID fitting but produced zero held-C1 triple accuracy and mostly moving, semantically unrecognizable mosaic",
   "claim_scope": "preliminary diagnostic only; not confirmatory unseen-composition evidence",
   "preregistration": {
     "git_commit": "0e184596d7b2287d349bfd83c8f0fa20f2605224",
@@ -97,17 +97,22 @@
     "nearest_training_similarity_mean": 0.9080537007405207,
     "nearest_training_similarity_max": 0.9793001413345337
   },
+  "diagnostic_visuals": {
+    "vae_reconstruction_contact_sha256": "ede8284696f93e009561eae76df9f05cd12ef34e3cb8e6d13ead70557d92f2ec",
+    "fixed_generated_contact_sha256": "6ab870a63d78120fe56701707c871f6d94ccda11640dfaf4b3a393fc9f05c6f7",
+    "interpretation": "The frozen VAE round-trip retains a recognizable cat, while the fixed free generation remains low-frequency moving mosaic; this localizes the primary failure to generated latents rather than VAE display capacity alone."
+  },
   "nearest_training_visual_audit": {
-    "report_sha256": "21618a1397e405d2ce82b5970d5af57f0bac18cc15e98356dcd50a0e77a55eb8",
+    "report_sha256": "eaa74a173de9ffb8c57bf4301cdf661972837cca0964df8e7a7811954cacaf30",
     "policy": "inspect the three highest frozen-CLIP nearest-training similarities over the complete grid",
-    "result": "two near-frame-identical reconstructions and one strongly source-matched reconstruction; this is memorization evidence",
+    "result": "high feature and downsampled layout similarity signals memorization risk, but does not establish human-visible or frame-identical copying",
     "contact_sheet_sha256": ["0e7d04a8205582c5d590f0427adb0cc01677d25acdb06a75be6f5f5c287d9e1c", "9e9cebc3f7d4b7dd4a8e0da0ca5254ea42a8c95bb76b90c86d9b6ecc51b3ad02", "d53ee5810a71fc114d4109736c8ea5e5f3fae7b2d9d3678fa50c9e08df2f2b75"]
   },
   "diagnosis": [
     "Compared with the previous 10k-step 11.99M-parameter pilot, the 30k-step 23.17M-parameter model improved unanimous IID triple accuracy from 12.5% to 33.3%, but held-C1 triple accuracy remained zero.",
     "C1 action accuracy was zero and 24 of 28 C1 videos had at least one rater disagreement, so the model did not bind the unseen playing action reliably.",
     "Frozen CLIP prompt retrieval equaled its shuffled baseline and had a negative mean margin, providing no automated text-binding evidence.",
-    "The top nearest-training comparisons visibly reconstruct training clips, showing that more capacity and training mainly increased memorization on this 102-video training set.",
+    "The top nearest-training comparisons share low-frequency layout with training clips, but the displayed output remains moving mosaic to the user; this is a memorization-risk diagnostic, not proof of visible copying.",
     "The held triple has only 20 independent groups and cat|playing only 6 training groups, both below the preregistered confirmatory gate."
   ],
   "training_ready": false,

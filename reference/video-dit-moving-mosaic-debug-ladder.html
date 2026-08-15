@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video DiT 移动马赛克排查阶梯</title><link rel="stylesheet" href="../assets/lesson.css"></head>
+<body><main>
+<h1>Video DiT 移动马赛克排查阶梯</h1>
+<p class="lede">从最便宜、最确定的边界开始。前一层没过，不进入后一层，也不靠“再训久一点”掩盖问题。</p>
+
+<section class="gate"><strong>A · VAE oracle</strong>真实视频 encode→decode 是否仍可辨识？否：修尺寸、范围、scaling、VAE。是：故障在 diffusion 侧。</section>
+<section class="gate"><strong>B · 单 clip、无文本</strong>从 q(x<sub>t</sub>|x₀) 的 t=100/500/900/999 能否还原？低噪声失败：数学/实现；只在高噪声失败：高噪声训练不足。</section>
+<section class="gate"><strong>C · 8–16 clip 条件 overfit</strong>交换 prompt 是否改变正确因素？teacher-forced 是否≥90%？否：条件注入或数据支持失败。</section>
+<section class="gate"><strong>D · 采样矩阵</strong>固定 checkpoint/prompt/seed，只扫 raw/EMA、CFG 1/1.5/2.5、50/100/250 steps。每次只变一个变量。</section>
+<section class="gate"><strong>E · 完整训练</strong>只有 A–D 通过后才扩数据；按 timestep bucket 报 loss，并固定 seed 周期采样。</section>
+
+<div class="bad"><strong>不要这样判断：</strong>loss 下降、视频在动、CLIP 最近邻高，都不等价于主体与动作可辨识。</div>
+<div class="good"><strong>核心分层：</strong>VAE 表示上限 → 低/高噪声 denoising → 文本条件 → sampler/CFG → 数据泛化。</div>
+
+<p>完整原因矩阵与实验方案见<a href="../docs/case-studies/video-dit-moving-mosaic-diagnosis-and-next-actions.md">当前原因总结和下一步行动方案</a>。</p>
+</main></body></html>

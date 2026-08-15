@@ -2473,9 +2473,10 @@ tokens-v2 cross-attention、velocity），MPS 上从零训练 30,000 updates，�
 derangement 上 IID matched 33.3%、control 0%，C1 matched/control 都是 0%。冻结 CLIP prompt top-1
 为 15.4%，与 shuffled 15.4% 完全相同，mean margin -0.0182，也不支持文本绑定。
 
-nearest-training 审计给出更强的失败证据：最大 CLIP similarity 0.9793；top-3 联系表中两个输出与训练
-片段近乎逐帧重建（对齐 PSNR 约 26.5 dB），另一个也保持同一构图与运动轨迹。因此更大容量与更长
-优化提高了 IID 拟合，却没有产生 held composition，并放大了训练视频记忆。结论严格为
-**pilot failed / memorization observed**，不能描述为 unseen compositional generalization。
+nearest-training 审计给出风险信号而不是复制证明：最大 CLIP similarity 0.9793，缩小联系表的颜色、
+低频构图和粗轮廓相近，两个 pair 的对齐 PSNR 约 26.5 dB；但用户对原 MP4 的视觉判断是移动马赛克，
+无法辨认原视频痕迹。CLIP/缩小 PSNR 不能升级为“逐帧重建”。因此更大容量与更长优化提高了 IID
+拟合，却没有产生 held composition；结论严格为 **pilot failed / memorization risk requires audit**，
+不能描述为 unseen compositional generalization 或已证明复制。
 可携带结果、两份盲评、Wilson 报告、CLIP/nearest 审计、训练曲线与冻结网格第一条 MP4 位于
 [`artifacts/video-dit/c1-direct-train-v3/results/`](artifacts/video-dit/c1-direct-train-v3/results/)。

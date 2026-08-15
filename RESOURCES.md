@@ -2,6 +2,10 @@
 
 ## Knowledge
 
+- [Paper: _Denoising Diffusion Probabilistic Models_](https://arxiv.org/abs/2006.11239)
+  扩散基础入口。用于理解一次加噪、noise prediction、训练循环与从高斯噪声反向采样。
+- [Paper: _Improved Denoising Diffusion Probabilistic Models_](https://arxiv.org/abs/2102.09672)
+  用于在掌握 DDPM 后理解 learned variance、noise schedule、采样步数和质量/似然指标差异。
 - [Paper: _Scalable Diffusion Models with Transformers_](https://arxiv.org/abs/2212.09748)
   Image DiT 的核心论文。用于理解 patchify、adaLN-Zero、模型缩放、latent diffusion 与 CFG。
 - [Official facebookresearch/DiT](https://github.com/facebookresearch/DiT)
@@ -16,6 +20,10 @@
   论文、官方代码和本地实现的逐项差异矩阵。
 - [Local design: Video DiT on Mac](docs/case-studies/video-dit-mac-design.md)
   Latte 依据、计算预算、合成课程与能力边界。
+- [Local diagnosis: Video DiT moving mosaic](docs/case-studies/video-dit-moving-mosaic-diagnosis-and-next-actions.md)
+  将当前失败拆为 VAE、noise level、condition、sampler 与规模门禁；用于下一轮单变量实验。
+- [Primary-source notes: moving-mosaic diagnosis](docs/case-studies/video-dit-moving-mosaic-primary-source-notes.md)
+  DDPM、Improved DDPM、LDM、DiT、Latte、CLIP/FVD/LPIPS 的一手证据与本地推断边界。
 
 ## Wisdom (Communities)
 
