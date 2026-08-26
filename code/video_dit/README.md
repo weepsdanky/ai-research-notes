@@ -4,6 +4,33 @@
 
 这不是把图像 DiT 连续跑八次。视频始终采用 `[B,C,T,H,W]` 张量；每一帧独立 patchify，完整空间 Transformer 和完整时间 Transformer 交替运行，时间注意力会同时看到同一空间位置的全部帧。
 
+## Flow Matching 学习分支
+
+当前 DDPM/velocity 代码保持不变；`flow_matching.py`、`train_flow.py` 和
+`sample_flow.py` 提供一条并行的 linear Conditional Flow Matching 路径。它复用同一
+`VideoDiT`、synthetic/real dataset、cached text condition 和 VAE latent contract，
+只替换 probability path、target 与 sampler：
+
+```bash
+uv run pytest -q tests/test_flow_matching.py tests/test_train_flow_smoke.py
+uv run python train_flow.py --dry-run --device cpu --batch-size 2
+
+# canonical overfit 后，以 20-step Euler 从 t=1 noise 积分到 t=0 data
+uv run python sample_flow.py runs/canonical-flow/video_dit_flow_inference.pt \
+  --prompt "an orange cat walking right in the snow" \
+  --device mps --solver euler --steps 20
+
+# real text + latent checkpoint 复用与 DDPM 路径相同的 frozen dependencies
+uv run python sample_flow.py runs/real-flow/video_dit_flow_inference.pt \
+  --prompt "a cat walking indoors" --device mps --steps 20 \
+  --text-checkpoint data/models/ViT-B-32.pt \
+  --vae-model stabilityai/sd-vae-ft-mse --vae-revision <PINNED_REVISION>
+```
+
+Flow checkpoint 固定为 `C` velocity channels，不接受 DDPM 的 learned-variance `2C`
+输出。完整数学约定、论文顺序与公平 DDPM A/B 见
+[`../../docs/case-studies/flow-matching/README.md`](../../docs/case-studies/flow-matching/README.md)。
+
 ## 这套代码保留了什么
 
 | 论文设计 / trick | 可读实现 |

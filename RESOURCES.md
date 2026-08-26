@@ -14,6 +14,12 @@
   Video DiT 的主要架构依据。用于学习空间/时间 attention 分解及 Variant 1。
 - [Official Vchitect/Latte](https://github.com/Vchitect/Latte)
   用于核对 Video DiT 的 per-frame patch、时空位置编码、S-AdaLN 与 CFG 实现。
+- [Paper: _Flow Matching for Generative Modeling_](https://arxiv.org/abs/2210.02747)
+  Flow Matching 主论文。用于理解 CNF、conditional probability path、simulation-free vector-field regression 与 OT path。
+- [Paper + official code: _Flow Matching Guide and Code_](https://arxiv.org/abs/2412.06264) · [facebookresearch/flow_matching](https://github.com/facebookresearch/flow_matching)
+  用于核对 path、scheduler、loss、Euler/Heun solver 的接口和符号约定。
+- [Local learning path: Flow Matching for Video DiT](docs/case-studies/flow-matching/README.md)
+  线性 path 推导、10–30 NFE 验收、time sampling/shift 和 DDPM 公平 A/B 协议。
 - [Paper: _High-Resolution Image Synthesis with Latent Diffusion Models_](https://arxiv.org/abs/2112.10752)
   用于理解 DiT 论文为何在 VAE latent 而非高分辨率像素上扩散；它是依赖背景，不是学习 DiT block 的第一篇。
 - [Local audit: DiT original-paper implementation](docs/case-studies/dit-original-paper-implementation-audit.md)
