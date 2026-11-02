@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checked_rows": 12,
+  "checks": [
+    "Independent byte sums, bandwidth division and latency equations",
+    "Causal quadratic coefficients independently simplified",
+    "Stage overlap and attention equations",
+    "Sensitivity monotonicity",
+    "Existing 1,048,576 KV reference and expert bytes in --self-check",
+    "Only three core Markdown documents; links exist"
+  ],
+  "limitations": "Arithmetic validation only. No efficiency fitting, performance benchmark, strict roofline proof, workspace allocation or generation quality validation."
+}

@@ -1,0 +1,3 @@
+{"command": ["wpr", "-start", "GeneralProfile", "-filemode"], "start_unix_s": 1792668416.3478513, "end_unix_s": 1792668416.9104898, "returncode": 0, "stdout": "", "stderr": ""}
+{"command": ["wpr", "-marker", "LowVramRequestStart"], "start_unix_s": 1792668416.9104898, "end_unix_s": 1792668417.0142949, "returncode": 0, "stdout": "", "stderr": ""}
+{"command": ["wpr", "-marker", "LowVramRequestEnd"], "start_unix_s": 1792668538.7595, "end_unix_s": 1792668538.950548, "returncode": 0, "stdout": "", "stderr": ""}

@@ -1,0 +1,24 @@
+Number of Processors : 20
+CPU Speed            : 2995 MHz
+OS Version           : 10.00.00.00
+OS Build Number      : 26200
+Clock type           : PerfCounter
+Boot time            : 2026/10/20:12:19:05.5000000
+Native Pointer Size  : 8 (64bit)
+Start time (UTC)     : 2026/10/22:11:26:56.4326005
+End time (UTC)       : 2026/10/22:11:29:24.2586198  (+         0:00:02:27.8260193)
+Total # Lost Buffers : 0
+Total # Lost Events  : 0
+
+Number of Traces     : 1
+
+Trace name: C:\Users\marks\AppData\Local\Temp\WPR_initiated_WprApp_WPR System Collector.etl
+    Log file mode        : Sequential Secure SystemLogger <0x8000000>
+    Pointer size         : 8 (64bit)
+    Start time (UTC)     : 2026/10/22:11:26:56.4326005
+    End time (UTC)       : 2026/10/22:11:29:24.2586198  (+         0:00:02:27.8260193)
+    Start time (Local)   : 2026/10/22:19:26:56.4326005
+    End time (Local)     : 2026/10/22:19:29:24.2586198
+    # Lost Buffers       : 0
+    # Lost Events        : 0
+

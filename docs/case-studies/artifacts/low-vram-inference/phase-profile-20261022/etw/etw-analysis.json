@@ -1,0 +1,1509 @@
+{
+  "pid": 8824,
+  "request_start_trace_us": 138544,
+  "unmatched_first_or_lost_switch_outs": 0,
+  "boundary_seeded_switch_outs": 42,
+  "notes": [
+    "CPU seconds are summed across threads, not wall seconds.",
+    "A hard-fault union means at least one target fault I/O was in flight; it is not exclusively stalled wall time.",
+    "Scheduler wait reasons alone do not prove GPU waits; compare CUDA APIs and GPU activity.",
+    "Initial off-CPU states before a sampled window are unknown; correlated waits may omit a boundary fragment.",
+    "Sampled CPU addresses in ggml-cpu may include barriers/spinning; module totals alone are not arithmetic time."
+  ],
+  "phases": {
+    "prefill_5s": {
+      "wall_s": 1.0,
+      "scheduled_cpu_s": 3.957113,
+      "average_running_logical_cpus": 3.957113,
+      "cpu_s_by_thread": {
+        "21720": 0.254151,
+        "27036": 0.249731,
+        "26596": 0.249667,
+        "18576": 0.24948,
+        "22648": 0.248482,
+        "32248": 0.248133,
+        "16436": 0.248064,
+        "25264": 0.247506,
+        "31820": 0.247157,
+        "28088": 0.246589,
+        "12504": 0.246348,
+        "19484": 0.245431,
+        "8764": 0.245171,
+        "22540": 0.24363,
+        "18496": 0.243625,
+        "32024": 0.239647,
+        "6840": 0.001999,
+        "28036": 0.00185,
+        "16016": 0.000418,
+        "19660": 3.4e-05,
+        "8204": 0.0,
+        "29428": 0.0
+      },
+      "scheduler_wait_thread_s_by_reason": {
+        "Executive": 8.129480000000001,
+        "WrPageIn": 3.452391000000001,
+        "WrQueue": 0.980066,
+        "UserRequest": 1.8886690000000002,
+        "WrAlertByThreadId": 0.909343
+      },
+      "scheduler_wait_thread_s_by_thread_reason": {
+        "18496": {
+          "Executive": 0.508617,
+          "WrPageIn": 0.217019
+        },
+        "28088": {
+          "Executive": 0.506854,
+          "WrPageIn": 0.216444
+        },
+        "12504": {
+          "Executive": 0.500457,
+          "WrPageIn": 0.223948
+        },
+        "31820": {
+          "Executive": 0.502737,
+          "WrPageIn": 0.221519
+        },
+        "27036": {
+          "Executive": 0.508438,
+          "WrPageIn": 0.213108
+        },
+        "26596": {
+          "Executive": 0.505117,
+          "WrPageIn": 0.215163
+        },
+        "21720": {
+          "Executive": 0.510931,
+          "WrPageIn": 0.208067
+        },
+        "22648": {
+          "Executive": 0.51167,
+          "WrPageIn": 0.21236
+        },
+        "19484": {
+          "Executive": 0.509637,
+          "WrPageIn": 0.218581
+        },
+        "25264": {
+          "Executive": 0.501895,
+          "WrPageIn": 0.222084
+        },
+        "32248": {
+          "Executive": 0.503198,
+          "WrPageIn": 0.217505
+        },
+        "16436": {
+          "Executive": 0.507554,
+          "WrPageIn": 0.21434
+        },
+        "22540": {
+          "Executive": 0.510957,
+          "WrPageIn": 0.215146
+        },
+        "8764": {
+          "Executive": 0.52032,
+          "WrPageIn": 0.20792,
+          "WrAlertByThreadId": 0.0
+        },
+        "18576": {
+          "Executive": 0.50531,
+          "WrPageIn": 0.214318
+        },
+        "32024": {
+          "Executive": 0.515788,
+          "WrPageIn": 0.214869
+        },
+        "6840": {
+          "WrQueue": 0.980066
+        },
+        "28036": {
+          "UserRequest": 0.98046
+        },
+        "16016": {
+          "UserRequest": 0.908209
+        },
+        "19660": {
+          "WrAlertByThreadId": 0.909343
+        },
+        "8204": {
+          "WrAlertByThreadId": 0.0,
+          "Executive": 0.0
+        },
+        "29428": {
+          "WrAlertByThreadId": 0.0
+        }
+      },
+      "ready_queue_thread_s": 0.46539200000000003,
+      "hard_fault_count": 40113,
+      "hard_fault_bytes": 1696190464,
+      "hard_fault_io_thread_s": 9.052434000000002,
+      "hard_fault_io_any_thread_union_s": 0.95287,
+      "hard_fault_io_s_by_thread": {
+        "28088": 0.5641860000000007,
+        "27036": 0.5664059999999997,
+        "12504": 0.5572350000000007,
+        "19484": 0.5669409999999993,
+        "22648": 0.5699109999999995,
+        "32248": 0.5614039999999998,
+        "16436": 0.5654109999999997,
+        "26596": 0.562818,
+        "25264": 0.5597590000000005,
+        "8764": 0.5792599999999999,
+        "22540": 0.568567,
+        "18496": 0.565571999999999,
+        "32024": 0.5726860000000008,
+        "31820": 0.5594520000000006,
+        "21720": 0.5697639999999998,
+        "18576": 0.5630620000000012
+      },
+      "hard_fault_correlated_offcpu_thread_s": 8.127998999999999,
+      "hard_fault_correlated_offcpu_any_thread_union_s": 0.951977,
+      "hard_fault_bytes_by_file": {
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 1696190464
+      },
+      "sample_counts_by_module": {
+        "ntoskrnl.exe": 2680,
+        "FLTMGR.SYS": 51,
+        "ggml-cpu-alderlake.dll": 1038,
+        "iaStorVD.sys": 58,
+        "partmgr.sys": 8,
+        "Ntfs.sys": 52,
+        "fvevol.sys": 29,
+        "ACPI.sys": 6,
+        "libomp.dll": 203,
+        "CLASSPNP.SYS": 12,
+        "storport.sys": 39,
+        "wcifs.sys": 2,
+        "iorate.sys": 9,
+        "vcruntime140.dll": 13,
+        "volume.sys": 4,
+        "ucrtbase.dll": 4,
+        "hrdevmon.sys": 4,
+        "fileinfo.sys": 2,
+        "KernelBase.dll": 3,
+        "ntdll.dll": 11,
+        "ggml-base.dll": 2,
+        "nvlddmkm.sys": 2,
+        "volsnap.sys": 2,
+        "intelppm.sys": 1,
+        "volmgr.sys": 3,
+        "Wof.sys": 1
+      },
+      "sample_counts_by_module_during_any_fault_io": {
+        "ntoskrnl.exe": 2636,
+        "FLTMGR.SYS": 51,
+        "ggml-cpu-alderlake.dll": 584,
+        "iaStorVD.sys": 58,
+        "partmgr.sys": 8,
+        "Ntfs.sys": 52,
+        "fvevol.sys": 29,
+        "ACPI.sys": 6,
+        "libomp.dll": 20,
+        "CLASSPNP.SYS": 12,
+        "storport.sys": 39,
+        "wcifs.sys": 2,
+        "iorate.sys": 9,
+        "vcruntime140.dll": 11,
+        "volume.sys": 4,
+        "hrdevmon.sys": 4,
+        "fileinfo.sys": 2,
+        "volsnap.sys": 2,
+        "ntdll.dll": 5,
+        "KernelBase.dll": 2,
+        "intelppm.sys": 1,
+        "volmgr.sys": 3,
+        "Wof.sys": 1
+      },
+      "sample_counts_by_module_without_fault_io": {
+        "ucrtbase.dll": 4,
+        "ggml-cpu-alderlake.dll": 454,
+        "libomp.dll": 183,
+        "ntoskrnl.exe": 44,
+        "KernelBase.dll": 1,
+        "ntdll.dll": 6,
+        "vcruntime140.dll": 2,
+        "ggml-base.dll": 2,
+        "nvlddmkm.sys": 2
+      },
+      "sample_counts_top_addresses": [
+        [
+          "ntoskrnl.exe!0xfffff802b8476eb8",
+          609
+        ],
+        [
+          "libomp.dll!0x00007fff8821da7b",
+          128
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c0a9c",
+          126
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8481540",
+          121
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476ec0",
+          110
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000ea",
+          76
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88ba58a",
+          69
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476ebd",
+          51
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b84767ae",
+          41
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000f0",
+          38
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00191",
+          38
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b847eea7",
+          38
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00188",
+          37
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b863459f",
+          35
+        ],
+        [
+          "libomp.dll!0x00007fff8821dd43",
+          34
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000e3",
+          30
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00183",
+          29
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b0018c",
+          24
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b0017f",
+          21
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b0015f",
+          20
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b852183d",
+          18
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000f6",
+          17
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b852e122",
+          17
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b853effc",
+          17
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8457f0e",
+          16
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8481543",
+          16
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68af2ea0",
+          16
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b0017a",
+          15
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00119",
+          15
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88b9d03",
+          14
+        ]
+      ],
+      "switch_out_counts_by_state_reason": {
+        "Waiting/Executive": 40112,
+        "Waiting/WrPageIn": 18405,
+        "Waiting/UserRequest": 69,
+        "Running/WrDispatchInt": 68,
+        "Waiting/WrQueue": 56,
+        "Ready/WrDispatchInt": 561,
+        "Standby/WrDispatchInt": 224,
+        "Standby/WrQuantumEnd": 346,
+        "Ready/WrYieldExecution": 17134,
+        "Standby/WrYieldExecution": 175,
+        "Ready/WrPreempted": 8,
+        "DeferredReady/WrPageIn": 1,
+        "Waiting/WrAlertByThreadId": 1,
+        "Running/WrYieldExecution": 117,
+        "Running/WrQuantumEnd": 22,
+        "Ready/WrQuantumEnd": 1,
+        "DeferredReady/WrDispatchInt": 2,
+        "Running/WrPreempted": 1,
+        "Standby/WrPreempted": 1,
+        "DeferredReady/WrYieldExecution": 1
+      }
+    },
+    "decode_5s": {
+      "wall_s": 1.0,
+      "scheduled_cpu_s": 10.495677,
+      "average_running_logical_cpus": 10.495677,
+      "cpu_s_by_thread": {
+        "26596": 0.676131,
+        "32248": 0.66924,
+        "22540": 0.660041,
+        "31820": 0.660036,
+        "21720": 0.659925,
+        "28088": 0.658138,
+        "12504": 0.658062,
+        "18576": 0.656308,
+        "25264": 0.655375,
+        "16436": 0.654851,
+        "27036": 0.654796,
+        "18496": 0.650484,
+        "19484": 0.647395,
+        "8764": 0.645719,
+        "22648": 0.642975,
+        "32024": 0.637193,
+        "8204": 0.004256,
+        "28036": 0.002285,
+        "6840": 0.001802,
+        "16016": 0.000365,
+        "19660": 0.00026,
+        "29428": 4e-05
+      },
+      "scheduler_wait_thread_s_by_reason": {
+        "Executive": 5.1389059999999995,
+        "WrPageIn": 0.026164999999999997,
+        "WrQueue": 0.988672,
+        "UserRequest": 1.893448,
+        "WrAlertByThreadId": 2.760669
+      },
+      "scheduler_wait_thread_s_by_thread_reason": {
+        "18496": {
+          "Executive": 0.326101,
+          "WrPageIn": 0.001232
+        },
+        "28088": {
+          "Executive": 0.317759,
+          "WrPageIn": 0.001667
+        },
+        "12504": {
+          "Executive": 0.319147,
+          "WrPageIn": 0.001192
+        },
+        "31820": {
+          "Executive": 0.317797,
+          "WrPageIn": 0.000792
+        },
+        "27036": {
+          "Executive": 0.322189,
+          "WrPageIn": 0.000992
+        },
+        "26596": {
+          "Executive": 0.301326,
+          "WrPageIn": 0.001263
+        },
+        "21720": {
+          "Executive": 0.316606,
+          "WrPageIn": 0.001349
+        },
+        "22648": {
+          "Executive": 0.332972,
+          "WrPageIn": 0.001926
+        },
+        "19484": {
+          "Executive": 0.328649,
+          "WrPageIn": 0.000953
+        },
+        "25264": {
+          "Executive": 0.319626,
+          "WrPageIn": 0.002041
+        },
+        "32248": {
+          "Executive": 0.308723,
+          "WrPageIn": 0.001183
+        },
+        "16436": {
+          "Executive": 0.323459,
+          "WrPageIn": 0.000546
+        },
+        "22540": {
+          "Executive": 0.312633,
+          "WrPageIn": 0.005986
+        },
+        "8764": {
+          "Executive": 0.332526,
+          "WrPageIn": 0.001762,
+          "WrAlertByThreadId": 1e-05
+        },
+        "18576": {
+          "Executive": 0.319528,
+          "WrPageIn": 0.001485
+        },
+        "32024": {
+          "Executive": 0.339865,
+          "WrPageIn": 0.001796
+        },
+        "6840": {
+          "WrQueue": 0.988672
+        },
+        "28036": {
+          "UserRequest": 0.988189
+        },
+        "16016": {
+          "UserRequest": 0.905259
+        },
+        "19660": {
+          "WrAlertByThreadId": 0.883588
+        },
+        "8204": {
+          "WrAlertByThreadId": 0.992282,
+          "Executive": 0.0
+        },
+        "29428": {
+          "WrAlertByThreadId": 0.884789
+        }
+      },
+      "ready_queue_thread_s": 0.352366,
+      "hard_fault_count": 21617,
+      "hard_fault_bytes": 1028677632,
+      "hard_fault_io_thread_s": 5.806343,
+      "hard_fault_io_any_thread_union_s": 0.557898,
+      "hard_fault_io_s_by_thread": {
+        "21720": 0.35792600000000047,
+        "16436": 0.36555400000000027,
+        "25264": 0.36249899999999996,
+        "27036": 0.3645999999999997,
+        "18576": 0.3618059999999998,
+        "18496": 0.36795499999999975,
+        "31820": 0.3592950000000004,
+        "22648": 0.3755400000000004,
+        "12504": 0.35958200000000007,
+        "32024": 0.38106800000000024,
+        "19484": 0.37190399999999996,
+        "8764": 0.375529,
+        "26596": 0.342221999999999,
+        "28088": 0.3595459999999998,
+        "22540": 0.3525809999999999,
+        "32248": 0.3487360000000005
+      },
+      "hard_fault_correlated_offcpu_thread_s": 5.138131,
+      "hard_fault_correlated_offcpu_any_thread_union_s": 0.548841,
+      "hard_fault_bytes_by_file": {
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 102608896,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 358899712,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 260341760,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 306827264
+      },
+      "sample_counts_by_module": {
+        "libomp.dll": 4862,
+        "nvcuda64.dll": 136,
+        "ntdll.dll": 330,
+        "ntoskrnl.exe": 2909,
+        "KernelBase.dll": 86,
+        "ggml-cpu-alderlake.dll": 1824,
+        "nvlddmkm.sys": 21,
+        "vcruntime140.dll": 9,
+        "Ntfs.sys": 35,
+        "FLTMGR.SYS": 31,
+        "fvevol.sys": 19,
+        "storport.sys": 25,
+        "kernel32.dll": 4,
+        "iorate.sys": 5,
+        "CLASSPNP.SYS": 16,
+        "iaStorVD.sys": 30,
+        "volume.sys": 1,
+        "volmgr.sys": 3,
+        "ucrtbase.dll": 2,
+        "ggml-base.dll": 1,
+        "wcifs.sys": 2,
+        "dxgkrnl.sys": 1,
+        "dxgmms2.sys": 2,
+        "fileinfo.sys": 2,
+        "intelppm.sys": 1,
+        "ACPI.sys": 2,
+        "disk.sys": 1,
+        "hrdevmon.sys": 3,
+        "partmgr.sys": 3,
+        "sysdiag.sys": 1,
+        "Wof.sys": 1,
+        "nvpcf.sys": 1
+      },
+      "sample_counts_by_module_during_any_fault_io": {
+        "ntoskrnl.exe": 2104,
+        "ggml-cpu-alderlake.dll": 431,
+        "Ntfs.sys": 35,
+        "libomp.dll": 621,
+        "FLTMGR.SYS": 31,
+        "fvevol.sys": 19,
+        "storport.sys": 25,
+        "iorate.sys": 5,
+        "CLASSPNP.SYS": 16,
+        "KernelBase.dll": 14,
+        "iaStorVD.sys": 30,
+        "ntdll.dll": 50,
+        "volume.sys": 1,
+        "volmgr.sys": 3,
+        "nvcuda64.dll": 1,
+        "wcifs.sys": 2,
+        "vcruntime140.dll": 4,
+        "fileinfo.sys": 2,
+        "intelppm.sys": 1,
+        "ACPI.sys": 2,
+        "kernel32.dll": 1,
+        "disk.sys": 1,
+        "hrdevmon.sys": 3,
+        "partmgr.sys": 3,
+        "Wof.sys": 1,
+        "nvpcf.sys": 1,
+        "nvlddmkm.sys": 1
+      },
+      "sample_counts_by_module_without_fault_io": {
+        "libomp.dll": 4241,
+        "nvcuda64.dll": 135,
+        "ntdll.dll": 280,
+        "ntoskrnl.exe": 805,
+        "KernelBase.dll": 72,
+        "ggml-cpu-alderlake.dll": 1393,
+        "nvlddmkm.sys": 20,
+        "vcruntime140.dll": 5,
+        "kernel32.dll": 3,
+        "ucrtbase.dll": 2,
+        "ggml-base.dll": 1,
+        "dxgkrnl.sys": 1,
+        "dxgmms2.sys": 2,
+        "sysdiag.sys": 1
+      },
+      "sample_counts_top_addresses": [
+        [
+          "libomp.dll!0x00007fff8821da7b",
+          3085
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f42",
+          465
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c4db4",
+          446
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476eb8",
+          371
+        ],
+        [
+          "libomp.dll!0x00007fff8821da81",
+          281
+        ],
+        [
+          "libomp.dll!0x00007fff8821dd43",
+          280
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000ea",
+          278
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000f0",
+          256
+        ],
+        [
+          "ntdll.dll!0x00007fffa8cc23d4",
+          239
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd74",
+          127
+        ],
+        [
+          "libomp.dll!0x00007fff8821d9a2",
+          94
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b848f868",
+          94
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476ec0",
+          91
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd70",
+          88
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c0a9c",
+          75
+        ],
+        [
+          "libomp.dll!0x00007fff8821dab7",
+          55
+        ],
+        [
+          "nvcuda64.dll!0x00007ffef61c3cbe",
+          54
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00191",
+          53
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b847b280",
+          45
+        ],
+        [
+          "libomp.dll!0x00007fff88244dc0",
+          43
+        ],
+        [
+          "libomp.dll!0x00007fff8821da88",
+          43
+        ],
+        [
+          "ntdll.dll!0x00007fffa8c30fd4",
+          43
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f65",
+          42
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd7e",
+          40
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8481540",
+          40
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b863459f",
+          38
+        ],
+        [
+          "libomp.dll!0x00007fff8821dae8",
+          36
+        ],
+        [
+          "libomp.dll!0x00007fff8821d9a6",
+          34
+        ],
+        [
+          "libomp.dll!0x00007fff8821d987",
+          34
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88ba58a",
+          34
+        ]
+      ],
+      "switch_out_counts_by_state_reason": {
+        "Standby/WrDispatchInt": 1219,
+        "Ready/WrYieldExecution": 26316,
+        "Standby/WrQuantumEnd": 3224,
+        "Running/WrQuantumEnd": 179,
+        "Waiting/WrAlertByThreadId": 135,
+        "Standby/WrYieldExecution": 1711,
+        "Running/WrYieldExecution": 741,
+        "Ready/WrDispatchInt": 1911,
+        "Waiting/UserRequest": 74,
+        "Waiting/WrQueue": 63,
+        "Running/WrDispatchInt": 521,
+        "DeferredReady/WrYieldExecution": 19,
+        "Waiting/Executive": 21626,
+        "Waiting/WrPageIn": 216,
+        "Running/WrPreempted": 2,
+        "Ready/WrQuantumEnd": 12,
+        "Standby/WrDeferredPreempt": 1,
+        "DeferredReady/WrDispatchInt": 7,
+        "DeferredReady/WrQuantumEnd": 4,
+        "Standby/WrPreempted": 6,
+        "DeferredReady/WrPageIn": 1,
+        "Running/WrDeferredPreempt": 1,
+        "Ready/WrPreempted": 2,
+        "Running/Executive": 1
+      }
+    },
+    "decode_25s": {
+      "wall_s": 1.0,
+      "scheduled_cpu_s": 11.738565,
+      "average_running_logical_cpus": 11.738565,
+      "cpu_s_by_thread": {
+        "32248": 0.744431,
+        "22540": 0.739806,
+        "28088": 0.73737,
+        "26596": 0.737038,
+        "18576": 0.736092,
+        "12504": 0.735929,
+        "18496": 0.735805,
+        "31820": 0.73547,
+        "21720": 0.732449,
+        "25264": 0.731487,
+        "16436": 0.730582,
+        "27036": 0.730451,
+        "22648": 0.727563,
+        "8764": 0.726838,
+        "32024": 0.726676,
+        "19484": 0.722487,
+        "8204": 0.003599,
+        "28036": 0.002322,
+        "6840": 0.001518,
+        "19660": 0.000362,
+        "16016": 0.000253,
+        "29428": 3.7e-05
+      },
+      "scheduler_wait_thread_s_by_reason": {
+        "Executive": 3.959741,
+        "WrPageIn": 0.017325,
+        "WrQueue": 0.981283,
+        "UserRequest": 1.900617,
+        "WrAlertByThreadId": 1.8107219999999997
+      },
+      "scheduler_wait_thread_s_by_thread_reason": {
+        "18496": {
+          "Executive": 0.2452,
+          "WrPageIn": 0.001031
+        },
+        "28088": {
+          "Executive": 0.242683,
+          "WrPageIn": 0.001335
+        },
+        "12504": {
+          "Executive": 0.245666,
+          "WrPageIn": 0.001047
+        },
+        "31820": {
+          "Executive": 0.244155,
+          "WrPageIn": 0.00131
+        },
+        "27036": {
+          "Executive": 0.247385,
+          "WrPageIn": 0.002016
+        },
+        "26596": {
+          "Executive": 0.241987,
+          "WrPageIn": 0.000625
+        },
+        "21720": {
+          "Executive": 0.246531,
+          "WrPageIn": 0.001188
+        },
+        "22648": {
+          "Executive": 0.253334,
+          "WrPageIn": 0.00128
+        },
+        "19484": {
+          "Executive": 0.258267,
+          "WrPageIn": 0.001083
+        },
+        "25264": {
+          "Executive": 0.248217,
+          "WrPageIn": 0.000157
+        },
+        "32248": {
+          "Executive": 0.236973,
+          "WrPageIn": 0.000625
+        },
+        "16436": {
+          "Executive": 0.25057,
+          "WrPageIn": 0.000947
+        },
+        "22540": {
+          "Executive": 0.240737,
+          "WrPageIn": 0.00166
+        },
+        "8764": {
+          "Executive": 0.258711,
+          "WrPageIn": 0.000462,
+          "WrAlertByThreadId": 9e-06
+        },
+        "18576": {
+          "Executive": 0.245131,
+          "WrPageIn": 0.000558
+        },
+        "32024": {
+          "Executive": 0.254194,
+          "WrPageIn": 0.002001
+        },
+        "6840": {
+          "WrQueue": 0.981283
+        },
+        "28036": {
+          "UserRequest": 0.980396
+        },
+        "16016": {
+          "UserRequest": 0.920221
+        },
+        "19660": {
+          "WrAlertByThreadId": 0.525009
+        },
+        "8204": {
+          "WrAlertByThreadId": 0.979822,
+          "Executive": 0.0
+        },
+        "29428": {
+          "WrAlertByThreadId": 0.305882
+        }
+      },
+      "ready_queue_thread_s": 0.295919,
+      "hard_fault_count": 16958,
+      "hard_fault_bytes": 807403520,
+      "hard_fault_io_thread_s": 4.4826929999999985,
+      "hard_fault_io_any_thread_union_s": 0.43325,
+      "hard_fault_io_s_by_thread": {
+        "12504": 0.2779939999999995,
+        "8764": 0.2936270000000004,
+        "32248": 0.26817700000000005,
+        "22540": 0.2724580000000002,
+        "27036": 0.2804289999999998,
+        "19484": 0.2929820000000003,
+        "18496": 0.27826199999999945,
+        "22648": 0.28674399999999994,
+        "31820": 0.2764799999999996,
+        "16436": 0.2839640000000002,
+        "18576": 0.27715299999999987,
+        "28088": 0.27431300000000025,
+        "26596": 0.2742579999999999,
+        "25264": 0.2817070000000001,
+        "21720": 0.27871099999999976,
+        "32024": 0.2854339999999994
+      },
+      "hard_fault_correlated_offcpu_thread_s": 3.9597409999999997,
+      "hard_fault_correlated_offcpu_any_thread_union_s": 0.426018,
+      "hard_fault_bytes_by_file": {
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 103518208,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 386260992,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 78401536,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 239222784
+      },
+      "sample_counts_by_module": {
+        "ggml-cpu-alderlake.dll": 1690,
+        "ntoskrnl.exe": 2544,
+        "iaStorVD.sys": 41,
+        "libomp.dll": 6402,
+        "nvpcf.sys": 1,
+        "FLTMGR.SYS": 19,
+        "Ntfs.sys": 24,
+        "ntdll.dll": 374,
+        "nvcuda64.dll": 309,
+        "KernelBase.dll": 106,
+        "fileinfo.sys": 3,
+        "partmgr.sys": 4,
+        "CLASSPNP.SYS": 6,
+        "storport.sys": 23,
+        "afd.sys": 1,
+        "nvlddmkm.sys": 19,
+        "dxgkrnl.sys": 1,
+        "ucrtbase.dll": 8,
+        "Unknown": 1,
+        "intelppm.sys": 2,
+        "win32u.dll": 1,
+        "Wof.sys": 4,
+        "kernel32.dll": 6,
+        "fvevol.sys": 20,
+        "vcruntime140.dll": 8,
+        "iorate.sys": 4,
+        "volsnap.sys": 2,
+        "ACPI.sys": 1,
+        "volmgr.sys": 1,
+        "disk.sys": 2,
+        "dxgmms2.sys": 2,
+        "ggml-base.dll": 2,
+        "llama-common.dll": 1,
+        "volume.sys": 1,
+        "llama-server-impl.dll": 1,
+        "wcifs.sys": 1
+      },
+      "sample_counts_by_module_during_any_fault_io": {
+        "ggml-cpu-alderlake.dll": 369,
+        "ntoskrnl.exe": 1608,
+        "iaStorVD.sys": 41,
+        "libomp.dll": 518,
+        "nvpcf.sys": 1,
+        "FLTMGR.SYS": 18,
+        "Ntfs.sys": 22,
+        "fileinfo.sys": 3,
+        "partmgr.sys": 4,
+        "CLASSPNP.SYS": 6,
+        "storport.sys": 23,
+        "ntdll.dll": 36,
+        "Wof.sys": 4,
+        "nvlddmkm.sys": 1,
+        "fvevol.sys": 20,
+        "iorate.sys": 4,
+        "KernelBase.dll": 11,
+        "volsnap.sys": 2,
+        "ACPI.sys": 1,
+        "volmgr.sys": 1,
+        "disk.sys": 2,
+        "ggml-base.dll": 2,
+        "vcruntime140.dll": 2,
+        "volume.sys": 1,
+        "llama-server-impl.dll": 1,
+        "wcifs.sys": 1
+      },
+      "sample_counts_by_module_without_fault_io": {
+        "ggml-cpu-alderlake.dll": 1321,
+        "libomp.dll": 5884,
+        "ntoskrnl.exe": 936,
+        "ntdll.dll": 338,
+        "nvcuda64.dll": 309,
+        "KernelBase.dll": 95,
+        "afd.sys": 1,
+        "nvlddmkm.sys": 18,
+        "dxgkrnl.sys": 1,
+        "ucrtbase.dll": 8,
+        "Unknown": 1,
+        "intelppm.sys": 2,
+        "win32u.dll": 1,
+        "kernel32.dll": 6,
+        "vcruntime140.dll": 6,
+        "FLTMGR.SYS": 1,
+        "dxgmms2.sys": 2,
+        "Ntfs.sys": 2,
+        "llama-common.dll": 1
+      },
+      "sample_counts_top_addresses": [
+        [
+          "libomp.dll!0x00007fff8821da7b",
+          4408
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c4db4",
+          583
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f42",
+          527
+        ],
+        [
+          "libomp.dll!0x00007fff8821da81",
+          326
+        ],
+        [
+          "ntdll.dll!0x00007fffa8cc23d4",
+          289
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476eb8",
+          285
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000ea",
+          274
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000f0",
+          215
+        ],
+        [
+          "libomp.dll!0x00007fff8821dd43",
+          203
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd74",
+          151
+        ],
+        [
+          "nvcuda64.dll!0x00007ffef61c3cbe",
+          145
+        ],
+        [
+          "libomp.dll!0x00007fff8821d9a2",
+          101
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd70",
+          83
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476ec0",
+          82
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b848f868",
+          65
+        ],
+        [
+          "libomp.dll!0x00007fff8821dab7",
+          63
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd7e",
+          62
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd77",
+          56
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c0a9c",
+          53
+        ],
+        [
+          "libomp.dll!0x00007fff8821da88",
+          49
+        ],
+        [
+          "libomp.dll!0x00007fff8821d987",
+          49
+        ],
+        [
+          "libomp.dll!0x00007fff88244dc0",
+          47
+        ],
+        [
+          "libomp.dll!0x00007fff8821dae8",
+          45
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f65",
+          45
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8481540",
+          43
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00191",
+          40
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f25",
+          38
+        ],
+        [
+          "libomp.dll!0x00007fff8821daa9",
+          37
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8493095",
+          32
+        ],
+        [
+          "libomp.dll!0x00007fff8821d9a6",
+          32
+        ]
+      ],
+      "switch_out_counts_by_state_reason": {
+        "Waiting/Executive": 16958,
+        "Standby/WrQuantumEnd": 2619,
+        "Standby/WrDispatchInt": 1218,
+        "Running/WrQuantumEnd": 193,
+        "Ready/WrYieldExecution": 27957,
+        "Running/WrYieldExecution": 959,
+        "Standby/WrYieldExecution": 1902,
+        "Ready/WrDispatchInt": 1964,
+        "Ready/WrQuantumEnd": 19,
+        "Waiting/WrPageIn": 163,
+        "Running/WrDispatchInt": 513,
+        "Waiting/WrAlertByThreadId": 97,
+        "Waiting/UserRequest": 81,
+        "Waiting/WrQueue": 62,
+        "Ready/WrPreempted": 4,
+        "DeferredReady/WrYieldExecution": 10,
+        "Standby/WrPreempted": 1,
+        "DeferredReady/WrDispatchInt": 5,
+        "DeferredReady/WrQuantumEnd": 5,
+        "Standby/WrDeferredPreempt": 1,
+        "Running/WrPreempted": 1,
+        "DeferredReady/WrPageIn": 1
+      }
+    },
+    "decode_45s": {
+      "wall_s": 1.0,
+      "scheduled_cpu_s": 11.446431,
+      "average_running_logical_cpus": 11.446431,
+      "cpu_s_by_thread": {
+        "21720": 0.729002,
+        "26596": 0.723765,
+        "18576": 0.723366,
+        "22540": 0.723196,
+        "16436": 0.719891,
+        "25264": 0.718591,
+        "32248": 0.717484,
+        "12504": 0.716432,
+        "31820": 0.716163,
+        "28088": 0.715841,
+        "18496": 0.715026,
+        "27036": 0.714448,
+        "22648": 0.712786,
+        "32024": 0.705996,
+        "19484": 0.698111,
+        "8764": 0.686371,
+        "8204": 0.004014,
+        "28036": 0.002536,
+        "6840": 0.001722,
+        "19660": 0.001381,
+        "16016": 0.000273,
+        "29428": 3.6e-05
+      },
+      "scheduler_wait_thread_s_by_reason": {
+        "Executive": 4.20784,
+        "WrPageIn": 0.023298,
+        "WrQueue": 0.991371,
+        "UserRequest": 1.901019,
+        "WrAlertByThreadId": 1.376009
+      },
+      "scheduler_wait_thread_s_by_thread_reason": {
+        "18496": {
+          "Executive": 0.264309,
+          "WrPageIn": 0.001727
+        },
+        "28088": {
+          "Executive": 0.258908,
+          "WrPageIn": 0.001128
+        },
+        "12504": {
+          "Executive": 0.263184,
+          "WrPageIn": 0.001041
+        },
+        "31820": {
+          "Executive": 0.260432,
+          "WrPageIn": 0.001285
+        },
+        "27036": {
+          "Executive": 0.260888,
+          "WrPageIn": 0.00164
+        },
+        "26596": {
+          "Executive": 0.252813,
+          "WrPageIn": 0.001491
+        },
+        "21720": {
+          "Executive": 0.249514,
+          "WrPageIn": 0.002514
+        },
+        "22648": {
+          "Executive": 0.264643,
+          "WrPageIn": 0.001674
+        },
+        "19484": {
+          "Executive": 0.279367,
+          "WrPageIn": 0.001148
+        },
+        "25264": {
+          "Executive": 0.258638,
+          "WrPageIn": 0.001329
+        },
+        "32248": {
+          "Executive": 0.26176,
+          "WrPageIn": 0.002417
+        },
+        "16436": {
+          "Executive": 0.256213,
+          "WrPageIn": 0.001737
+        },
+        "22540": {
+          "Executive": 0.256085,
+          "WrPageIn": 0.00077
+        },
+        "8764": {
+          "Executive": 0.29437,
+          "WrPageIn": 0.00095,
+          "WrAlertByThreadId": 2e-06
+        },
+        "18576": {
+          "Executive": 0.254387,
+          "WrPageIn": 0.000684
+        },
+        "32024": {
+          "Executive": 0.272317,
+          "WrPageIn": 0.001763
+        },
+        "6840": {
+          "WrQueue": 0.991371
+        },
+        "28036": {
+          "UserRequest": 0.990931
+        },
+        "16016": {
+          "UserRequest": 0.910088
+        },
+        "19660": {
+          "WrAlertByThreadId": 0.303197
+        },
+        "8204": {
+          "WrAlertByThreadId": 0.767603,
+          "Executive": 1.2e-05
+        },
+        "29428": {
+          "WrAlertByThreadId": 0.305207
+        }
+      },
+      "ready_queue_thread_s": 0.334994,
+      "hard_fault_count": 18131,
+      "hard_fault_bytes": 862154752,
+      "hard_fault_io_thread_s": 4.796268999999998,
+      "hard_fault_io_any_thread_union_s": 0.503109,
+      "hard_fault_io_s_by_thread": {
+        "25264": 0.2953390000000003,
+        "22540": 0.29126299999999955,
+        "18576": 0.2906540000000001,
+        "28088": 0.2956010000000001,
+        "32024": 0.30811099999999947,
+        "12504": 0.29907999999999973,
+        "16436": 0.29362899999999986,
+        "8764": 0.3370160000000001,
+        "19484": 0.31849299999999936,
+        "18496": 0.3009820000000004,
+        "27036": 0.2971229999999995,
+        "31820": 0.2969129999999997,
+        "21720": 0.2841879999999998,
+        "22648": 0.3019999999999998,
+        "26596": 0.2882869999999999,
+        "32248": 0.2975900000000001
+      },
+      "hard_fault_correlated_offcpu_thread_s": 4.207828,
+      "hard_fault_correlated_offcpu_any_thread_union_s": 0.491713,
+      "hard_fault_bytes_by_file": {
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 559988736,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 127836160,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 147316736,
+        "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 27013120
+      },
+      "sample_counts_by_module": {
+        "ntoskrnl.exe": 2675,
+        "fvevol.sys": 21,
+        "ggml-cpu-alderlake.dll": 2581,
+        "libomp.dll": 5361,
+        "ntdll.dll": 332,
+        "KernelBase.dll": 85,
+        "fileinfo.sys": 1,
+        "ggml-base.dll": 4,
+        "iaStorVD.sys": 29,
+        "CLASSPNP.SYS": 8,
+        "FLTMGR.SYS": 21,
+        "hrdevmon.sys": 2,
+        "Unknown": 1,
+        "vcruntime140.dll": 22,
+        "wcifs.sys": 2,
+        "storport.sys": 26,
+        "iorate.sys": 3,
+        "Ntfs.sys": 23,
+        "ucrtbase.dll": 10,
+        "ACPI.sys": 4,
+        "nvlddmkm.sys": 21,
+        "partmgr.sys": 1,
+        "nvcuda64.dll": 159,
+        "mswsock.dll": 1,
+        "kernel32.dll": 7,
+        "cudart64_12.dll": 1,
+        "volmgr.sys": 2,
+        "intelppm.sys": 1,
+        "dxgmms2.sys": 1
+      },
+      "sample_counts_by_module_during_any_fault_io": {
+        "ntoskrnl.exe": 1893,
+        "fvevol.sys": 21,
+        "ggml-cpu-alderlake.dll": 515,
+        "libomp.dll": 896,
+        "ntdll.dll": 54,
+        "KernelBase.dll": 14,
+        "fileinfo.sys": 1,
+        "ggml-base.dll": 1,
+        "iaStorVD.sys": 29,
+        "CLASSPNP.SYS": 8,
+        "FLTMGR.SYS": 21,
+        "hrdevmon.sys": 2,
+        "wcifs.sys": 2,
+        "storport.sys": 26,
+        "iorate.sys": 3,
+        "Ntfs.sys": 23,
+        "ACPI.sys": 4,
+        "partmgr.sys": 1,
+        "vcruntime140.dll": 5,
+        "volmgr.sys": 2,
+        "nvlddmkm.sys": 2,
+        "intelppm.sys": 1,
+        "dxgmms2.sys": 1
+      },
+      "sample_counts_by_module_without_fault_io": {
+        "libomp.dll": 4465,
+        "ntoskrnl.exe": 782,
+        "ntdll.dll": 278,
+        "Unknown": 1,
+        "ggml-cpu-alderlake.dll": 2066,
+        "vcruntime140.dll": 17,
+        "ucrtbase.dll": 10,
+        "KernelBase.dll": 71,
+        "nvlddmkm.sys": 19,
+        "ggml-base.dll": 3,
+        "nvcuda64.dll": 159,
+        "mswsock.dll": 1,
+        "kernel32.dll": 7,
+        "cudart64_12.dll": 1
+      },
+      "sample_counts_top_addresses": [
+        [
+          "libomp.dll!0x00007fff8821da7b",
+          3533
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f42",
+          857
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c4db4",
+          486
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000ea",
+          353
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b000f0",
+          306
+        ],
+        [
+          "libomp.dll!0x00007fff8821da81",
+          304
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476eb8",
+          303
+        ],
+        [
+          "libomp.dll!0x00007fff8821dd43",
+          263
+        ],
+        [
+          "ntdll.dll!0x00007fffa8cc23d4",
+          234
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd70",
+          92
+        ],
+        [
+          "libomp.dll!0x00007fff8821d9a2",
+          92
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd74",
+          83
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8476ec0",
+          81
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f65",
+          76
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b848f868",
+          74
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b88c0a9c",
+          71
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd7e",
+          66
+        ],
+        [
+          "nvcuda64.dll!0x00007ffef61c3cbe",
+          65
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00f25",
+          59
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00191",
+          56
+        ],
+        [
+          "libomp.dll!0x00007fff8821dab7",
+          52
+        ],
+        [
+          "libomp.dll!0x00007fff8821da88",
+          43
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8493095",
+          42
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00183",
+          42
+        ],
+        [
+          "libomp.dll!0x00007fff8821dae8",
+          40
+        ],
+        [
+          "ntoskrnl.exe!0xfffff802b8481540",
+          40
+        ],
+        [
+          "ggml-cpu-alderlake.dll!0x00007fff68b00188",
+          40
+        ],
+        [
+          "ntdll.dll!0x00007fffa8c30fd4",
+          39
+        ],
+        [
+          "libomp.dll!0x00007fff8821dab2",
+          37
+        ],
+        [
+          "libomp.dll!0x00007fff881fcd77",
+          37
+        ]
+      ],
+      "switch_out_counts_by_state_reason": {
+        "Waiting/Executive": 18121,
+        "Standby/WrQuantumEnd": 3030,
+        "Waiting/WrPageIn": 206,
+        "Ready/WrYieldExecution": 25749,
+        "Ready/WrDispatchInt": 2542,
+        "Running/WrDispatchInt": 628,
+        "Standby/WrDispatchInt": 1526,
+        "Standby/WrYieldExecution": 1906,
+        "Running/WrYieldExecution": 864,
+        "Waiting/UserRequest": 79,
+        "Waiting/WrQueue": 63,
+        "Running/WrQuantumEnd": 225,
+        "DeferredReady/WrDispatchInt": 8,
+        "Ready/WrDeferredPreempt": 1,
+        "DeferredReady/WrYieldExecution": 16,
+        "Ready/WrQuantumEnd": 21,
+        "Waiting/WrAlertByThreadId": 117,
+        "DeferredReady/WrQuantumEnd": 3,
+        "Ready/WrPreempted": 3,
+        "Standby/WrPreempted": 3,
+        "Standby/WrDeferredPreempt": 1
+      }
+    }
+  }
+}

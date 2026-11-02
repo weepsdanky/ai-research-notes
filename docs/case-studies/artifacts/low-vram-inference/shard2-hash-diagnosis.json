@@ -1,0 +1,8 @@
+{
+  "path": "UD-Q4_K_XL/DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf",
+  "size": 48935523072,
+  "expected_sha256": "1f7a6e3b8f2f4eb37ffb261c1e0d1e9784a9bb53f34a576cc475d55b67c275b8",
+  "actual_sha256": "4e198ef6f451f7a4d620fafa898f238b647188b6d788337fa1564722918c1971",
+  "seconds": 124.6151933670044,
+  "mtime_ns": 1791535701273641200
+}

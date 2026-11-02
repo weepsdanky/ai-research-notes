@@ -21,5 +21,5 @@
 <details><summary>训练 loss 继续下降，是否足以决定再训练 30k？</summary><p class="answer">不足。必须看高噪声 bucket、固定 seed 自由生成和文本交换；总 loss 会把关键失败平均掉。</p></details>
 <details><summary>下一次最小、信息量最大的架构变更是什么？</summary><p class="answer">单 clip 下只把 patch 1→2→3，其余完全固定；它能直接检验空间 token 是否过粗。</p></details>
 
-<p>一手阅读从 <a href="https://arxiv.org/abs/2006.11239">DDPM</a> 的 q-sample/reverse step 开始，再读 <a href="https://arxiv.org/abs/2212.09748">DiT</a> 的 patchify 与 adaLN-Zero；完整顺序见<a href="../docs/case-studies/video-dit-moving-mosaic-diagnosis-and-next-actions.md">行动文档</a>，速查见<a href="../reference/video-dit-moving-mosaic-debug-ladder.html">排查阶梯</a>。不清楚的地方继续问我。</p>
+<p>一手阅读从 <a href="https://arxiv.org/abs/2006.11239">DDPM</a> 的 q-sample/reverse step 开始，再读 <a href="https://arxiv.org/abs/2212.09748">DiT</a> 的 patchify 与 adaLN-Zero；完整顺序见<a href="../docs/case-studies/video-dit/04-phase-2-moving-mosaic-diagnosis-and-next-actions.md">行动文档</a>，速查见<a href="../reference/video-dit-moving-mosaic-debug-ladder.html">排查阶梯</a>。不清楚的地方继续问我。</p>
 </main></body></html>

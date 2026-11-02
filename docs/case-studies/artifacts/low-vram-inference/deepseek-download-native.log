@@ -1,0 +1,439 @@
+Downloading DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf expected bytes 5256608
+Hashing DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf
+VERIFIED DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf 0cecd47692e23e39de16598a4b40c4e1e53a3f2f56a965cc419fc136e9801494
+Downloading DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf expected bytes 48935523072
+Downloading DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf expected bytes 5256608
+Hashing DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf
+VERIFIED DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf 0cecd47692e23e39de16598a4b40c4e1e53a3f2f56a965cc419fc136e9801494
+Downloading DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf expected bytes 48935523072
+Traceback (most recent call last):
+  File "download_deepseek.py", line 74, in <module>
+    files = [{'path': 'quant/a.gguf', 'size': 10}, {'path': 'quant/b.gguf', 'size': 20}]
+  File "download_deepseek.py", line 41, in main
+    process = subprocess.Popen(command)
+KeyboardInterrupt
+Queued DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf expected bytes 48935523072
+Queued DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf expected bytes 48980787136
+Queued DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf expected bytes 49999168416
+Queued DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf expected bytes 7174505088
+curl: (18) transfer closed with 46480635761 bytes remaining to read
+curl: (18) transfer closed with 43262970140 bytes remaining to read
+Traceback (most recent call last):
+  File "download_deepseek.py", line 82, in <module>
+    main()
+  File "download_deepseek.py", line 47, in main
+    time.sleep(2)
+KeyboardInterrupt
+Hashing DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 5672552420 6209423331
+VERIFIED DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf 0cecd47692e23e39de16598a4b40c4e1e53a3f2f56a965cc419fc136e9801494
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 2500151375 3037022286
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 3037022287 3573893198
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 6063671268 6600542179
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 3573893199 4110764110
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 6600542180 7137413091
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 6790665142 7327536053
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 4110764111 4647635022
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 7327536054 7864406965
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 4647635023 5184505934
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 7695779575 8232650486
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 4801775695 5338646606
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 8232650487 8769521398
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 5051336783 5588207694
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 8381548279 8918419190
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 5076502607 5613373518
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 8398325495 8935196406
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 5613373519 6150244430
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 8835581687 9372452598
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 4
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 6065338015 6602208926
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 8859170632 9396041543
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 6428145311 6965016222
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 5
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 9151723336 9688594247
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 6431291039 6968161950
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 4
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 6690208459 7227079370
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 9688594248 10225465159
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 5
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 6902020811 7438891722
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 10225465160 10762336071
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 6
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 7363162278 7900033189
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 10762336072 11299206983
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 7900033190 8436904101
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 11292136468 11829007379
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 8436904102 8973775013
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 11345613844 11882484755
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 8693805222 9230676133
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 9104269826 9641140737
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 11672210628 12209081539
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 9641140738 10178011649
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 12209081540 12745952451
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 10178011650 10714882561
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 1
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 12350228636 12887099547
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 10211758111 10748629022
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 12887099548 13423970459
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 10355413023 10892283934
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 13423970460 13960841371
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 10466562079 11003432990
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 13440747676 13977618587
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf ConnectionError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 13462690420 13999561331
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11003432991 11540303902
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 13999561332 14536432243
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11540303903 12077174814
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 14536432244 15073303155
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11777005125 12313876036
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11924449855 12461320766
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15073303156 15610174067
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12058892923 12595763834
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12595763835 13132634746
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15610174068 16147044979
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15837715060 16374585971
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12796041851 13332912762
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 4
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 5
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 6
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 7
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 8
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 9
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 10
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 1
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 2
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 3
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 4
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 11
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 5
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 6
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 12
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 7
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 13
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 8
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 9
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 14
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 10
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 15
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 11
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 16
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 12
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 17
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 13
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 18
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 14
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 19
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 15
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 20
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 16374585972 16911456883
+RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 16
+Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214
+Traceback (most recent call last):
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 1344, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1338, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1384, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1333, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1093, in _send_output
+    self.send(msg)
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1037, in send
+    self.connect()
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1472, in connect
+    super().connect()
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\http\client.py", line 1003, in connect
+    self.sock = self._create_connection(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\socket.py", line 850, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\ai-research\low-vram-inference\download_deepseek.py", line 136, in <module>
+    main()
+  File "D:\ai-research\low-vram-inference\download_deepseek.py", line 105, in main
+    verified.append(future.result())
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\ai-research\low-vram-inference\download_deepseek.py", line 49, in download
+    with urllib.request.urlopen(request, timeout=30) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 515, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 1392, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\marks\AppData\Roaming\uv\python\cpython-3.12.9-windows-x86_64-none\Lib\urllib\request.py", line 1347, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£>
+H a s h i n g   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 1 - o f - 0 0 0 0 5 . g g u f  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 6 3 7 4 5 8 5 9 7 2   1 6 9 1 1 4 5 6 8 8 3  
+ V E R I F I E D   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 1 - o f - 0 0 0 0 5 . g g u f   0 c e c d 4 7 6 9 2 e 2 3 e 3 9 d e 1 6 5 9 8 a 4 b 4 0 c 4 e 1 e 5 3 a 3 f 2 f 5 6 a 9 6 5 c c 4 1 9 f c 1 3 6 e 9 8 0 1 4 9 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 3 1 4 0 7 8 1 3 0 3   1 3 6 7 7 6 5 2 2 1 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 3 6 7 7 6 5 2 2 1 5   1 4 2 1 4 5 2 3 1 2 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 6 9 1 1 4 5 6 8 8 4   1 7 4 4 8 3 2 7 7 9 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 4 2 1 4 5 2 3 1 2 7   1 4 7 5 1 3 9 4 0 3 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 7 4 4 8 3 2 7 7 9 6   1 7 9 8 5 1 9 8 7 0 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 4 7 5 1 3 9 4 0 3 9   1 5 2 8 8 2 6 4 9 5 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 7 9 8 5 1 9 8 7 0 8   1 8 5 2 2 0 6 9 6 1 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 5 2 8 8 2 6 4 9 5 1   1 5 8 2 5 1 3 5 8 6 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 8 5 2 2 0 6 9 6 2 0   1 9 0 5 8 9 4 0 5 3 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 5 8 2 5 1 3 5 8 6 3   1 6 3 6 2 0 0 6 7 7 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 9 0 5 8 9 4 0 5 3 2   1 9 5 9 5 8 1 1 4 4 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 6 3 6 2 0 0 6 7 7 5   1 6 8 9 8 8 7 7 6 8 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   1 9 5 9 5 8 1 1 4 4 4   2 0 1 3 2 6 8 2 3 5 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 6 8 9 8 8 7 7 6 8 7   1 7 4 3 5 7 4 8 5 9 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 0 1 3 2 6 8 2 3 5 6   2 0 6 6 9 5 5 3 2 6 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 7 4 3 5 7 4 8 5 9 9   1 7 9 7 2 6 1 9 5 1 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 0 6 6 9 5 5 3 2 6 8   2 1 2 0 6 4 2 4 1 7 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 7 9 7 2 6 1 9 5 1 1   1 8 5 0 9 4 9 0 4 2 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 1 2 0 6 4 2 4 1 8 0   2 1 7 4 3 2 9 5 0 9 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 8 5 0 9 4 9 0 4 2 3   1 9 0 4 6 3 6 1 3 3 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 9 0 4 6 3 6 1 3 3 5   1 9 5 8 3 2 3 2 2 4 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 1 7 4 3 2 9 5 0 9 2   2 2 2 8 0 1 6 6 0 0 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   1 9 5 8 3 2 3 2 2 4 7   2 0 1 2 0 1 0 3 1 5 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 2 2 8 0 1 6 6 0 0 4   2 2 8 1 7 0 3 6 9 1 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 0 1 2 0 1 0 3 1 5 9   2 0 6 5 6 9 7 4 0 7 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 2 8 1 7 0 3 6 9 1 6   2 3 3 5 3 9 0 7 8 2 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 0 6 5 6 9 7 4 0 7 1   2 1 1 9 3 8 4 4 9 8 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 3 3 5 3 9 0 7 8 2 8   2 3 8 9 0 7 7 8 7 3 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 1 1 9 3 8 4 4 9 8 3   2 1 7 3 0 7 1 5 8 9 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 3 8 9 0 7 7 8 7 4 0   2 4 4 2 7 6 4 9 6 5 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 1 7 3 0 7 1 5 8 9 5   2 2 2 6 7 5 8 6 8 0 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 2 2 6 7 5 8 6 8 0 7   2 2 8 0 4 4 5 7 7 1 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 4 4 2 7 6 4 9 6 5 2   2 4 9 6 4 5 2 0 5 6 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 2 8 0 4 4 5 7 7 1 9   2 3 3 4 1 3 2 8 6 3 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 4 9 6 4 5 2 0 5 6 4   2 5 5 0 1 3 9 1 4 7 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 3 3 4 1 3 2 8 6 3 1   2 3 8 7 8 1 9 9 5 4 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 5 5 0 1 3 9 1 4 7 6   2 6 0 3 8 2 6 2 3 8 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 3 8 7 8 1 9 9 5 4 3   2 4 4 1 5 0 7 0 4 5 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 6 0 3 8 2 6 2 3 8 8   2 6 5 7 5 1 3 3 2 9 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 4 4 1 5 0 7 0 4 5 5   2 4 9 5 1 9 4 1 3 6 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 6 5 7 5 1 3 3 3 0 0   2 7 1 1 2 0 0 4 2 1 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 4 9 5 1 9 4 1 3 6 7   2 5 4 8 8 8 1 2 2 7 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 7 1 1 2 0 0 4 2 1 2   2 7 6 4 8 8 7 5 1 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 5 4 8 8 8 1 2 2 7 9   2 6 0 2 5 6 8 3 1 9 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 7 6 4 8 8 7 5 1 2 4   2 8 1 8 5 7 4 6 0 3 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 6 0 2 5 6 8 3 1 9 1   2 6 5 6 2 5 5 4 1 0 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 8 1 8 5 7 4 6 0 3 6   2 8 7 2 2 6 1 6 9 4 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 6 5 6 2 5 5 4 1 0 3   2 7 0 9 9 4 2 5 0 1 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 8 7 2 2 6 1 6 9 4 8   2 9 2 5 9 4 8 7 8 5 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 7 0 9 9 4 2 5 0 1 5   2 7 6 3 6 2 9 5 9 2 6  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   C o n n e c t i o n E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 9 1 3 2 6 1 0 1 6 4   2 9 6 6 9 4 8 1 0 7 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 7 4 0 2 2 6 6 7 8 4   2 7 9 3 9 1 3 7 6 9 5  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   2  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 7 7 0 7 4 0 2 4 0 0   2 8 2 4 4 2 7 3 3 1 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 9 4 3 5 6 4 8 6 2 8   2 9 9 7 2 5 1 9 5 3 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 8 2 4 4 2 7 3 3 1 2   2 8 7 8 1 1 4 4 2 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   2 9 9 7 2 5 1 9 5 4 0   3 0 5 0 9 3 9 0 4 5 1  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 0 3 7 8 3 1 8 4 5 2   3 0 9 1 5 1 8 9 3 6 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 8 6 5 2 1 6 9 3 7 6   2 9 1 8 9 0 4 0 2 8 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 0 9 1 5 1 8 9 3 6 4   3 1 4 5 2 0 6 0 2 7 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 9 1 8 9 0 4 0 2 8 8   2 9 7 2 5 9 1 1 1 9 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   2 9 7 2 5 9 1 1 2 0 0   3 0 2 6 2 7 8 2 1 1 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 1 4 5 2 0 6 0 2 7 6   3 1 9 8 8 9 3 1 1 8 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 0 2 6 2 7 8 2 1 1 2   3 0 7 9 9 6 5 3 0 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 1 9 8 8 9 3 1 1 8 8   3 2 5 2 5 8 0 2 0 9 9  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   1  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   1  
+ R a n g e R a n g e     D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 1 9 8 8 9 3 1 1 8 8   3 2 5 2 5 8 0 2 0 9 9  
+ D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 0 2 6 2 7 8 2 1 1 2   3 0 7 9 9 6 5 3 0 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 2 5 2 5 8 0 2 1 0 0   3 3 0 6 2 6 7 3 0 1 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 0 7 9 9 6 5 3 0 2 4   3 1 3 3 6 5 2 3 9 3 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 3 0 6 2 6 7 3 0 1 2   3 3 5 9 9 5 4 3 9 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 1 3 3 6 5 2 3 9 3 6   3 1 8 7 3 3 9 4 8 4 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 1 8 7 3 3 9 4 8 4 8   3 2 4 1 0 2 6 5 7 5 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 3 5 9 9 5 4 3 9 2 4   3 4 1 3 6 4 1 4 8 3 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 2 4 1 0 2 6 5 7 6 0   3 2 9 4 7 1 3 6 6 7 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 4 1 3 6 4 1 4 8 3 6   3 4 6 7 3 2 8 5 7 4 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 4 6 7 3 2 8 5 7 4 8   3 5 2 1 0 1 5 6 6 5 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 2 9 4 7 1 3 6 6 7 2   3 3 4 8 4 0 0 7 5 8 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 3 4 8 4 0 0 7 5 8 4   3 4 0 2 0 8 7 8 4 9 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 5 2 1 0 1 5 6 6 6 0   3 5 7 4 7 0 2 7 5 7 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 4 0 2 0 8 7 8 4 9 6   3 4 5 5 7 7 4 9 4 0 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 5 7 4 7 0 2 7 5 7 2   3 6 2 8 3 8 9 8 4 8 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 4 5 5 7 7 4 9 4 0 8   3 5 0 9 4 6 2 0 3 1 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 6 2 8 3 8 9 8 4 8 4   3 6 8 2 0 7 6 9 3 9 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 6 8 2 0 7 6 9 3 9 6   3 7 3 5 7 6 4 0 3 0 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 5 0 9 4 6 2 0 3 2 0   3 5 6 3 1 4 9 1 2 3 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 5 6 3 1 4 9 1 2 3 2   3 6 1 6 8 3 6 2 1 4 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 7 3 5 7 6 4 0 3 0 8   3 7 8 9 4 5 1 1 2 1 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 6 1 6 8 3 6 2 1 4 4   3 6 7 0 5 2 3 3 0 5 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 7 8 9 4 5 1 1 2 2 0   3 8 4 3 1 3 8 2 1 3 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 6 7 0 5 2 3 3 0 5 6   3 7 2 4 2 1 0 3 9 6 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 8 4 3 1 3 8 2 1 3 2   3 8 9 6 8 2 5 3 0 4 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 8 9 6 8 2 5 3 0 4 4   3 9 5 0 5 1 2 3 9 5 5  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   C o n n e c t i o n E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 7 1 7 5 3 7 3 5 5 3   3 7 7 1 2 2 4 4 4 6 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   3 9 5 0 5 1 2 3 9 5 6   4 0 0 4 1 9 9 4 8 6 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 7 7 1 2 2 4 4 4 6 5   3 8 2 4 9 1 1 5 3 7 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 0 0 4 1 9 9 4 8 6 8   4 0 5 7 8 8 6 5 7 7 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 8 2 4 9 1 1 5 3 7 7   3 8 7 8 5 9 8 6 2 8 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 0 5 7 8 8 6 5 7 8 0   4 1 1 1 5 7 3 6 6 9 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 8 7 8 5 9 8 6 2 8 9   3 9 3 2 2 8 5 7 2 0 0  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 0 9 8 3 6 1 6 1 1 6   4 1 5 2 0 4 8 7 0 2 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 9 1 9 3 8 8 2 3 5 3   3 9 7 3 0 7 5 3 2 6 4  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   2  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 0 9 8 3 6 1 6 1 1 6   4 1 5 2 0 4 8 7 0 2 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 9 1 9 3 8 8 2 3 5 3   3 9 7 3 0 7 5 3 2 6 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 9 7 3 0 7 5 3 2 6 5   4 0 2 6 7 6 2 4 1 7 6  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 9 7 3 0 7 5 3 2 6 5   4 0 2 6 7 6 2 4 1 7 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 1 5 2 0 4 8 7 0 2 8   4 2 0 5 7 3 5 7 9 3 9  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   2  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   3 9 7 3 0 7 5 3 2 6 5   4 0 2 6 7 6 2 4 1 7 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 1 5 2 0 4 8 7 0 2 8   4 2 0 5 7 3 5 7 9 3 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 2 0 5 7 3 5 7 9 4 0   4 2 5 9 4 2 2 8 8 5 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 0 2 6 7 6 2 4 1 7 7   4 0 8 0 4 4 9 5 0 8 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 2 5 9 4 2 2 8 8 5 2   4 3 1 3 1 0 9 9 7 6 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 0 8 0 4 4 9 5 0 8 9   4 1 3 4 1 3 6 6 0 0 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 3 1 3 1 0 9 9 7 6 4   4 3 6 6 7 9 7 0 6 7 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 1 3 4 1 3 6 6 0 0 1   4 1 8 7 8 2 3 6 9 1 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 3 6 6 7 9 7 0 6 7 6   4 4 2 0 4 8 4 1 5 8 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 1 8 7 8 2 3 6 9 1 3   4 2 4 1 5 1 0 7 8 2 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 4 2 0 4 8 4 1 5 8 8   4 4 7 4 1 7 1 2 4 9 9  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 2 4 1 5 1 0 7 8 2 5   4 2 9 5 1 9 7 8 7 3 6  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 4 7 4 1 7 1 2 5 0 0   4 5 2 7 8 5 8 3 4 1 1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 2 9 5 1 9 7 8 7 3 7   4 3 4 8 8 8 4 9 6 4 8  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 5 2 7 8 5 8 3 4 1 2   4 5 8 1 5 4 5 4 3 2 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 3 4 8 8 8 4 9 6 4 9   4 4 0 2 5 7 2 0 5 6 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 5 8 1 5 4 5 4 3 2 4   4 6 3 5 2 3 2 5 2 3 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 4 0 2 5 7 2 0 5 6 1   4 4 5 6 2 5 9 1 4 7 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 6 3 5 2 3 2 5 2 3 6   4 6 8 8 9 1 9 6 1 4 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 4 5 6 2 5 9 1 4 7 3   4 5 0 9 9 4 6 2 3 8 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 6 8 8 9 1 9 6 1 4 8   4 7 4 2 6 0 6 7 0 5 9  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   T i m e o u t E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 6 9 2 4 8 4 7 7 3 2   4 7 4 6 1 7 1 8 6 4 3  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   C o n n e c t i o n E r r o r   a t t e m p t   1  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 4 8 4 6 8 5 7 6 6 7   4 5 3 8 3 7 2 8 5 7 8  
+ R E T R Y   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   U R L E r r o r   a t t e m p t   2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 6 9 2 4 8 4 7 7 3 2   4 7 4 6 1 7 1 8 6 4 3  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 5 3 8 3 7 2 8 5 7 9   4 5 9 2 0 5 9 9 4 9 0  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 7 4 6 1 7 1 8 6 4 4   4 7 9 9 8 5 8 9 5 5 5  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 5 9 2 0 5 9 9 4 9 1   4 6 4 5 7 4 7 0 4 0 2  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 7 9 9 8 5 8 9 5 5 6   4 8 5 3 5 4 6 0 4 6 7  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 6 4 5 7 4 7 0 4 0 3   4 6 9 9 4 3 4 1 3 1 4  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f   4 8 5 3 5 4 6 0 4 6 8   4 8 9 3 5 5 2 3 0 7 1  
+ H a s h i n g   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f  
+ R a n g e   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 3 - o f - 0 0 0 0 5 . g g u f   4 6 9 9 4 3 4 1 3 1 5   4 7 5 3 1 2 1 2 2 2 6  
+ p y t h o n . e x e   :   T r a c e b a c k   ( m o s t   r e c e n t   c a l l   l a s t ) :  
+ @b(WMOn  Lˆ: 3   W[&{:   1  
+ +   &   ' C : \ U s e r s \ m a r k s \ A p p D a t a \ R o a m i n g \ u v \ p y t h o n \ c p y t h o n - 3 . 1 2 . 9 - w i n d o w s - x 8   . . .  
+ +   ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  
+         +   C a t e g o r y I n f o                     :   N o t S p e c i f i e d :   ( T r a c e b a c k   ( m o s t   r e c e n t   c a l l   l a s t ) : : S t r i n g )   [ ] ,   R e m o t e E x c e p t i o n  
+         +   F u l l y Q u a l i f i e d E r r o r I d   :   N a t i v e C o m m a n d E r r o r  
+    
+     F i l e   " D : \ a i - r e s e a r c h \ l o w - v r a m - i n f e r e n c e \ d o w n l o a d _ d e e p s e e k . p y " ,   l i n e   1 3 6 ,   i n   < m o d u l e >  
+         r o o t   =   P a t h ( t m p )  
+ ^ ^ ^ ^ ^ ^  
+     F i l e   " D : \ a i - r e s e a r c h \ l o w - v r a m - i n f e r e n c e \ d o w n l o a d _ d e e p s e e k . p y " ,   l i n e   1 0 5 ,   i n   m a i n  
+         d e f   m a i n ( ) :  
+                                  
+     F i l e   " C : \ U s e r s \ m a r k s \ A p p D a t a \ R o a m i n g \ u v \ p y t h o n \ c p y t h o n - 3 . 1 2 . 9 - w i n d o w s - x 8 6 _ 6 4 - n o n e \ L i b \ c o n c u r r e n t \ f u t u r e s \ _ b a s e . p y " ,   l  
+ i n e   4 4 9 ,   i n   r e s u l t  
+         r e t u r n   s e l f . _ _ g e t _ r e s u l t ( )  
+                       ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^  
+     F i l e   " C : \ U s e r s \ m a r k s \ A p p D a t a \ R o a m i n g \ u v \ p y t h o n \ c p y t h o n - 3 . 1 2 . 9 - w i n d o w s - x 8 6 _ 6 4 - n o n e \ L i b \ c o n c u r r e n t \ f u t u r e s \ _ b a s e . p y " ,   l  
+ i n e   4 0 1 ,   i n   _ _ g e t _ r e s u l t  
+         r a i s e   s e l f . _ e x c e p t i o n  
+     F i l e   " C : \ U s e r s \ m a r k s \ A p p D a t a \ R o a m i n g \ u v \ p y t h o n \ c p y t h o n - 3 . 1 2 . 9 - w i n d o w s - x 8 6 _ 6 4 - n o n e \ L i b \ c o n c u r r e n t \ f u t u r e s \ t h r e a d . p y " ,    
+ l i n e   5 9 ,   i n   r u n  
+         r e s u l t   =   s e l f . f n ( * s e l f . a r g s ,   * * s e l f . k w a r g s )  
+                           ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^  
+     F i l e   " D : \ a i - r e s e a r c h \ l o w - v r a m - i n f e r e n c e \ d o w n l o a d _ d e e p s e e k . p y " ,   l i n e   8 3 ,   i n   d o w n l o a d  
+         r a i s e   R u n t i m e E r r o r ( ' S H A 2 5 6   m i s m a t c h ;   p r e s e r v e   f i l e   f o r   d i a g n o s i s :   '   +   t a r g e t . n a m e )  
+ R u n t i m e E r r o r :   S H A 2 5 6   m i s m a t c h ;   p r e s e r v e   f i l e   f o r   d i a g n o s i s :   D e e p S e e k - V 4 - F l a s h - U D - Q 4 _ K _ X L - 0 0 0 0 2 - o f - 0 0 0 0 5 . g g u f  
+ 

@@ -1,0 +1,8 @@
+llama-completion.exe : version: 0.6.0-dev (build 11429, commit d81235049)
+所在位置 D:\ai-research\low-vram-inference\baseline.ps1:11 字符: 1
++ & $cli --version 2>&1 | Out-File "$Root\results\version.txt"
++ ~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (version: 0.6.0-...mmit d81235049):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+built with Clang 20.1.8 for Windows x86_64

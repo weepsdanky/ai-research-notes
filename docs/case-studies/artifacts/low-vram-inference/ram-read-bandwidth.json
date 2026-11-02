@@ -1,0 +1,69 @@
+{
+  "method": "memcmp equal buffers; both inputs counted; CPU compare overhead included",
+  "allocated_bytes": 1073741824,
+  "runs": [
+    {
+      "workers": 1,
+      "repeat": 0,
+      "bytes_read": 8589934592,
+      "seconds": 0.39704479998908937,
+      "GB_per_s": 21.63467344802412
+    },
+    {
+      "workers": 1,
+      "repeat": 1,
+      "bytes_read": 8589934592,
+      "seconds": 0.3991614999831654,
+      "GB_per_s": 21.519947671211476
+    },
+    {
+      "workers": 1,
+      "repeat": 2,
+      "bytes_read": 8589934592,
+      "seconds": 0.4041465999907814,
+      "GB_per_s": 21.254501688733587
+    },
+    {
+      "workers": 2,
+      "repeat": 0,
+      "bytes_read": 8589934592,
+      "seconds": 0.27885080000851303,
+      "GB_per_s": 30.80476940262591
+    },
+    {
+      "workers": 2,
+      "repeat": 1,
+      "bytes_read": 8589934592,
+      "seconds": 0.2772050999919884,
+      "GB_per_s": 30.987649910655545
+    },
+    {
+      "workers": 2,
+      "repeat": 2,
+      "bytes_read": 8589934592,
+      "seconds": 0.28536119998898357,
+      "GB_per_s": 30.10197108903248
+    },
+    {
+      "workers": 4,
+      "repeat": 0,
+      "bytes_read": 8589934592,
+      "seconds": 0.24004170001717284,
+      "GB_per_s": 35.78517645636349
+    },
+    {
+      "workers": 4,
+      "repeat": 1,
+      "bytes_read": 8589934592,
+      "seconds": 0.24362260004272684,
+      "GB_per_s": 35.259186095598224
+    },
+    {
+      "workers": 4,
+      "repeat": 2,
+      "bytes_read": 8589934592,
+      "seconds": 0.37449029996059835,
+      "GB_per_s": 22.93766912762168
+    }
+  ]
+}

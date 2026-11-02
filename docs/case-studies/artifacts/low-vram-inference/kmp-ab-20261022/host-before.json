@@ -1,0 +1,15 @@
+﻿{
+    "timestamp_utc":  "2026-10-22T13:22:51.8123495Z",
+    "logical_processors":  20,
+    "openmp_environment":  {
+                               "KMP_AFFINITY":  null,
+                               "KMP_USE_YIELD":  null,
+                               "OMP_NUM_THREADS":  null,
+                               "OMP_WAIT_POLICY":  null,
+                               "OMP_PROC_BIND":  null,
+                               "KMP_BLOCKTIME":  null
+                           },
+    "power_plan":  "电源方案 GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (平衡)",
+    "server_sha256":  "7E236243C9B670C6A49410C03186FD575C57A0EFE3FD8A21D8727503D571D5B6",
+    "server_version":  "llama-server.exe : version: 0.6.0-dev (build 11429, commit d81235049)\r\n所在位置 行:2 字符: 322\r\n+ ... er_version=(\u0026 \u0027D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (version: 0.6.0-...mmit d81235049):String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\nbuilt with Clang 20.1.8 for Windows x86_64"
+}

@@ -1,0 +1,113 @@
+{
+  "command": [
+    "D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe",
+    "-m",
+    "D:\\ai-research\\low-vram-inference\\models\\deepseek-q4\\DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf",
+    "--load-mode",
+    "mmap",
+    "--no-repack",
+    "--no-host",
+    "--lazy-mode",
+    "on",
+    "--cpu-moe",
+    "--no-op-offload",
+    "--no-kv-offload",
+    "-ngl",
+    "32",
+    "-c",
+    "512",
+    "-b",
+    "32",
+    "-ub",
+    "32",
+    "-t",
+    "16",
+    "-np",
+    "1",
+    "--jinja",
+    "--reasoning",
+    "off",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18080",
+    "-v"
+  ],
+  "cache_note": "Fresh process; OS file cache uncontrolled. Same-server repeated requests are warm.",
+  "process_start_to_ready_s": 30.641526199993677,
+  "requests": [
+    {
+      "prompt": "Write a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Here is a detailed explanation of how a computer reads data from a Solid-State Drive (SSD), focusing on the technical process from the operating system's request to the physical retrieval of data.\n\n### The Journey of a Read Request: From OS to NAND\n\nWhen you open a file or launch a program, your computer's operating system (OS) does not directly talk to the physical memory chips inside the SSD. Instead, it sends a logical request. The process unfolds in several distinct layers:\n\n**1. The Operating System and the File System Layer**\nThe OS, through its file system (like NTFS on Windows or APFS on",
+      "time_to_first_content_s": 34.22024590004003,
+      "total_s": 186.42587989999447,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 27,
+        "total_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 27,
+          "prompt_ms": 34162.388,
+          "prompt_per_token_ms": 1265.2736296296296,
+          "prompt_per_second": 0.7903428764991487,
+          "predicted_n": 128,
+          "predicted_ms": 152215.493,
+          "predicted_per_token_ms": 1198.5471889763778,
+          "predicted_per_second": 0.8343434528047681
+        }
+      ],
+      "request_started_unix_s": 1791556579.9306915,
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "Context: Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. \nWrite a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Of course. Here is a detailed English explanation of how a computer reads data from an SSD, continuing for over 300 words.\n\n---\n\nTo understand how a computer reads data from a Solid-State Drive (SSD), it is essential to first recognize that an SSD is fundamentally different from a traditional Hard Disk Drive (HDD). While an HDD uses spinning magnetic platters and a moving read/write head, an SSD relies entirely on flash memory—specifically, NAND flash memory chips. This architecture allows for near-instantaneous data access, as there are no mechanical parts to move.\n\nThe process begins when the computer's operating system",
+      "time_to_first_content_s": 114.16031320003094,
+      "total_s": 268.4350584000349,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 150,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 150,
+          "prompt_ms": 114011.271,
+          "prompt_per_token_ms": 760.0751399999999,
+          "prompt_per_second": 1.3156593965170338,
+          "predicted_n": 128,
+          "predicted_ms": 154285.414,
+          "predicted_per_token_ms": 1214.845779527559,
+          "predicted_per_second": 0.8231497502414584
+        }
+      ],
+      "request_started_unix_s": 1791556766.362273,
+      "phase": "first-pass",
+      "repeat_index": 0
+    }
+  ],
+  "status": "content-and-monitoring-gates-passed",
+  "server_exit_code": 1,
+  "resources": {
+    "peak_process_rss_bytes": 26718375936,
+    "peak_sampled_private_bytes": 7638712320,
+    "peak_sampled_device_used_vram_mib": 7704,
+    "machine_disk_read_bytes_approx": 469669221827.67957,
+    "sample_count": 446,
+    "note": "Disk is whole-machine estimated physical reads; VRAM is whole-device sampled usage. Page faults include soft faults.",
+    "peak_sampled_process_gpu_dedicated_usage_bytes": 5640159232,
+    "peak_sampled_process_gpu_shared_usage_bytes": 98566144,
+    "gpu_counter_note": "PDH process GPU usage is a counter proxy; retain instances and cross-check device usage/CUDA buffers."
+  }
+}

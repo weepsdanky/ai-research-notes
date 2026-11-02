@@ -1,0 +1,10 @@
+﻿{
+    "bytes":  663678976,
+    "signature":  "Valid",
+    "signer":  "CN=NVIDIA Corporation, OU=1005bk6, O=NVIDIA Corporation, L=Santa Clara, S=California, C=US",
+    "sha256":  "379C0A15A9CF7B8028081073FDD1D9798B9AAA618FB46C6A01785B69ED01D5F2",
+    "extract_exit_code":  0,
+    "extraction_directory":  "D:\\nsys26",
+    "url":  "https://developer.nvidia.com/downloads/assets/tools/secure/nsight-systems/2026_5/nsightsystems-2026.5.1.161-3889610.msi",
+    "first_extraction_error":  "Error 1304 on a long bundled Linux Python path; retried administrative extraction at a short path."
+}

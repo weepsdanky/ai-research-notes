@@ -49,7 +49,7 @@ Flow checkpoint 固定为 `C` velocity channels，不接受 DDPM 的 learned-var
 | 可恢复训练 | 完整 model / EMA / optimizer / RNG checkpoint |
 | 真实视频输出 | `save_video_mp4`（H.264、8 FPS） |
 
-主要依据是 [Latte 论文](https://arxiv.org/abs/2401.03048) 与其[官方实现](https://github.com/Vchitect/Latte/blob/ad4b85a69bd26c66eebd65f4323718c80e7cf449/models/latte.py)。完整的设计取舍、一手来源、计算预算与能力边界见 [`../../docs/case-studies/video-dit-mac-design.md`](../../docs/case-studies/video-dit-mac-design.md)。
+主要依据是 [Latte 论文](https://arxiv.org/abs/2401.03048) 与其[官方实现](https://github.com/Vchitect/Latte/blob/ad4b85a69bd26c66eebd65f4323718c80e7cf449/models/latte.py)。Video DiT 文档的时期与阅读顺序见 [`../../docs/case-studies/video-dit/README.md`](../../docs/case-studies/video-dit/README.md)，完整的设计取舍、一手来源、计算预算与能力边界见 [`01-phase-0-mac-design.md`](../../docs/case-studies/video-dit/01-phase-0-mac-design.md)。
 
 ## 为什么先用可控合成视频
 
@@ -242,7 +242,7 @@ CLI/UI 只用 `weights_only=True` 加载 `video_dit_inference.pt`。含 optimize
 ## 真实视频与未见组合实验（进行中）
 
 真实数据路线的规范和数据集取舍见
-[`video-dit-real-data-plan.md`](../../docs/case-studies/video-dit-real-data-plan.md)。当前已经实现并验证：
+[`03-phase-1-real-data-and-compositional-plan.md`](../../docs/case-studies/video-dit/03-phase-1-real-data-and-compositional-plan.md)。当前已经实现并验证：
 
 - JSONL manifest 强制保存 source ID、原页面、许可、署名、SHA-256；
 - source group、人工 duplicate group 与 64-bit 感知指纹构成传递 group；近重复既不跨
@@ -879,3 +879,19 @@ Video DiT 训练。最终 EMA checkpoint 位于本地 ignored 路径
 低频颜色/构图相似，不能证明人眼可见的逐帧复制；用户看到的固定样本仍是移动马赛克。所以这是
 “改善 IID 拟合但 C1 与语义可辨识度失败”的诊断，另有记忆风险待审计，不是组合泛化成功。
 可携带证据见 `../../docs/case-studies/artifacts/video-dit/c1-direct-train-v3/results/`。
+
+## Moving-mosaic 修复后的当前最佳本地模型
+
+Phase 3/4 的分层诊断证明核心 DDIM/target/VAE 栈可用，主要失败来自 scratch
+先验、每种视觉模式的有效暴露和高噪声条件学习不足。使用现有数据中的室内猫、海滩狗和
+池塘狗，现在已有一个 1.60M 参数、patch1、epsilon 的三 prompt 可辨识 overfit 模型：
+
+```text
+runs/meaningful-3clip-patch1-final-uniform-ft2500/video_dit_inference.pt
+SHA-256: 7e3c8d4ad3558c56879217ac963411ee2f9c0bfb9375cbdd20b443394152b675
+```
+
+它经历 uniform 5k → high-noise 2.5k → uniform 5k 的阶段课程；固定 seed/CFG1 下能区分室内、
+海滩与池塘，并生成可见的猫/狗与帧间运动。海滩狗的奔跑仍偏弱，该模型不是开放词表或 unseen
+composition 模型。完整数据、recipe、恢复曲线和边界见
+[`08-phase-4-meaningful-generation-recovery.md`](../../docs/case-studies/video-dit/08-phase-4-meaningful-generation-recovery.md)。

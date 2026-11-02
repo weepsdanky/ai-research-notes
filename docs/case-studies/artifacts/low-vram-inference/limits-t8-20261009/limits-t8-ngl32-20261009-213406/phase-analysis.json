@@ -1,0 +1,78 @@
+{
+  "bandwidth_random4MiB_GBs": 2.6152861600369803,
+  "method": "whole-machine PDH intervals clipped to wall-clock request stages; constant rate within interval",
+  "requests": [
+    {
+      "request": 0,
+      "prompt_tokens": 27,
+      "ttft_s": 53.243433199997526,
+      "client_decode_tok_s": 0.6221758226899707,
+      "backend_decode_tok_s": 0.6221776801791655,
+      "prefill_read_GB": 39.85506729182963,
+      "decode_read_GB_per_token": 1.0745378595318735,
+      "bandwidth_calibrated_decode_ceiling": 2.4338706513108246,
+      "bandwidth_calibrated_ttft_floor": 15.239275877660008,
+      "bandwidth_utilization": 0.25563224666638784
+    },
+    {
+      "request": 1,
+      "prompt_tokens": 150,
+      "ttft_s": 237.7428191000363,
+      "client_decode_tok_s": 0.6384900771077712,
+      "backend_decode_tok_s": 0.6384710510614509,
+      "prefill_read_GB": 165.2263535270702,
+      "decode_read_GB_per_token": 1.0517287874186592,
+      "bandwidth_calibrated_decode_ceiling": 2.486654536152693,
+      "bandwidth_calibrated_ttft_floor": 63.1771605156714,
+      "bandwidth_utilization": 0.2567666991232451
+    },
+    {
+      "request": 2,
+      "prompt_tokens": 27,
+      "ttft_s": 53.17241479997756,
+      "client_decode_tok_s": 0.588185788434963,
+      "backend_decode_tok_s": 0.5881710257403047,
+      "prefill_read_GB": 39.08621012606131,
+      "decode_read_GB_per_token": 1.04004808581026,
+      "bandwidth_calibrated_decode_ceiling": 2.514581965697783,
+      "bandwidth_calibrated_ttft_floor": 14.945290011976597,
+      "bandwidth_utilization": 0.23390996851905943
+    },
+    {
+      "request": 3,
+      "prompt_tokens": 150,
+      "ttft_s": 169.8616600999958,
+      "client_decode_tok_s": 0.7595358580196192,
+      "backend_decode_tok_s": 0.7595119285444958,
+      "prefill_read_GB": 134.8134536716257,
+      "decode_read_GB_per_token": 0.9262438870161703,
+      "bandwidth_calibrated_decode_ceiling": 2.823539455101767,
+      "bandwidth_calibrated_ttft_floor": 51.548261039900666,
+      "bandwidth_utilization": 0.2690013262068065
+    },
+    {
+      "request": 4,
+      "prompt_tokens": 27,
+      "ttft_s": 40.73021930002142,
+      "client_decode_tok_s": 0.7712608857780733,
+      "backend_decode_tok_s": 0.7712304047737194,
+      "prefill_read_GB": 35.08078868244003,
+      "decode_read_GB_per_token": 0.9350895964202027,
+      "bandwidth_calibrated_decode_ceiling": 2.7968294910445617,
+      "bandwidth_calibrated_ttft_floor": 13.413747687918015,
+      "bandwidth_utilization": 0.27576256909748986
+    },
+    {
+      "request": 5,
+      "prompt_tokens": 150,
+      "ttft_s": 153.6260648999596,
+      "client_decode_tok_s": 0.7508955175506709,
+      "backend_decode_tok_s": 0.7508711376356374,
+      "prefill_read_GB": 127.97374017901411,
+      "decode_read_GB_per_token": 0.9271121192593574,
+      "bandwidth_calibrated_decode_ceiling": 2.8208952355474066,
+      "bandwidth_calibrated_ttft_floor": 48.93297801767305,
+      "bandwidth_utilization": 0.2661905015430169
+    }
+  ]
+}

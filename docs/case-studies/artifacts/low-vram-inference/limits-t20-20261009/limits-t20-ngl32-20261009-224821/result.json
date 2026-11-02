@@ -1,0 +1,113 @@
+{
+  "command": [
+    "D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe",
+    "-m",
+    "D:\\ai-research\\low-vram-inference\\models\\deepseek-q4\\DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf",
+    "--load-mode",
+    "mmap",
+    "--no-repack",
+    "--no-host",
+    "--lazy-mode",
+    "on",
+    "--cpu-moe",
+    "--no-op-offload",
+    "--no-kv-offload",
+    "-ngl",
+    "32",
+    "-c",
+    "512",
+    "-b",
+    "32",
+    "-ub",
+    "32",
+    "-t",
+    "20",
+    "-np",
+    "1",
+    "--jinja",
+    "--reasoning",
+    "off",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18080",
+    "-v"
+  ],
+  "cache_note": "Fresh process; OS file cache uncontrolled. Same-server repeated requests are warm.",
+  "process_start_to_ready_s": 22.602981400035787,
+  "requests": [
+    {
+      "prompt": "Write a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Here is a detailed explanation of how a computer reads data from a Solid-State Drive (SSD), focusing on the technical process from the initial request to the final data delivery.\n\nThe process begins not inside the SSD itself, but with the computer's operating system (OS) or an application. When a program needs a file, it sends a read request to the OS. The OS, in turn, identifies the logical block address (LBA) associated with that file. An LBA is a standardized, sequential number that represents a specific location on the storage device, typically corresponding to a 512-byte or 4KB block of data",
+      "time_to_first_content_s": 26.93793730001198,
+      "total_s": 169.2535029000137,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 27,
+        "total_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 27,
+          "prompt_ms": 26909.253,
+          "prompt_per_token_ms": 996.639,
+          "prompt_per_second": 1.003372334415972,
+          "predicted_n": 128,
+          "predicted_ms": 142323.285,
+          "predicted_per_token_ms": 1120.6557874015748,
+          "predicted_per_second": 0.8923346590826652
+        }
+      ],
+      "request_started_unix_s": 1791557326.100737,
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "Context: Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. \nWrite a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Of course. Here is a detailed English explanation of how a computer reads data from an SSD, continuing for over 300 words.\n\nThe process of reading data from a Solid-State Drive (SSD) is fundamentally different from reading from a traditional Hard Disk Drive (HDD). While an HDD relies on spinning magnetic platters and a moving read/write head, an SSD is a purely electronic device, using flash memory chips to store data persistently. This electronic nature is the key to its speed, durability, and silence.\n\nAt the heart of an SSD is the **NAND flash memory**, organized into a hierarchy of structures: **cells",
+      "time_to_first_content_s": 111.40438259998336,
+      "total_s": 251.8322262999718,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 150,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 150,
+          "prompt_ms": 111280.304,
+          "prompt_per_token_ms": 741.8686933333333,
+          "prompt_per_second": 1.3479474319193088,
+          "predicted_n": 128,
+          "predicted_ms": 140429.506,
+          "predicted_per_token_ms": 1105.7441417322834,
+          "predicted_per_second": 0.9043683454957109
+        }
+      ],
+      "request_started_unix_s": 1791557495.3550768,
+      "phase": "first-pass",
+      "repeat_index": 0
+    }
+  ],
+  "status": "content-and-monitoring-gates-passed",
+  "server_exit_code": 1,
+  "resources": {
+    "peak_process_rss_bytes": 26695241728,
+    "peak_sampled_private_bytes": 7641636864,
+    "peak_sampled_device_used_vram_mib": 6789,
+    "machine_disk_read_bytes_approx": 472372410131.3077,
+    "sample_count": 405,
+    "note": "Disk is whole-machine estimated physical reads; VRAM is whole-device sampled usage. Page faults include soft faults.",
+    "peak_sampled_process_gpu_dedicated_usage_bytes": 5640159232,
+    "peak_sampled_process_gpu_shared_usage_bytes": 98566144,
+    "gpu_counter_note": "PDH process GPU usage is a counter proxy; retain instances and cross-check device usage/CUDA buffers."
+  }
+}

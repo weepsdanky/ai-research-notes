@@ -1,0 +1,14 @@
+﻿[
+    {
+        "sha256":  "54DF9CDC2F7D9821344B1E60F95D3E7AB3994FA5B7D017A6677712B893ACFAA4",
+        "original_path":  "C:\\Users\\marks\\AppData\\Local\\Temp\\WPR_initiated_WprApp_WPR System Collector.etl",
+        "saved_path":  "D:\\ai-research\\low-vram-inference\\results\\phase-etw-20261022-192614\\raw-system.etl",
+        "bytes":  8535408640
+    },
+    {
+        "sha256":  "3FA90517835F93DFF00D518972E2C7972FEC83FEFC5EA8F91AFFFC28F78DF420",
+        "original_path":  "C:\\Users\\marks\\AppData\\Local\\Temp\\WPR_initiated_WprApp_WPR Event Collector.etl",
+        "saved_path":  "D:\\ai-research\\low-vram-inference\\results\\phase-etw-20261022-192614\\raw-events.etl",
+        "bytes":  1538260992
+    }
+]

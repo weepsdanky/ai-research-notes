@@ -1,0 +1,162 @@
+{
+  "command": [
+    "D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe",
+    "-m",
+    "D:\\ai-research\\low-vram-inference\\models\\qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "--load-mode",
+    "mmap",
+    "--no-repack",
+    "--no-host",
+    "--lazy-mode",
+    "on",
+    "--cpu-moe",
+    "--no-op-offload",
+    "--no-kv-offload",
+    "-ngl",
+    "99",
+    "-c",
+    "512",
+    "-b",
+    "32",
+    "-ub",
+    "32",
+    "-t",
+    "8",
+    "-np",
+    "1",
+    "--jinja",
+    "--reasoning",
+    "off",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18080",
+    "-v"
+  ],
+  "cache_note": "Fresh process; OS file cache uncontrolled. Same-server repeated requests are warm.",
+  "process_start_to_ready_s": 1.5297456000116654,
+  "requests": [
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 0.11720229999627918,
+      "total_s": 0.13987359998282045,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 43,
+        "total_tokens": 45,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 43,
+          "prompt_ms": 105.498,
+          "prompt_per_token_ms": 2.4534418604651163,
+          "prompt_per_second": 407.590665225881,
+          "predicted_n": 2,
+          "predicted_ms": 22.121,
+          "predicted_per_token_ms": 22.121,
+          "predicted_per_second": 45.205912933411696
+        }
+      ],
+      "phase": "first-pass"
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 0.08630669995909557,
+      "total_s": 0.14428339997539297,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 42,
+        "total_tokens": 47,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 42,
+          "prompt_ms": 61.024,
+          "prompt_per_token_ms": 1.452952380952381,
+          "prompt_per_second": 688.2538017829052,
+          "predicted_n": 5,
+          "predicted_ms": 56.91,
+          "predicted_per_token_ms": 14.2275,
+          "predicted_per_second": 70.28641714988579
+        }
+      ],
+      "phase": "first-pass"
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 0.0734142999863252,
+      "total_s": 0.09414230001857504,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 43,
+        "total_tokens": 45,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 43,
+          "prompt_ms": 46.188,
+          "prompt_per_token_ms": 1.074139534883721,
+          "prompt_per_second": 930.9777431367454,
+          "predicted_n": 2,
+          "predicted_ms": 20.08,
+          "predicted_per_token_ms": 20.08,
+          "predicted_per_second": 49.800796812749006
+        }
+      ],
+      "phase": "same-server-repeat"
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 0.05847709998488426,
+      "total_s": 0.11097109998809174,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 42,
+        "total_tokens": 47,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 42,
+          "prompt_ms": 40.376,
+          "prompt_per_token_ms": 0.9613333333333333,
+          "prompt_per_second": 1040.2219140083218,
+          "predicted_n": 5,
+          "predicted_ms": 51.562,
+          "predicted_per_token_ms": 12.8905,
+          "predicted_per_second": 77.57650983282262
+        }
+      ],
+      "phase": "same-server-repeat"
+    }
+  ],
+  "status": "content-and-monitoring-gates-passed",
+  "server_exit_code": 1,
+  "resources": {
+    "peak_process_rss_bytes": 798146560,
+    "peak_sampled_private_bytes": 978489344,
+    "peak_sampled_device_used_vram_mib": 1562,
+    "machine_disk_read_bytes_approx": 19357603.619365748,
+    "sample_count": 4,
+    "note": "Disk is whole-machine estimated physical reads; VRAM is whole-device sampled usage. Page faults include soft faults."
+  }
+}

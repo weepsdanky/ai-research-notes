@@ -29,6 +29,10 @@
 * Backprop: softmax (log-sum-exp trick), cross-entropy gradient, chain rule
 * infra / 分布式训练: Megatron-LM, ZeRO, FlashAttention etc. 
 * RLHF --> RLAIF --> RLTHF 
+* 预训练与后训练（SFT / RL (RLHF / RLVR / PPO / GRPO) / OPD）算法
+* 主流视觉编码器（如 CLIP, SigLIP 等）的模型结构，熟悉其训练与评测方法 
+* Kimi K3 https://spaces.ac.cn/archives/11848 
+
 
 - [ ] 22580: From GPT2 to Kimi3, Explained https://x.com/waterloo_intern/status/2081762065392541951
 - [ ] Stream-R1: Reliability-Perplexity Aware Reward Distillation for Streaming Video Generation https://huggingface.co/papers/2605.03849
@@ -36,3 +40,9 @@
 - [ ] https://github.com/pageman/sutskever-30-implementations
 - [ ] https://www.byhand.ai/p/library-models-attention-self-attention
 - [ ] CS229 Stanford https://www.youtube.com/playlist?list=PLangBM27OtEA
+- [ ] https://github.com/lvy010/AI-wiki
+
+
+## VLA 
+
+* https://github.com/NVlabs/alpamayo-recipes

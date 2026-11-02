@@ -1,0 +1,52 @@
+{
+  "status": "source-derived estimate, not large-context runtime measurement",
+  "backend_commit": "d81235049384534c167caea52b85a694f6103d14",
+  "assumptions": "F16 K-only, single sequence, 43 SWA layers, 21 CSA and 20 HCA, fixed SWA256 cells/ubatch32, pad256, no workspace/checkpoints",
+  "rows": [
+    {
+      "context_capacity": 512,
+      "raw_swa_bytes": 11272192,
+      "csa_bytes": 5505024,
+      "hca_bytes": 5242880,
+      "indexer_bytes": 1376256,
+      "compressor_state_bytes_approx": 12205424.64,
+      "cache_and_state_GiB": 0.03315673828125
+    },
+    {
+      "context_capacity": 32768,
+      "raw_swa_bytes": 11272192,
+      "csa_bytes": 176160768,
+      "hca_bytes": 5242880,
+      "indexer_bytes": 44040192,
+      "compressor_state_bytes_approx": 12205424.64,
+      "cache_and_state_GiB": 0.231826171875
+    },
+    {
+      "context_capacity": 65536,
+      "raw_swa_bytes": 11272192,
+      "csa_bytes": 352321536,
+      "hca_bytes": 10485760,
+      "indexer_bytes": 88080384,
+      "compressor_state_bytes_approx": 12205424.64,
+      "cache_and_state_GiB": 0.441787109375
+    },
+    {
+      "context_capacity": 300000,
+      "raw_swa_bytes": 11272192,
+      "csa_bytes": 1612972032,
+      "hca_bytes": 52428800,
+      "indexer_bytes": 403243008,
+      "compressor_state_bytes_approx": 12205424.64,
+      "cache_and_state_GiB": 1.94843994140625
+    },
+    {
+      "context_capacity": 1048576,
+      "raw_swa_bytes": 11272192,
+      "csa_bytes": 5637144576,
+      "hca_bytes": 167772160,
+      "indexer_bytes": 1409286144,
+      "compressor_state_bytes_approx": 12205424.64,
+      "cache_and_state_GiB": 6.740615234375
+    }
+  ]
+}

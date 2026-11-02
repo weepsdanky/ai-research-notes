@@ -1,0 +1,233 @@
+{
+  "command": [
+    "D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe",
+    "-m",
+    "D:\\ai-research\\low-vram-inference\\models\\deepseek-q4\\DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf",
+    "--load-mode",
+    "mmap",
+    "--no-repack",
+    "--no-host",
+    "--lazy-mode",
+    "on",
+    "--cpu-moe",
+    "--no-op-offload",
+    "--no-kv-offload",
+    "-ngl",
+    "32",
+    "-c",
+    "512",
+    "-b",
+    "32",
+    "-ub",
+    "32",
+    "-t",
+    "8",
+    "-np",
+    "1",
+    "--jinja",
+    "--reasoning",
+    "off",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18080",
+    "-v"
+  ],
+  "cache_note": "Fresh process; OS file cache uncontrolled. Same-server repeated requests are warm.",
+  "process_start_to_ready_s": 26.636644000012893,
+  "requests": [
+    {
+      "prompt": "Write a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Here is a detailed explanation of how a computer reads data from a Solid-State Drive (SSD), focusing on the technical process from the initial request to the final data delivery.\n\n### The Journey of a Read Request: From CPU to SSD\n\nWhen you open a file or launch a program, your computer's Central Processing Unit (CPU) does not directly access the SSD. Instead, it follows a layered, hierarchical path designed for efficiency and abstraction. The process begins with the operating system (OS), which manages all storage interactions.\n\n**1. The Operating System and the File System:**\nThe CPU sends a request to the OS, asking for",
+      "time_to_first_content_s": 53.243433199997526,
+      "total_s": 257.3657976000104,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 27,
+        "total_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 27,
+          "prompt_ms": 53211.455,
+          "prompt_per_token_ms": 1970.7946296296298,
+          "prompt_per_second": 0.5074095417988477,
+          "predicted_n": 128,
+          "predicted_ms": 204121.755,
+          "predicted_per_token_ms": 1607.257913385827,
+          "predicted_per_second": 0.6221776801791655
+        }
+      ],
+      "request_started_unix_s": 1791552874.7471628,
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "Context: Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. \nWrite a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Of course. Here is a detailed English explanation of how a computer reads data from an SSD, continuing for over 300 words.\n\nThe process of reading data from a Solid-State Drive (SSD) is fundamentally different from reading from a traditional Hard Disk Drive (HDD). While an HDD relies on spinning magnetic platters and a moving read/write head, an SSD is a purely electronic device, using flash memory chips to store data persistently. This electronic nature is the key to its speed, durability, and silence.\n\nAt the heart of an SSD is the **NAND flash memory**, organized into a hierarchy of structures: **cells",
+      "time_to_first_content_s": 237.7428191000363,
+      "total_s": 436.64959080005065,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 150,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 150,
+          "prompt_ms": 237583.758,
+          "prompt_per_token_ms": 1583.89172,
+          "prompt_per_second": 0.6313562899362843,
+          "predicted_n": 128,
+          "predicted_ms": 198912.699,
+          "predicted_per_token_ms": 1566.2417244094488,
+          "predicted_per_second": 0.6384710510614509
+        }
+      ],
+      "request_started_unix_s": 1791553132.123083,
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "Write a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Here is a detailed explanation of how a computer reads data from a Solid-State Drive (SSD), focusing on the technical process from the initial request to the final data delivery.\n\n### The Journey of a Read Request: From CPU to SSD\n\nWhen you open a file or launch a program, your computer's Central Processing Unit (CPU) does not directly access the SSD. Instead, it follows a layered, hierarchical path designed for efficiency and abstraction. The process begins with the operating system (OS), which manages all storage interactions.\n\n**1. The Operating System and the File System:**\nThe CPU sends a request to the OS, asking for",
+      "time_to_first_content_s": 53.17241479997756,
+      "total_s": 269.09058640000876,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 27,
+        "total_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 27,
+          "prompt_ms": 52972.018,
+          "prompt_per_token_ms": 1961.9265925925924,
+          "prompt_per_second": 0.5097030662490525,
+          "predicted_n": 128,
+          "predicted_ms": 215923.591,
+          "predicted_per_token_ms": 1700.1857559055118,
+          "predicted_per_second": 0.5881710257403047
+        }
+      ],
+      "request_started_unix_s": 1791553568.7801423,
+      "phase": "same-server-repeat",
+      "repeat_index": 1
+    },
+    {
+      "prompt": "Context: Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. \nWrite a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Of course. Here is a detailed English explanation of how a computer reads data from an SSD, continuing for over 300 words.\n\nThe process of reading data from a Solid-State Drive (SSD) is fundamentally different from reading from a traditional Hard Disk Drive (HDD). While an HDD relies on spinning magnetic platters and a moving read/write head, an SSD is a purely electronic device, using flash memory chips to store data persistently. This electronic nature is the key to its speed, durability, and silence.\n\nAt the heart of an SSD is the **NAND flash memory**, organized into a hierarchy of structures: **cells",
+      "time_to_first_content_s": 169.8616600999958,
+      "total_s": 337.0690389999654,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 150,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 150,
+          "prompt_ms": 169719.192,
+          "prompt_per_token_ms": 1131.46128,
+          "prompt_per_second": 0.8838128336128303,
+          "predicted_n": 128,
+          "predicted_ms": 167212.647,
+          "predicted_per_token_ms": 1316.6350157480315,
+          "predicted_per_second": 0.7595119285444958
+        }
+      ],
+      "request_started_unix_s": 1791553837.8800898,
+      "phase": "same-server-repeat",
+      "repeat_index": 1
+    },
+    {
+      "prompt": "Write a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Here is a detailed explanation of how a computer reads data from a Solid-State Drive (SSD), focusing on the technical process from the initial request to the final data delivery.\n\n### The Journey of a Read Request: From CPU to SSD\n\nWhen you open a file or launch a program, your computer's Central Processing Unit (CPU) does not directly access the SSD. Instead, it follows a layered, hierarchical path designed for efficiency and abstraction. The process begins with the operating system (OS), which manages all storage interactions.\n\n**1. The Operating System and the File System:**\nThe CPU sends a request to the OS, asking for",
+      "time_to_first_content_s": 40.73021930002142,
+      "total_s": 205.39564230001997,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 27,
+        "total_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 27,
+          "prompt_ms": 40604.68,
+          "prompt_per_token_ms": 1503.877037037037,
+          "prompt_per_second": 0.6649479813656948,
+          "predicted_n": 128,
+          "predicted_ms": 164671.931,
+          "predicted_per_token_ms": 1296.629377952756,
+          "predicted_per_second": 0.7712304047737194
+        }
+      ],
+      "request_started_unix_s": 1791554174.9540653,
+      "phase": "same-server-repeat",
+      "repeat_index": 2
+    },
+    {
+      "prompt": "Context: Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. Storage devices contain data. \nWrite a detailed English explanation of how a computer reads data from an SSD. Continue for at least 300 words.",
+      "text": "Of course. Here is a detailed English explanation of how a computer reads data from an SSD, continuing for over 300 words.\n\nThe process of reading data from a Solid-State Drive (SSD) is fundamentally different from reading from a traditional Hard Disk Drive (HDD). While an HDD relies on spinning magnetic platters and a moving read/write head, an SSD is a purely electronic device, using flash memory chips to store data persistently. This electronic nature is the key to its speed, durability, and silence.\n\nAt the heart of an SSD is the **NAND flash memory**, organized into a hierarchy of structures: **cells",
+      "time_to_first_content_s": 153.6260648999596,
+      "total_s": 322.75745139998617,
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 150,
+        "total_tokens": 278,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 150,
+          "prompt_ms": 153532.147,
+          "prompt_per_token_ms": 1023.5476466666667,
+          "prompt_per_second": 0.9769940884106831,
+          "predicted_n": 128,
+          "predicted_ms": 169136.878,
+          "predicted_per_token_ms": 1331.7864409448819,
+          "predicted_per_second": 0.7508711376356374
+        }
+      ],
+      "request_started_unix_s": 1791554380.355563,
+      "phase": "same-server-repeat",
+      "repeat_index": 2
+    }
+  ],
+  "status": "content-and-monitoring-gates-passed",
+  "server_exit_code": 1,
+  "resources": {
+    "peak_process_rss_bytes": 26435330048,
+    "peak_sampled_private_bytes": 7678246912,
+    "peak_sampled_device_used_vram_mib": 7909,
+    "machine_disk_read_bytes_approx": 1329169026831.4998,
+    "sample_count": 1682,
+    "note": "Disk is whole-machine estimated physical reads; VRAM is whole-device sampled usage. Page faults include soft faults.",
+    "peak_sampled_process_gpu_dedicated_usage_bytes": 5640159232,
+    "peak_sampled_process_gpu_shared_usage_bytes": 157286400,
+    "gpu_counter_note": "PDH process GPU usage is a counter proxy; retain instances and cross-check device usage/CUDA buffers."
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "server_pid": 19764,
+  "capture_duration_s": 60.2512016,
+  "session_start_utc_epoch_ns": 1792671267550826050,
+  "request_start_relative_ns": 18968576.0,
+  "request_first_content_relative_ns": 29017024576.011276,
+  "source_database_sha256": "92f91add3030e4f1c2296e445788ee7a18e4f3ac909f7fb93834f536f6b0ad06",
+  "activity_counts": {
+    "KERNEL": 14436,
+    "GRAPH_TRACE": 2287,
+    "MEMCPY": 11673,
+    "MEMSET": 448
+  },
+  "captured_memcpy_bytes": 843013804,
+  "quality": "completeness-warnings-require-review",
+  "cuda_driver_compatibility_warning": false,
+  "known_incomplete_events_dropped": 1,
+  "interior_correlation_checks": {
+    "cudaGraphLaunch": {
+      "interior_unique_api_ids": 2146,
+      "matched_activity_ids": 2146,
+      "unmatched_api_ids": 0
+    },
+    "cudaStreamSynchronize": {
+      "interior_unique_api_ids": 26234,
+      "matched_activity_ids": 26234,
+      "unmatched_api_ids": 0
+    }
+  },
+  "diagnostic_warnings": [
+    {
+      "timestamp": 339027800,
+      "timestampType": 2,
+      "source": 3,
+      "severity": 2,
+      "text": "Not all CUDA events might have been collected.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 60302057076,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Number of CUPTI events produced: \t137162, CUPTI buffers: 49 of 50. Some CUPTI events might be missing. To make sure all the events are collected, let the application run until it quits, and make sure cudaDeviceReset() is called before exit. Try using the \"Flush data periodically\" checkbox in CUDA trace options.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 60302067378,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Number of incomplete CUPTI events dropped: 1. Incomplete events appear when GPU timestamp information have not been retrieved at the time the profiling session was stopped.",
+      "globalPid": 281806561607680
+    }
+  ],
+  "diagnostics": [
+    {
+      "timestamp": 0,
+      "timestampType": 1,
+      "source": 3,
+      "severity": 1,
+      "text": "Profiling has started.",
+      "globalPid": -144115188075855872
+    },
+    {
+      "timestamp": 60251201600,
+      "timestampType": 1,
+      "source": 3,
+      "severity": 1,
+      "text": "Profiling has stopped.",
+      "globalPid": -144115188075855872
+    },
+    {
+      "timestamp": -39868583600,
+      "timestampType": 1,
+      "source": 2,
+      "severity": 1,
+      "text": "Process 19764 was launched by the profiler",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": -39728503864,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Common injection library initialized successfully.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": -39647427576,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Buffers holding CUDA trace data will be flushed on CudaProfilerStop() call. See --flush-on-cudaprofilerstop to control this behavior.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": -39599513293,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Loaded CUPTI library: D:\\nsys26\\ProgramFiles64Folder\\NVIDIA Corporation\\Nsight Systems 2026.5.1\\target-windows-x64\\cupti64_134.dll",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": -39589154251,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "CUDA injection initialized successfully.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 339027800,
+      "timestampType": 2,
+      "source": 3,
+      "severity": 2,
+      "text": "Not all CUDA events might have been collected.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 339033400,
+      "timestampType": 2,
+      "source": 3,
+      "severity": 1,
+      "text": "Number of CUDA events collected: \t87014.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 60264459476,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "CUDA hardware tracing is not supported on this system. A legacy (software instrumented) trace was collected instead.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 60302057076,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Number of CUPTI events produced: \t137162, CUPTI buffers: 49 of 50. Some CUPTI events might be missing. To make sure all the events are collected, let the application run until it quits, and make sure cudaDeviceReset() is called before exit. Try using the \"Flush data periodically\" checkbox in CUDA trace options.",
+      "globalPid": 281806561607680
+    },
+    {
+      "timestamp": 60302067378,
+      "timestampType": 1,
+      "source": 1,
+      "severity": 1,
+      "text": "Number of incomplete CUPTI events dropped: 1. Incomplete events appear when GPU timestamp information have not been retrieved at the time the profiling session was stopped.",
+      "globalPid": 281806561607680
+    }
+  ],
+  "phases": {
+    "prefill_to_first_content": {
+      "capture_start_relative_s": 0.25,
+      "capture_end_relative_s": 29.017024576011277,
+      "wall_s": 28.767024576011277,
+      "gpu_activity_union_s": 2.089474246,
+      "gpu_activity_coverage": 0.07263435397981359,
+      "synchronize_api_union_s": 2.117908864,
+      "synchronize_api_coverage": 0.07362279885442573,
+      "activity_union_s_by_kind": {
+        "KERNEL": 1.985248869,
+        "GRAPH_TRACE": 0.0,
+        "MEMCPY": 0.100773321,
+        "MEMSET": 0.003452056
+      },
+      "api_duration_sum_s_top": [
+        [
+          "cudaStreamSynchronize_v3020",
+          2.1179088639999994
+        ],
+        [
+          "cudaLaunchKernel_v7000",
+          0.17086005799999918
+        ],
+        [
+          "cudaMemcpyAsync_v3020",
+          0.07815067800000007
+        ],
+        [
+          "cudaFree_v3020",
+          0.014272484
+        ],
+        [
+          "cuLibraryLoadData",
+          0.009847111
+        ],
+        [
+          "cudaGraphExecDestroy_v10000",
+          0.006887038999999998
+        ],
+        [
+          "cudaMemcpy2DAsync_v3020",
+          0.004826209000000001
+        ],
+        [
+          "cuKernelGetFunction",
+          0.004639310000000002
+        ],
+        [
+          "cudaMemsetAsync_v3020",
+          0.004251420000000001
+        ],
+        [
+          "cuLaunchKernel",
+          0.0017921899999999995
+        ],
+        [
+          "cuGetProcAddress_v2",
+          0.0017593340000000015
+        ],
+        [
+          "cudaGraphDestroy_v10000",
+          0.001355136000000001
+        ],
+        [
+          "cudaEventCreateWithFlags_v3020",
+          0.0005996620000000004
+        ],
+        [
+          "cudaMalloc_v3020",
+          0.000508076
+        ],
+        [
+          "cuInit",
+          0.000243971
+        ]
+      ]
+    },
+    "decode_after_first_content": {
+      "capture_start_relative_s": 29.017024576011277,
+      "capture_end_relative_s": 60.0012016,
+      "wall_s": 30.984177023988725,
+      "gpu_activity_union_s": 6.159330706,
+      "gpu_activity_coverage": 0.19878955317197203,
+      "synchronize_api_union_s": 6.740523548,
+      "synchronize_api_coverage": 0.2175472836596989,
+      "activity_union_s_by_kind": {
+        "KERNEL": 0.340843577,
+        "GRAPH_TRACE": 5.637936467,
+        "MEMCPY": 0.180490086,
+        "MEMSET": 6.0576e-05
+      },
+      "api_duration_sum_s_top": [
+        [
+          "cudaStreamSynchronize_v3020",
+          6.740523547999947
+        ],
+        [
+          "cudaMemcpyAsync_v3020",
+          0.28317875600000075
+        ],
+        [
+          "cudaGraphLaunch_v10000",
+          0.1809292239999998
+        ],
+        [
+          "cudaLaunchKernel_v7000",
+          0.08229788699999985
+        ],
+        [
+          "cudaGraphInstantiate_v12000",
+          0.040535439
+        ],
+        [
+          "cudaStreamBeginCapture_v10000",
+          0.009358028000000006
+        ],
+        [
+          "cudaMemcpy2DAsync_v3020",
+          0.003929991999999999
+        ],
+        [
+          "cudaGraphExecUpdate_v10020",
+          0.0012178139999999996
+        ],
+        [
+          "cudaStreamEndCapture_v10000",
+          0.0007530020000000002
+        ],
+        [
+          "cudaMemsetAsync_v3020",
+          0.000378563
+        ],
+        [
+          "cudaGraphExecDestroy_v10000",
+          0.0
+        ],
+        [
+          "cudaGraphDestroy_v10000",
+          0.0
+        ],
+        [
+          "cudaFree_v3020",
+          0.0
+        ],
+        [
+          "cudaGetDriverEntryPoint_v11030",
+          0.0
+        ],
+        [
+          "cudaMalloc_v3020",
+          0.0
+        ]
+      ]
+    }
+  },
+  "notes": [
+    "Phases are intersected with the capture; first/last 250ms are excluded.",
+    "GPU intervals union kernels, entire CUDA graphs and copies without double counting.",
+    "A graph span may include internal gaps; this is activity coverage, not SM utilization.",
+    "Synchronize API duration includes host/driver overhead, not exclusively device execution.",
+    "Activity coverage is not a measured Amdahl critical-path fraction.",
+    "Graph tracing is coarse: direct-kernel rankings omit kernels inside recorded graphs."
+  ]
+}

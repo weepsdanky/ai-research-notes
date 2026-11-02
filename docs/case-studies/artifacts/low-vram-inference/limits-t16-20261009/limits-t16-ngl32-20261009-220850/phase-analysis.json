@@ -1,0 +1,65 @@
+{
+  "bandwidth_random4MiB_GBs": 2.6152861600369803,
+  "requests": [
+    {
+      "request": 0,
+      "prompt_tokens": 27,
+      "ttft_s": 29.3581193999853,
+      "client_decode_tok_s": 0.8546925815709701,
+      "decode_read_GB_per_token": 0.9180265832206237,
+      "prefill_read_GB": 36.99197704435146,
+      "bandwidth_calibrated_decode_ceiling": 2.84881310393216,
+      "bandwidth_calibrated_ttft_floor": 14.144523689074388
+    },
+    {
+      "request": 1,
+      "prompt_tokens": 150,
+      "ttft_s": 113.52971939998679,
+      "client_decode_tok_s": 0.8312472980576013,
+      "decode_read_GB_per_token": 0.960043604175617,
+      "prefill_read_GB": 133.016302830754,
+      "bandwidth_calibrated_decode_ceiling": 2.7241326838302404,
+      "bandwidth_calibrated_ttft_floor": 50.86108926178585
+    },
+    {
+      "request": 2,
+      "prompt_tokens": 27,
+      "ttft_s": 30.44500579999294,
+      "client_decode_tok_s": 0.8707219892906212,
+      "decode_read_GB_per_token": 0.9161185944176882,
+      "prefill_read_GB": 35.349186892510545,
+      "bandwidth_calibrated_decode_ceiling": 2.854746291553369,
+      "bandwidth_calibrated_ttft_floor": 13.51637439629578
+    },
+    {
+      "request": 3,
+      "prompt_tokens": 150,
+      "ttft_s": 117.37216730002547,
+      "client_decode_tok_s": 0.8244632026066498,
+      "decode_read_GB_per_token": 0.952149542618357,
+      "prefill_read_GB": 131.22378885313265,
+      "bandwidth_calibrated_decode_ceiling": 2.746717866234638,
+      "bandwidth_calibrated_ttft_floor": 50.1756904687161
+    },
+    {
+      "request": 4,
+      "prompt_tokens": 27,
+      "ttft_s": 29.66300840000622,
+      "client_decode_tok_s": 0.8648500348676218,
+      "decode_read_GB_per_token": 0.9233220863612253,
+      "prefill_read_GB": 35.92046917128543,
+      "bandwidth_calibrated_decode_ceiling": 2.8324743864231783,
+      "bandwidth_calibrated_ttft_floor": 13.73481407892187
+    },
+    {
+      "request": 5,
+      "prompt_tokens": 150,
+      "ttft_s": 115.28968919999897,
+      "client_decode_tok_s": 0.8208973227859571,
+      "decode_read_GB_per_token": 0.9609434320924695,
+      "prefill_read_GB": 128.17067626541038,
+      "bandwidth_calibrated_decode_ceiling": 2.721581804604412,
+      "bandwidth_calibrated_ttft_floor": 49.00827994424826
+    }
+  ]
+}

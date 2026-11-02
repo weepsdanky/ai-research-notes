@@ -1,0 +1,285 @@
+{
+  "command": [
+    "D:\\ai-research\\low-vram-inference\\bin\\llama-server.exe",
+    "-m",
+    "D:\\ai-research\\low-vram-inference\\models\\deepseek-q4\\DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf",
+    "--load-mode",
+    "mmap",
+    "--no-repack",
+    "--no-host",
+    "--lazy-mode",
+    "on",
+    "--cpu-moe",
+    "--no-op-offload",
+    "--no-kv-offload",
+    "-ngl",
+    "32",
+    "-c",
+    "512",
+    "-b",
+    "32",
+    "-ub",
+    "32",
+    "-t",
+    "4",
+    "-np",
+    "1",
+    "--jinja",
+    "--reasoning",
+    "off",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18080",
+    "-v"
+  ],
+  "cache_note": "Fresh process; OS file cache uncontrolled. Same-server repeated requests are warm.",
+  "process_start_to_ready_s": 36.736913900007494,
+  "requests": [
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 37.27951980003854,
+      "total_s": 39.32737630000338,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 18,
+        "total_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 18,
+          "prompt_ms": 37221.549,
+          "prompt_per_token_ms": 2067.8638333333333,
+          "prompt_per_second": 0.483590836050375,
+          "predicted_n": 2,
+          "predicted_ms": 2055.603,
+          "predicted_per_token_ms": 2055.603,
+          "predicted_per_second": 0.4864752581116101
+        }
+      ],
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 36.700571800000034,
+      "total_s": 45.2094598999829,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 17,
+        "total_tokens": 22,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 17,
+          "prompt_ms": 36617.898,
+          "prompt_per_token_ms": 2153.994,
+          "prompt_per_second": 0.46425384657524577,
+          "predicted_n": 5,
+          "predicted_ms": 8515.013,
+          "predicted_per_token_ms": 2128.75325,
+          "predicted_per_second": 0.46975853119660527
+        }
+      ],
+      "phase": "first-pass",
+      "repeat_index": 0
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 38.53135249996558,
+      "total_s": 40.31635769997956,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 18,
+        "total_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 18,
+          "prompt_ms": 38469.89,
+          "prompt_per_token_ms": 2137.216111111111,
+          "prompt_per_second": 0.46789840054130644,
+          "predicted_n": 2,
+          "predicted_ms": 1789.898,
+          "predicted_per_token_ms": 1789.898,
+          "predicted_per_second": 0.5586910539036303
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 1
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 33.61071159999119,
+      "total_s": 46.257408699952066,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 17,
+        "total_tokens": 22,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 17,
+          "prompt_ms": 33525.891,
+          "prompt_per_token_ms": 1972.111235294118,
+          "prompt_per_second": 0.5070707889612837,
+          "predicted_n": 5,
+          "predicted_ms": 12653.765,
+          "predicted_per_token_ms": 3163.44125,
+          "predicted_per_second": 0.3161114498333105
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 1
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 34.97261390002677,
+      "total_s": 36.23216409998713,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 18,
+        "total_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 18,
+          "prompt_ms": 34898.68,
+          "prompt_per_token_ms": 1938.8155555555556,
+          "prompt_per_second": 0.5157788202877587,
+          "predicted_n": 2,
+          "predicted_ms": 1266.45,
+          "predicted_per_token_ms": 1266.45,
+          "predicted_per_second": 0.7896087488649374
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 2
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 33.0077186000417,
+      "total_s": 43.1602093000547,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 17,
+        "total_tokens": 22,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 17,
+          "prompt_ms": 32934.852,
+          "prompt_per_token_ms": 1937.3442352941177,
+          "prompt_per_second": 0.5161705296261845,
+          "predicted_n": 5,
+          "predicted_ms": 10156.108,
+          "predicted_per_token_ms": 2539.027,
+          "predicted_per_second": 0.39385166049829323
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 2
+    },
+    {
+      "prompt": "What is 2 + 3? Answer with only the number.",
+      "text": "5",
+      "time_to_first_content_s": 35.9967830000096,
+      "total_s": 37.355441400024574,
+      "usage": {
+        "completion_tokens": 2,
+        "prompt_tokens": 18,
+        "total_tokens": 20,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 18,
+          "prompt_ms": 35931.535,
+          "prompt_per_token_ms": 1996.196388888889,
+          "prompt_per_second": 0.5009527146558029,
+          "predicted_n": 2,
+          "predicted_ms": 1370.684,
+          "predicted_per_token_ms": 1370.684,
+          "predicted_per_second": 0.7295627584476072
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 3
+    },
+    {
+      "prompt": "Translate into Chinese, with no explanation: The cat is sleeping.",
+      "text": "猫正在睡觉。",
+      "time_to_first_content_s": 33.35031920002075,
+      "total_s": 41.583345799997915,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 17,
+        "total_tokens": 22,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": [
+        {
+          "cache_n": 0,
+          "prompt_n": 17,
+          "prompt_ms": 33266.427,
+          "prompt_per_token_ms": 1956.8486470588236,
+          "prompt_per_second": 0.5110257257264208,
+          "predicted_n": 5,
+          "predicted_ms": 8240.201,
+          "predicted_per_token_ms": 2060.05025,
+          "predicted_per_second": 0.48542505213161674
+        }
+      ],
+      "phase": "same-server-repeat",
+      "repeat_index": 3
+    }
+  ],
+  "status": "content-and-monitoring-gates-passed",
+  "server_exit_code": 1,
+  "resources": {
+    "peak_process_rss_bytes": 26513502208,
+    "peak_sampled_private_bytes": 7616331776,
+    "peak_sampled_device_used_vram_mib": 6286,
+    "machine_disk_read_bytes_approx": 245937812850.0315,
+    "sample_count": 340,
+    "note": "Disk is whole-machine estimated physical reads; VRAM is whole-device sampled usage. Page faults include soft faults.",
+    "peak_sampled_process_gpu_dedicated_usage_bytes": 5638062080,
+    "peak_sampled_process_gpu_shared_usage_bytes": 98566144,
+    "gpu_counter_note": "PDH process GPU usage is a counter proxy; retain instances and cross-check device usage/CUDA buffers."
+  }
+}

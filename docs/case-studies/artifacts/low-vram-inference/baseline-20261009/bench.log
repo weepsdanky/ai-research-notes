@@ -1,0 +1,11 @@
+llama-bench.exe : ggml_cuda_init: found 1 CUDA devices (Total VRAM: 8187 MiB):
+所在位置 D:\ai-research\low-vram-inference\baseline.ps1:19 字符: 1
++ & $bench -m $model -ngl 0,99 -p 128 -n 32 -nopo 1 -t 6 -r 3 -o json 1 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ggml_cuda_init:...RAM: 8187 MiB)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Device 0: NVIDIA GeForce RTX 4060 Laptop GPU, compute capability 8.9, VMM: yes, VRAM: 8187 MiB
+load_backend: loaded CUDA backend from D:\ai-research\low-vram-inference\bin\ggml-cuda.dll
+load_backend: loaded RPC backend from D:\ai-research\low-vram-inference\bin\ggml-rpc.dll
+load_backend: loaded CPU backend from D:\ai-research\low-vram-inference\bin\ggml-cpu-alderlake.dll

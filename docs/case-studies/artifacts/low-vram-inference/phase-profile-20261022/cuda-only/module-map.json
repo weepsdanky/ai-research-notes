@@ -1,0 +1,342 @@
+[
+    {
+        "ModuleName":  "llama-server.exe",
+        "base":  140697404047360,
+        "ModuleMemorySize":  28672
+    },
+    {
+        "ModuleName":  "ntdll.dll",
+        "base":  140736023887872,
+        "ModuleMemorySize":  2523136
+    },
+    {
+        "ModuleName":  "KERNEL32.DLL",
+        "base":  140736004423680,
+        "ModuleMemorySize":  831488
+    },
+    {
+        "ModuleName":  "KERNELBASE.dll",
+        "base":  140735979126784,
+        "ModuleMemorySize":  4198400
+    },
+    {
+        "ModuleName":  "ToolsInjectionHelper64.dll",
+        "base":  140734763433984,
+        "ModuleMemorySize":  929792
+    },
+    {
+        "ModuleName":  "USER32.dll",
+        "base":  140735987253248,
+        "ModuleMemorySize":  1929216
+    },
+    {
+        "ModuleName":  "win32u.dll",
+        "base":  140735977619456,
+        "ModuleMemorySize":  159744
+    },
+    {
+        "ModuleName":  "GDI32.dll",
+        "base":  140736014450688,
+        "ModuleMemorySize":  176128
+    },
+    {
+        "ModuleName":  "gdi32full.dll",
+        "base":  140735975587840,
+        "ModuleMemorySize":  1220608
+    },
+    {
+        "ModuleName":  "msvcp_win.dll",
+        "base":  140735978405888,
+        "ModuleMemorySize":  667648
+    },
+    {
+        "ModuleName":  "ucrtbase.dll",
+        "base":  140735984173056,
+        "ModuleMemorySize":  1359872
+    },
+    {
+        "ModuleName":  "ole32.dll",
+        "base":  140736014712832,
+        "ModuleMemorySize":  1679360
+    },
+    {
+        "ModuleName":  "combase.dll",
+        "base":  140736019628032,
+        "ModuleMemorySize":  3715072
+    },
+    {
+        "ModuleName":  "RPCRT4.dll",
+        "base":  140736017334272,
+        "ModuleMemorySize":  1146880
+    },
+    {
+        "ModuleName":  "ADVAPI32.dll",
+        "base":  140736010059776,
+        "ModuleMemorySize":  770048
+    },
+    {
+        "ModuleName":  "msvcrt.dll",
+        "base":  140735997607936,
+        "ModuleMemorySize":  692224
+    },
+    {
+        "ModuleName":  "sechost.dll",
+        "base":  140735999574016,
+        "ModuleMemorySize":  688128
+    },
+    {
+        "ModuleName":  "VCRUNTIME140.dll",
+        "base":  140735439568896,
+        "ModuleMemorySize":  180224
+    },
+    {
+        "ModuleName":  "llama-server-impl.dll",
+        "base":  140734378541056,
+        "ModuleMemorySize":  9207808
+    },
+    {
+        "ModuleName":  "WS2_32.dll",
+        "base":  140736010911744,
+        "ModuleMemorySize":  528384
+    },
+    {
+        "ModuleName":  "CRYPT32.dll",
+        "base":  140735985614848,
+        "ModuleMemorySize":  1568768
+    },
+    {
+        "ModuleName":  "llama-common.dll",
+        "base":  140733857988608,
+        "ModuleMemorySize":  8081408
+    },
+    {
+        "ModuleName":  "mtmd.dll",
+        "base":  140734392107008,
+        "ModuleMemorySize":  1814528
+    },
+    {
+        "ModuleName":  "ggml-base.dll",
+        "base":  140734948245504,
+        "ModuleMemorySize":  823296
+    },
+    {
+        "ModuleName":  "SHELL32.dll",
+        "base":  140735989547008,
+        "ModuleMemorySize":  7979008
+    },
+    {
+        "ModuleName":  "llama.dll",
+        "base":  140734375198720,
+        "ModuleMemorySize":  3338240
+    },
+    {
+        "ModuleName":  "ggml.dll",
+        "base":  140735821709312,
+        "ModuleMemorySize":  102400
+    },
+    {
+        "ModuleName":  "MSVCP140.dll",
+        "base":  140735609307136,
+        "ModuleMemorySize":  643072
+    },
+    {
+        "ModuleName":  "VCRUNTIME140_1.dll",
+        "base":  140735455887360,
+        "ModuleMemorySize":  49152
+    },
+    {
+        "ModuleName":  "libomp.dll",
+        "base":  140734924521472,
+        "ModuleMemorySize":  819200
+    },
+    {
+        "ModuleName":  "PSAPI.DLL",
+        "base":  140736018513920,
+        "ModuleMemorySize":  32768
+    },
+    {
+        "ModuleName":  "IMM32.DLL",
+        "base":  140736023363584,
+        "ModuleMemorySize":  200704
+    },
+    {
+        "ModuleName":  "bcryptPrimitives.dll",
+        "base":  140735983386624,
+        "ModuleMemorySize":  704512
+    },
+    {
+        "ModuleName":  "ToolsInjection64.dll",
+        "base":  140733171236864,
+        "ModuleMemorySize":  12021760
+    },
+    {
+        "ModuleName":  "SETUPAPI.dll",
+        "base":  140736005275648,
+        "ModuleMemorySize":  4747264
+    },
+    {
+        "ModuleName":  "SHLWAPI.dll",
+        "base":  140736013991936,
+        "ModuleMemorySize":  417792
+    },
+    {
+        "ModuleName":  "WINMM.dll",
+        "base":  140735728779264,
+        "ModuleMemorySize":  225280
+    },
+    {
+        "ModuleName":  "OPENGL32.dll",
+        "base":  140734573838336,
+        "ModuleMemorySize":  1097728
+    },
+    {
+        "ModuleName":  "USERENV.dll",
+        "base":  140735962021888,
+        "ModuleMemorySize":  212992
+    },
+    {
+        "ModuleName":  "bcrypt.dll",
+        "base":  140735974408192,
+        "ModuleMemorySize":  172032
+    },
+    {
+        "ModuleName":  "WTSAPI32.dll",
+        "base":  140735906316288,
+        "ModuleMemorySize":  172032
+    },
+    {
+        "ModuleName":  "MSWSOCK.dll",
+        "base":  140735961300992,
+        "ModuleMemorySize":  442368
+    },
+    {
+        "ModuleName":  "GLU32.dll",
+        "base":  140735520768000,
+        "ModuleMemorySize":  233472
+    },
+    {
+        "ModuleName":  "SspiCli.dll",
+        "base":  140735958155264,
+        "ModuleMemorySize":  303104
+    },
+    {
+        "ModuleName":  "dxcore.dll",
+        "base":  140735914311680,
+        "ModuleMemorySize":  278528
+    },
+    {
+        "ModuleName":  "kernel.appcore.dll",
+        "base":  140735955271680,
+        "ModuleMemorySize":  110592
+    },
+    {
+        "ModuleName":  "shcore.dll",
+        "base":  140736001409024,
+        "ModuleMemorySize":  1019904
+    },
+    {
+        "ModuleName":  "ggml-cuda.dll",
+        "base":  140731373322240,
+        "ModuleMemorySize":  570339328
+    },
+    {
+        "ModuleName":  "cudart64_12.dll",
+        "base":  140735479349248,
+        "ModuleMemorySize":  581632
+    },
+    {
+        "ModuleName":  "cublas64_12.dll",
+        "base":  140732588621824,
+        "ModuleMemorySize":  100139008
+    },
+    {
+        "ModuleName":  "nvcuda.dll",
+        "base":  140734393942016,
+        "ModuleMemorySize":  4468736
+    },
+    {
+        "ModuleName":  "cublasLt64_12.dll",
+        "base":  140730843201536,
+        "ModuleMemorySize":  530087936
+    },
+    {
+        "ModuleName":  "CRYPTBASE.DLL",
+        "base":  140735964512256,
+        "ModuleMemorySize":  49152
+    },
+    {
+        "ModuleName":  "nvcuda64.dll",
+        "base":  140733023453184,
+        "ModuleMemorySize":  29904896
+    },
+    {
+        "ModuleName":  "VERSION.dll",
+        "base":  140735850283008,
+        "ModuleMemorySize":  45056
+    },
+    {
+        "ModuleName":  "cupti64_126.dll",
+        "base":  140734247206912,
+        "ModuleMemorySize":  4743168
+    },
+    {
+        "ModuleName":  "msasn1.dll",
+        "base":  140735965888512,
+        "ModuleMemorySize":  77824
+    },
+    {
+        "ModuleName":  "cryptnet.dll",
+        "base":  140735825575936,
+        "ModuleMemorySize":  241664
+    },
+    {
+        "ModuleName":  "drvstore.dll",
+        "base":  140735824003072,
+        "ModuleMemorySize":  1548288
+    },
+    {
+        "ModuleName":  "devobj.dll",
+        "base":  140735970869248,
+        "ModuleMemorySize":  192512
+    },
+    {
+        "ModuleName":  "cfgmgr32.dll",
+        "base":  140735971131392,
+        "ModuleMemorySize":  335872
+    },
+    {
+        "ModuleName":  "wldp.dll",
+        "base":  140735965298688,
+        "ModuleMemorySize":  528384
+    },
+    {
+        "ModuleName":  "WINTRUST.dll",
+        "base":  140735977816064,
+        "ModuleMemorySize":  532480
+    },
+    {
+        "ModuleName":  "nvapi64.dll",
+        "base":  140735338905600,
+        "ModuleMemorySize":  5681152
+    },
+    {
+        "ModuleName":  "OLEAUT32.dll",
+        "base":  140736011501568,
+        "ModuleMemorySize":  888832
+    },
+    {
+        "ModuleName":  "nvdxgdmal64.dll",
+        "base":  140735479939072,
+        "ModuleMemorySize":  634880
+    },
+    {
+        "ModuleName":  "ggml-rpc.dll",
+        "base":  140735520571392,
+        "ModuleMemorySize":  188416
+    },
+    {
+        "ModuleName":  "ggml-cpu-alderlake.dll",
+        "base":  140734245175296,
+        "ModuleMemorySize":  1978368
+    }
+]

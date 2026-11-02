@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-22",
+  "machine": "ssh mark / Windows native",
+  "backend_commit": "d81235049384534c167caea52b85a694f6103d14",
+  "model_manifest": "../../../../../code/low_vram_inference/deepseek-q4-manifest.json",
+  "port": 18080,
+  "gpu_layers": 32,
+  "threads": 16,
+  "context": 512,
+  "batch": 32,
+  "ubatch": 32,
+  "runs": [
+    {
+      "label": "control-before",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-control-20261022-192329",
+      "status": "request-passed",
+      "error": null,
+      "profiler_stop_error": null,
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 30.005938299989793,
+      "total_s": 102.08418599999277,
+      "client_decode_tps": 0.8740501054106148,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "etw-broad",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-etw-20261022-192614",
+      "status": "failed",
+      "error": null,
+      "profiler_stop_error": "TimeoutExpired(['wpr', '-stop', 'D:\\\\ai-research\\\\low-vram-inference\\\\results\\\\phase-etw-20261022-192614\\\\cpu-faults.etl'], 120)",
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 33.24664659998962,
+      "total_s": 121.74446730001364,
+      "client_decode_tps": 0.7118819367716125,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "etw",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-etw-20261022-193614",
+      "status": "request-passed",
+      "error": null,
+      "profiler_stop_error": null,
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 29.668517500016605,
+      "total_s": 107.8127225000062,
+      "client_decode_tps": 0.8062018162448308,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "cuda-startup-failed",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-cuda-20261022-195440",
+      "status": "failed",
+      "error": "TimeoutError('timed out')",
+      "profiler_stop_error": null
+    },
+    {
+      "label": "cuda-cpu-events-failed",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-cuda-20261022-195551",
+      "status": "failed",
+      "error": null,
+      "profiler_stop_error": "TimeoutExpired(['C:\\\\Program Files\\\\NVIDIA Corporation\\\\Nsight Systems 2024.5.1\\\\target-windows-x64\\\\nsys.exe', 'stop', '--session=LowVram11956'], 120)",
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 36.252026200003456,
+      "total_s": 120.27046179998433,
+      "client_decode_tps": 0.7498354325465962,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "cuda-only",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-cuda-20261022-200158",
+      "status": "failed",
+      "error": null,
+      "profiler_stop_error": "RuntimeError(\"['C:\\\\\\\\Program Files\\\\\\\\NVIDIA Corporation\\\\\\\\Nsight Systems 2024.5.1\\\\\\\\target-windows-x64\\\\\\\\nsys.exe', 'stop', '--session=LowVram4964']: Collection stop is not allowed in this state.\\n\")",
+      "input_tokens": 27,
+      "output_tokens": 32,
+      "ttft_s": 29.29102370000328,
+      "total_s": 75.25965819999692,
+      "client_decode_tps": 0.6743728704842057,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "control-after",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-control-20261022-200458",
+      "status": "request-passed",
+      "error": null,
+      "profiler_stop_error": null,
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 29.162382200011052,
+      "total_s": 108.60914929999853,
+      "client_decode_tps": 0.7929838091550225,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    },
+    {
+      "label": "cuda-2026",
+      "remote_folder": "D:\\ai-research\\low-vram-inference\\results\\phase-cuda-20261022-201346",
+      "status": "request-passed",
+      "error": null,
+      "profiler_stop_error": null,
+      "input_tokens": 27,
+      "output_tokens": 64,
+      "ttft_s": 28.998056000011275,
+      "total_s": 108.91304119999404,
+      "client_decode_tps": 0.7883377547070307,
+      "decode_formula": "(completion_tokens - 1) / (total_s - first_content_s)"
+    }
+  ],
+  "limitations": [
+    "Separate ETW/CUDA runs; OS file cache uncontrolled; two controls do not establish causal profiler overhead.",
+    "ETW: four predetermined 1-second windows, not a complete-request exclusive breakdown.",
+    "CUDA: supported 2026 profiler, 60-second window with stop-boundary warnings; clip 250ms and validate interior correlations.",
+    "No optimization A/B was run. No claim that OpenMP runtime samples are entirely removable waiting."
+  ],
+  "source_sha256": {
+    "profile_phases.py": "fb4e894821a5d7d3eb5b56f4e178aad49138c2e44501eaa956fc17ca1c82a3f8",
+    "export_phase_etw.py": "8bb55e710b28fa196cb03589574991b21ab954a135db591ba704e53cbf693eaf",
+    "analyze_phase_trace.py": "be6e7d73c4954e379197b1393c7b3c0ff85fdbee6df24a6fd11f4d9f6f4a9b07",
+    "analyze_cuda_trace.py": "b6f707b63c8b92b7c24bb20db217971c147b23ad183064cd25aaa5734e548259"
+  },
+  "final_host_check": "final-host-check.json"
+}

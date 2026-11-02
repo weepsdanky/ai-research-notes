@@ -1,0 +1,20 @@
+{
+  "logical_cpus": 20,
+  "gpu_query": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 8001 MHz, 3105 MHz, 4, 8",
+  "memory_modules": [
+    {
+      "Capacity": 17179869184,
+      "ConfiguredClockSpeed": 3200,
+      "Speed": 3200,
+      "SMBIOSMemoryType": 26,
+      "DeviceLocator": "Controller0-ChannelA"
+    },
+    {
+      "Capacity": 17179869184,
+      "ConfiguredClockSpeed": 3200,
+      "Speed": 3200,
+      "SMBIOSMemoryType": 26,
+      "DeviceLocator": "Controller1-ChannelA-DIMM0"
+    }
+  ]
+}

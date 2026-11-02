@@ -14,6 +14,10 @@
   Video DiT 的主要架构依据。用于学习空间/时间 attention 分解及 Variant 1。
 - [Official Vchitect/Latte](https://github.com/Vchitect/Latte)
   用于核对 Video DiT 的 per-frame patch、时空位置编码、S-AdaLN 与 CFG 实现。
+- [Paper: _HunyuanVideo: A Systematic Framework For Large Video Generative Models_](https://arxiv.org/abs/2412.03603)
+  用于学习 3D VAE、92M–6.6B scaling sweep、图像到视频的渐进课程、混合分辨率 token bucket 与大模型训练设计。
+- [Paper: _LPM 1.0: Video-based Character Performance Model_](https://arxiv.org/abs/2604.07823)
+  最终任务的一手系统资料。用于学习 17B Base LPM 的音频/文本/多参考条件、Flow Matching、长时训练，以及 Online LPM 的因果流式蒸馏、rollout shift 和分布式基础设施；不作为当前 1.6M 模型的直接复现目标。
 - [Paper: _Flow Matching for Generative Modeling_](https://arxiv.org/abs/2210.02747)
   Flow Matching 主论文。用于理解 CNF、conditional probability path、simulation-free vector-field regression 与 OT path。
 - [Paper + official code: _Flow Matching Guide and Code_](https://arxiv.org/abs/2412.06264) · [facebookresearch/flow_matching](https://github.com/facebookresearch/flow_matching)
@@ -24,11 +28,12 @@
   用于理解 DiT 论文为何在 VAE latent 而非高分辨率像素上扩散；它是依赖背景，不是学习 DiT block 的第一篇。
 - [Local audit: DiT original-paper implementation](docs/case-studies/dit-original-paper-implementation-audit.md)
   论文、官方代码和本地实现的逐项差异矩阵。
-- [Local design: Video DiT on Mac](docs/case-studies/video-dit-mac-design.md)
+- [Video DiT case-study timeline and current entry](docs/case-studies/video-dit/README.md)
+- [Local design: Video DiT on Mac](docs/case-studies/video-dit/01-phase-0-mac-design.md)
   Latte 依据、计算预算、合成课程与能力边界。
-- [Local diagnosis: Video DiT moving mosaic](docs/case-studies/video-dit-moving-mosaic-diagnosis-and-next-actions.md)
+- [Local diagnosis: Video DiT moving mosaic](docs/case-studies/video-dit/04-phase-2-moving-mosaic-diagnosis-and-next-actions.md)
   将当前失败拆为 VAE、noise level、condition、sampler 与规模门禁；用于下一轮单变量实验。
-- [Primary-source notes: moving-mosaic diagnosis](docs/case-studies/video-dit-moving-mosaic-primary-source-notes.md)
+- [Primary-source notes: moving-mosaic diagnosis](docs/case-studies/video-dit/05-phase-2-moving-mosaic-primary-source-notes.md)
   DDPM、Improved DDPM、LDM、DiT、Latte、CLIP/FVD/LPIPS 的一手证据与本地推断边界。
 
 ## Wisdom (Communities)

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>从 1.6M Video DiT 到 LPM：下一步不是盲目加参数</title><link rel="stylesheet" href="../assets/lesson.css"></head>
+<body><main>
+<h1>从 1.6M Video DiT 到 LPM</h1>
+<p class="lede">今天只学一个判断技能：区分“训练闭环已通过”“小数据已记住”和“模型容量已到上限”。你当前只证明了前两项。</p>
+
+<div class="axes">
+  <section class="axis video"><h2>已经学到</h2><p>3D latent、空间/时间 attention、文本 token 条件、epsilon diffusion、CFG、EMA、真实视频训练、分噪声诊断，以及从移动马赛克恢复到可辨识生成。</p></section>
+  <section class="axis image"><h2>尚未证明</h2><p>8–10 clip 扩展、held-out prompt/组合泛化、身份保持、音频时序对齐、长时滚动、flow matching、因果流式生成和大规模分布式训练。</p></section>
+</div>
+
+<h2>1.6M 是不是上限？</h2>
+<p class="bad"><strong>不是模型上限。</strong>当前最佳模型只在三条训练视频上通过可辨识门禁；海滩上的狗仍弱。它证明 1.6M 足以记住并区分三个局部分布，不证明其在更多数据上已经达到不可改善的容量极限。</p>
+
+<table><thead><tr><th>系统</th><th>规模</th><th>相对 1.6M</th><th>它说明什么</th></tr></thead><tbody>
+<tr><td>当前 Video DiT</td><td>1.60M</td><td>1×</td><td>Mac 上的教学与 overfit 闭环</td></tr>
+<tr><td>Latte-S</td><td>32.48M</td><td>约 20×</td><td>公开论文中的最小视频配置也大一个数量级</td></tr>
+<tr><td>Hunyuan DiT-T2X 最小 scaling 点</td><td>92M</td><td>约 57×</td><td>工业 scaling 实验从更高起点开始</td></tr>
+<tr><td>Latte 主配置</td><td>约 674M</td><td>约 421×</td><td>256px、16 帧、8×A100 的论文实验</td></tr>
+<tr><td>Base LPM</td><td>17B</td><td>约 10,600×</td><td>基础视频先验、多模态控制和人类表演建模</td></tr>
+</tbody></table>
+
+<h2>下一道门：先泛化，不先放大</h2>
+<section class="gate"><strong>Gate 1 · 训练集记忆</strong>三条训练 prompt 可辨识。当前已过。</section>
+<section class="gate"><strong>Gate 2 · 数据扩展</strong>扩到 8–10 clips，保持每 clip 暴露、token 数、采样协议一致。若变回马赛克，说明 scratch 空间先验/容量/数据效率不足。</section>
+<section class="gate"><strong>Gate 3 · 未见组合</strong>主体、动作、场景三因素拆分；训练不包含某个组合，测试该 held-out triple。必须做盲评，不能只看总 loss。</section>
+<section class="gate"><strong>Gate 4 · 预训练迁移</strong>若 Gate 2/3 失败，不继续暴力训练 1.6M；加载预训练 image/video latent prior，冻结空间块或主干，只训练 temporal blocks、text/audio adapter。</section>
+
+<h2>学习顺序</h2>
+<p class="flow">泛化实验 → 预训练空间先验迁移 → Flow Matching → 音频时间对齐与多参考身份 → 因果 chunk / rollout → 蒸馏 → 分布式基础设施</p>
+
+<p>Flow Matching 是现在最合适的下一门数学课：它仍在单机可控范围内，又直接连接 LPM Base Model 的训练目标。音频、多参考与流式生成应在一个更可靠的视觉先验上学习，否则无法区分“视觉生成失败”和“条件没对齐”。</p>
+
+<h2>什么时候学习 LPM 的大规模训练问题？</h2>
+<p>现在先概念性阅读，等本地单卡实验出现对应症状再动手实现：</p>
+<table><thead><tr><th>问题</th><th>现在</th><th>触发实作的时机</th></tr></thead><tbody>
+<tr><td>token bucket / 数据负载均衡</td><td>理解原因</td><td>开始混合分辨率、帧数、时长</td></tr>
+<tr><td>activation checkpoint / mixed precision</td><td>可先实验</td><td>显存限制阻止增大 token 或 batch</td></tr>
+<tr><td>FSDP / HSDP</td><td>只读</td><td>模型或 optimizer state 放不进单卡</td></tr>
+<tr><td>Ulysses context parallel</td><td>只读</td><td>序列达到数万 token，单卡 attention 无法容纳</td></tr>
+<tr><td>流式 train–inference mismatch</td><td>先做 toy chunk</td><td>开始 causal rollout，误差随 chunk 累积</td></tr>
+<tr><td>DMD / on-policy distillation</td><td>后学</td><td>已有强离线 teacher，目标变成少步实时学生</td></tr>
+</tbody></table>
+
+<div class="check"><strong>下一次实验只回答一个问题：</strong>同一个 1.6M checkpoint/recipe 扩到 8–10 clips，在匹配每 clip 暴露后是否仍可辨识，并能否通过至少一个 held-out 组合？答案出来以前，不宣称容量上限，也不开始 17B 式基础设施。</div>
+
+<h2>检索练习</h2>
+<details><summary>训练 loss 继续下降且出现猫，是否证明模型容量用尽？</summary><p class="answer">否。它只证明训练分布拟合；容量上限需要数据规模、模型规模与计算预算的受控 scaling sweep，并看 held-out 指标。</p></details>
+<details><summary>为什么不马上加入音频条件？</summary><p class="answer">视觉先验尚未通过泛化门禁。此时失败无法归因于视觉 denoiser 还是音频对齐，增加条件只会扩大诊断空间。</p></details>
+<details><summary>LPM 的 DMD 应该什么时候学？</summary><p class="answer">在已有强离线 teacher、理解 Flow Matching，并实际遇到因果少步 student 的 rollout distribution shift 之后。</p></details>
+
+<p>一手阅读：<a href="https://arxiv.org/abs/2401.03048">Latte</a> 的预训练迁移与图像/视频联合训练，<a href="https://arxiv.org/abs/2412.03603">HunyuanVideo</a> 的 scaling/curriculum，最后进入 <a href="https://arxiv.org/abs/2604.07823">LPM 1.0</a> 的 Base Training、Online Training 与 Infrastructure。当前实验依据见<a href="../docs/case-studies/video-dit/08-phase-4-meaningful-generation-recovery.md">恢复记录</a>。不清楚的地方继续问我。</p>
+</main></body></html>
+

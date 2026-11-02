@@ -1,0 +1,13 @@
+{
+  "source-manifest.json": "7c57e710bc7a6be74331a79a3977aebc3781a13a3aa3e617b084c408b1a2d50b",
+  "validation.json": "564a945dc17168027881402ccd5b200c85c403336573ee3c36988113aa816fc0",
+  "scenarios.json": "e118dfdd672a09b0ec3c911b272c0627829dc99ab802eff41dcdd8b1be852e46",
+  "sources/llama-kv-cache.cpp": "4ac534956aa0b384a9a707c778527a4e7cd4ebfbea9c895e531b0935485de3c8",
+  "sources/deepseek4.cpp": "88b0780e4323b6c1393aa7094875d85d5210f16cee0fe64ff7db70ae40dc80d2",
+  "sources/llama-kv-cache-iswa.cpp": "567fe836543e1dd9cdd5b7cb3a91afd049c17c7010f0bddf9fe149b02b5243cb",
+  "sources/README.md": "f3ca2fcfadf926ec60115da8102cedf08f0701f60f62c16ff42f56f87dd819da",
+  "sources/estimate_hardware.py": "664f08cf0997b2b83cd23c152173058ad0970f6ec8e9958538630ad8d3876069",
+  "sources/mmq.cuh": "bc79d7cd87b6d8914ba11ee7da98bd3173687fb9a693ed6fbde3561064904169",
+  "sources/llama-kv-cache-dsv4.cpp": "3a39fd840cae710423b22e900c3241c3f97673ff074e915f5896c286193ea512",
+  "sources/ggml-cuda.cu": "1315f06baff63da74e085b7ec01974474dac1f8ec1074af13eb70faba4751961"
+}

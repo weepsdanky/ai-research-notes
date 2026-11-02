@@ -1,0 +1,281 @@
+{"unix_s": 1791521489.5094733, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 14573132404, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 11776233503, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29113624627, "free_bytes": 313587761152, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11540303903 12077174814", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 14536432244 15073303155"], "all_verified": false}
+{"unix_s": 1791521539.8728704, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 14770264692, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 11848308293, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29382831705, "free_bytes": 313310339072, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11777005125 12313876036"], "all_verified": false}
+{"unix_s": 1791521590.293365, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 14799624820, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 11909125701, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29473009241, "free_bytes": 313235623936, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11777005125 12313876036"], "all_verified": false}
+{"unix_s": 1791521640.6876917, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 14906579572, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 11923805765, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29594644057, "free_bytes": 313112809472, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 1", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11777005125 12313876036"], "all_verified": false}
+{"unix_s": 1791521691.0443692, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15074351732, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12033501759, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29872112211, "free_bytes": 312836943872, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 11924449855 12461320766", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15073303156 15610174067"], "all_verified": false}
+{"unix_s": 1791521741.4718504, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15129926260, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12058892923, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 29953077903, "free_bytes": 312749469696, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15073303156 15610174067", "RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3"], "all_verified": false}
+{"unix_s": 1791521791.8999605, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15278824052, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12194159227, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 30237241999, "free_bytes": 312474423296, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12058892923 12595763834"], "all_verified": false}
+{"unix_s": 1791521842.2606225, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15429818996, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12402825851, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 30596903567, "free_bytes": 312112861184, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12058892923 12595763834"], "all_verified": false}
+{"unix_s": 1791521892.6390224, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15569279604, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12584229499, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 30917767823, "free_bytes": 311786356736, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 3", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12058892923 12595763834"], "all_verified": false}
+{"unix_s": 1791521943.0438502, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15670991476, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12648192635, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31083442831, "free_bytes": 311623499776, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12595763835 13132634746", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15610174068 16147044979"], "all_verified": false}
+{"unix_s": 1791521993.4316025, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15813597812, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12699572859, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31277429391, "free_bytes": 311434887168, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12595763835 13132634746", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15610174068 16147044979"], "all_verified": false}
+{"unix_s": 1791522043.7695928, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15837715060, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12735224443, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31337198223, "free_bytes": 311362535424, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12595763835 13132634746", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15610174068 16147044979"], "all_verified": false}
+{"unix_s": 1791522217.0288177, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15950961268, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12796041851, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31511261839, "free_bytes": 311198433280, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf TimeoutError attempt 1", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf 15837715060 16374585971"], "all_verified": false}
+{"unix_s": 1791522267.4324462, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 15986612852, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12817013371, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31567884943, "free_bytes": 311129030656, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf TimeoutError attempt 1", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12796041851 13332912762"], "all_verified": false}
+{"unix_s": 1791522317.8511434, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16023313012, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12859316608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31646888340, "free_bytes": 311059628032, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522368.3909986, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16061061748, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12899162496, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31724482964, "free_bytes": 310984060928, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522418.8141587, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16104053364, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 12970465664, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31838777748, "free_bytes": 310869504000, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522469.2283633, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16142850676, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13024991616, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 31932101012, "free_bytes": 310765170688, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522519.6351645, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16184793716, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13064837504, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32013889940, "free_bytes": 310699765760, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522570.0289717, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16223591028, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13123557760, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32111407508, "free_bytes": 310599888896, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf ConnectionError attempt 2", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 12817373568 13354244479"], "all_verified": false}
+{"unix_s": 1791522620.4479468, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16264485492, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13140781303, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32169525515, "free_bytes": 310541926400, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214", "RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 4"], "all_verified": false}
+{"unix_s": 1791522670.857191, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16315865716, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13140781303, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32220905739, "free_bytes": 310486745088, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214", "RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 7"], "all_verified": false}
+{"unix_s": 1791522721.2659664, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16359905908, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13140781303, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32264945931, "free_bytes": 310449127424, "tail": ["Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214", "RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf URLError attempt 9"], "all_verified": false}
+{"unix_s": 1791522771.6360588, "sizes": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 16374585972, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 13140781303, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "total_bytes": 32279625995, "free_bytes": 310435991552, "tail": ["RETRY DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf URLError attempt 4", "Range DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf 13140781303 13677652214"], "all_verified": false}
+{"time": 1791532013.0409205, "downloaded_bytes": 78676820148, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 38793140852, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 37119420576, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 263765413888, "verified": false}
+{"time": 1791532101.4934742, "downloaded_bytes": 79162689285, "free_bytes": 263283658752, "verified": false}
+{"time": 1791532127.3158603, "downloaded_bytes": 79314732805, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 39199988340, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 37350485745, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 263130304512, "verified": false}
+{"time": 1791532222.2577083, "downloaded_bytes": 79882012421, "free_bytes": 262549983232, "verified": false}
+{"time": 1791532252.5035765, "downloaded_bytes": 80065513221, "free_bytes": 262376378368, "verified": false}
+{"time": 1791532327.8275692, "downloaded_bytes": 80488089349, "free_bytes": 261954654208, "verified": false}
+{"time": 1791532354.7573545, "downloaded_bytes": 80647472901, "free_bytes": 261800251392, "verified": false}
+{"time": 1791532432.8914495, "downloaded_bytes": 81063757573, "free_bytes": 261379530752, "verified": false}
+{"time": 1791532458.5022848, "downloaded_bytes": 81187489541, "free_bytes": 261255385088, "verified": false}
+{"time": 1791532536.3463151, "downloaded_bytes": 81612162821, "free_bytes": 260829466624, "verified": false}
+{"time": 1791532560.206602, "downloaded_bytes": 81746380549, "free_bytes": 260684304384, "verified": false}
+{"time": 1791532638.533581, "downloaded_bytes": 82140645125, "free_bytes": 260306784256, "verified": false}
+{"time": 1791532717.9681213, "downloaded_bytes": 82557978373, "free_bytes": 259883126784, "verified": false}
+{"time": 1791532747.7136831, "downloaded_bytes": 82721556229, "free_bytes": 259715944448, "verified": false, "complete_size_shards": ["DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf"]}
+{"time": 1791532880.467051, "downloaded_bytes": 83013060357, "free_bytes": 259429814272, "verified": false}
+{"time": 1791532905.329916, "downloaded_bytes": 83171395333, "free_bytes": 259272069120, "verified": false}
+{"time": 1791532983.677439, "downloaded_bytes": 83598165765, "free_bytes": 258838810624, "verified": false}
+{"time": 1791533013.8893952, "downloaded_bytes": 83752306437, "free_bytes": 258687750144, "verified": false}
+{"time": 1791533092.6472054, "downloaded_bytes": 84053247749, "free_bytes": 258395262976, "verified": false}
+{"time": 1791533127.0319, "downloaded_bytes": 84310148869, "free_bytes": 258132725760, "verified": false}
+{"time": 1791533207.972927, "downloaded_bytes": 84915177221, "free_bytes": 257525075968, "verified": false}
+{"time": 1791533245.5838163, "downloaded_bytes": 85140621061, "free_bytes": 257303859200, "verified": false}
+{"time": 1791533325.0206802, "downloaded_bytes": 85546419973, "free_bytes": 256890490880, "verified": false}
+{"time": 1791533359.8266356, "downloaded_bytes": 85711046405, "free_bytes": 256732745728, "verified": false}
+{"time": 1791533538.2287867, "downloaded_bytes": 86605481733, "free_bytes": 255839944704, "verified": false}
+{"time": 1791533572.5229764, "downloaded_bytes": 86783739653, "free_bytes": 255662342144, "verified": false}
+{"time": 1791533713.2286687, "downloaded_bytes": 87567025925, "free_bytes": 254874890240, "verified": false}
+{"time": 1791533753.2601764, "downloaded_bytes": 87864821509, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 43597716084, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 41502846705, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 254572806144, "verified": false}
+{"time": 1791533836.9098392, "downloaded_bytes": 88430003973, "free_bytes": 254013259776, "verified": false}
+{"time": 1791533863.2613323, "downloaded_bytes": 88612456197, "free_bytes": 253828186112, "verified": false}
+{"time": 1791533945.3282895, "downloaded_bytes": 89146181381, "free_bytes": 253300973568, "verified": false}
+{"time": 1791533973.4289906, "downloaded_bytes": 89283544837, "free_bytes": 253154213888, "verified": false}
+{"time": 1791534055.604237, "downloaded_bytes": 89693538053, "free_bytes": 252740943872, "verified": false}
+{"time": 1791534094.482412, "downloaded_bytes": 89978750725, "free_bytes": 252450816000, "verified": false}
+{"time": 1791534175.976806, "downloaded_bytes": 90426492677, "free_bytes": 252014084096, "verified": false}
+{"time": 1791534208.4961333, "downloaded_bytes": 90564904709, "free_bytes": 251875803136, "verified": false}
+{"time": 1791534290.2035131, "downloaded_bytes": 90971752197, "free_bytes": 251471642624, "verified": false}
+{"time": 1791534316.6310112, "downloaded_bytes": 91115407109, "free_bytes": 251330609152, "verified": false}
+{"time": 1791534406.560132, "downloaded_bytes": 91694221061, "free_bytes": 250749304832, "verified": false}
+{"time": 1791534434.6653395, "downloaded_bytes": 91884013317, "free_bytes": 250559500288, "verified": false}
+{"time": 1791534512.7558782, "downloaded_bytes": 92276180741, "free_bytes": 250158399488, "verified": false}
+{"time": 1791534544.405924, "downloaded_bytes": 92497430277, "free_bytes": 249950617600, "verified": false}
+{"time": 1791534622.2793574, "downloaded_bytes": 92994455301, "free_bytes": 249440092160, "verified": false}
+{"time": 1791534650.5677097, "downloaded_bytes": 93142304517, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 46265293428, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 44112752369, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 249301614592, "verified": false}
+{"time": 1791534729.0438213, "downloaded_bytes": 93580609285, "free_bytes": 248863768576, "verified": false}
+{"time": 1791534750.3796754, "downloaded_bytes": 93693855493, "free_bytes": 248745803776, "verified": false}
+{"time": 1791534828.6568303, "downloaded_bytes": 94078682885, "free_bytes": 248368930816, "verified": false}
+{"time": 1791534855.2858438, "downloaded_bytes": 94261135109, "free_bytes": 248168759296, "verified": false}
+{"time": 1791535039.3920164, "downloaded_bytes": 94958540247, "free_bytes": 247484432384, "verified": false}
+{"time": 1791535068.5966947, "downloaded_bytes": 95103243735, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 47171263092, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 45167721923, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 247337631744, "verified": false}
+{"time": 1791535148.0427508, "downloaded_bytes": 95502751191, "free_bytes": 246938898432, "verified": false}
+{"time": 1791535177.3251963, "downloaded_bytes": 95667377623, "free_bytes": 246767706112, "verified": false}
+{"time": 1791535256.2134209, "downloaded_bytes": 96055350743, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 47653608052, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 45637483971, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 246392733696, "verified": false}
+{"time": 1791535284.7694201, "downloaded_bytes": 96190617047, "free_bytes": 246255235072, "verified": false}
+{"time": 1791535364.6044388, "downloaded_bytes": 96607950295, "free_bytes": 245836197888, "verified": false}
+{"time": 1791535392.408253, "downloaded_bytes": 96786208215, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48009075316, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46012874179, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 245655384064, "verified": false}
+{"time": 1791535506.070258, "downloaded_bytes": 97524405719, "free_bytes": 244920266752, "verified": false}
+{"time": 1791535533.7663536, "downloaded_bytes": 97701615063, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48504003188, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46433353155, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 244742270976, "verified": false}
+{"time": 1791535613.995241, "downloaded_bytes": 98130482647, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48720009844, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46646214083, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 244312223744, "verified": false}
+{"time": 1791535643.2536333, "downloaded_bytes": 98275186135, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48790264436, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46720662979, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 244148908032, "verified": false}
+{"time": 1791535723.0808053, "downloaded_bytes": 98631208547, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46931426755, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 243814027264, "verified": false}
+{"time": 1791535753.2592635, "downloaded_bytes": 98694123107, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 46994341315, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2759002112}, "free_bytes": 243756437504, "verified": false}
+{"time": 1791535835.5096524, "downloaded_bytes": 98964655715, "free_bytes": 243485904896, "verified": false}
+{"time": 1791538401.8032374, "downloaded_bytes": 99834973795, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 47987342787, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 2906851328}, "free_bytes": 242602213376, "verified": false}
+{"time": 1791538486.3438094, "downloaded_bytes": 100290055779, "free_bytes": 242148442112, "verified": false}
+{"time": 1791538513.3981128, "downloaded_bytes": 100440002147, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48289332675, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 3209889792}, "free_bytes": 241990041600, "verified": false}
+{"time": 1791538593.3175876, "downloaded_bytes": 100906618467, "free_bytes": 241525850112, "verified": false}
+{"time": 1791538621.7656436, "downloaded_bytes": 101059710563, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48590273987, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 3528656896}, "free_bytes": 241380818944, "verified": false}
+{"time": 1791538704.0596287, "downloaded_bytes": 101493821027, "free_bytes": 240948613120, "verified": false}
+{"time": 1791538734.8709316, "downloaded_bytes": 101559881315, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48840883651, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 3778217984}, "free_bytes": 240883920896, "verified": false}
+{"time": 1791538814.71555, "downloaded_bytes": 101709827683, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48916381123, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 3852666880}, "free_bytes": 240728076288, "verified": false}
+{"time": 1791538845.0250218, "downloaded_bytes": 101884334176, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 3962767360}, "free_bytes": 240563286016, "verified": false}
+{"time": 1791538929.6489553, "downloaded_bytes": 102331027552, "free_bytes": 240113446912, "verified": false}
+{"time": 1791538956.1140566, "downloaded_bytes": 102469439584, "free_bytes": 239967825920, "verified": false}
+{"time": 1791539037.6367002, "downloaded_bytes": 102874189920, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 4726130688, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 226492416}, "free_bytes": 239565500416, "verified": false}
+{"time": 1791539063.897018, "downloaded_bytes": 103006310496, "free_bytes": 239438229504, "verified": false}
+{"time": 1791539150.0034194, "downloaded_bytes": 103467683936, "free_bytes": 238965846016, "verified": false}
+{"time": 1791539179.515626, "downloaded_bytes": 103660621920, "free_bytes": 238777692160, "verified": false}
+{"time": 1791539265.7297115, "downloaded_bytes": 104216367200, "free_bytes": 238221484032, "verified": false}
+{"time": 1791539310.6749172, "downloaded_bytes": 104468025440, "free_bytes": 237962031104, "verified": false}
+{"time": 1791539397.760306, "downloaded_bytes": 104945127520, "free_bytes": 237501902848, "verified": false}
+{"time": 1791539424.1448836, "downloaded_bytes": 105081442400, "free_bytes": 237358706688, "verified": false}
+{"time": 1791539501.5374057, "downloaded_bytes": 105473609824, "free_bytes": 236960374784, "verified": false}
+{"time": 1791539528.5398664, "downloaded_bytes": 105647673440, "free_bytes": 236798107648, "verified": false}
+{"time": 1791539608.173579, "downloaded_bytes": 106160427104, "free_bytes": 236277358592, "verified": false}
+{"time": 1791539631.7309628, "downloaded_bytes": 106305130592, "free_bytes": 236121776128, "verified": false}
+{"time": 1791539710.8823855, "downloaded_bytes": 106823127136, "free_bytes": 235624947712, "verified": false}
+{"time": 1791539737.8723743, "downloaded_bytes": 107007676512, "free_bytes": 235430961152, "verified": false}
+{"time": 1791539819.6301825, "downloaded_bytes": 107526721632, "free_bytes": 234915454976, "verified": false}
+{"time": 1791539850.385579, "downloaded_bytes": 107714416736, "free_bytes": 234714456064, "verified": false}
+{"time": 1791539943.0375054, "downloaded_bytes": 108251287648, "free_bytes": 234194948096, "verified": false}
+{"time": 1791539970.8182318, "downloaded_bytes": 108419059808, "free_bytes": 234011189248, "verified": false}
+{"time": 1791540054.2254128, "downloaded_bytes": 109014650976, "free_bytes": 233419464704, "verified": false}
+{"time": 1791540089.7250438, "downloaded_bytes": 109190811744, "free_bytes": 233251037184, "verified": false}
+{"time": 1791540170.7138338, "downloaded_bytes": 109585076320, "free_bytes": 232860897280, "verified": false}
+{"time": 1791540206.823767, "downloaded_bytes": 109787451488, "free_bytes": 232647053312, "verified": false}
+{"time": 1791540294.1973615, "downloaded_bytes": 110021283936, "free_bytes": 232414072832, "verified": false}
+{"time": 1791540327.6243715, "downloaded_bytes": 110194298976, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 8545044480, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 3727687680}, "free_bytes": 232241254400, "verified": false}
+{"time": 1791540411.592021, "downloaded_bytes": 110654623840, "free_bytes": 231777193984, "verified": false}
+{"time": 1791540439.9990451, "downloaded_bytes": 110801424480, "free_bytes": 231630786560, "verified": false}
+{"time": 1791540518.9664466, "downloaded_bytes": 111193591904, "free_bytes": 231247925248, "verified": false}
+{"time": 1791540545.7835598, "downloaded_bytes": 111340392544, "free_bytes": 231098306560, "verified": false}
+{"time": 1791540624.6779153, "downloaded_bytes": 111761920096, "free_bytes": 230686674944, "verified": false}
+{"time": 1791540650.986301, "downloaded_bytes": 111910817888, "free_bytes": 230528733184, "verified": false}
+{"time": 1791540730.021634, "downloaded_bytes": 112248459360, "free_bytes": 230197252096, "verified": false}
+{"time": 1791540759.885785, "downloaded_bytes": 112396308576, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 9649195008, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 4825546752}, "free_bytes": 230030790656, "verified": false}
+{"time": 1791540850.9368277, "downloaded_bytes": 112900673632, "free_bytes": 229537370112, "verified": false}
+{"time": 1791540884.937012, "downloaded_bytes": 113059008608, "free_bytes": 229391417344, "verified": false}
+{"time": 1791540969.8908796, "downloaded_bytes": 113510944864, "free_bytes": 228931424256, "verified": false}
+{"time": 1791540996.7500672, "downloaded_bytes": 113647259744, "free_bytes": 228791308288, "verified": false}
+{"time": 1791541077.0146313, "downloaded_bytes": 114088710240, "free_bytes": 228360540160, "verified": false}
+{"time": 1791541107.803402, "downloaded_bytes": 114205102176, "free_bytes": 228226912256, "verified": false}
+{"time": 1791541189.7171612, "downloaded_bytes": 114606706784, "free_bytes": 227835465728, "verified": false}
+{"time": 1791541220.1870186, "downloaded_bytes": 114755604576, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 10822551552, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 6011486208}, "free_bytes": 227685978112, "verified": false}
+{"time": 1791541301.088043, "downloaded_bytes": 115206492256, "free_bytes": 227243933696, "verified": false}
+{"time": 1791541327.8722734, "downloaded_bytes": 115344904288, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 11125590016, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 6297747456}, "free_bytes": 227081277440, "verified": false}
+{"time": 1791541407.2990239, "downloaded_bytes": 115748606048, "free_bytes": 226697105408, "verified": false}
+{"time": 1791541445.6171932, "downloaded_bytes": 115960418400, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 11432822784, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 6606028800}, "free_bytes": 226472841216, "verified": false}
+{"time": 1791541530.1177042, "downloaded_bytes": 116370411616, "free_bytes": 226072150016, "verified": false}
+{"time": 1791541563.7597144, "downloaded_bytes": 116540280928, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 11718035456, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 6900678656}, "free_bytes": 225896382464, "verified": false}
+{"time": 1791541647.3540905, "downloaded_bytes": 116992217184, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 11944527872, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 7126122496}, "free_bytes": 225446019072, "verified": false}
+{"time": 1791541682.6373332, "downloaded_bytes": 117182157536, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 12086085632, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 7174505088}, "free_bytes": 225264259072, "verified": false}
+{"time": 1791541767.227599, "downloaded_bytes": 117609976544, "free_bytes": 224828706816, "verified": false}
+{"time": 1791541792.461949, "downloaded_bytes": 117742097120, "free_bytes": 224701829120, "verified": false}
+{"time": 1791541871.9457762, "downloaded_bytes": 118149993184, "free_bytes": 224299962368, "verified": false}
+{"time": 1791541901.4150357, "downloaded_bytes": 118275822304, "free_bytes": 224173084672, "verified": false}
+{"time": 1791541980.4773247, "downloaded_bytes": 118652261088, "free_bytes": 223795728384, "verified": false}
+{"time": 1791542005.9676836, "downloaded_bytes": 118782284512, "free_bytes": 223657250816, "verified": false}
+{"time": 1791542091.2070768, "downloaded_bytes": 119222686432, "free_bytes": 223225892864, "verified": false}
+{"time": 1791542129.3532212, "downloaded_bytes": 119391507168, "free_bytes": 223055106048, "verified": false}
+{"time": 1791542215.9752734, "downloaded_bytes": 119807791840, "free_bytes": 222635020288, "verified": false}
+{"time": 1791542240.3547802, "downloaded_bytes": 119918940896, "free_bytes": 222520659968, "verified": false}
+{"time": 1791542320.983037, "downloaded_bytes": 120329982688, "free_bytes": 222117875712, "verified": false}
+{"time": 1791542349.3427737, "downloaded_bytes": 120449520352, "free_bytes": 222000103424, "verified": false}
+{"time": 1791542432.914553, "downloaded_bytes": 120887825120, "free_bytes": 221556690944, "verified": false}
+{"time": 1791542459.4694765, "downloaded_bytes": 121000022752, "free_bytes": 221444493312, "verified": false}
+{"time": 1791542538.6684628, "downloaded_bytes": 121425744608, "free_bytes": 221010841600, "verified": false}
+{"time": 1791542565.9525146, "downloaded_bytes": 121566253792, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 16470181888, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 7174505088}, "free_bytes": 220873478144, "verified": false}
+{"time": 1791542654.9307616, "downloaded_bytes": 122072716000, "free_bytes": 220370751488, "verified": false}
+{"time": 1791542713.2706122, "downloaded_bytes": 122401968864, "free_bytes": 220037632000, "verified": false}
+{"time": 1791542790.4222353, "downloaded_bytes": 122811962080, "free_bytes": 219627638784, "verified": false}
+{"time": 1791542816.590354, "downloaded_bytes": 122959811296, "free_bytes": 219489157120, "verified": false}
+{"time": 1791542896.700633, "downloaded_bytes": 123384484576, "free_bytes": 219059109888, "verified": false}
+{"time": 1791542923.6949313, "downloaded_bytes": 123533382368, "free_bytes": 218916372480, "verified": false}
+{"time": 1791543003.7159007, "downloaded_bytes": 123950715616, "free_bytes": 218494713856, "verified": false}
+{"time": 1791543028.3739574, "downloaded_bytes": 124073399008, "free_bytes": 218373144576, "verified": false}
+{"time": 1791543107.059585, "downloaded_bytes": 124504363744, "free_bytes": 217931235328, "verified": false}
+{"time": 1791543132.0575442, "downloaded_bytes": 124646970080, "free_bytes": 217789612032, "verified": false}
+{"time": 1791543212.0360882, "downloaded_bytes": 125061157600, "free_bytes": 217379618816, "verified": false}
+{"time": 1791543241.6730678, "downloaded_bytes": 125224735456, "free_bytes": 217214795776, "verified": false}
+{"time": 1791543333.1218786, "downloaded_bytes": 125746926304, "free_bytes": 216703418368, "verified": false}
+{"time": 1791543364.9179099, "downloaded_bytes": 125923087072, "free_bytes": 216521687040, "verified": false}
+{"time": 1791543445.2718782, "downloaded_bytes": 126370829024, "free_bytes": 216075780096, "verified": false}
+{"time": 1791543469.9350967, "downloaded_bytes": 126517629664, "free_bytes": 215929765888, "verified": false}
+{"time": 1791543550.764976, "downloaded_bytes": 126960128736, "free_bytes": 215485890560, "verified": false}
+{"time": 1791543577.7249124, "downloaded_bytes": 127104832224, "files": {"DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf": 5256608, "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf": 48935523072, "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf": 48980787136, "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf": 22008760320, "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf": 7174505088}, "free_bytes": 215345315840, "verified": false}
+{"time": 1791543656.4571967, "downloaded_bytes": 127510631136, "free_bytes": 214935322624, "verified": false}
+{"time": 1791543811.3697526, "files": [{"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf", "bytes": 5256608}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf", "bytes": 48935523072}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf", "bytes": 48980787136}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf", "bytes": 22918924288}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf", "bytes": 7174505088}], "total_bytes": 128014996192, "free_bytes": 214426894336, "verified": false}
+{"time": 1791543894.219115, "total_bytes": 128427086560, "free_bytes": 214017818624, "verified": false}
+{"time": 1791543916.8870585, "files": [{"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00001-of-00005.gguf", "bytes": 5256608}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00002-of-00005.gguf", "bytes": 48935523072}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00003-of-00005.gguf", "bytes": 48980787136}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00004-of-00005.gguf", "bytes": 23453698048}, {"name": "DeepSeek-V4-Flash-UD-Q4_K_XL-00005-of-00005.gguf", "bytes": 7174505088}], "total_bytes": 128549769952, "free_bytes": 213890023424, "verified": false}
+{"time": 1791543997.594972, "total_bytes": 128851759840, "free_bytes": 213595176960, "verified": false}
+{"time": 1791544021.8569803, "total_bytes": 128974443232, "free_bytes": 213468299264, "verified": false}
+{"time": 1791544102.613828, "total_bytes": 129371853536, "free_bytes": 213070954496, "verified": false}
+{"time": 1791544124.7259643, "total_bytes": 129487196896, "free_bytes": 212957773824, "verified": false}
+{"time": 1791544206.2592034, "total_bytes": 129815401184, "free_bytes": 212623343616, "verified": false}
+{"time": 1791544228.5804725, "total_bytes": 129934938848, "free_bytes": 212513439744, "verified": false}
+{"time": 1791544309.0397143, "total_bytes": 130356466400, "free_bytes": 212089290752, "verified": false}
+{"time": 1791544331.19677, "total_bytes": 130480198368, "free_bytes": 211962408960, "verified": false}
+{"time": 1791544411.1598713, "total_bytes": 130870268640, "free_bytes": 211574566912, "verified": false}
+{"time": 1791544435.6655061, "total_bytes": 131017069280, "free_bytes": 211425538048, "verified": false}
+{"time": 1791544516.778845, "total_bytes": 131398750944, "free_bytes": 211050344448, "verified": false}
+{"time": 1791544539.2590392, "total_bytes": 131534017248, "free_bytes": 210910818304, "verified": false}
+{"time": 1791544618.7788398, "total_bytes": 131927233248, "free_bytes": 210517405696, "verified": false}
+{"time": 1791544643.1644287, "total_bytes": 132050965216, "free_bytes": 210390528000, "verified": false}
+{"time": 1791544727.0024436, "total_bytes": 132464104160, "free_bytes": 209976602624, "verified": false}
+{"time": 1791544748.6903048, "total_bytes": 132574204640, "free_bytes": 209863421952, "verified": false}
+{"time": 1791544830.031021, "total_bytes": 132966372064, "free_bytes": 209480036352, "verified": false}
+{"time": 1791544854.0335274, "total_bytes": 133083812576, "free_bytes": 209362726912, "verified": false}
+{"time": 1791544936.047489, "total_bytes": 133517923040, "free_bytes": 208931303424, "verified": false}
+{"time": 1791544958.8552606, "total_bytes": 133639557856, "free_bytes": 208804425728, "verified": false}
+{"time": 1791545041.9501061, "total_bytes": 133993976544, "free_bytes": 208452562944, "verified": false}
+{"time": 1791545064.689124, "total_bytes": 134120854240, "free_bytes": 208319655936, "verified": false}
+{"time": 1791545146.0132177, "total_bytes": 134536090336, "free_bytes": 207911694336, "verified": false}
+{"time": 1791545168.5976174, "total_bytes": 134649336544, "free_bytes": 207794319360, "verified": false}
+{"time": 1791545251.0247803, "total_bytes": 134990123744, "free_bytes": 207450517504, "verified": false}
+{"time": 1791545273.287543, "total_bytes": 135115952864, "free_bytes": 207323639808, "verified": false}
+{"time": 1791545358.9795053, "total_bytes": 135537480416, "free_bytes": 206910697472, "verified": false}
+{"time": 1791545383.4104815, "total_bytes": 135657018080, "free_bytes": 206783819776, "verified": false}
+{"time": 1791545464.864078, "total_bytes": 136048136928, "free_bytes": 206400434176, "verified": false}
+{"time": 1791545488.1756432, "total_bytes": 136180257504, "free_bytes": 206269296640, "verified": false}
+{"time": 1791545569.0640972, "total_bytes": 136580813536, "free_bytes": 205868871680, "verified": false}
+{"time": 1791545590.8635368, "total_bytes": 136699302624, "free_bytes": 205748350976, "verified": false}
+{"time": 1791545671.6440241, "total_bytes": 137057915616, "free_bytes": 205383577600, "verified": false}
+{"time": 1791545693.7202785, "total_bytes": 137152287456, "free_bytes": 205285339136, "verified": false}
+{"time": 1791545774.5245452, "total_bytes": 137545503456, "free_bytes": 204904706048, "verified": false}
+{"time": 1791545796.6822658, "total_bytes": 137648263904, "free_bytes": 204801486848, "verified": false}
+{"time": 1791545878.4265223, "total_bytes": 138096005856, "free_bytes": 204354138112, "verified": false}
+{"time": 1791545905.0746999, "total_bytes": 138210300640, "free_bytes": 204226342912, "verified": false}
+{"time": 1791545985.9171193, "total_bytes": 138634973920, "free_bytes": 203804618752, "verified": false}
+{"time": 1791546008.8504722, "total_bytes": 138710471392, "free_bytes": 203727745024, "verified": false}
+{"time": 1791546211.9995959, "total_bytes": 139547235040, "free_bytes": 202893275136, "verified": false}
+{"time": 1791546235.553447, "total_bytes": 139667821280, "free_bytes": 202776948736, "verified": false}
+{"time": 1791546319.3243823, "total_bytes": 140071523040, "free_bytes": 202378555392, "verified": false}
+{"time": 1791546344.9001653, "total_bytes": 140167992032, "free_bytes": 202278023168, "verified": false}
+{"time": 1791546426.9687617, "total_bytes": 140575888096, "free_bytes": 201868029952, "verified": false}
+{"time": 1791546450.9645417, "total_bytes": 140702765792, "free_bytes": 201741152256, "verified": false}
+{"time": 1791546530.9110734, "total_bytes": 141108564704, "free_bytes": 201331154944, "verified": false}
+{"time": 1791546554.1359248, "total_bytes": 141234393824, "free_bytes": 201204277248, "verified": false}
+{"time": 1791546634.9144392, "total_bytes": 141623415520, "free_bytes": 200826789888, "verified": false}
+{"time": 1791546658.190444, "total_bytes": 141734564576, "free_bytes": 200714657792, "verified": false}
+{"time": 1791546767.173888, "total_bytes": 142040748768, "free_bytes": 200399020032, "verified": false}
+{"time": 1791546793.515884, "total_bytes": 142177063648, "free_bytes": 200272142336, "verified": false}
+{"time": 1791546877.7946422, "total_bytes": 142530433760, "free_bytes": 199916806144, "verified": false}
+{"time": 1791546906.54481, "total_bytes": 142681428704, "free_bytes": 199767187456, "verified": false}
+{"time": 1791546990.4311907, "total_bytes": 143100859104, "free_bytes": 199347625984, "verified": false}
+{"time": 1791547014.7092552, "total_bytes": 143241368288, "free_bytes": 199198400512, "verified": false}
+{"time": 1791547097.9980085, "total_bytes": 143701693152, "free_bytes": 198747316224, "verified": false}
+{"time": 1791547123.1232672, "total_bytes": 143856882400, "free_bytes": 198588784640, "verified": false}
+{"time": 1791547206.9552317, "total_bytes": 144315110112, "free_bytes": 198133702656, "verified": false}
+{"time": 1791547236.4780045, "total_bytes": 144462959328, "free_bytes": 197984608256, "verified": false}
+{"time": 1791547319.13391, "total_bytes": 144798503648, "free_bytes": 197651423232, "verified": false}
+{"time": 1791547347.9198647, "total_bytes": 144933769952, "free_bytes": 197515042816, "verified": false}
+{"time": 1791547430.5560646, "total_bytes": 145342714592, "free_bytes": 197105049600, "verified": false}
+{"time": 1791547465.6367059, "total_bytes": 145542992608, "free_bytes": 196895596544, "verified": false}
+{"time": 1791547551.3808105, "total_bytes": 145986540256, "free_bytes": 196461355008, "verified": false}
+{"time": 1791547605.390079, "total_bytes": 146077766368, "free_bytes": 196360757248, "verified": false}
+{"time": 1791547690.1022613, "total_bytes": 146523411168, "free_bytes": 195926970368, "verified": false}
+{"time": 1791547713.0144808, "total_bytes": 146636657376, "free_bytes": 195811106816, "verified": false}
+{"time": 1791547797.0803125, "total_bytes": 147082302176, "free_bytes": 195366379520, "verified": false}
+{"time": 1791547825.256291, "total_bytes": 147221762784, "free_bytes": 195227836416, "verified": false}
+{"time": 1791547925.2401352, "total_bytes": 147623367392, "free_bytes": 194823151616, "verified": false}
+{"time": 1791547959.2483625, "total_bytes": 147795333856, "free_bytes": 194649612288, "verified": false}
+{"time": 1791548043.8408709, "total_bytes": 148208472800, "free_bytes": 194230181888, "verified": false}
+{"time": 1791548074.19824, "total_bytes": 148354224864, "free_bytes": 194089607168, "verified": false}
+{"time": 1791548157.325122, "total_bytes": 148747440864, "free_bytes": 193702748160, "verified": false}
+{"time": 1791548183.7966766, "total_bytes": 148879561440, "free_bytes": 193562173440, "verified": false}
+{"time": 1791548265.2180192, "total_bytes": 149274874592, "free_bytes": 193165877248, "verified": false}
+{"time": 1791548293.6692944, "total_bytes": 149419578080, "free_bytes": 193025302528, "verified": false}
+{"time": 1791548383.0465574, "total_bytes": 149865222880, "free_bytes": 192580509696, "verified": false}
+{"time": 1791548409.0571234, "total_bytes": 150003634912, "free_bytes": 192444129280, "verified": false}
+{"time": 1791548491.6854095, "total_bytes": 150404190944, "free_bytes": 192045670400, "verified": false}
+{"time": 1791548522.3640256, "total_bytes": 150564623072, "free_bytes": 191883796480, "verified": false}
+{"time": 1791548607.3904803, "total_bytes": 150998733536, "free_bytes": 191443132416, "verified": false}
+{"time": 1791548632.166897, "total_bytes": 151128756960, "free_bytes": 191316254720, "verified": false}
+{"time": 1791548718.1655743, "total_bytes": 151564964576, "free_bytes": 190877818880, "verified": false}
+{"time": 1791548743.5652015, "total_bytes": 151690793696, "free_bytes": 190750937088, "verified": false}
+{"time": 1791548827.361102, "total_bytes": 152091349728, "free_bytes": 190354640896, "verified": false}
+{"time": 1791548854.5774999, "total_bytes": 152226616032, "free_bytes": 190214066176, "verified": false}
+{"time": 1791548938.6925905, "total_bytes": 152626123488, "free_bytes": 189819539456, "verified": false}
+{"time": 1791548962.9397273, "total_bytes": 152748806880, "free_bytes": 189692661760, "verified": false}
+{"time": 1791549047.9729671, "total_bytes": 153157751520, "free_bytes": 189280899072, "verified": false}
+{"time": 1791549073.6374326, "total_bytes": 153297212128, "free_bytes": 189140324352, "verified": false}
+{"time": 1791549160.5499961, "total_bytes": 153714545376, "free_bytes": 188730331136, "verified": false}
+{"time": 1791549184.9038215, "total_bytes": 153843520224, "free_bytes": 188603453440, "verified": false}
+{"time": 1791549267.8331501, "total_bytes": 154252464864, "free_bytes": 188193460224, "verified": false}
+{"time": 1791549294.9652126, "total_bytes": 154395071200, "free_bytes": 188053934080, "verified": false}
+{"time": 1791549382.1742308, "total_bytes": 154823938784, "free_bytes": 187621789696, "verified": false}

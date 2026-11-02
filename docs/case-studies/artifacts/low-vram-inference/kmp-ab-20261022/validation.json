@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "requests": [
+    {
+      "pair": 1,
+      "condition": "A",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    },
+    {
+      "pair": 1,
+      "condition": "B",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    },
+    {
+      "pair": 2,
+      "condition": "B",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    },
+    {
+      "pair": 2,
+      "condition": "A",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    },
+    {
+      "pair": 3,
+      "condition": "A",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    },
+    {
+      "pair": 3,
+      "condition": "B",
+      "output_sha256": "ad52a847d0b7bc042fd232b703030115563cb2ccb2c27d9b4ab33f44e2a5eca4",
+      "CPU_request_prefill_decode_independent_integral": "passed",
+      "gates": "passed"
+    }
+  ],
+  "source_hashes_match_batch_and_snapshots": true,
+  "CPU_recomputed_by_clipped_interval_integration": true,
+  "paired_changes_recomputed": true,
+  "single_variable_command_and_output_gates": true,
+  "unchanged_8080_pid": 26160,
+  "port_18080_closed": true,
+  "no_server_or_WPR_left": true,
+  "KMP_process_user_machine_unset": true,
+  "three_core_documents_only": true,
+  "local_markdown_targets_exist": true,
+  "limitations": [
+    "Three pairs only; OS cache, thermals/frequency and background activity uncontrolled.",
+    "CPU boundary interpolation at <=1.120s sampling; not exclusive useful compute.",
+    "No new ETW/CUDA/power/long-context measurement."
+  ]
+}

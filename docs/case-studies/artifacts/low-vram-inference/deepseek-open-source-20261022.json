@@ -1,0 +1,1350 @@
+{
+  "checked_date": "2026-10-22",
+  "clone_root": "/Users/mark/Documents/Github/deepseek-inference-sources",
+  "official_repo_count": 45,
+  "cloned_repo_count": 41,
+  "clone_options": [
+    "--depth=1",
+    "--filter=blob:none",
+    "GIT_LFS_SKIP_SMUDGE=1",
+    "no submodule initialization"
+  ],
+  "scope_notes": [
+    "All 45 public deepseek-ai GitHub repositories classified; 39 cloned; 6 application/link collections excluded from inference optimization scope.",
+    "tile-ai/tilelang and tile-ai/tilelang-ascend cloned separately as external ecosystem.",
+    "Source inspection only: no dependency install, model download, build, GPU test, or speedup measured.",
+    "Independent HEAD snapshots are not a resolved build environment; gitlinks record each project dependency pins."
+  ],
+  "inventory": [
+    {
+      "name": "3FS",
+      "full_name": "deepseek-ai/3FS",
+      "clone_url": "https://github.com/deepseek-ai/3FS.git",
+      "html_url": "https://github.com/deepseek-ai/3FS",
+      "default_branch": "main",
+      "size": 6132,
+      "pushed_at": "2026-05-07T09:31:54Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "awesome-deepseek-agent",
+      "full_name": "deepseek-ai/awesome-deepseek-agent",
+      "clone_url": "https://github.com/deepseek-ai/awesome-deepseek-agent.git",
+      "html_url": "https://github.com/deepseek-ai/awesome-deepseek-agent",
+      "default_branch": "main",
+      "size": 2944,
+      "pushed_at": "2026-09-17T03:21:52Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": null
+    },
+    {
+      "name": "awesome-deepseek-coder",
+      "full_name": "deepseek-ai/awesome-deepseek-coder",
+      "clone_url": "https://github.com/deepseek-ai/awesome-deepseek-coder.git",
+      "html_url": "https://github.com/deepseek-ai/awesome-deepseek-coder",
+      "default_branch": "main",
+      "size": 655,
+      "pushed_at": "2025-11-11T06:45:15Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": null
+    },
+    {
+      "name": "awesome-deepseek-integration",
+      "full_name": "deepseek-ai/awesome-deepseek-integration",
+      "clone_url": "https://github.com/deepseek-ai/awesome-deepseek-integration.git",
+      "html_url": "https://github.com/deepseek-ai/awesome-deepseek-integration",
+      "default_branch": "main",
+      "size": 80206,
+      "pushed_at": "2026-02-23T16:27:47Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": "CC0-1.0"
+    },
+    {
+      "name": "clangd-ascend",
+      "full_name": "deepseek-ai/clangd-ascend",
+      "clone_url": "https://github.com/deepseek-ai/clangd-ascend.git",
+      "html_url": "https://github.com/deepseek-ai/clangd-ascend",
+      "default_branch": "main",
+      "size": 74,
+      "pushed_at": "2026-09-29T10:27:05Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "NOASSERTION"
+    },
+    {
+      "name": "DeepEP",
+      "full_name": "deepseek-ai/DeepEP",
+      "clone_url": "https://github.com/deepseek-ai/DeepEP.git",
+      "html_url": "https://github.com/deepseek-ai/DeepEP",
+      "default_branch": "main",
+      "size": 3919,
+      "pushed_at": "2026-10-21T03:50:43Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepEP-Ascend",
+      "full_name": "deepseek-ai/DeepEP-Ascend",
+      "clone_url": "https://github.com/deepseek-ai/DeepEP-Ascend.git",
+      "html_url": "https://github.com/deepseek-ai/DeepEP-Ascend",
+      "default_branch": "main",
+      "size": 142,
+      "pushed_at": "2026-09-30T00:53:14Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": null
+    },
+    {
+      "name": "DeepGEMM",
+      "full_name": "deepseek-ai/DeepGEMM",
+      "clone_url": "https://github.com/deepseek-ai/DeepGEMM.git",
+      "html_url": "https://github.com/deepseek-ai/DeepGEMM",
+      "default_branch": "main",
+      "size": 2730,
+      "pushed_at": "2026-10-20T05:07:07Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepGEMM-Ascend",
+      "full_name": "deepseek-ai/DeepGEMM-Ascend",
+      "clone_url": "https://github.com/deepseek-ai/DeepGEMM-Ascend.git",
+      "html_url": "https://github.com/deepseek-ai/DeepGEMM-Ascend",
+      "default_branch": "main",
+      "size": 283,
+      "pushed_at": "2026-10-14T09:22:37Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepInfer",
+      "full_name": "deepseek-ai/DeepInfer",
+      "clone_url": "https://github.com/deepseek-ai/DeepInfer.git",
+      "html_url": "https://github.com/deepseek-ai/DeepInfer",
+      "default_branch": "main",
+      "size": 2965,
+      "pushed_at": "2026-10-21T04:55:44Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "DeepJIT",
+      "full_name": "deepseek-ai/DeepJIT",
+      "clone_url": "https://github.com/deepseek-ai/DeepJIT.git",
+      "html_url": "https://github.com/deepseek-ai/DeepJIT",
+      "default_branch": "main",
+      "size": 75,
+      "pushed_at": "2026-10-19T03:56:42Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-Coder",
+      "full_name": "deepseek-ai/DeepSeek-Coder",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Coder.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Coder",
+      "default_branch": "main",
+      "size": 12694,
+      "pushed_at": "2025-11-11T06:44:56Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-Coder-V2",
+      "full_name": "deepseek-ai/DeepSeek-Coder-V2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Coder-V2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Coder-V2",
+      "default_branch": "main",
+      "size": 2082,
+      "pushed_at": "2025-11-11T06:44:45Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "deepseek-harness",
+      "full_name": "deepseek-ai/deepseek-harness",
+      "clone_url": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "html_url": "https://github.com/deepseek-ai/deepseek-harness",
+      "default_branch": "master",
+      "size": 292618,
+      "pushed_at": "2026-10-17T08:16:09Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-LLM",
+      "full_name": "deepseek-ai/DeepSeek-LLM",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-LLM.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-LLM",
+      "default_branch": "main",
+      "size": 4946,
+      "pushed_at": "2024-02-04T12:22:16Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-Math",
+      "full_name": "deepseek-ai/DeepSeek-Math",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Math.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Math",
+      "default_branch": "main",
+      "size": 98735,
+      "pushed_at": "2024-04-15T07:55:37Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-Math-V2",
+      "full_name": "deepseek-ai/DeepSeek-Math-V2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Math-V2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Math-V2",
+      "default_branch": "main",
+      "size": 1028,
+      "pushed_at": "2025-12-01T07:01:42Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "DeepSeek-MoE",
+      "full_name": "deepseek-ai/DeepSeek-MoE",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-MoE.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-MoE",
+      "default_branch": "main",
+      "size": 2133,
+      "pushed_at": "2024-01-16T12:18:10Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-OCR",
+      "full_name": "deepseek-ai/DeepSeek-OCR",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-OCR.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-OCR",
+      "default_branch": "main",
+      "size": 7978,
+      "pushed_at": "2026-01-27T03:45:14Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-OCR-2",
+      "full_name": "deepseek-ai/DeepSeek-OCR-2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-OCR-2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-OCR-2",
+      "default_branch": "main",
+      "size": 1075,
+      "pushed_at": "2026-02-03T00:34:18Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "DeepSeek-Prover-V1.5",
+      "full_name": "deepseek-ai/DeepSeek-Prover-V1.5",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Prover-V1.5.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Prover-V1.5",
+      "default_branch": "main",
+      "size": 3294,
+      "pushed_at": "2024-08-16T03:33:41Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-Prover-V2",
+      "full_name": "deepseek-ai/DeepSeek-Prover-V2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-Prover-V2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-Prover-V2",
+      "default_branch": "main",
+      "size": 2694,
+      "pushed_at": "2025-07-18T08:11:37Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "NOASSERTION"
+    },
+    {
+      "name": "DeepSeek-R1",
+      "full_name": "deepseek-ai/DeepSeek-R1",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-R1.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "default_branch": "main",
+      "size": 1571,
+      "pushed_at": "2025-06-27T08:35:54Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "deepseek-recipe",
+      "full_name": "deepseek-ai/deepseek-recipe",
+      "clone_url": "https://github.com/deepseek-ai/deepseek-recipe.git",
+      "html_url": "https://github.com/deepseek-ai/deepseek-recipe",
+      "default_branch": "main",
+      "size": 2301,
+      "pushed_at": "2026-10-19T17:51:18Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-V2",
+      "full_name": "deepseek-ai/DeepSeek-V2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-V2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-V2",
+      "default_branch": "main",
+      "size": 2375,
+      "pushed_at": "2024-09-25T10:23:55Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-V3",
+      "full_name": "deepseek-ai/DeepSeek-V3",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-V3.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-V3",
+      "default_branch": "main",
+      "size": 1768,
+      "pushed_at": "2025-08-28T03:24:37Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-V3.2-Exp",
+      "full_name": "deepseek-ai/DeepSeek-V3.2-Exp",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-V3.2-Exp.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-V3.2-Exp",
+      "default_branch": "main",
+      "size": 620,
+      "pushed_at": "2025-11-18T02:57:11Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-VL",
+      "full_name": "deepseek-ai/DeepSeek-VL",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-VL.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-VL",
+      "default_branch": "main",
+      "size": 12746,
+      "pushed_at": "2024-04-24T05:01:06Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSeek-VL2",
+      "full_name": "deepseek-ai/DeepSeek-VL2",
+      "clone_url": "https://github.com/deepseek-ai/DeepSeek-VL2.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSeek-VL2",
+      "default_branch": "main",
+      "size": 23986,
+      "pushed_at": "2025-02-26T05:03:42Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSelect",
+      "full_name": "deepseek-ai/DeepSelect",
+      "clone_url": "https://github.com/deepseek-ai/DeepSelect.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSelect",
+      "default_branch": "main",
+      "size": 327,
+      "pushed_at": "2026-09-30T01:54:54Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DeepSpec",
+      "full_name": "deepseek-ai/DeepSpec",
+      "clone_url": "https://github.com/deepseek-ai/DeepSpec.git",
+      "html_url": "https://github.com/deepseek-ai/DeepSpec",
+      "default_branch": "main",
+      "size": 4046,
+      "pushed_at": "2026-07-09T04:37:14Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "DreamCraft3D",
+      "full_name": "deepseek-ai/DreamCraft3D",
+      "clone_url": "https://github.com/deepseek-ai/DreamCraft3D.git",
+      "html_url": "https://github.com/deepseek-ai/DreamCraft3D",
+      "default_branch": "main",
+      "size": 69474,
+      "pushed_at": "2025-04-22T11:09:39Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "dsh-libreoffice-kit",
+      "full_name": "deepseek-ai/dsh-libreoffice-kit",
+      "clone_url": "https://github.com/deepseek-ai/dsh-libreoffice-kit.git",
+      "html_url": "https://github.com/deepseek-ai/dsh-libreoffice-kit",
+      "default_branch": "master",
+      "size": 1694,
+      "pushed_at": "2026-09-30T07:37:00Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": "MPL-2.0"
+    },
+    {
+      "name": "dsh-node-addon-require-builtin",
+      "full_name": "deepseek-ai/dsh-node-addon-require-builtin",
+      "clone_url": "https://github.com/deepseek-ai/dsh-node-addon-require-builtin.git",
+      "html_url": "https://github.com/deepseek-ai/dsh-node-addon-require-builtin",
+      "default_branch": "master",
+      "size": 525,
+      "pushed_at": "2026-10-12T09:19:26Z",
+      "archived": false,
+      "fork": false,
+      "category": "application-or-link-collection-excluded",
+      "license": "MIT"
+    },
+    {
+      "name": "DualPipe",
+      "full_name": "deepseek-ai/DualPipe",
+      "clone_url": "https://github.com/deepseek-ai/DualPipe.git",
+      "html_url": "https://github.com/deepseek-ai/DualPipe",
+      "default_branch": "main",
+      "size": 1376,
+      "pushed_at": "2026-01-14T06:34:59Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "MIT"
+    },
+    {
+      "name": "Engram",
+      "full_name": "deepseek-ai/Engram",
+      "clone_url": "https://github.com/deepseek-ai/Engram.git",
+      "html_url": "https://github.com/deepseek-ai/Engram",
+      "default_branch": "main",
+      "size": 2296,
+      "pushed_at": "2026-01-14T01:13:02Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "EPLB",
+      "full_name": "deepseek-ai/EPLB",
+      "clone_url": "https://github.com/deepseek-ai/EPLB.git",
+      "html_url": "https://github.com/deepseek-ai/EPLB",
+      "default_branch": "main",
+      "size": 43,
+      "pushed_at": "2025-03-24T09:17:10Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "ESFT",
+      "full_name": "deepseek-ai/ESFT",
+      "clone_url": "https://github.com/deepseek-ai/ESFT.git",
+      "html_url": "https://github.com/deepseek-ai/ESFT",
+      "default_branch": "main",
+      "size": 33664,
+      "pushed_at": "2025-05-22T07:47:15Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "MIT"
+    },
+    {
+      "name": "FlashMLA",
+      "full_name": "deepseek-ai/FlashMLA",
+      "clone_url": "https://github.com/deepseek-ai/FlashMLA.git",
+      "html_url": "https://github.com/deepseek-ai/FlashMLA",
+      "default_branch": "main",
+      "size": 576,
+      "pushed_at": "2026-10-15T13:47:29Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "Janus",
+      "full_name": "deepseek-ai/Janus",
+      "clone_url": "https://github.com/deepseek-ai/Janus.git",
+      "html_url": "https://github.com/deepseek-ai/Janus",
+      "default_branch": "main",
+      "size": 7321,
+      "pushed_at": "2025-02-01T07:58:29Z",
+      "archived": false,
+      "fork": false,
+      "category": "model-reference",
+      "license": "MIT"
+    },
+    {
+      "name": "LPLB",
+      "full_name": "deepseek-ai/LPLB",
+      "clone_url": "https://github.com/deepseek-ai/LPLB.git",
+      "html_url": "https://github.com/deepseek-ai/LPLB",
+      "default_branch": "main",
+      "size": 26,
+      "pushed_at": "2025-11-19T07:20:35Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "open-infra-index",
+      "full_name": "deepseek-ai/open-infra-index",
+      "clone_url": "https://github.com/deepseek-ai/open-infra-index.git",
+      "html_url": "https://github.com/deepseek-ai/open-infra-index",
+      "default_branch": "main",
+      "size": 901,
+      "pushed_at": "2025-05-15T02:00:43Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "CC0-1.0"
+    },
+    {
+      "name": "profile-data",
+      "full_name": "deepseek-ai/profile-data",
+      "clone_url": "https://github.com/deepseek-ai/profile-data.git",
+      "html_url": "https://github.com/deepseek-ai/profile-data",
+      "default_branch": "main",
+      "size": 2350,
+      "pushed_at": "2025-03-21T02:23:51Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": null
+    },
+    {
+      "name": "smallpond",
+      "full_name": "deepseek-ai/smallpond",
+      "clone_url": "https://github.com/deepseek-ai/smallpond.git",
+      "html_url": "https://github.com/deepseek-ai/smallpond",
+      "default_branch": "main",
+      "size": 1861,
+      "pushed_at": "2025-03-05T18:23:54Z",
+      "archived": false,
+      "fork": false,
+      "category": "adjacent-research-or-tooling",
+      "license": "MIT"
+    },
+    {
+      "name": "TileKernels",
+      "full_name": "deepseek-ai/TileKernels",
+      "clone_url": "https://github.com/deepseek-ai/TileKernels.git",
+      "html_url": "https://github.com/deepseek-ai/TileKernels",
+      "default_branch": "main",
+      "size": 334,
+      "pushed_at": "2026-10-14T05:49:06Z",
+      "archived": false,
+      "fork": false,
+      "category": "inference-infrastructure",
+      "license": "MIT"
+    },
+    {
+      "name": "tilelang",
+      "full_name": "tile-ai/tilelang",
+      "clone_url": "https://github.com/tile-ai/tilelang.git",
+      "html_url": "https://github.com/tile-ai/tilelang",
+      "default_branch": "main",
+      "size": 33128,
+      "pushed_at": "2026-10-22T09:57:53Z",
+      "archived": false,
+      "fork": false,
+      "category": "external-tilelang-ecosystem",
+      "license": "NOASSERTION"
+    },
+    {
+      "name": "tilelang-ascend",
+      "full_name": "tile-ai/tilelang-ascend",
+      "clone_url": "https://github.com/tile-ai/tilelang-ascend.git",
+      "html_url": "https://github.com/tile-ai/tilelang-ascend",
+      "default_branch": "ascendc_pto",
+      "size": 23892,
+      "pushed_at": "2026-10-22T07:12:37Z",
+      "archived": false,
+      "fork": false,
+      "category": "external-tilelang-ecosystem",
+      "license": "MIT"
+    }
+  ],
+  "clones": [
+    {
+      "repo": "deepseek-ai/3FS",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/3FS",
+      "seconds": 4.82,
+      "commit": "22fca04564c7cc230fd8b9523b8b92864e1dad47",
+      "commit_date": "2026-05-07T17:31:53+08:00",
+      "submodules": [
+        "-ba9027200d26b812ce513c17a9364b143ece9450 third_party/clickhouse-cpp",
+        "-8fe893c0ac54c83a08c2492a7ac790c1a2bdd577 third_party/fmt",
+        "-1b7cd10340f565d7fa3fd4f78d6faf14605d77b2 third_party/folly",
+        "-8d51dc50eb7e7698427fed81b85edad0e032112e third_party/googletest",
+        "-96f4f904922f9bf66689e749c40f314845baaac8 third_party/gtest-parallel",
+        "-f96010b7fa8ce5f83802144bdebf2bb7a6679649 third_party/jemalloc",
+        "-aa5479bbf47e9df86e0afbb89e6246085f22cdd4 third_party/leveldb",
+        "-298c083d75ecde5a8833366167b3b6abff0c8d39 third_party/liburing",
+        "-43ce4bd7fd34bcc730c1c7471c99995597415488 third_party/mimalloc",
+        "-aa304c9c7d725ffb9d10af08a3b34cb372307020 third_party/pybind11",
+        "-7c0838e65e7db1dd10b7a8411553c04f2d89fa61 third_party/rocksdb",
+        "-eac40e8e7fcaf73f06ea2ffb8a1aaf34f90994f4 third_party/scnlib",
+        "-86eefc7255f2c70c5b0fc26525d349796032e99e third_party/toml11",
+        "-63779c798237346c2b245c546c40b72a5a5913fe third_party/zstd"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "ba9027200d26b812ce513c17a9364b143ece9450",
+          "path": "third_party/clickhouse-cpp"
+        },
+        {
+          "mode": "160000",
+          "commit": "8fe893c0ac54c83a08c2492a7ac790c1a2bdd577",
+          "path": "third_party/fmt"
+        },
+        {
+          "mode": "160000",
+          "commit": "1b7cd10340f565d7fa3fd4f78d6faf14605d77b2",
+          "path": "third_party/folly"
+        },
+        {
+          "mode": "160000",
+          "commit": "8d51dc50eb7e7698427fed81b85edad0e032112e",
+          "path": "third_party/googletest"
+        },
+        {
+          "mode": "160000",
+          "commit": "96f4f904922f9bf66689e749c40f314845baaac8",
+          "path": "third_party/gtest-parallel"
+        },
+        {
+          "mode": "160000",
+          "commit": "f96010b7fa8ce5f83802144bdebf2bb7a6679649",
+          "path": "third_party/jemalloc"
+        },
+        {
+          "mode": "160000",
+          "commit": "aa5479bbf47e9df86e0afbb89e6246085f22cdd4",
+          "path": "third_party/leveldb"
+        },
+        {
+          "mode": "160000",
+          "commit": "298c083d75ecde5a8833366167b3b6abff0c8d39",
+          "path": "third_party/liburing"
+        },
+        {
+          "mode": "160000",
+          "commit": "43ce4bd7fd34bcc730c1c7471c99995597415488",
+          "path": "third_party/mimalloc"
+        },
+        {
+          "mode": "160000",
+          "commit": "aa304c9c7d725ffb9d10af08a3b34cb372307020",
+          "path": "third_party/pybind11"
+        },
+        {
+          "mode": "160000",
+          "commit": "7c0838e65e7db1dd10b7a8411553c04f2d89fa61",
+          "path": "third_party/rocksdb"
+        },
+        {
+          "mode": "160000",
+          "commit": "eac40e8e7fcaf73f06ea2ffb8a1aaf34f90994f4",
+          "path": "third_party/scnlib"
+        },
+        {
+          "mode": "160000",
+          "commit": "86eefc7255f2c70c5b0fc26525d349796032e99e",
+          "path": "third_party/toml11"
+        },
+        {
+          "mode": "160000",
+          "commit": "63779c798237346c2b245c546c40b72a5a5913fe",
+          "path": "third_party/zstd"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepEP",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepEP",
+      "seconds": 4.33,
+      "commit": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3",
+      "commit_date": "2026-10-21T11:50:43+08:00",
+      "submodules": [
+        "-cba802df081985141eeee36803685775c183a047 third-party/deep_jit"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "cba802df081985141eeee36803685775c183a047",
+          "path": "third-party/deep_jit"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepEP-Ascend",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepEP-Ascend",
+      "seconds": 2.67,
+      "commit": "3b25377d04b24fc6154698ded78a2bcb2c59afff",
+      "commit_date": "2026-09-29T20:59:51+08:00",
+      "submodules": [
+        "-f407eca30e07e647ce2e556f9b08e145b65362c7 third-party/clangd-ascend",
+        "-65f513952b8771408a19202f65e36398522db6db third-party/deep_jit"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "f407eca30e07e647ce2e556f9b08e145b65362c7",
+          "path": "third-party/clangd-ascend"
+        },
+        {
+          "mode": "160000",
+          "commit": "65f513952b8771408a19202f65e36398522db6db",
+          "path": "third-party/deep_jit"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepGEMM",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepGEMM",
+      "seconds": 3.29,
+      "commit": "5081f8513af57e61696de4f4f04b0e707ffb503e",
+      "commit_date": "2026-10-20T13:07:07+08:00",
+      "submodules": [
+        "-f3fde58372d33e9a5650ba7b80fc48b3b49d40c8 third-party/cutlass",
+        "-2efdab421e1cfb17fe8bc20e11ca72aa6d0e6c43 third-party/deep_jit"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "f3fde58372d33e9a5650ba7b80fc48b3b49d40c8",
+          "path": "third-party/cutlass"
+        },
+        {
+          "mode": "160000",
+          "commit": "2efdab421e1cfb17fe8bc20e11ca72aa6d0e6c43",
+          "path": "third-party/deep_jit"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepGEMM-Ascend",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepGEMM-Ascend",
+      "seconds": 3.19,
+      "commit": "3a35326271b069b8b5bf1a754435acd6cc91575b",
+      "commit_date": "2026-10-14T17:22:30+08:00",
+      "submodules": [
+        "-f407eca30e07e647ce2e556f9b08e145b65362c7 third-party/clangd-ascend",
+        "-65f513952b8771408a19202f65e36398522db6db third-party/deep-jit",
+        "-b233b96e49d371bad00300f59b5ba581100b8745 third-party/magic_enum"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "f407eca30e07e647ce2e556f9b08e145b65362c7",
+          "path": "third-party/clangd-ascend"
+        },
+        {
+          "mode": "160000",
+          "commit": "65f513952b8771408a19202f65e36398522db6db",
+          "path": "third-party/deep-jit"
+        },
+        {
+          "mode": "160000",
+          "commit": "b233b96e49d371bad00300f59b5ba581100b8745",
+          "path": "third-party/magic_enum"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepInfer",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepInfer",
+      "seconds": 2.94,
+      "commit": "9bd9cf243fc53ef9afbf8f04d391d989117d6ab9",
+      "commit_date": "2026-10-21T12:55:43+08:00",
+      "submodules": [
+        "-f6aa38fe06cd4a0489e7730365d4e0114970a2f3 vendor/DeepEP",
+        "-3b25377d04b24fc6154698ded78a2bcb2c59afff vendor/DeepEP-Ascend",
+        "-1fc9c66975ee322d628b3288534ca0e9ce12a64d vendor/DeepGEMM",
+        "-3a35326271b069b8b5bf1a754435acd6cc91575b vendor/DeepGEMM-Ascend",
+        "-bfa4507d935f17ebfc3d0f00ff7d3c9a4d0e5c18 vendor/DeepSelect",
+        "-2e5429fc5653bab6e081f09477126f731882a6a9 vendor/FlashMLA"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3",
+          "path": "vendor/DeepEP"
+        },
+        {
+          "mode": "160000",
+          "commit": "3b25377d04b24fc6154698ded78a2bcb2c59afff",
+          "path": "vendor/DeepEP-Ascend"
+        },
+        {
+          "mode": "160000",
+          "commit": "1fc9c66975ee322d628b3288534ca0e9ce12a64d",
+          "path": "vendor/DeepGEMM"
+        },
+        {
+          "mode": "160000",
+          "commit": "3a35326271b069b8b5bf1a754435acd6cc91575b",
+          "path": "vendor/DeepGEMM-Ascend"
+        },
+        {
+          "mode": "160000",
+          "commit": "bfa4507d935f17ebfc3d0f00ff7d3c9a4d0e5c18",
+          "path": "vendor/DeepSelect"
+        },
+        {
+          "mode": "160000",
+          "commit": "2e5429fc5653bab6e081f09477126f731882a6a9",
+          "path": "vendor/FlashMLA"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepJIT",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepJIT",
+      "seconds": 2.6,
+      "commit": "18fe520b0473fc45d32d2f0e86923da707de19ab",
+      "commit_date": "2026-10-19T11:56:41+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Coder",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Coder",
+      "seconds": 3.49,
+      "commit": "2f9fd85927c669dae3c0fbb2d607274023af243e",
+      "commit_date": "2025-11-11T14:44:55+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Coder-V2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Coder-V2",
+      "seconds": 3.28,
+      "commit": "a2b4e0a25b5dab1ee87e8080f76e4512b0725b7b",
+      "commit_date": "2025-11-11T14:44:45+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-LLM",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-LLM",
+      "seconds": 4.48,
+      "commit": "6712a86bfb7dd25c73383c5ad2eb7a8db540258b",
+      "commit_date": "2024-02-04T20:22:15+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Math",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Math",
+      "seconds": 25.68,
+      "commit": "b8b0f8ce093d80bf8e9a641e44142f06d092c305",
+      "commit_date": "2024-04-15T15:55:36+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Math-V2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Math-V2",
+      "seconds": 4.42,
+      "commit": "665c840782baf7faae8a8b244ea313f3cfcc346f",
+      "commit_date": "2025-12-01T15:01:35+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-MoE",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-MoE",
+      "seconds": 3.99,
+      "commit": "66edeee5a4f75cbd76e0316229ad101805a90e01",
+      "commit_date": "2024-01-16T20:17:59+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-OCR",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-OCR",
+      "seconds": 5.46,
+      "commit": "09eaf526153e7a01ed16c9dea8c96282aaea29c0",
+      "commit_date": "2026-01-27T11:45:14+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-OCR-2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-OCR-2",
+      "seconds": 15.7,
+      "commit": "2f3699ebbb96fa8af32212e8c170f2cc28730fad",
+      "commit_date": "2026-02-03T08:34:17+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Prover-V1.5",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Prover-V1.5",
+      "seconds": 9.98,
+      "commit": "2c4ba9119eef74d0d611f494261b2c5bae98c69a",
+      "commit_date": "2024-08-16T11:33:21+08:00",
+      "submodules": [
+        "-2f65ba7f1a9144b20c8e7358513548e317d26de1 mathlib4"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "2f65ba7f1a9144b20c8e7358513548e317d26de1",
+          "path": "mathlib4"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-Prover-V2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-Prover-V2",
+      "seconds": 2.45,
+      "commit": "e598a57ea3284997d4a2a168a069fdd5064afbc8",
+      "commit_date": "2025-07-18T16:11:28+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-R1",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-R1",
+      "seconds": 14.29,
+      "commit": "0cf78561f1d51c84a21b2190626b21116d5c68bb",
+      "commit_date": "2025-04-09T13:36:23+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-V2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-V2",
+      "seconds": 3.38,
+      "commit": "ec98ee3cbffc32104cd55dba8af884b3d772602a",
+      "commit_date": "2024-09-25T18:23:55+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-V3",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-V3",
+      "seconds": 5.3,
+      "commit": "9b4e9788e4a3a731f7567338ed15d3ec549ce03b",
+      "commit_date": "2025-08-28T11:24:26+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-V3.2-Exp",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-V3.2-Exp",
+      "seconds": 2.59,
+      "commit": "87e509a2e5a100d221c97df52c6e8be7835f0057",
+      "commit_date": "2025-11-18T10:49:02+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-VL",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-VL",
+      "seconds": 7.13,
+      "commit": "681bffb4519856ad27cc17531aacde31ddf6f1a7",
+      "commit_date": "2024-04-24T13:01:06+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-VL2",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSeek-VL2",
+      "seconds": 6.71,
+      "commit": "ef9f91e2b6426536b83294c11742c27be66361b1",
+      "commit_date": "2025-02-26T13:03:37+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSelect",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSelect",
+      "seconds": 5.65,
+      "commit": "bfa4507d935f17ebfc3d0f00ff7d3c9a4d0e5c18",
+      "commit_date": "2026-09-30T09:54:53+08:00",
+      "submodules": [
+        "-ae6bccf341fb4410241f696ba06873023d5ce4ed csrc/3rdparty/cutlass"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "ae6bccf341fb4410241f696ba06873023d5ce4ed",
+          "path": "csrc/3rdparty/cutlass"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/DeepSpec",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DeepSpec",
+      "seconds": 17.92,
+      "commit": "005e03b81cec38b7da6399833d609ee89a2587f2",
+      "commit_date": "2026-07-09T12:37:14+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/DreamCraft3D",
+      "status": "cloned-with-uninitialized-gitlink-metadata-warning",
+      "commit": "5829ef116d36c871ce2b9e54a6153dd3856a1561",
+      "commit_date": "2025-04-22T19:09:39+08:00",
+      "warning": "Command '['git', '-C', '/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DreamCraft3D', 'submodule', 'status']' returned non-zero exit status 128.",
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "853c51b5575e179b25d3aef3d9dbdff950e922ee",
+          "path": "extern/MVDream"
+        },
+        {
+          "mode": "160000",
+          "commit": "ea885683ee1a5ad93ba369057dc3d71b7a5ae061",
+          "path": "extern/One-2-3-45"
+        }
+      ],
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DreamCraft3D"
+    },
+    {
+      "repo": "deepseek-ai/DualPipe",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/DualPipe",
+      "seconds": 2.38,
+      "commit": "030ce4325f4ebeb437da4ebc6d00a70469dd58ae",
+      "commit_date": "2026-01-14T14:34:58+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/EPLB",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/EPLB",
+      "seconds": 2.11,
+      "commit": "d52c72d5b2f2fb4c41afbf8eb21366820239913d",
+      "commit_date": "2025-03-24T17:17:10+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/ESFT",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/ESFT",
+      "seconds": 16.98,
+      "commit": "3746ca74410c92163cc521571dbd17579bfdc962",
+      "commit_date": "2025-05-22T07:47:10Z",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/Engram",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/Engram",
+      "seconds": 8.53,
+      "commit": "fb7f84a21f91223715394a33a1dc24bbfb7f788e",
+      "commit_date": "2026-01-14T09:13:02+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/FlashMLA",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/FlashMLA",
+      "seconds": 3.24,
+      "commit": "0f11e178da1f67becb087a324b400854931ec3e3",
+      "commit_date": "2026-10-15T21:47:29+08:00",
+      "submodules": [
+        "-4faf1a1568cf1e4ad8ff71846a13e16f2a6a6f6b csrc/3rdparty/cutlass"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "4faf1a1568cf1e4ad8ff71846a13e16f2a6a6f6b",
+          "path": "csrc/3rdparty/cutlass"
+        }
+      ]
+    },
+    {
+      "repo": "deepseek-ai/Janus",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/Janus",
+      "seconds": 4.36,
+      "commit": "1daa72fa409002d40931bd7b36a9280362469ead",
+      "commit_date": "2025-02-01T15:58:14+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/LPLB",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/LPLB",
+      "seconds": 3.89,
+      "commit": "0490f79452f7ef277e814449600b1b1dd4c663b3",
+      "commit_date": "2025-11-19T15:19:47+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/TileKernels",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/TileKernels",
+      "seconds": 9.81,
+      "commit": "c1cf914a82e6901c679445f872051ce44ac2cc63",
+      "commit_date": "2026-10-14T13:49:06+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/clangd-ascend",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/clangd-ascend",
+      "seconds": 2.84,
+      "commit": "f407eca30e07e647ce2e556f9b08e145b65362c7",
+      "commit_date": "2026-09-29T18:22:10+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/deepseek-recipe",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/deepseek-recipe",
+      "seconds": 13.94,
+      "commit": "935817c66f5d6e64838f419692545f06787e485f",
+      "commit_date": "2026-10-20T01:51:02+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/open-infra-index",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/open-infra-index",
+      "seconds": 2.87,
+      "commit": "56d86855fcf6e08fdfd45ce6280bd24322c93351",
+      "commit_date": "2025-05-15T10:00:11+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/profile-data",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/profile-data",
+      "seconds": 15.29,
+      "commit": "449602428a1b023acb8a505d4f34fef536535db6",
+      "commit_date": "2025-03-21T10:23:50+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "deepseek-ai/smallpond",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/deepseek-ai/smallpond",
+      "seconds": 2.44,
+      "commit": "52ecc5e45535c7448f848bcb45b0da00d9484f81",
+      "commit_date": "2025-03-05T22:46:23+08:00",
+      "submodules": [],
+      "shallow": true,
+      "gitlinks": []
+    },
+    {
+      "repo": "tile-ai/tilelang",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/tile-ai/tilelang",
+      "seconds": 9.05,
+      "commit": "43f13c7ad1d1c9a890f2b9d3b46d7b1f3e1b695f",
+      "commit_date": "2026-10-22T17:57:53+08:00",
+      "submodules": [
+        "-b2dd65dc864e09688245b316ac46c4a6cd07e15c 3rdparty/cutlass",
+        "-4211874e9e4b8770fd20ad0d98ab80afd1df5028 3rdparty/tvm"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "b2dd65dc864e09688245b316ac46c4a6cd07e15c",
+          "path": "3rdparty/cutlass"
+        },
+        {
+          "mode": "160000",
+          "commit": "4211874e9e4b8770fd20ad0d98ab80afd1df5028",
+          "path": "3rdparty/tvm"
+        }
+      ]
+    },
+    {
+      "repo": "tile-ai/tilelang-ascend",
+      "status": "cloned",
+      "path": "/Users/mark/Documents/Github/deepseek-inference-sources/tile-ai/tilelang-ascend",
+      "seconds": 33.12,
+      "commit": "2f22c6ac17a4235aa3de5ccf25729c3553b46e02",
+      "commit_date": "2026-10-22T15:12:36+08:00",
+      "submodules": [
+        "-67fd2820f1c0359b84427c938f5e5d1a11d7b558 3rdparty/catlass",
+        "-1c45ca35dd5c215e0c1db1f40f01556f467f52a8 3rdparty/composable_kernel",
+        "-afa1772203677c5118fcd82537a9c8fefbcc7008 3rdparty/cutlass",
+        "-682771db273272a5c34332c790c445106d34dbb6 3rdparty/pto-isa",
+        "-157eecf7d2102c7282269db55e54362e90dbac7b 3rdparty/shmem",
+        "-c2921fdaf795b1103d21abc962e83a209c7258d7 3rdparty/tvm"
+      ],
+      "shallow": true,
+      "gitlinks": [
+        {
+          "mode": "160000",
+          "commit": "67fd2820f1c0359b84427c938f5e5d1a11d7b558",
+          "path": "3rdparty/catlass"
+        },
+        {
+          "mode": "160000",
+          "commit": "1c45ca35dd5c215e0c1db1f40f01556f467f52a8",
+          "path": "3rdparty/composable_kernel"
+        },
+        {
+          "mode": "160000",
+          "commit": "afa1772203677c5118fcd82537a9c8fefbcc7008",
+          "path": "3rdparty/cutlass"
+        },
+        {
+          "mode": "160000",
+          "commit": "682771db273272a5c34332c790c445106d34dbb6",
+          "path": "3rdparty/pto-isa"
+        },
+        {
+          "mode": "160000",
+          "commit": "157eecf7d2102c7282269db55e54362e90dbac7b",
+          "path": "3rdparty/shmem"
+        },
+        {
+          "mode": "160000",
+          "commit": "c2921fdaf795b1103d21abc962e83a209c7258d7",
+          "path": "3rdparty/tvm"
+        }
+      ]
+    }
+  ]
+}

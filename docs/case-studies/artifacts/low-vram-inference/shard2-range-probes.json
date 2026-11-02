@@ -1,0 +1,37 @@
+[
+  {
+    "offset": 0,
+    "range": "bytes 0-65535/48935523072",
+    "sha256": "0738950f068a9d5e071c5aebbf81151ece8b9146d68a195fcab9d3afbce6c892",
+    "local_sha256": "0738950f068a9d5e071c5aebbf81151ece8b9146d68a195fcab9d3afbce6c892",
+    "matches": true
+  },
+  {
+    "offset": 1048576,
+    "range": "bytes 1048576-1114111/48935523072",
+    "sha256": "66526d6036e6fd76a507742f2c2350a6de304d21ac9cd61141ab3cce54d187e8",
+    "local_sha256": "66526d6036e6fd76a507742f2c2350a6de304d21ac9cd61141ab3cce54d187e8",
+    "matches": true
+  },
+  {
+    "offset": 1073741824,
+    "range": "bytes 1073741824-1073807359/48935523072",
+    "sha256": "a2d0823d5edad159fb4d576967c97f03c8ca5e46510986d129ca7e5da5aa3bde",
+    "local_sha256": "8a7776bed0b06ea5ecaded059b8dd60698da3d624029312d1fc34566442eff2f",
+    "matches": false
+  },
+  {
+    "offset": 13140781303,
+    "range": "bytes 13140781303-13140846838/48935523072",
+    "sha256": "5f563ca52cbb2d5d866dcaea1877baefba7ef626331da24b87a79dd25ce69d1f",
+    "local_sha256": "5f563ca52cbb2d5d866dcaea1877baefba7ef626331da24b87a79dd25ce69d1f",
+    "matches": true
+  },
+  {
+    "offset": 30000000000,
+    "range": "bytes 30000000000-30000065535/48935523072",
+    "sha256": "522d174cc0dcd55c8c34967970e72fe3023ef37020b5af110670f81de5730b50",
+    "local_sha256": "522d174cc0dcd55c8c34967970e72fe3023ef37020b5af110670f81de5730b50",
+    "matches": true
+  }
+]

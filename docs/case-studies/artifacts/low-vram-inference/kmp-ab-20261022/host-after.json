@@ -1,0 +1,30 @@
+﻿{
+    "timestamp_utc":  "2026-10-22T13:39:30.3182521Z",
+    "listeners":  [
+                      {
+                          "LocalAddress":  "127.0.0.1",
+                          "LocalPort":  8080,
+                          "OwningProcess":  26160
+                      }
+                  ],
+    "servers":  [
+
+                ],
+    "free_disks":  [
+                       {
+                           "Name":  "C",
+                           "Free":  270356213760
+                       },
+                       {
+                           "Name":  "D",
+                           "Free":  159410708480
+                       }
+                   ],
+    "kmp_process":  null,
+    "kmp_user":  null,
+    "kmp_machine":  null,
+    "power_plan":  "电源方案 GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (平衡)",
+    "wpr_status":  "Microsoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\r\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\r\n\r\nWPR is not recording",
+    "gpu":  "name, driver_version, memory.used [MiB], temperature.gpu\r\nNVIDIA GeForce RTX 4060 Laptop GPU, 595.97, 671 MiB, 43",
+    "libomp_sha256":  "A12116BA72D1D6820407CF30BE23DA04CE79D6BB8A71A5EE71759C5A1FAA6F1C"
+}

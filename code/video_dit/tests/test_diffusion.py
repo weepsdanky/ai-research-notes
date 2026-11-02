@@ -1,7 +1,64 @@
 import torch
+import pytest
 
 from diffusion import DiffusionSchedule, ddim_sample_loop, diffusion_loss, p_sample
 from video_dit import VideoDiT, VideoDiTConfig
+
+
+class OracleDenoiser(torch.nn.Module):
+    """Return the exact target for one fixed clean sample at every DDIM state."""
+
+    def __init__(
+        self, schedule: DiffusionSchedule, clean: torch.Tensor, prediction_type: str,
+    ) -> None:
+        super().__init__()
+        self.schedule = schedule
+        self.register_buffer("clean", clean)
+        self.prediction_type = prediction_type
+
+    def forward(
+        self, noisy: torch.Tensor, timesteps: torch.Tensor, condition_ids: torch.Tensor,
+    ) -> torch.Tensor:
+        del condition_ids
+        alpha = self.schedule.sqrt_alpha_bar.gather(0, timesteps).reshape(
+            timesteps.shape[0], 1, 1, 1, 1,
+        )
+        sigma = self.schedule.sqrt_one_minus_alpha_bar.gather(0, timesteps).reshape(
+            timesteps.shape[0], 1, 1, 1, 1,
+        )
+        epsilon = (noisy - alpha * self.clean) / sigma.clamp_min(1e-12)
+        if self.prediction_type == "epsilon":
+            return epsilon
+        return alpha * epsilon - sigma * self.clean
+
+
+@pytest.mark.parametrize("prediction_type", ["epsilon", "velocity"])
+@pytest.mark.parametrize("sampling_steps", [10, 100])
+def test_ddim_oracle_recovers_exact_clean_video(
+    prediction_type: str, sampling_steps: int,
+):
+    schedule = DiffusionSchedule(timesteps=100)
+    clean = torch.randn(1, 3, 4, 8, 8)
+    noise = torch.randn_like(clean)
+    start = torch.tensor([99], dtype=torch.long)
+    noisy, _ = schedule.q_sample(clean, start, noise)
+    model = OracleDenoiser(schedule, clean, prediction_type)
+
+    recovered = ddim_sample_loop(
+        model,
+        schedule,
+        shape=tuple(clean.shape),
+        condition_ids=torch.zeros(1, 1),
+        device="cpu",
+        cfg_scale=1.0,
+        initial_noise=noisy,
+        sampling_steps=sampling_steps,
+        prediction_type=prediction_type,
+        clip_denoised=False,
+        start_timestep=99,
+    )
+
+    assert torch.allclose(recovered, clean, atol=2e-5, rtol=2e-5)
 
 
 def tiny_model(learn_sigma: bool = False) -> VideoDiT:
