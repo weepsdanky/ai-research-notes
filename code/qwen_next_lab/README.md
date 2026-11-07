@@ -70,7 +70,7 @@ RSS 与 MPS driver memory 是不同统计口径，统一内存环境下不能简
 |---|---|
 | §2.1.1，式 1–11 | GDN 衰减、误差写入、单位 q/k、causal short conv、sigmoid 输出门 |
 | §2.2，式 30–34 | 四分支 GR；分支独立 RMSNorm、逐通道读门、逐分支写门；rank=d/8 |
-| §2.1.2，式 12–20 | MQA indexer、先平均池化再 partial RoPE、完整块筛选、保留未完成尾块、两阶段 KL |
+| §2.1.2，式 12–20 | MQA indexer、先平均池化再 partial RoPE、完整块筛选、保留未完成尾块、两阶段 KL；教学版 student 分数采用固定温度缩放 |
 | §3.1 | 学习版 FP32 Muon，8 次 Newton–Schulz；embedding/head/router/GR/indexer/norm 用 AdamW |
 | MoE | 教学选择：4 routed experts、top-2 + 1 shared expert；显式 token dispatch + 0.01 balance loss |
 | tokenizer | UTF-8 byte + EOD（257 词表），不是 Qwen tokenizer；token 数与论文不可直接比较 |
@@ -86,6 +86,12 @@ zero-centered RMSNorm 的 gain 是 `1 + delta`，delta 初始化为 0；它不�
 QSA 的 mask 允许每个 query 看见最多 K 个完整块内 tokens，另加 0–r-1 个尾部 tokens。
 短 prefix 不足 K 时会退化为 dense。训练阶段 2 只在已选择的完整块上算 KL；
 没有完整块的 early query 不参与 KL，尾部仍参与 LM attention。
+
+Mac mini 实测发现，未经缩放的 indexer head 分数之和配合原蒸馏学习率会出现
+ReLU 分数全零、梯度消失。当前使用 `mean_heads(relu(q @ k.T)) / sqrt(head_dim)`
+作为 student logits，并将蒸馏学习率设为 `0.0001`。这是教学版的稳定性调整，
+正比例缩放不改变相同权重下的 Top-K 排序；不声称逐项复现论文配方。
+修正前后的真实结果见 [RESULTS.md](RESULTS.md)。
 
 ## 4. Mac mini 安装与检查
 
@@ -140,7 +146,7 @@ uv run python sample.py runs/shakespeare/last.pt --device mps --prompt 'ROMEO:'
 ```bash
 uv run python prepare.py --source openwebtext --out data/owt --train-bytes 20000000 --val-bytes 1000000
 uv run python train.py --stage pretrain --init runs/shakespeare/last.pt --data data/owt --mix-data data/shakespeare --out runs/owt-dense --device mps --steps 1000 --seq 128 --accum 4 --lr 0.0003
-uv run python train.py --stage distill --init runs/owt-dense/last.pt --data data/owt --mix-data data/shakespeare --out runs/indexer --device mps --steps 100 --seq 128 --accum 4 --lr 0.001
+uv run python train.py --stage distill --init runs/owt-dense/last.pt --data data/owt --mix-data data/shakespeare --out runs/indexer --device mps --steps 100 --seq 128 --accum 4 --lr 0.0001
 uv run python train.py --stage sparse --init runs/indexer/last.pt --data data/owt --mix-data data/shakespeare --out runs/qsa --device mps --steps 500 --seq 128 --accum 4 --lr 0.0001
 uv run python sample.py runs/qsa/last.pt --device mps --prompt 'The meaning of life is'
 ```
@@ -193,4 +199,4 @@ byte tokens，并不等于遍历 20MB OWT；此预算旨在观察机制，不是
 - [Tiny Shakespeare 原始来源](https://github.com/karpathy/char-rnn/blob/master/data/tinyshakespeare/input.txt)：下载代码固定 commit。
 - [OpenWebText 数据卡](https://huggingface.co/datasets/Skylion007/openwebtext)：准备脚本使用固定的 Parquet 转换 revision。
 
-当前状态：源码已准备；**尚未在 Mac mini 执行测试或训练，未报告任何训练成功或性能结论**。
+Mac mini 执行状态与实测结果见 [RESULTS.md](RESULTS.md)；其中区分完成阶段、失败实验与实现局限。

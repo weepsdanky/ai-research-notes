@@ -109,7 +109,9 @@ class Indexer(nn.Module):
         k = self.k(x)[:, :blocks * r].reshape(batch, blocks, r, self.dim).mean(2)
         k = self.knorm(k)[:, None]
         q, k = partial_rope(q, pos), partial_rope(k, torch.arange(blocks, device=x.device) * r)
-        scores = (q @ k.transpose(-1, -2)).relu().sum(1)  # [B,T,blocks]
+        # Fixed student temperature: avoid oversized logits and dead-ReLU collapse.
+        # Positive rescaling preserves Top-K block order.
+        scores = (q @ k.transpose(-1, -2)).relu().mean(1) / math.sqrt(self.dim)  # [B,T,blocks]
         valid = (torch.arange(blocks, device=x.device) * r + r - 1)[None, :] <= pos[:, None]
         scores = scores.masked_fill(~valid, -1e9)
         selected = torch.zeros_like(scores, dtype=torch.bool)
