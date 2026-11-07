@@ -1,12 +1,21 @@
 # Mac mini 实测结果
 
-记录时间：2026-11-07 16:51:21 CST。本轮从 2026-11-07 16:00（Asia/Shanghai）开始，已完成全部计划训练、测试与真实生成；没有缩减正式步数或 token 预算，未触及 2 小时主动执行上限。Goal 在报告、提交及推送完成后标记完成。
+记录时间：2026-11-07 16:51:21 CST。本轮从 2026-11-07 16:00（Asia/Shanghai）开始，已完成全部计划训练、测试与真实生成；没有缩减正式步数或 token 预算，未触及 2 小时主动执行上限。GitHub认证与分支发布于 2026-11-08 00:37:43 CST 完成，训练未重跑；此前等待认证的时间不属于原训练执行预算。
 
-**发布状态：待 GitHub 写入认证，Goal 为 blocked（连续三轮确认同一认证阻碍）。** 本地源码/lock提交 `83e4ad6`、结果报告提交 `7492cd4` 已完成，工作区没有用户修改被覆盖。HTTPS push 缺少凭据；已连接GitHub的仓库元信息虽显示账户有push权限，但创建Git tree接口实际返回 `403 Resource not accessible by integration`，没有发布成功。本机现有SSH key亦返回 `Permission denied (publickey)`；使用GitHub官方HTTPS API提供的公开host keys核验服务器后仍不能认证。没有更改全局认证、插件权限或系统known_hosts。已请求用户在本机完成写入认证，无需提供聊天token。训练不需要重跑，认证后只执行：
+**发布状态：已登录 GitHub 并成功推送 `codex/qwen-next-mac-mini`。**
+
+2026-11-08 00:37:43 CST，用户要求登录GitHub后，安装官方GitHub CLI 2.103.3 arm64（官方release zip SHA-256核验通过），通过浏览器设备授权登录 `weepsdanky`，凭据保存在macOS keyring，HTTPS Git认证配置成功。随后 `git push -u origin codex/qwen-next-mac-mini` 创建远端分支；初次远端HEAD确认为 `b26fbf2932272b05e5f619e3a860142faa285d775`。此前HTTPS无凭据、SSH未授权和连接Git接口403均为历史阻碍，已通过本机CLI登录解决；未修改插件权限或系统known_hosts。
+
+登录后重新检查了最终源码hash、CPU/MPS测试记录、真实4步续跑权重/RNG、两个语料hash、全部阶段完成步数、backbone冻结、KL梯度、mask及六份生成样本，均通过。审计结果保存在本机 `runs/evidence/final-audit-after-login.json`。没有重新训练或扩大数据预算。发布范围只有 `model.py`、`README.md`、`RESULTS.md`、`uv.lock`、`environment-mac-mini.txt`；数据、checkpoint、虚拟环境和认证凭据未上传。
 
 ```bash
+# 用户在浏览器完成设备授权；不在聊天或仓库中保存token
+/Users/mark/.local/bin/gh auth login --hostname github.com --git-protocol https --web
+/Users/mark/.local/bin/gh auth status
+/Users/mark/.local/bin/gh api user --jq .login
 cd /Users/mark/Documents/Github/ai-research-notes
 git push -u origin codex/qwen-next-mac-mini
+git ls-remote --heads origin codex/qwen-next-mac-mini
 ```
 
 ## 环境、版本与边界
