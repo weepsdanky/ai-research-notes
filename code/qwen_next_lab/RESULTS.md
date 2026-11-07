@@ -4,7 +4,7 @@
 
 **发布状态：已登录 GitHub 并成功推送 `codex/qwen-next-mac-mini`。**
 
-2026-11-08 00:37:43 CST，用户要求登录GitHub后，安装官方GitHub CLI 2.103.3 arm64（官方release zip SHA-256核验通过），通过浏览器设备授权登录 `weepsdanky`，凭据保存在macOS keyring，HTTPS Git认证配置成功。随后 `git push -u origin codex/qwen-next-mac-mini` 创建远端分支；初次远端HEAD确认为 `b26fbf2932272b05e5f619e3a860142faa285d775`。此前HTTPS无凭据、SSH未授权和连接Git接口403均为历史阻碍，已通过本机CLI登录解决；未修改插件权限或系统known_hosts。
+2026-11-08 00:37:43 CST，用户要求登录GitHub后，安装官方GitHub CLI 2.103.3 arm64（官方release zip SHA-256核验通过），通过浏览器设备授权登录 `weepsdanky`，凭据保存在macOS keyring，HTTPS Git认证配置成功。随后 `git push -u origin codex/qwen-next-mac-mini` 创建远端分支；初次远端HEAD确认为 `b26fbf9ac7dabacda4399271b28e6299eda7da89`。此前HTTPS无凭据、SSH未授权和连接Git接口403均为历史阻碍，已通过本机CLI登录解决；未修改插件权限或系统known_hosts。
 
 登录后重新检查了最终源码hash、CPU/MPS测试记录、真实4步续跑权重/RNG、两个语料hash、全部阶段完成步数、backbone冻结、KL梯度、mask及六份生成样本，均通过。审计结果保存在本机 `runs/evidence/final-audit-after-login.json`。没有重新训练或扩大数据预算。发布范围只有 `model.py`、`README.md`、`RESULTS.md`、`uv.lock`、`environment-mac-mini.txt`；数据、checkpoint、虚拟环境和认证凭据未上传。
 
