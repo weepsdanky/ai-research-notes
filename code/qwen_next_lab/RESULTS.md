@@ -2,6 +2,13 @@
 
 记录时间：2026-11-07 16:51:21 CST。本轮从 2026-11-07 16:00（Asia/Shanghai）开始，已完成全部计划训练、测试与真实生成；没有缩减正式步数或 token 预算，未触及 2 小时主动执行上限。Goal 在报告、提交及推送完成后标记完成。
 
+**发布状态：待 GitHub 写入认证，Goal 仍 active。** 本地源码/lock提交 `83e4ad6`、结果报告提交 `7492cd4` 已完成，工作区没有用户修改被覆盖。HTTPS push 缺少凭据；已连接GitHub的仓库元信息虽显示账户有push权限，但创建Git tree接口实际返回 `403 Resource not accessible by integration`，没有发布成功。本机现有SSH key亦返回 `Permission denied (publickey)`；使用GitHub官方HTTPS API提供的公开host keys核验服务器后仍不能认证。没有更改全局认证、插件权限或系统known_hosts。已请求用户在本机完成写入认证，无需提供聊天token。训练不需要重跑，认证后只执行：
+
+```bash
+cd /Users/mark/Documents/Github/ai-research-notes
+git push -u origin codex/qwen-next-mac-mini
+```
+
 ## 环境、版本与边界
 
 - 本地根目录：`/Users/mark/Documents/Github/ai-research-notes/code/qwen_next_lab`。
