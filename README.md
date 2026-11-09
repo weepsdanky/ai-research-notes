@@ -10,6 +10,8 @@ _A structured, evolving knowledge base for Deep Learning, Reinforcement Learning
 
 ## Generative Model Learning Labs
 
+- MHA 学习实验：[`code/attention_lab/`](code/attention_lab/) — 从可手算的 4-token attention 到最小语言模型训练。
+
 - Qwen Next 小模型实验：[`code/qwen_next_lab/`](code/qwen_next_lab/) — 面向 16GB Mac mini 的 GDN / GR / MoE / QSA 教学实现、两阶段训练与远程执行交接。
 
 - 大模型低显存推理研究：[硬件盘点](docs/case-studies/low-vram-inference/00-hardware-inventory.md) · [实验与数据](docs/case-studies/low-vram-inference/01-experiments-and-results.md) · [开源优化路线与八周学习计划](docs/case-studies/low-vram-inference/02-open-source-learning-roadmap.md) — Windows RTX 4060 8GB 上的模型推理、卸载和加速。
