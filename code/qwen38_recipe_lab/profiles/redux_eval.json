@@ -1,0 +1,17 @@
+{
+  "scope": "Full public Redux2.0-ok 57 subjects, 5330 items",
+  "shots": 5,
+  "cot": false,
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "context": 4096,
+  "max_audited_prompt_tokens": 3121,
+  "prefill_chunk": 128,
+  "batch_size": 8,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "device": "cpu",
+  "seconds_per_call": 1200,
+  "note": "Public prompts and demonstrations in hashlocked adapter. Explicit Mac greedy/token/runtime choices; private Qwen protocol unknown. Fixed step8000 checkpoint. INCLUDE fills unavailable validation examples with declared English examples in three languages. Redux uses public ok cohort."
+}

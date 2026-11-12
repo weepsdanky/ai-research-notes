@@ -1,0 +1,220 @@
+[
+  {
+    "dataset": "TIGER-Lab/MMLU-Pro",
+    "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+    "gated": false,
+    "license": "mit",
+    "status": "Downloaded/hash-locked: 12,032 test / 70 validation; adapter ready; full model evaluation not yet run",
+    "file_count": 7,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "data/test-00000-of-00001.parquet",
+      "data/validation-00000-of-00001.parquet",
+      "eval.yaml",
+      "run_claude3.py"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/TIGER-Lab/MMLU-Pro"
+  },
+  {
+    "dataset": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "gated": false,
+    "license": "cc-by-4.0",
+    "status": "Downloaded/hash-locked: 3,000 original annotation rows audited, not used as a cleaned benchmark score; full model evaluation not yet run",
+    "file_count": 117,
+    "example_files": [
+      ".gitattributes",
+      "LICENSE",
+      "README.md",
+      "anatomy/data-00000-of-00001.arrow",
+      "anatomy/dataset_info.json",
+      "anatomy/state.json"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/edinburgh-dawg/mmlu-redux"
+  },
+  {
+    "dataset": "m-a-p/SuperGPQA",
+    "revision": "4430d4458112c7d4497fdcf94d7cc223313d6acf",
+    "gated": false,
+    "license": "odc-by",
+    "status": "Full 26,529 generated and source/IDs/raw/scoring audited; 22 correct, zero capacity failures; Mac declared protocol, not official Qwen score",
+    "file_count": 3,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "SuperGPQA-all.jsonl"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/m-a-p/SuperGPQA"
+  },
+  {
+    "dataset": "Idavidrein/gpqa",
+    "revision": "83022cefff930aea54f654c0b282e74b9eeda5c6",
+    "gated": "auto",
+    "license": "cc-by-4.0",
+    "status": "Authenticated three fixed-revision CSVs downloaded/hash-locked; two normalized authored few-shot overlaps found; separate author/clean Mac protocols pending implementation",
+    "file_count": 8,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "eval.yaml",
+      "gpqa_diamond.csv",
+      "gpqa_experts.csv",
+      "gpqa_extended.csv"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/Idavidrein/gpqa",
+    "data_access_audit": {
+      "public_head_status": 401,
+      "hf_env_or_default_token_present": true,
+      "user_input_pending": false,
+      "user_will_configure_local_authorized_login": true,
+      "checked_at": "2026-11-08T23:56:18.783763+08:00",
+      "sdk_auth_check": "GatedRepoError"
+    },
+    "current_access_audit": {
+      "at": "2026-11-09T14:54:31.707427+08:00",
+      "credential_present": true,
+      "username": "WeepsDanky",
+      "status": "accessible",
+      "repo": "Idavidrein/gpqa",
+      "revision": "83022cefff930aea54f654c0b282e74b9eeda5c6",
+      "verified_file": "gpqa_diamond.csv",
+      "bytes": 1373492,
+      "rows": 198,
+      "sha256": "41d1213cd7a4998605a26c2798500652572007161b3a92817ba46b35befcd305",
+      "verification": "Fresh authenticated download through local Hugging Face SDK; no evaluation run; goal remains paused"
+    },
+    "local_evaluation": {
+      "status": "complete on Mac scaled paper checkpoint",
+      "source_archive": "eb48785",
+      "audit": "runs/paper-gpqa-completed-audit.json",
+      "variants": {
+        "gpqa-author-main": {
+          "n": 448,
+          "correct": 0
+        },
+        "gpqa-author-diamond": {
+          "n": 198,
+          "correct": 0
+        },
+        "gpqa-clean-main": {
+          "n": 448,
+          "correct": 0
+        },
+        "gpqa-clean-diamond": {
+          "n": 198,
+          "correct": 0
+        }
+      },
+      "limitations": "Author examples2,3 overlap test; separate clean Mac variant replaces exactly those examples. Private Qwen harness unknown. All outputs lack an author-parseable A-D answer."
+    }
+  },
+  {
+    "dataset": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "gated": false,
+    "license": "mit",
+    "status": "Downloaded/hash-locked: 5,000 test / 7,500 train; 4-shot authored solutions / primary normalization adapter ready; full model evaluation not yet run",
+    "file_count": 16,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "algebra/test-00000-of-00001.parquet",
+      "algebra/train-00000-of-00001.parquet",
+      "counting_and_probability/test-00000-of-00001.parquet",
+      "counting_and_probability/train-00000-of-00001.parquet"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/EleutherAI/hendrycks_math"
+  },
+  {
+    "dataset": "evalplus/humanevalplus",
+    "revision": "d32357cf319e50e9c8d8dab5ea876c72b0fd321b",
+    "gated": false,
+    "license": "apache-2.0",
+    "status": "Downloaded/hash-locked: HF export downloaded plus official HumanEvalPlus v0.1.10 release locked; 164 generation prompts ready; official 0.3.1 judge integrated: canonical/wrong/exit/system-exit/syntax/loop controls passed; full model evaluation not yet run",
+    "file_count": 4,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "data/test-00000-of-00001-5973903632b82d40.parquet",
+      "test.jsonl"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/evalplus/humanevalplus"
+  },
+  {
+    "dataset": "evalplus/mbppplus",
+    "revision": "b2d74c91837c3f2a20c1299ae98133cbe7cfa077",
+    "gated": false,
+    "license": "apache-2.0",
+    "status": "Downloaded/hash-locked: HF export downloaded plus official MbppPlus v0.2.0 release locked; 378 generation prompts ready; official 0.3.1 judge integrated: canonical/wrong/exit/system-exit/syntax/loop controls passed; full model evaluation not yet run",
+    "file_count": 3,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "data/test-00000-of-00001-d5781c9c51e02795.parquet"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/evalplus/mbppplus"
+  },
+  {
+    "dataset": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "gated": false,
+    "license": [
+      "mit"
+    ],
+    "status": "metadata only; not downloaded/evaluated; exact paper version unconfirmed",
+    "file_count": 1193,
+    "example_files": [
+      ".gitattributes",
+      ".gitignore",
+      "README.md",
+      "diffs_v3.0/.gitattributes",
+      "diffs_v3.0/humaneval-d_prompt_HumanEval_0_has_close_elements.diff",
+      "diffs_v3.0/humaneval-d_prompt_HumanEval_100_make_a_pile.diff"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/nuprl/MultiPL-E"
+  },
+  {
+    "dataset": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "gated": false,
+    "license": "mit",
+    "status": "All 14 full-language CSVs downloaded/hash-verified (196588 items); subject aliases fix 445 metadata rows only; complete coverage/format tests passed; max prompt4197, context8192; model generation pending",
+    "file_count": 16,
+    "example_files": [
+      ".gitattributes",
+      "README.md",
+      "test/mmlu_AR-XY.csv",
+      "test/mmlu_BN-BD.csv",
+      "test/mmlu_DE-DE.csv",
+      "test/mmlu_ES-LA.csv"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/openai/MMMLU"
+  },
+  {
+    "dataset": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "gated": false,
+    "license": "apache-2.0",
+    "status": "Downloaded/hash-locked: 22,639 test / 890 validation across 44 languages; exact-question-overlap exclusions and explicit English fallback adapter ready; full model evaluation not yet run",
+    "file_count": 90,
+    "example_files": [
+      ".gitattributes",
+      "Albanian/test-00000-of-00001.parquet",
+      "Albanian/validation-00000-of-00001.parquet",
+      "Arabic/test-00000-of-00001.parquet",
+      "Arabic/validation-00000-of-00001.parquet",
+      "Armenian/test-00000-of-00001.parquet"
+    ],
+    "metadata_url": "https://huggingface.co/api/datasets/CohereForAI/include-base-44"
+  },
+  {
+    "dataset": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "gated": false,
+    "license": "cc-by-4.0",
+    "status": "Downloaded/hash-locked: 5,330 ok rows / 57 subjects; public harness candidate adapter ready; exact Qwen dataset version unknown; full model evaluation not yet run",
+    "file_count": 173,
+    "metadata_url": "https://huggingface.co/api/datasets/fxmarty/mmlu-redux-2.0-ok"
+  }
+]

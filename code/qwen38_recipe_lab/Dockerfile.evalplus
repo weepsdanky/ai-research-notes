@@ -1,0 +1,4 @@
+FROM python@sha256:65bd3d9f1d7fa268dd1909973ba7eb4bdf41f6dcf2cfbe76ba9528b170f3fd79
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 TOKENIZERS_PARALLELISM=false HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+COPY code_build_requirements.lock code_requirements.lock /build/
+RUN python -m pip install --no-cache-dir --require-hashes -r /build/code_build_requirements.lock && python -m pip install --no-cache-dir --no-build-isolation --require-hashes -r /build/code_requirements.lock && python -m pip check

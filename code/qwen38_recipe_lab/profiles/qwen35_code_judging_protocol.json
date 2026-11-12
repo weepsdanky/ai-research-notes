@@ -1,0 +1,32 @@
+{
+  "status": "predeclared_no_formal_judging",
+  "purpose": "Formal Base code source/test/runner identity; public source only, private Qwen harness unknown",
+  "common_sources": {
+    "sandbox.py": "93a1c8ea83ca25c20283c6b5e6efee815aaa058e21c5cbd43f5cb98ae1f14964",
+    "vm.sh": "1834beb3bc2e28916dda36d7ff40342f98e71ef790cee01772a72b2d485ebc66",
+    "code_images.lock.json": "d848c07101d1681758233430cb6bf9d4e49fa6457eec5877d0ded94ca7dea245"
+  },
+  "suites": {
+    "code": {
+      "target_items": 542,
+      "source_hashes": {
+        "eval_code_tasks.py": "68bd43ac36cc53bdc18e9a4fbeff29298c0819b569a790b186698c145f2d9963",
+        "eval_sources.lock.json": "db26440c797e22ab086f6ddcb9c2279d2855fa8c58362716a668deb3b0c02906",
+        "judge_evalplus.py": "d980170680c23f69fc90b56568d3b7ac5c3329780bfc8b5119af4c776e235ab6",
+        "evalplus_driver.py": "360df7f408f977f853f53857f8d7385f203dab38dc68e41be0d7b984ce65d344",
+        "evalplus_source.lock.json": "82043b99e0a816b4abd928f111f5745a1778894bf7c3ef91239b6484daa55c69"
+      }
+    },
+    "multipl": {
+      "target_items": 1277,
+      "source_hashes": {
+        "eval_multipl_tasks.py": "5570bfbfa9aa532b8d4fe391b86b40b3b8f90c9caa44dfb45474f23ef038521a",
+        "multipl_sources.lock.json": "7d20bd1bf6359d99c3b9754c0cd9fbdd260051c3d85ef8cc6f886327be4dd9d7",
+        "multipl_judge.py": "abb592046f6b4670039e1826bda0cf339d2f2d20879cd3b234e0d80b6866ea9b",
+        "multipl_driver.py": "becb3e27f65678aa683edce65354f704607d92a3c8019b06dc3bcefba96d7853",
+        "multipl_judge_sources.lock.json": "d450ac752f71950ef231b256d44e53f4f689bf1b8fad0930bff432900832193f"
+      }
+    }
+  },
+  "multipl_raw_only": "Three invalid source scaffolds preclude raw aggregate model accuracy; repaired Mac variants require separate declarations/results"
+}

@@ -1,0 +1,54 @@
+{
+  "mac": {
+    "parameters": 32978962,
+    "components": {
+      "input_embedding": 15892480,
+      "output_head": 15892480,
+      "gdn": 279570,
+      "attention": 623104,
+      "indexer": 41216,
+      "gated_residual": 47360,
+      "routed_experts": 98304,
+      "shared_experts": 12288,
+      "router_and_shared_gate": 2304,
+      "ngram_table": 67584,
+      "ple_without_table": 22272
+    },
+    "active_parameters_per_token_dense": 16904082,
+    "active_parameters_per_token_qsa": 16945298,
+    "active_definition": "logical parameter touches, includes full vocab output projection, excludes unselected expert and lookup rows; not a compute/memory measurement",
+    "weight_bytes_fp32": 131915848,
+    "weight_bytes_bfloat16": 65957924,
+    "excludes": [
+      "vision",
+      "MTP",
+      "production sharding/quantization/state layouts"
+    ]
+  },
+  "official_text": {
+    "parameters": 176943899520,
+    "components": {
+      "input_embedding": 635699200,
+      "output_head": 635699200,
+      "gdn": 2086510464,
+      "attention": 597694464,
+      "indexer": 19663872,
+      "gated_residual": 640624640,
+      "routed_experts": 120795955200,
+      "shared_experts": 235929600,
+      "router_and_shared_gate": 63037440,
+      "ngram_table": 51200245760,
+      "ple_without_table": 32839680
+    },
+    "active_parameters_per_token_dense": 6651636608,
+    "active_parameters_per_token_qsa": 6671300480,
+    "active_definition": "logical parameter touches, includes full vocab output projection, excludes unselected expert and lookup rows; not a compute/memory measurement",
+    "weight_bytes_fp32": 707775598080,
+    "weight_bytes_bfloat16": 353887799040,
+    "excludes": [
+      "vision",
+      "MTP",
+      "production sharding/quantization/state layouts"
+    ]
+  }
+}

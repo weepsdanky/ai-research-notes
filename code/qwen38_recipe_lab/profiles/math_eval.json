@@ -1,0 +1,17 @@
+{
+  "scope": "All seven public subject test sets, 5000 tasks",
+  "shots": 4,
+  "cot": true,
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "context": 4096,
+  "prefill_chunk": 128,
+  "batch_size": 8,
+  "gdn_scan": "chunk",
+  "seconds_per_call": 1200,
+  "note": "Mac token/greedy budget, public original train worked solutions and string-equivalence scorer; Qwen private protocol unknown. Full prompt retained.",
+  "prefix_cache": true,
+  "prefix_cache_slots": 4,
+  "prefix_alignment": 128,
+  "prefix_cache_proof": "runs/prefix-trained-proof.json: 24 actual checkpoint cases x64 generated tokens; same baseline IDs. CPU/MPS cache-state/seed tests. Engine activated only after the full MultiPL-E generation completed."
+}

@@ -1,0 +1,26 @@
+{
+  "declared_at": "2026-11-09T00:03:54.228909+08:00",
+  "purpose": "Single lower-learning-rate retry of failed literal paper score distillation, not an official production LR claim",
+  "init": "runs/qwen-cpt/last.pt",
+  "init_sha256": "c850997fb874b2cb068277ecca26a38f4723a251e62684dcd9f13a042a28220b",
+  "out": "runs/qwen-distill-paper-lr1e4",
+  "score_mode": "paper",
+  "steps": 1000,
+  "seq": 128,
+  "batch": 1,
+  "accum": 1,
+  "seed": 42,
+  "learning_rate": 0.0001,
+  "comparison_original_lr": 0.001,
+  "data": [
+    "data/owt",
+    "data/shakespeare"
+  ],
+  "mix_probability": 0.1,
+  "schedule": "constant via auto distill",
+  "clip": 0.5,
+  "acceptance": "Same audit_stage.py 8 fixed validation batches per corpus: KL below uniform, >=50% eligible queries nonuniform, positive indexer gradient every batch; backbone frozen and finite. Do not change thresholds.",
+  "canonical_checkpoint": "runs/qwen-sparse/last.pt remains separate and unchanged",
+  "source_changes": "None to model.py, optim.py, polar_coefficients.json or train.py",
+  "execution": "Serial after current Bengali evaluation terminal; MPS allocator protection unchanged"
+}

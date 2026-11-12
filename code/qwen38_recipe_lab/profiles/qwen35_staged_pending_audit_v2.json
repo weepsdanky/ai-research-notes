@@ -1,0 +1,9 @@
+{
+  "status": "audit_only_amendment_preserves_numerical_profile",
+  "profile_sha256": "f58161ff42fbd8cae7db9a4594c9aac69f0205be821fc3326d256dbfdef47e5c",
+  "guard_sha256": "82b52b620d1a1aaa12ae7929734468116463cd778f0198379e6a0d0459372ec6",
+  "pending_auditor_sha256": "214eb1cf45bf2052016856b05fa5fdaf905f16a7d937746bfc061a30cfb12fa8",
+  "superseded_pending_auditor_sha256": "8ef6f9637e5deaaefebd8176ac99c5d6d2eb48a3ebb759d8d191b35df00f173f",
+  "source_model_sha256": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+  "reason": "Frozen MoE.forward returns flat [batch*seq, experts] router logits/adjoints. No change to numerical worker, accepted checkpoint, pending data or budget."
+}

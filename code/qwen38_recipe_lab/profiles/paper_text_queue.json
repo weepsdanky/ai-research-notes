@@ -1,0 +1,215 @@
+{
+  "declared_at": "2026-11-09T05:18:25.473960+08:00",
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "scope": "Full declared public text collections. GPQA gated/private SWE construct and code judging remain separate requirements. Existing HF targets retained, never mixed.",
+  "jobs": [
+    {
+      "name": "mmlu",
+      "suite": "core",
+      "tasks": [
+        "mmlu-*"
+      ],
+      "context": 4096,
+      "total_items": 14042
+    },
+    {
+      "name": "gsm8k",
+      "suite": "core",
+      "tasks": [
+        "gsm8k"
+      ],
+      "context": 4096,
+      "total_items": 1319
+    },
+    {
+      "name": "mgsm",
+      "suite": "core",
+      "tasks": [
+        "mgsm-*"
+      ],
+      "context": 4096,
+      "total_items": 2750
+    },
+    {
+      "name": "bbh",
+      "suite": "core",
+      "tasks": [
+        "bbh-*"
+      ],
+      "context": 4096,
+      "total_items": 6511
+    },
+    {
+      "name": "mmlu-pro",
+      "suite": "extra",
+      "tasks": [
+        "mmlu-pro-*"
+      ],
+      "context": 4096,
+      "total_items": 12032
+    },
+    {
+      "name": "redux2-ok",
+      "suite": "extra",
+      "tasks": [
+        "redux2-ok-*"
+      ],
+      "context": 4096,
+      "total_items": 5330
+    },
+    {
+      "name": "math",
+      "suite": "extra",
+      "tasks": [
+        "math-*"
+      ],
+      "context": 4096,
+      "total_items": 5000
+    },
+    {
+      "name": "include",
+      "suite": "extra",
+      "tasks": [
+        "include-*"
+      ],
+      "context": 4096,
+      "total_items": 22639
+    },
+    {
+      "name": "supergpqa",
+      "suite": "extra",
+      "tasks": [
+        "supergpqa"
+      ],
+      "context": 8192,
+      "total_items": 26529
+    },
+    {
+      "name": "mmmlu-zh_cn",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-zh_cn"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-ar_xy",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-ar_xy"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-bn_bd",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-bn_bd"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-de_de",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-de_de"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-es_la",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-es_la"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-fr_fr",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-fr_fr"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-hi_in",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-hi_in"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-id_id",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-id_id"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-it_it",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-it_it"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-ja_jp",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-ja_jp"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-ko_kr",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-ko_kr"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-pt_br",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-pt_br"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-sw_ke",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-sw_ke"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    },
+    {
+      "name": "mmmlu-yo_ng",
+      "suite": "mmmlu",
+      "tasks": [
+        "mmmlu-yo_ng"
+      ],
+      "context": 8192,
+      "total_items": 14042
+    }
+  ]
+}

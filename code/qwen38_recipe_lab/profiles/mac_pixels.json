@@ -1,0 +1,22 @@
+{
+  "patch_size": 16,
+  "temporal_patch_size": 2,
+  "merge_size": 2,
+  "image_min_pixels": 65536,
+  "image_max_pixels": 262144,
+  "video_min_pixels": 4096,
+  "video_max_pixels": 262144,
+  "min_frames": 4,
+  "max_frames": 64,
+  "fps": 2.0,
+  "mean": [
+    0.5,
+    0.5,
+    0.5
+  ],
+  "std": [
+    0.5,
+    0.5,
+    0.5
+  ]
+}

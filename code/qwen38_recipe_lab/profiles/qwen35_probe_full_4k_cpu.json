@@ -1,0 +1,73 @@
+{
+  "status": "resource_probe_candidate",
+  "scope": "Mac public-family control, not private Table1",
+  "arm": "full",
+  "config": {
+    "vocab_size": 248320,
+    "width": 64,
+    "layers": 4,
+    "heads": 8,
+    "kv_heads": 1,
+    "head_dim": 16,
+    "rotary_dim": 4,
+    "gdn_k_heads": 1,
+    "gdn_v_heads": 2,
+    "gdn_k_dim": 64,
+    "gdn_v_dim": 64,
+    "hidden": 16,
+    "experts": 64,
+    "top_k": 2,
+    "rope_theta": 10000000.0,
+    "window": 128,
+    "query_chunk": 128,
+    "scan_chunk": 128,
+    "activation_checkpoint": true
+  },
+  "seq": 4096,
+  "steps": 80,
+  "batch": 1,
+  "head_chunk": 16,
+  "eval_batches": 1,
+  "eval_every": 10,
+  "lr": 0.0003,
+  "weight_decay": 0.1,
+  "ns_dtype": "bfloat16",
+  "precision": "float32",
+  "schedule": "constant",
+  "clip": 0.5,
+  "balance_weight": 0.001,
+  "mix_probability": 0.1,
+  "seed": 42,
+  "device": "cpu",
+  "data": [
+    {
+      "directory": "data/qwen35_controls_owt",
+      "meta_sha256": "d9ef85856fd60d21bf5b83a310531450fa1c97686abbc3e648cde9a7faafb869"
+    },
+    {
+      "directory": "data/qwen35_controls_shakespeare",
+      "meta_sha256": "f46f3b1093d62abaf869b933dcdcd7e9dd2b25bec83f171b89ba36c7fcaf47c6"
+    }
+  ],
+  "out": "runs/qwen35-control-full-4k-cpu-probe",
+  "source_hashes": {
+    "train_qwen35_controls.py": "8e32d9c9b62a8535660b188fe647e170a9484a7fc7e5e14abd52ccd5444a5a8d",
+    "qwen35_controls.py": "3a03ce66cd22e2a330bc37536cb71dd326df633fbc1d0f3e1fd179bf4029e0d4",
+    "chunked_lm_loss.py": "e24688a049e9bd369282bf6b14c5f6a9846b3da35e4798bd6ee02d03f311def7",
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    "optim.py": "63ced8c21804b8185fb6c90a4af3c12d77626fe7368a87c4a3ab6a255490e011",
+    "polar_coefficients.json": "68742ad55a45892cac1cec60ce557cc5ffc762eda99a04ed9006a892407ae705",
+    "audit_qwen35_training.py": "1a88a83314eb1a564689444f87a19328e85c47eaf1994ba1ea5096aabe6cdebd",
+    "run_qwen35_control_guarded.py": "a3ea0fc3f85ca70e200bce41080b56ba532dae1324ac2d7efd580f948e8284dc",
+    "run_dense_text_guarded.py": "2676768b218f898073d219b98d9af525b42f36ab7e45525dcf58332fae9b4228"
+  },
+  "training_executed": false,
+  "planned_tokens": 327680,
+  "mac_choices": "Scaled dimensions/budget, name-local initialization, bounded proxy data, constant LR and optimizer selector/hyperparameters; no claim these are private Table1 recipe fields",
+  "long_phase": "Not yet implemented/accepted: optimizer-preserving 4K-to-32K transition and long resource feasibility remain required",
+  "component_receipts": {
+    "runs/round30-checkpoint-mask-tests.json": "6b1c656491c5a7a76506e196ed4050153ac424b8f3fe9e2169e5273be3814e13",
+    "runs/round29-chunked-loss-tests.json": "fce42696bc3a5e10e593a6f0e3e451b2489cbe7e5d2dc81a447b3877cabce3e0",
+    "runs/round29-qwen35-retokenization-audit.json": "d7ec14c96a9843416ce5b12cad16818368f9b3621ffcc9097a983497a91eb38b"
+  }
+}

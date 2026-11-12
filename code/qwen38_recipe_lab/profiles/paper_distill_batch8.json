@@ -1,0 +1,29 @@
+{
+  "declared_at": "2026-11-09T00:32:37.850890+08:00",
+  "purpose": "Align public paper per-step eight sequences using microbatch 1 accumulation 8; literal paper scores and public 1e-3 learning rate. Not a claimed exact production recipe.",
+  "init": "runs/qwen-cpt/last.pt",
+  "init_sha256": "c850997fb874b2cb068277ecca26a38f4723a251e62684dcd9f13a042a28220b",
+  "out": "runs/qwen-distill-paper-batch8",
+  "score_mode": "paper",
+  "steps": 1000,
+  "seq": 128,
+  "batch": 1,
+  "accum": 8,
+  "seed": 42,
+  "learning_rate": 0.001,
+  "comparison_original_lr": 0.001,
+  "data": [
+    "data/owt",
+    "data/shakespeare"
+  ],
+  "mix_probability": 0.1,
+  "schedule": "constant via auto distill",
+  "clip": 0.5,
+  "acceptance": "Same audit_stage.py 8 fixed validation batches per corpus: KL below uniform, >=50% eligible queries nonuniform, positive indexer gradient every batch; backbone frozen and finite. Do not change thresholds.",
+  "canonical_checkpoint": "runs/qwen-sparse/last.pt remains separate and unchanged",
+  "source_changes": "None to model.py, optim.py, polar_coefficients.json or train.py",
+  "execution": "Serial after German batch-boundary SIGINT terminal. MPS allocator guard unchanged; seconds <=1200 per call.",
+  "global_sequences_per_step": 8,
+  "phase_tokens": 1024000,
+  "sequence_difference": "Mac 128 rather than paper 256K. Separate new run and token budget, not a continuation or replacement of old failures."
+}

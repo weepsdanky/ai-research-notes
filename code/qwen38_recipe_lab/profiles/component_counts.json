@@ -1,0 +1,96 @@
+{
+  "mac_untrained_component_defaults": {
+    "vision_config": {
+      "hidden_size": 32,
+      "intermediate_size": 64,
+      "num_heads": 4,
+      "depth": 2,
+      "in_channels": 3,
+      "patch_size": 16,
+      "temporal_patch_size": 2,
+      "spatial_merge_size": 2,
+      "num_position_embeddings": 16,
+      "out_hidden_size": 64,
+      "hidden_act": "gelu_pytorch_tanh",
+      "_attn_implementation": "eager",
+      "rope_parameters": {
+        "rope_type": "axial",
+        "rope_theta": 10000.0
+      },
+      "initializer_range": 0.02
+    },
+    "vision_parameters": 91616,
+    "vision_component_parameters": {
+      "patch_embed": 49184,
+      "pos_embed": 512,
+      "blocks": 17088,
+      "merger": 24832
+    },
+    "vision_all_state_shapes_match_pinned_upstream_components": true,
+    "incremental_mtp_parameters": 716160,
+    "mtp_formula_verified": true,
+    "incremental_mtp_excludes_shared_input_embedding_and_output_head": true,
+    "standalone_draft_input_and_untied_output_replica_elements": 31784960,
+    "primary_text_parameters": 32978962,
+    "reconstructed_parameters_with_shared_mtp_vocab_tables": 33786738
+  },
+  "published_config_component_shapes": {
+    "vision_config": {
+      "hidden_size": 1152,
+      "intermediate_size": 4304,
+      "num_heads": 16,
+      "depth": 27,
+      "in_channels": 3,
+      "patch_size": 16,
+      "temporal_patch_size": 2,
+      "spatial_merge_size": 2,
+      "num_position_embeddings": 2304,
+      "out_hidden_size": 2560,
+      "hidden_act": "gelu_pytorch_tanh",
+      "_attn_implementation": "eager",
+      "rope_parameters": {
+        "rope_type": "axial",
+        "rope_theta": 10000.0
+      },
+      "initializer_range": 0.02
+    },
+    "vision_parameters": 448931056,
+    "vision_component_parameters": {
+      "patch_embed": 1770624,
+      "pos_embed": 2654208,
+      "blocks": 411466608,
+      "merger": 33039616
+    },
+    "vision_all_state_shapes_match_pinned_upstream_components": true,
+    "incremental_mtp_parameters": 2607150848,
+    "mtp_formula_verified": true,
+    "incremental_mtp_excludes_shared_input_embedding_and_output_head": true,
+    "standalone_draft_input_and_untied_output_replica_elements": 1271398400,
+    "primary_text_parameters": 176943899520,
+    "reconstructed_parameters_with_shared_mtp_vocab_tables": 179999981424
+  },
+  "pinned_reference_sha256": {
+    "config.official.json": "889658f2508e8c61d409b02e70e0d78d8d4452ec65aaafbe129805d213d2e74b",
+    "vllm_mtp.py": "a19e7f2404e0a2d4885d9461aa980f042132b5da2d429d153ae9694b39433713",
+    "modeling_qwen4_exp.py": "3424f1b7a7e4d690c87a43758d791f37cede3fcb7e75f52e80ca498f9b84276e",
+    "vision_utils.py": "bcecd5a92b3266b9926272a549d2b1a0f1fe7646c698c0fa19bd96f976085356"
+  },
+  "sources": {
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    "mtp.py": "b97a7ebdf855491ef18a206a2569218b4fc7094e6c0238aca3be430eea6db691",
+    "vision.py": "970d94a209f2eff3060b935cf19723818e20ae137f0f02902e2f9815c8e964f0",
+    "reference.py": "2091246b2aea48bde375839315293dbc201b8edaa7528665ce7a3421693ee751",
+    "optimizer_inventory.py": "854a800f0780e243bca5e5ae7c8ed51501d6dae0dee1adf57b6baa4c5694c2a1",
+    "profiles/official.json": "c77cfd62621660b25e4c811bf44bf2ad4f63af98f23a874952a99e4e85f189f2",
+    "sources.lock.json": "7809ca188c2c6e625c431be43f13b726f65f28854ed36ef3f2d86932844a2f0a",
+    "/Users/mark/Documents/Github/ai-research-notes/code/qwen38_recipe_lab/component_inventory.py": "4e5868cb4f81457cf718dd50330c198da9a6bc0f51a27ed96f5c36a20374027d"
+  },
+  "scope": [
+    "Shape-only meta constructors; no forward, large weights, or optimizer states allocated.",
+    "Mac vision/MTP components remain untrained and are not added to the completed main text checkpoint.",
+    "MTP is one public full-attention/MoE draft layer plus fusion/norm/final GR; input/output vocabulary tables counted in main only.",
+    "Standalone vLLM draft creates embedding/head replicas; replica elements are separate runtime storage, not automatically additional unique learned parameters.",
+    "Reconstructed totals are architectural counts under explicit table sharing, not a verified released weight archive inventory or production memory estimate.",
+    "Production MTP/vision optimizer ownership, loss weights, schedule, and complete training recipe remain unknown."
+  ]
+}

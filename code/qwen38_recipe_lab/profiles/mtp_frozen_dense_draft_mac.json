@@ -1,0 +1,39 @@
+{
+  "context": 128,
+  "depths": 4,
+  "steps": 256,
+  "seed": 194,
+  "lr": 0.0003,
+  "clip": 1.0,
+  "validation_offsets": [
+    0,
+    4096,
+    8192,
+    12288
+  ],
+  "scope": "Mac proxy for paper Table 4 Full Attention: frozen independent Dense target and a fresh same-budget draft",
+  "stage": "pretrain",
+  "index_kl_weight": 0.0,
+  "target": "runs/qwen-dense-paper-control/last.pt",
+  "target_audit": "runs/round27-dense-control-003-checkpoint-audit.json",
+  "target_audit_sha256": "0c538ffa286a917cc3528eafdfa3cfcdec1958fbe0215fed27e3e5cdf0140f92",
+  "paired_sparse_profile": "profiles/mtp_frozen_draft_mac.json",
+  "paired_sparse_profile_sha256": "2c19a5c6ef08edc7a028380e977961c5bae0663bc20deea8de2dd4223b74d4f1",
+  "output": "runs/mtp-frozen-dense-draft-mac",
+  "files": {
+    "data/owt/meta.json": "fdc5cc4dde36fc1020fc0d39f21eddea308027370e6f4b928aa3718f836de410",
+    "data/owt/train.bin": "c563dcb97751c2e2ea681ad4f30b1c8ee01f0fe2bfaeb5e4bb2d44db00af6ca6",
+    "data/owt/val.bin": "614978f4946a03303978d85c6e217aaac156ee6ca5e8b2a36503ff40499023da",
+    "mtp.py": "b97a7ebdf855491ef18a206a2569218b4fc7094e6c0238aca3be430eea6db691",
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    "optim.py": "63ced8c21804b8185fb6c90a4af3c12d77626fe7368a87c4a3ab6a255490e011",
+    "polar_coefficients.json": "68742ad55a45892cac1cec60ce557cc5ffc762eda99a04ed9006a892407ae705",
+    "chunked_lm_loss.py": "e24688a049e9bd369282bf6b14c5f6a9846b3da35e4798bd6ee02d03f311def7",
+    "mtp_training_sources.lock.json": "15fc68e2c82580c871e74bc592c9b3bc3fb404ba5ec5d2b46197fe2e11084b22",
+    "runs/qwen-dense-paper-control/last.pt": "0981fd237f71b5d8ce649541ae4ac19f74f1488b22b09f50db55bcfb6ed0bb09"
+  },
+  "paired_sparse_metrics": "runs/mtp-frozen-draft-mac/metrics.json",
+  "paired_sparse_metrics_sha256": "dc0e7859ae57148887bd29ca638499d268d1e31ca96fc1c85790285b7ad7cefc",
+  "paired_sparse_draft": "runs/mtp-frozen-draft-mac/last.pt",
+  "paired_sparse_draft_sha256": "ee1bfdfeda725a37306f6792cc427eb51cbb1b63944c2d44c560e74b17abc462"
+}

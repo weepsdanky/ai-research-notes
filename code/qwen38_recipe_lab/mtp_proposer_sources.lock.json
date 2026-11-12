@@ -1,0 +1,90 @@
+[
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/target_dependent_ar/speculator.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/target_dependent_ar/speculator.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/target_dependent_ar/speculator.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 26901,
+    "sha256": "f172b47b9c98a74ecc318dcfaeb855b0dc3941d13ff9aa9b878ed95e2ff88ec8"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/autoregressive/speculator.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/autoregressive/speculator.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/autoregressive/speculator.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 13096,
+    "sha256": "7c73069779c30331da6791b0e32eb7505fd0bbfb1aae12f9922a77d3d51444a1"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/mtp/speculator.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/mtp/speculator.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/mtp/speculator.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 2507,
+    "sha256": "b730010cad9d54772c03ca8c6e562192ce3a0faf18b511720c9ec7b0f0b9ec44"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/mtp/config.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/mtp/config.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/mtp/config.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 5067,
+    "sha256": "e0434c59ea60f41e1cc496f60e8615955721c5d96750b632dbb27a5c731cb0a7"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/rejection_sampler.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/rejection_sampler.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/rejection_sampler.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 18102,
+    "sha256": "11e02589b3d7c0cc7e765b90d22e624e20fa36a1abe1f6de872ec03a1b8fd49c"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/rejection_sampler_utils.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/rejection_sampler_utils.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/rejection_sampler_utils.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 51596,
+    "sha256": "e17902b19d3353fba93eacb2d45aab0dd9729c5656d1bb2e3e53a485b2da4df0"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/speculator.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/speculator.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/speculator.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 32292,
+    "sha256": "5cba63ab4403d2b3703f933007736af9d3c7445f3ba2846d92ce905d0d6f62fe"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/spec_decode/metrics.py",
+    "upstream_path": "vllm/v1/spec_decode/metrics.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/spec_decode/metrics.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 10521,
+    "sha256": "35e0a709042471559937f1a1979a721af9b910476efaa8b6e29865bace985afe"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/tests/v1/spec_decode/test_acceptance_length.py",
+    "upstream_path": "tests/v1/spec_decode/test_acceptance_length.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/tests/v1/spec_decode/test_acceptance_length.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 12566,
+    "sha256": "b543849f4be014b6a9a0c003942e5b3a4866ef0e31e47969482b2d39b138fa90"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/model_runner.py",
+    "upstream_path": "vllm/v1/worker/gpu/model_runner.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/model_runner.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 114458,
+    "sha256": "f84dc1e67d3c24412c8514761015d7c0b2582d79bafa7a8ba475b3fa2420c71e"
+  },
+  {
+    "file": ".cache/mtp-proposer-sources/vllm/v1/worker/gpu/spec_decode/utils.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/utils.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/utils.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 7040,
+    "sha256": "77aab37c30e19700f9a1700f9c34857c8238ef6d3e1d5b8fd83da561845b58eb"
+  }
+]

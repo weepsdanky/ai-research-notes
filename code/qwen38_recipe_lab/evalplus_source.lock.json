@@ -1,0 +1,18 @@
+{
+  "version": "0.3.1",
+  "wheel_sha256": "cd601debb67419113d10ac5c3317689d847f27de5d8cf3837975f3cab571b75d",
+  "package_sources": {
+    "evaluate.py": "6fcd78d262eae6eff8af4ef6eb00b22909d37beebd90dc37b84b756053e981dd",
+    "eval/__init__.py": "76857b678cddca08dcaf54d7927b9a77826715cf657654ca5baf6c2b267f4c34",
+    "eval/utils.py": "0aec25f437dbc7637219ba749ba71921670e71cd2e70b1cc23988896c0754bb1",
+    "eval/_special_oracle.py": "92b126b907ee493121b55de06f6a34058b6e18adc8cf1c48737eedcd83f24cdd",
+    "gen/util/__init__.py": "81a7f0ee32dda4b5794f9645cc1199dc4b5ad8f187c6bd36fca32892ac2b8eef",
+    "data/humaneval.py": "105969e0c700fa77f18b1ae7dd06230e22f81540cf030ddca2cbfeb2630055b4",
+    "data/mbpp.py": "186e09b7b14dcf12ed259dfca1d6644a1c266c1bbac41c917fd3c0449a734b24",
+    "data/utils.py": "15dc36203f078cdf6c213b5ff55469e23e166e4fe898d46e7287fa4a0e100fbc",
+    "config.py": "dc14b4400cbf05d5bcab5b94d785f046cca22b0dbc10bc9756f8356dc42f18e3",
+    "sanitize.py": "12fec16b93bfc4d9d9103f227b864dee3c510fe946539b567e6a7805de7d09b5",
+    "provider/utility.py": "455b72b9fdc7aa7daa7afe54a31118ee3eec3d17c463cc911642777d6ae50a7a"
+  },
+  "scope": "Official published evaluator version; exact private Qwen evaluator/version unknown"
+}

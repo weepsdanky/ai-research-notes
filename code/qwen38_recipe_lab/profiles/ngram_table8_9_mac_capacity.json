@@ -1,0 +1,180 @@
+{
+  "status": "declared_capacity_arithmetic_no_training",
+  "source_hashes": {
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    ".cache/references/paper.html": "bb9d98e6d11b9efbb9cb8c9b5bd483d609b321d24d666018bbf5e2851abf14c8"
+  },
+  "config": {
+    "vocab_size": 248320,
+    "eos": 248044,
+    "width": 64,
+    "layers": 4,
+    "heads": 12,
+    "kv_heads": 1,
+    "head_dim": 256,
+    "rotary_dim": 64,
+    "gdn_k_heads": 1,
+    "gdn_v_heads": 3,
+    "gdn_k_dim": 128,
+    "gdn_v_dim": 128,
+    "hidden": 16,
+    "experts": 8,
+    "top_k": 2,
+    "branches": 4,
+    "rank": 8,
+    "index_heads": 4,
+    "index_dim": 128,
+    "block": 4,
+    "budget": 32,
+    "score_mode": "paper",
+    "gr_mode": "gated",
+    "ngram_base": 1024,
+    "ngram_heads": 2,
+    "ngram_layer": 2,
+    "hash_seed": 1234,
+    "rope_theta": 10000000.0
+  },
+  "position": 2,
+  "embedding_width_per_head": 16,
+  "adapter_parameters_per_enabled_layer": 22272,
+  "expert_increment_including_router": 12544,
+  "table8_fixed_total": [
+    {
+      "paper_scale_label": 0,
+      "experts": 32,
+      "table": {
+        "rows": 0,
+        "parameters": 0,
+        "ngram_base": null,
+        "primes": []
+      },
+      "added_ple_adapter_parameters": 0
+    },
+    {
+      "paper_scale_label": 5,
+      "experts": 25,
+      "table": {
+        "rows": 4096,
+        "parameters": 65536,
+        "ngram_base": 978,
+        "primes": [
+          983,
+          991,
+          997,
+          1009
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    },
+    {
+      "paper_scale_label": 10,
+      "experts": 17,
+      "table": {
+        "rows": 10368,
+        "parameters": 165888,
+        "ngram_base": 2550,
+        "primes": [
+          2551,
+          2557,
+          2579,
+          2591
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    },
+    {
+      "paper_scale_label": 30,
+      "experts": 9,
+      "table": {
+        "rows": 16640,
+        "parameters": 266240,
+        "ngram_base": 4112,
+        "primes": [
+          4127,
+          4129,
+          4133,
+          4139
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    }
+  ],
+  "table9_growing_total": [
+    {
+      "paper_scale_label": 0,
+      "experts": 8,
+      "table": {
+        "rows": 0,
+        "parameters": 0,
+        "ngram_base": null,
+        "primes": []
+      },
+      "added_ple_adapter_parameters": 0
+    },
+    {
+      "paper_scale_label": 20,
+      "experts": 8,
+      "table": {
+        "rows": 1664,
+        "parameters": 26624,
+        "ngram_base": 374,
+        "primes": [
+          379,
+          383,
+          389,
+          397
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    },
+    {
+      "paper_scale_label": 50,
+      "experts": 8,
+      "table": {
+        "rows": 4096,
+        "parameters": 65536,
+        "ngram_base": 978,
+        "primes": [
+          983,
+          991,
+          997,
+          1009
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    },
+    {
+      "paper_scale_label": 100,
+      "experts": 8,
+      "table": {
+        "rows": 8192,
+        "parameters": 131072,
+        "ngram_base": 2004,
+        "primes": [
+          2011,
+          2017,
+          2027,
+          2029
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    },
+    {
+      "paper_scale_label": 200,
+      "experts": 8,
+      "table": {
+        "rows": 16384,
+        "parameters": 262144,
+        "ngram_base": 4050,
+        "primes": [
+          4051,
+          4057,
+          4073,
+          4079
+        ]
+      },
+      "added_ple_adapter_parameters": 22272
+    }
+  ],
+  "scope": "Paper labels index local arms. Table 8 matches total parameters exactly by analytic accounting. Table 9 uses the 4096-row Mac reference and preserves relative row scaling to 128-row alignment. Production vocabulary multiples and parameter fractions differ."
+}

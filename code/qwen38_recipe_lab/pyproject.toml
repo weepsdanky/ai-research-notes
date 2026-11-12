@@ -1,0 +1,16 @@
+[project]
+name = "qwen38-recipe-lab"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch==2.15.0",
+    "numpy==2.4.6",
+    "tokenizers>=0.22,<0.24",
+    "pyarrow==26.0.1",
+    "torchvision==0.29.2",
+    "pillow==13.0.0",
+    "pyyaml>=6.0.3",
+    "av==16.1.0",
+]
+[tool.uv]
+package = false

@@ -1,0 +1,66 @@
+{
+  "mac_trained_text": {
+    "parameter_elements": {
+      "adamw": 32157714,
+      "muon": 753664,
+      "adam": 67584
+    },
+    "logical_pieces": {
+      "adamw": 87,
+      "muon": 143,
+      "adam": 1
+    },
+    "all_initialized_fp32_state_tensor_bytes_by_optimizer": {
+      "adamw": 257261712,
+      "muon": 3014656,
+      "adam": 540672
+    },
+    "all_initialized_fp32_state_tensor_bytes": 260817040,
+    "fp32_weight_bytes": 131915848,
+    "fp32_gradient_bytes": 131915848,
+    "actual_state_tensor_bytes_by_optimizer": {
+      "adamw": 257261712,
+      "muon": 3014656,
+      "adam": 540672
+    },
+    "actual_state_tensor_bytes": 260817040,
+    "uninitialized_logical_pieces": 0,
+    "replicated_fp32_weights_gradients_and_all_initialized_state_bytes": 524648736
+  },
+  "official_text_shapes_with_declared_mac_ownership": {
+    "parameter_elements": {
+      "adamw": 2760106880,
+      "muon": 122983546880,
+      "adam": 51200245760
+    },
+    "logical_pieces": {
+      "adamw": 1089,
+      "muon": 77138,
+      "adam": 1
+    },
+    "all_initialized_fp32_state_tensor_bytes_by_optimizer": {
+      "adamw": 22080855040,
+      "muon": 491934187520,
+      "adam": 409601966080
+    },
+    "all_initialized_fp32_state_tensor_bytes": 923617008640,
+    "fp32_weight_bytes": 707775598080,
+    "fp32_gradient_bytes": 707775598080,
+    "shape_only_meta_parameters": true,
+    "replicated_fp32_weights_gradients_and_all_initialized_state_bytes": 2339168204800
+  },
+  "sources": {
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    "optim.py": "63ced8c21804b8185fb6c90a4af3c12d77626fe7368a87c4a3ab6a255490e011",
+    "profiles/official.json": "c77cfd62621660b25e4c811bf44bf2ad4f63af98f23a874952a99e4e85f189f2",
+    "profiles/mac_optimizer_ownership.tsv": "a1a59c286d5387b304ca5260d00e21abd2121fd0110228df111023bc37ac105a",
+    "/Users/mark/Documents/Github/ai-research-notes/code/qwen38_recipe_lab/optimizer_inventory.py": "854a800f0780e243bca5e5ae7c8ed51501d6dae0dee1adf57b6baa4c5694c2a1"
+  },
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "limitations": [
+    "Official values are shape-only estimates under our declared optimizer ownership, not verified production ownership or distributed layouts.",
+    "FP32 Muon momentum and Adam first/second moments only; Python step counters, serialization overhead, activations and temporary buffers excluded.",
+    "Text main model only; MTP and vision excluded as in parameter_counts.json.",
+    "Replicated FP32 total is an accounting subtotal, not measured unified memory or production BF16/master/sharded memory."
+  ]
+}

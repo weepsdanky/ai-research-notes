@@ -1,0 +1,128 @@
+[
+  {
+    "file": ".cache/long-context-sources/ruler-readme.md",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/README.md",
+    "sha256": "f3aae5bbd58fcd7de32aab099c455dd2bbc1da23a2efee9db3071eb9fbf894a3",
+    "bytes": 18187
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-license",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/LICENSE",
+    "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+    "bytes": 11356
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-tasks.yaml",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/synthetic.yaml",
+    "sha256": "34bc71dcacdc41a829a170f04b528fbf48d62c616338005ab4991680fbf8cb0b",
+    "bytes": 2356
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-constants.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/eval/synthetic/constants.py",
+    "sha256": "6740467c17b8dc06b6b30f4f97e54ce8de81db0dd879f1538d0b6b5727f4bd5f",
+    "bytes": 1531
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-niah.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/niah.py",
+    "sha256": "53f2e2e0c61607d3814303c7f22b2f419fd004eb3bfe92a00ecf811e31aa8451",
+    "bytes": 12743
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-prepare.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/prepare.py",
+    "sha256": "f2d210860fbf5c640cb41ed104c7a923c9f4043f6e6c354277daacc73afc643d",
+    "bytes": 6730
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-template.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/template.py",
+    "sha256": "2e82d85152212136fffcd5624b158a2c75fd5036ec1c537f4b21eeb78fd18069",
+    "bytes": 1921
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-tokenizer.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/tokenizer.py",
+    "sha256": "c2e4bfab607eef87a86334558303c1811bc8e93f22a5c4b129f302726d2357a4",
+    "bytes": 4075
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-manifest_utils.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/manifest_utils.py",
+    "sha256": "ecac79322f28ce9a12388b12e35d560ecb7cdad6b9888467a5a13b0eff2db91e",
+    "bytes": 1327
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-constants.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/constants.py",
+    "sha256": "6296e901d495ec6200dc3f68993ea13d8282e3c0dbe1a8c47967f111105d1fde",
+    "bytes": 3052
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-variable_tracking.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/variable_tracking.py",
+    "sha256": "9aac483420e158d116ab63fc43b9606bdb284ac0c053288c30776d5c365530e5",
+    "bytes": 14306
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-common_words_extraction.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/common_words_extraction.py",
+    "sha256": "2671d4a84a383acef2d9e8f691a0bea4da03f1632ca3f4ad3c1de6d27ccbc6b9",
+    "bytes": 9183
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-freq_words_extraction.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/freq_words_extraction.py",
+    "sha256": "29b7af97ffdd2122fde348df20cd02add390a21cd6d64b6fd66c8663dc487f67",
+    "bytes": 7766
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-qa.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/qa.py",
+    "sha256": "f00c0b59cf8698e90831bbf461c2c4f40f2a30f2469534c27455808c717281d0",
+    "bytes": 9833
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-json-download_paulgraham_essay.py",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/json/download_paulgraham_essay.py",
+    "sha256": "d89622edfe08d4011718bb2634da742d69a56728139fa5e236e00cca703cc84c",
+    "bytes": 2783
+  },
+  {
+    "file": ".cache/long-context-sources/ruler-scripts-data-synthetic-json-english_words.json",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/json/english_words.json",
+    "sha256": "42df658acd22f38accbe379f5d1e9fa73142db803a1562e1739abc8e36de401f",
+    "bytes": 132
+  },
+  {
+    "file": ".cache/ruler-sources/download_qa_dataset.sh",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/json/download_qa_dataset.sh",
+    "bytes": 965,
+    "sha256": "368ff4bef09af0fc94205ea4dd8559a2d051c0e33215ca92d45e31e50ea750ac"
+  },
+  {
+    "file": ".cache/ruler-sources/PaulGrahamEssays_URLs.txt",
+    "revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+    "url": "https://raw.githubusercontent.com/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/json/PaulGrahamEssays_URLs.txt",
+    "bytes": 11717,
+    "sha256": "9862c06b4303b7bb6fe4c4a88671c51d2d36ec65757db54730c703d9cf474099"
+  }
+]

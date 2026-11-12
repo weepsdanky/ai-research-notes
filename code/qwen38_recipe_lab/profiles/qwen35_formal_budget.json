@@ -1,0 +1,159 @@
+{
+  "status": "formal_budget_declared_not_launched",
+  "declared_at": "2026-11-11T04:20:40.546736+08:00",
+  "scope": "Mac public-family scaled Table1 controls; private28-layer25B identity/harness are not claimed",
+  "feasibility_receipt": "runs/round32-selected-controls.json",
+  "feasibility_receipt_sha256": "2fec2b2095dba19d7a6f3d466948ca4b5596c52bf42f3ceed0fba688ede807bd",
+  "runnable_executor_ready": false,
+  "training_executed": false,
+  "quality_executed": false,
+  "table1_completed": false,
+  "arms": [
+    {
+      "arm": "full",
+      "credited_short_checkpoint": "runs/qwen35-control-full-4k-cpu-probe/last.pt",
+      "credited_short_checkpoint_sha256": "4a293c0b9f7366852f230fdedbb220068c002cf64387bbdb3edadc8185994f8a",
+      "credited_short_audit": "runs/round30c-full-4k-cpu-001-audit.json",
+      "credited_short_audit_sha256": "2f1c41cbbb6683abb8df67503302059f35341c3f8eca9fac42f82fa5fc55260a",
+      "credited_short_profile": "profiles/qwen35_probe_full_4k_cpu.json",
+      "credited_short_profile_sha256": "455c2f86123b3d197867072e9e7007f354537602e6fba1b221f171acd374aa48",
+      "credited_short_steps": 80,
+      "additional_short_steps": 720,
+      "formal_short_target_steps": 800,
+      "formal_long_target_steps": 20,
+      "excluded_feasibility_long_checkpoint": "runs/qwen35-control-full-32k-tiled-common/last.pt",
+      "excluded_feasibility_long_steps": 2,
+      "measured_short_update_seconds_mean": 7.644399306762352,
+      "measured_long_update_seconds_mean": 187.27432906252216,
+      "estimated_remaining_accepted_update_seconds": 9249.454082119337,
+      "estimate_scope": "Accepted update+checkpoint means only; excludes validation, loading, reviews, failed attempts and future speed changes"
+    },
+    {
+      "arm": "swa",
+      "credited_short_checkpoint": "runs/qwen35-control-swa-4k-cpu-probe/last.pt",
+      "credited_short_checkpoint_sha256": "35d3e3baf2d3ccdba815a2610f46a8838a400c697b84d0d3213aa5b8d0f205f7",
+      "credited_short_audit": "runs/round30c-swa-4k-cpu-001-audit.json",
+      "credited_short_audit_sha256": "0bdb300463b7211657754cf6cacbfa803b168cd727ca7e013ecc03d9d6138833",
+      "credited_short_profile": "profiles/qwen35_probe_swa_4k_cpu.json",
+      "credited_short_profile_sha256": "20d405e9f5c585c40b1a87ec341e84b875ddd8d0d3c0e9d228cc20992c4e8591",
+      "credited_short_steps": 80,
+      "additional_short_steps": 720,
+      "formal_short_target_steps": 800,
+      "formal_long_target_steps": 20,
+      "excluded_feasibility_long_checkpoint": "runs/qwen35-control-swa-32k-tiled-common/last.pt",
+      "excluded_feasibility_long_steps": 2,
+      "measured_short_update_seconds_mean": 6.711354269313597,
+      "measured_long_update_seconds_mean": 91.74557629198534,
+      "estimated_remaining_accepted_update_seconds": 6667.086599745497,
+      "estimate_scope": "Accepted update+checkpoint means only; excludes validation, loading, reviews, failed attempts and future speed changes"
+    },
+    {
+      "arm": "gdn",
+      "credited_short_checkpoint": "runs/qwen35-control-gdn-4k-cpu-probe/last.pt",
+      "credited_short_checkpoint_sha256": "9d2abf2f26e8d04e7c8492e3251a34778bd51f6d958a2115b01e17b8ea8d035d",
+      "credited_short_audit": "runs/round30c-gdn-4k-cpu-001-audit.json",
+      "credited_short_audit_sha256": "46a6994643a15152e47604dfe53b065236b1fcfff00f45884904d42fbb8bd51d",
+      "credited_short_profile": "profiles/qwen35_probe_gdn_4k_cpu.json",
+      "credited_short_profile_sha256": "f76f2c06b2b7028cb6cc5ee321e0c59575b0c4aaa8196ff72df7a098b14d9c5a",
+      "credited_short_steps": 80,
+      "additional_short_steps": 720,
+      "formal_short_target_steps": 800,
+      "formal_long_target_steps": 20,
+      "excluded_feasibility_long_checkpoint": "runs/qwen35-control-gdn-32k-tiled-common/last.pt",
+      "excluded_feasibility_long_steps": 2,
+      "measured_short_update_seconds_mean": 9.165035606774472,
+      "measured_long_update_seconds_mean": 107.00201056248625,
+      "estimated_remaining_accepted_update_seconds": 8738.865848127345,
+      "estimate_scope": "Accepted update+checkpoint means only; excludes validation, loading, reviews, failed attempts and future speed changes"
+    }
+  ],
+  "config": {
+    "vocab_size": 248320,
+    "width": 64,
+    "layers": 4,
+    "heads": 8,
+    "kv_heads": 1,
+    "head_dim": 16,
+    "rotary_dim": 4,
+    "gdn_k_heads": 1,
+    "gdn_v_heads": 2,
+    "gdn_k_dim": 64,
+    "gdn_v_dim": 64,
+    "hidden": 16,
+    "experts": 64,
+    "top_k": 2,
+    "rope_theta": 10000000.0,
+    "window": 128,
+    "query_chunk": 128,
+    "scan_chunk": 128,
+    "activation_checkpoint": true
+  },
+  "data": [
+    {
+      "directory": "data/qwen35_controls_owt",
+      "meta_sha256": "d9ef85856fd60d21bf5b83a310531450fa1c97686abbc3e648cde9a7faafb869"
+    },
+    {
+      "directory": "data/qwen35_controls_shakespeare",
+      "meta_sha256": "f46f3b1093d62abaf869b933dcdcd7e9dd2b25bec83f171b89ba36c7fcaf47c6"
+    }
+  ],
+  "short": {
+    "seq": 4096,
+    "total_steps": 800,
+    "batch": 1,
+    "total_tokens": 3276800,
+    "credited_historical_steps": 80,
+    "additional_steps": 720,
+    "runtime_query_chunk": 128,
+    "runtime_head_chunk": 16
+  },
+  "long": {
+    "seq": 32768,
+    "total_steps": 20,
+    "batch": 1,
+    "total_tokens": 655360,
+    "starts_from": "Each arm new completed800-step formal short checkpoint; retain optimizer/private data RNG",
+    "runtime_query_chunk": 32,
+    "runtime_head_chunk": 8
+  },
+  "total_tokens_per_arm": 3932160,
+  "token_ratio": {
+    "paper_short": 400000000000,
+    "paper_long": 80000000000,
+    "mac_short": 3276800,
+    "mac_long": 655360,
+    "long_over_short": 0.2
+  },
+  "rationale": "After the measured80+2 feasibility phase, declare a separate formal target ten times larger. About one bounded OWT token-volume of exposure, with replacement, not a claim of a complete epoch, equivalent training scale or production-quality convergence.",
+  "historical_credit": "The already audited80 short steps count as a preserved prefix of800; metadata migration must prove model/optimizer/private RNG bitwise identity. Do not retrain them or credit the two feasibility32K updates to the formal trajectory.",
+  "mac_declared_settings": {
+    "lr": 0.0003,
+    "weight_decay": 0.1,
+    "ns_dtype": "bfloat16",
+    "clip": 0.5,
+    "balance_weight": 0.001,
+    "mix_probability": 0.1,
+    "seed": 42,
+    "schedule": "constant",
+    "precision": "float32"
+  },
+  "limits": {
+    "active_round_seconds": 7200,
+    "train_call_wall_seconds": 1198,
+    "cleanup_reserve_seconds": 600,
+    "initial_pressure": 1,
+    "initial_free_percent_min": 55,
+    "stop_pressure": 2,
+    "working_set_target_bytes": 8589934592,
+    "new_owt_download_bytes": 0,
+    "disable_mps_protection": false
+  },
+  "acceptance": [
+    "Implement and verify explicit profile migration without modifying old source/profile/checkpoints",
+    "Every arm reaches800 short steps, then20 long steps; independent finite/optimizer/source and full data-RNG replay audits",
+    "Fixed before/after loss and real samples; uninterrupted/resume checks with preserved optimizer",
+    "Full public nine-task quality per arm, isolated judging for code; unknown private protocol fields disclosed",
+    "Retain the feasibility results separately; no Table1/goal completion from them alone"
+  ]
+}

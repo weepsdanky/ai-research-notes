@@ -1,0 +1,43 @@
+{
+  "scope": "Full 14-language MMMLU, 196588 items; one complete language per file",
+  "languages_in_order": [
+    "zh_cn",
+    "ar_xy",
+    "bn_bd",
+    "de_de",
+    "es_la",
+    "fr_fr",
+    "hi_in",
+    "id_id",
+    "it_it",
+    "ja_jp",
+    "ko_kr",
+    "pt_br",
+    "sw_ke",
+    "yo_ng"
+  ],
+  "items_per_language": 14042,
+  "total_items": 196588,
+  "shots": 5,
+  "cot": false,
+  "examples": "Same-subject English MMLU dev; translated dev not published",
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "context": 8192,
+  "max_audited_prompt_tokens": 4197,
+  "batch_size": 8,
+  "prefill_chunk": 128,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "stop_pressure": 4,
+  "device": "cpu",
+  "seconds_per_call": 1200,
+  "note": "Explicit Mac/runtime/template choices, not unpublished Qwen protocol. No prompt truncation. Complete language does not imply 14-language completion.",
+  "prefix_grouping": {
+    "completed_zh_cn_ar_xy": "Original per-language common prefix, engine e0c82b7",
+    "remaining_languages": "Per-subject common prefixes, same task/row order/data/64-token budget; distinct source version recorded per file",
+    "fixture_proof": "runs/mmmlu-prefix-trained-proof.json",
+    "all_196588_rows_unchanged": "runs/mmmlu-rows-{before,after}-groups.json"
+  }
+}

@@ -1,0 +1,3288 @@
+[
+  {
+    "name": "gsm8k-train.jsonl",
+    "repo": "openai/grade-school-math",
+    "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+    "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/train.jsonl",
+    "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+    "bytes": 4166206
+  },
+  {
+    "name": "gsm8k-test.jsonl",
+    "repo": "openai/grade-school-math",
+    "revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+    "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/test.jsonl",
+    "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+    "bytes": 749738
+  },
+  {
+    "name": "mgsm-en.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_en.tsv",
+    "sha256": "50021d0f28cc957edcb44e7806425b1c7fbd648ddcb9e0a8ec689d10e57d40fa",
+    "bytes": 61299
+  },
+  {
+    "name": "mgsm-zh.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_zh.tsv",
+    "sha256": "b2fa63151022370a0de1f4211c8c284eae74b0f5a3b003b1d5982c0d4a73f661",
+    "bytes": 57838
+  },
+  {
+    "name": "mgsm-exemplars.py",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/exemplars.py",
+    "sha256": "239dda1557bb2ba76b71e5ef744ddd0b454da0b453e5f8b909498ceff690a919",
+    "bytes": 104924
+  },
+  {
+    "name": "bbh-boolean_expressions.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/boolean_expressions.json",
+    "sha256": "ea6c754ec005e2d3f2d085d349a740f593b5764f32ea4638ffed4cfc0061b12a",
+    "bytes": 17172
+  },
+  {
+    "name": "bbh-boolean_expressions.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/boolean_expressions.txt",
+    "sha256": "685affba97425cdf3549d5d313ba876caed2fa7c8a4cf1ea7549faf22179609d",
+    "bytes": 1891
+  },
+  {
+    "name": "bbh-date_understanding.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/date_understanding.json",
+    "sha256": "0148d4ac5fca05b2f82373e5fef7208e15363b9c6079493034d77b3dab496bf5",
+    "bytes": 61760
+  },
+  {
+    "name": "bbh-date_understanding.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/date_understanding.txt",
+    "sha256": "a0a13c392f689a1828f5f6ffb9dee3d44483794490da5d92f0e2a723787b1cfb",
+    "bytes": 1277
+  },
+  {
+    "name": "mmlu-algebra-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra/dev-00000-of-00001.parquet",
+    "sha256": "e778f60903669e953c49f0d3c8deffa1738a81fe344e0bf1791e450a5e8b9d6c",
+    "bytes": 3452
+  },
+  {
+    "name": "mmlu-algebra-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra/test-00000-of-00001.parquet",
+    "sha256": "92338cdcdb43d2871691ef9a0e125e633ca57335ed635a635fe6dead94f224c2",
+    "bytes": 9964
+  },
+  {
+    "name": "mmlu-abstract_algebra-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra/dev-00000-of-00001.parquet",
+    "sha256": "e778f60903669e953c49f0d3c8deffa1738a81fe344e0bf1791e450a5e8b9d6c",
+    "bytes": 3452
+  },
+  {
+    "name": "mmlu-abstract_algebra-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra/test-00000-of-00001.parquet",
+    "sha256": "92338cdcdb43d2871691ef9a0e125e633ca57335ed635a635fe6dead94f224c2",
+    "bytes": 9964
+  },
+  {
+    "name": "mmlu-anatomy-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/anatomy/dev-00000-of-00001.parquet",
+    "sha256": "1774b4af192a38e8ed6419fa0c5173aabd3f6ebaea10cd65e8cae26b9baed658",
+    "bytes": 3503
+  },
+  {
+    "name": "mmlu-anatomy-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/anatomy/test-00000-of-00001.parquet",
+    "sha256": "cb88f5920b67ab290dd23a825f8e3826d01d8f48d99ad4931a8b0003a952a211",
+    "bytes": 20078
+  },
+  {
+    "name": "mmlu-astronomy-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/astronomy/dev-00000-of-00001.parquet",
+    "sha256": "73b897f92f1f5982c689cbcf7220d3454b18a589deda6596e738e1a21ad469a4",
+    "bytes": 4942
+  },
+  {
+    "name": "mmlu-astronomy-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/astronomy/test-00000-of-00001.parquet",
+    "sha256": "bcdfe1afcb9421747b4edd8d426ac87d47fd4d03e7c3455bcb149d1ba14db228",
+    "bytes": 28323
+  },
+  {
+    "name": "mmlu-business_ethics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/business_ethics/dev-00000-of-00001.parquet",
+    "sha256": "494ea1d948ca9a7519fda526bbe18812ad5fdd9834b3cb01f6b0d2c3821d189c",
+    "bytes": 4959
+  },
+  {
+    "name": "mmlu-business_ethics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/business_ethics/test-00000-of-00001.parquet",
+    "sha256": "7910a4b8236c64ef339410a41d5806637087c84635278dda0ff674b8f894dfbb",
+    "bytes": 21566
+  },
+  {
+    "name": "mmlu-clinical_knowledge-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/clinical_knowledge/dev-00000-of-00001.parquet",
+    "sha256": "105b492234b3de901223567bf9c72e4f87fe7f701f16b3ef903f1e8a4bb00913",
+    "bytes": 3669
+  },
+  {
+    "name": "mmlu-clinical_knowledge-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/clinical_knowledge/test-00000-of-00001.parquet",
+    "sha256": "7bd3de302db35c6e9adb311ef40b2fb15ffe02ada17667119d9fb30fe393a44e",
+    "bytes": 40510
+  },
+  {
+    "name": "mmlu-college_biology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_biology/dev-00000-of-00001.parquet",
+    "sha256": "0cf3cbb4fde72b09ed0659e81fb1e01fc66f92aecdf87ba5967ee6548d05d555",
+    "bytes": 4273
+  },
+  {
+    "name": "mmlu-college_biology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_biology/test-00000-of-00001.parquet",
+    "sha256": "5b6920ddbbb40ee6efd1e6c8814be9fd03d24c9e1e1dbd4b02325e2d454a6a82",
+    "bytes": 31845
+  },
+  {
+    "name": "mmlu-college_chemistry-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_chemistry/dev-00000-of-00001.parquet",
+    "sha256": "4c689a238a2795d02174ce3b7f621fd0cd721d8a19a6ac3e90e739deb7d1b8c9",
+    "bytes": 4037
+  },
+  {
+    "name": "mmlu-college_chemistry-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_chemistry/test-00000-of-00001.parquet",
+    "sha256": "f012f90fc3aec5ead6963fe7bdeee58783010265538dda3be984a9d1dbbd7051",
+    "bytes": 17877
+  },
+  {
+    "name": "mmlu-college_computer_science-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_computer_science/dev-00000-of-00001.parquet",
+    "sha256": "6b35dffa1635615b201047dc10ae20ae2daa97cfa403128ebe2285f704a744a7",
+    "bytes": 6812
+  },
+  {
+    "name": "mmlu-college_computer_science-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_computer_science/test-00000-of-00001.parquet",
+    "sha256": "08b79916057e75938a2a0d5ceb10c517cf923580e6058af48b1b7b3f7a52c5b8",
+    "bytes": 28069
+  },
+  {
+    "name": "mmlu-college_mathematics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_mathematics/dev-00000-of-00001.parquet",
+    "sha256": "46ee5c84b379e1959b020786752c96c2a34a9d0cb52a9b247798dbc794bc324d",
+    "bytes": 5159
+  },
+  {
+    "name": "mmlu-college_mathematics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_mathematics/test-00000-of-00001.parquet",
+    "sha256": "f57b57e992d03d07a05c6f8f328a14a49870f61d91e8e525a062644e234bf4f0",
+    "bytes": 16620
+  },
+  {
+    "name": "mmlu-college_medicine-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_medicine/dev-00000-of-00001.parquet",
+    "sha256": "85bf7f27b795f63a87bb149b73f30acd182f1b04ee4573e36ba80c41ee81ff58",
+    "bytes": 4838
+  },
+  {
+    "name": "mmlu-college_medicine-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_medicine/test-00000-of-00001.parquet",
+    "sha256": "f21b3166975dbc14dff5940df41479bc28853008303c50a070d430fc59468f9c",
+    "bytes": 42470
+  },
+  {
+    "name": "mmlu-college_physics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_physics/dev-00000-of-00001.parquet",
+    "sha256": "eec8b9851f44831e3e8c82317c498c81ea3bc3a255d1f9004c26ea7e57728184",
+    "bytes": 4510
+  },
+  {
+    "name": "mmlu-college_physics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/college_physics/test-00000-of-00001.parquet",
+    "sha256": "81b8eafc776b3109fd0ba9f527a7f759b07b92fe953743d3711086e5208aadca",
+    "bytes": 18641
+  },
+  {
+    "name": "mmlu-computer_security-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/computer_security/dev-00000-of-00001.parquet",
+    "sha256": "b491f6df6ed1fc6c6a345567bee8240d9e937801a39e626ac62f69619c13eaaa",
+    "bytes": 4326
+  },
+  {
+    "name": "mmlu-computer_security-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/computer_security/test-00000-of-00001.parquet",
+    "sha256": "a6ad5774acf5133ac88cf1bb066c60db8668abee2d6a724cf2f9dfa7cb4f103d",
+    "bytes": 19150
+  },
+  {
+    "name": "mmlu-conceptual_physics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/conceptual_physics/dev-00000-of-00001.parquet",
+    "sha256": "1503db27184855758b61b52619317f483fe425293c1801853d3e409d1f5a668d",
+    "bytes": 3959
+  },
+  {
+    "name": "mmlu-conceptual_physics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/conceptual_physics/test-00000-of-00001.parquet",
+    "sha256": "c66a861048a25f96baa59517b613c3ed1a26abf4d7717ae5aab2da29bac7fa70",
+    "bytes": 25031
+  },
+  {
+    "name": "mmlu-econometrics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/econometrics/dev-00000-of-00001.parquet",
+    "sha256": "5edd31ddb8ce550de5b7e51b1f622cc7d83f82714509f81e86cc80f224e91179",
+    "bytes": 4541
+  },
+  {
+    "name": "mmlu-econometrics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/econometrics/test-00000-of-00001.parquet",
+    "sha256": "63501e9de9f822b4d0f60919024c660b40a78791b9cfcf1e69e759f16eef9123",
+    "bytes": 24480
+  },
+  {
+    "name": "mmlu-electrical_engineering-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/electrical_engineering/dev-00000-of-00001.parquet",
+    "sha256": "92416acbafa70242a6158f72a3e38f5c1d2feeed84de07d3431f9815b0b08dca",
+    "bytes": 4079
+  },
+  {
+    "name": "mmlu-electrical_engineering-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/electrical_engineering/test-00000-of-00001.parquet",
+    "sha256": "3df176cabbd13a1315d7312f37ffec139f1cf51fc4ea3407b5293a00ac325570",
+    "bytes": 17589
+  },
+  {
+    "name": "mmlu-elementary_mathematics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/elementary_mathematics/dev-00000-of-00001.parquet",
+    "sha256": "03b0ff28b6515f1e6ae2c57c3eb1d14df2ea6b36c71aea99ac9e9e7aee17345a",
+    "bytes": 4547
+  },
+  {
+    "name": "mmlu-elementary_mathematics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/elementary_mathematics/test-00000-of-00001.parquet",
+    "sha256": "9cb645300084d3b7ff8af98efef034068f8c8780f06017e2ebf21d33beb2fc61",
+    "bytes": 41056
+  },
+  {
+    "name": "mmlu-formal_logic-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/formal_logic/dev-00000-of-00001.parquet",
+    "sha256": "6928410ade5a828d9c16b17864857be58843a5ccf44b4135079a10862847965e",
+    "bytes": 4807
+  },
+  {
+    "name": "mmlu-formal_logic-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/formal_logic/test-00000-of-00001.parquet",
+    "sha256": "a9f917e01461be6ef71bf32248bf10c3a0580d2fef641255b265131bf29d876c",
+    "bytes": 21515
+  },
+  {
+    "name": "mmlu-global_facts-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/global_facts/dev-00000-of-00001.parquet",
+    "sha256": "ee23f3bd9dcce85f3d6b8c2387f2f52baa9801d51bb681297149ceb2380a8642",
+    "bytes": 3575
+  },
+  {
+    "name": "mmlu-global_facts-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/global_facts/test-00000-of-00001.parquet",
+    "sha256": "9e4b5a22ad1cbe5c58c21f6a96fe65bd0dbb05c8295e1db6fc57c9ee7676b6ef",
+    "bytes": 11489
+  },
+  {
+    "name": "mmlu-high_school_biology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_biology/dev-00000-of-00001.parquet",
+    "sha256": "4ae1c2d737b60977c22645093846ee6b9642c84480fde8ea39d8654630682aa4",
+    "bytes": 4939
+  },
+  {
+    "name": "mmlu-high_school_biology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_biology/test-00000-of-00001.parquet",
+    "sha256": "73600cc5c8032ffd20115887ec4f2c868d75c403c70ac1d115295e72cb8d80e3",
+    "bytes": 62704
+  },
+  {
+    "name": "mmlu-high_school_chemistry-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_chemistry/dev-00000-of-00001.parquet",
+    "sha256": "9ff0a32009626a305c800e347bd5b943898b112b7bd5575f90a5137890c02768",
+    "bytes": 4156
+  },
+  {
+    "name": "mmlu-high_school_chemistry-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_chemistry/test-00000-of-00001.parquet",
+    "sha256": "fde2345147be31d8df06ad66200521d7e47588490ab59c09fd78861c8a373ccb",
+    "bytes": 33334
+  },
+  {
+    "name": "mmlu-high_school_computer_science-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_computer_science/dev-00000-of-00001.parquet",
+    "sha256": "431ad5ab203837d9bf82be92f391fa17584c8e3a936d023fca9d320d471cbb4f",
+    "bytes": 6537
+  },
+  {
+    "name": "mmlu-high_school_computer_science-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_computer_science/test-00000-of-00001.parquet",
+    "sha256": "6e1b210896afc60f2ea3a1b011733b86dedd74690adce6ff0893346089f83252",
+    "bytes": 27253
+  },
+  {
+    "name": "mmlu-high_school_european_history-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_european_history/dev-00000-of-00001.parquet",
+    "sha256": "61cc946b008250ece8910275c171dcaf466e00b131a7bc6840dfab7600debb9c",
+    "bytes": 22211
+  },
+  {
+    "name": "mmlu-high_school_european_history-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_european_history/test-00000-of-00001.parquet",
+    "sha256": "2bcf46d76656082263b22d871c6ba16f29f4abed600d07381018b843769620c1",
+    "bytes": 142465
+  },
+  {
+    "name": "mmlu-high_school_geography-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_geography/dev-00000-of-00001.parquet",
+    "sha256": "d3a732b15dc6177cf2f3f432b2378baf5f48f36961ceace5faa3f62fc5ee0997",
+    "bytes": 3929
+  },
+  {
+    "name": "mmlu-high_school_geography-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_geography/test-00000-of-00001.parquet",
+    "sha256": "d083f0a37e9802ff70af8c0ccee95dc6836d80db74f45327519756327076a2c1",
+    "bytes": 28162
+  },
+  {
+    "name": "mmlu-high_school_government_and_politics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_government_and_politics/dev-00000-of-00001.parquet",
+    "sha256": "3877a26ca2e8607f7b4eccbf29b2cd50b6c5b74373d8c64b6db8f5ebc5000b2d",
+    "bytes": 4475
+  },
+  {
+    "name": "mmlu-high_school_government_and_politics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_government_and_politics/test-00000-of-00001.parquet",
+    "sha256": "54bb3fcc3987afc3ce0e605343752de94ca227bd4ae13c84b7b1ec9bc3998292",
+    "bytes": 40219
+  },
+  {
+    "name": "mmlu-high_school_macroeconomics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_macroeconomics/dev-00000-of-00001.parquet",
+    "sha256": "6aa2bf96a9cfa2069866fc89b1dccf1dfbb6f163afbd5e63547dc301e9bc47b0",
+    "bytes": 4045
+  },
+  {
+    "name": "mmlu-high_school_macroeconomics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_macroeconomics/test-00000-of-00001.parquet",
+    "sha256": "a0f2d6a33352452442a13ffb947ab04dcf16513e87bee7c52e8957c2bc761a4c",
+    "bytes": 54819
+  },
+  {
+    "name": "mmlu-high_school_mathematics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_mathematics/dev-00000-of-00001.parquet",
+    "sha256": "73034b3a7694d27103ee880a1e13382c0e0a8c07991420d537e926513c125566",
+    "bytes": 4501
+  },
+  {
+    "name": "mmlu-high_school_mathematics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_mathematics/test-00000-of-00001.parquet",
+    "sha256": "310628511fac990528ecac65634fa1ab924ce2d4aad7a7d9cded06db17f6cf7d",
+    "bytes": 33722
+  },
+  {
+    "name": "mmlu-high_school_microeconomics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_microeconomics/dev-00000-of-00001.parquet",
+    "sha256": "a8ae561bb6bfbbb00059c9c2b8fd3ea5ba01596a27126bd81c7c5841e7c24bd2",
+    "bytes": 3835
+  },
+  {
+    "name": "mmlu-high_school_microeconomics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_microeconomics/test-00000-of-00001.parquet",
+    "sha256": "8a55dc2fa10fa86cc4cf5565bb49416bdcf45b545ebb83f6ce8e4360cc65b453",
+    "bytes": 38827
+  },
+  {
+    "name": "mmlu-high_school_physics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_physics/dev-00000-of-00001.parquet",
+    "sha256": "3b6fb5f8d1f1cc8b220012f1556ce095b00cd141ec5e228fb8e7aac3373e0be0",
+    "bytes": 4571
+  },
+  {
+    "name": "mmlu-high_school_physics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_physics/test-00000-of-00001.parquet",
+    "sha256": "48fc84060e4cd032a407da09164e99dfdf81f3ce345bf6c1871bb539ba4ead6c",
+    "bytes": 32950
+  },
+  {
+    "name": "mmlu-high_school_psychology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_psychology/dev-00000-of-00001.parquet",
+    "sha256": "ada3aebdb9802d09e0181ce8e219c1b68dd0cad09a253299c4027512b2f26fa8",
+    "bytes": 5185
+  },
+  {
+    "name": "mmlu-high_school_psychology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_psychology/test-00000-of-00001.parquet",
+    "sha256": "9df4a744eb6faa12bb359df1f808c0461c055f240b998a9ec9d97b1c4e49a958",
+    "bytes": 92752
+  },
+  {
+    "name": "mmlu-high_school_statistics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_statistics/dev-00000-of-00001.parquet",
+    "sha256": "3b7c5d8b0c6c682e922ed199113f1ceef5bc4906ad75eb283d2eba5a4205d8e3",
+    "bytes": 6074
+  },
+  {
+    "name": "mmlu-high_school_statistics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_statistics/test-00000-of-00001.parquet",
+    "sha256": "4922828bda3ae4c4470e95d8fa809e3abe18f6239047b21d675267ebefb1c691",
+    "bytes": 57998
+  },
+  {
+    "name": "mmlu-high_school_us_history-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_us_history/dev-00000-of-00001.parquet",
+    "sha256": "dcc43231bf782c3ed7a1718e5d8b755cb1812944cdd7428a17369fb68905c66f",
+    "bytes": 17838
+  },
+  {
+    "name": "mmlu-high_school_us_history-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_us_history/test-00000-of-00001.parquet",
+    "sha256": "7e3c242fa3b087b918d30a5202948ed462363ca9de9e65a76970e2c58d5659b7",
+    "bytes": 154916
+  },
+  {
+    "name": "mmlu-high_school_world_history-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_world_history/dev-00000-of-00001.parquet",
+    "sha256": "5c37e72b49e3c509af1fcf83fcd75e12cfad9f31034344bcf6f3a2db64a7c0f7",
+    "bytes": 10248
+  },
+  {
+    "name": "mmlu-high_school_world_history-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/high_school_world_history/test-00000-of-00001.parquet",
+    "sha256": "abc9b0182e7cdd19ef7b70ec9734f62436f99e76c740c67f41155611eccbcd7d",
+    "bytes": 201554
+  },
+  {
+    "name": "mmlu-human_aging-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/human_aging/dev-00000-of-00001.parquet",
+    "sha256": "7d5ef3e4af1f2cf3a490ab8707f14ed36210159a51648979365756ef46239908",
+    "bytes": 3667
+  },
+  {
+    "name": "mmlu-human_aging-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/human_aging/test-00000-of-00001.parquet",
+    "sha256": "69b143d394fd115c893afd98ed8fddaf32039bdece6a60c7f0e6caa3e2a97847",
+    "bytes": 31249
+  },
+  {
+    "name": "mmlu-human_sexuality-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/human_sexuality/dev-00000-of-00001.parquet",
+    "sha256": "e2f15b5006b8bdde4072a870525d5c2810ab5b24fafddf6fc25f42db8feff46e",
+    "bytes": 4085
+  },
+  {
+    "name": "mmlu-human_sexuality-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/human_sexuality/test-00000-of-00001.parquet",
+    "sha256": "49efe58e13116a40ac9ee640da8b9c41b29a2915c86eb5bb33fb2959d0c724f9",
+    "bytes": 23185
+  },
+  {
+    "name": "mmlu-international_law-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/international_law/dev-00000-of-00001.parquet",
+    "sha256": "a74c7a33d187444a794a8576ec9c8e123d71e03ba4d58f0855f452e8ca085529",
+    "bytes": 4957
+  },
+  {
+    "name": "mmlu-international_law-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/international_law/test-00000-of-00001.parquet",
+    "sha256": "05da704a004fcc5c7d3d47a894af201ca26d8e071aadf05e3a34155fad968ccf",
+    "bytes": 29512
+  },
+  {
+    "name": "mmlu-jurisprudence-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/jurisprudence/dev-00000-of-00001.parquet",
+    "sha256": "1291e1cbdaaa3e2d036b73013df3421348abf52cdd99e84b10a1dc55e735c592",
+    "bytes": 4047
+  },
+  {
+    "name": "mmlu-jurisprudence-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/jurisprudence/test-00000-of-00001.parquet",
+    "sha256": "0f302db5178cb629b3b1514cc5f9b2a94e6bbbf0925e3d18b09ed4394099e059",
+    "bytes": 23324
+  },
+  {
+    "name": "mmlu-logical_fallacies-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/logical_fallacies/dev-00000-of-00001.parquet",
+    "sha256": "cba7736ad6b6395e081affdbb27f89150b5a1207c98a903a2b092c11b1197632",
+    "bytes": 4123
+  },
+  {
+    "name": "mmlu-logical_fallacies-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/logical_fallacies/test-00000-of-00001.parquet",
+    "sha256": "87eefcf75ec88f69379d848bddab3f8936e4d340ef1e51498c334c5a76031fe7",
+    "bytes": 23022
+  },
+  {
+    "name": "mmlu-machine_learning-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/machine_learning/dev-00000-of-00001.parquet",
+    "sha256": "b8882136a1a6f4dbf9d764a2de8232347d02f818f3a8d369d93a6fcca5e14488",
+    "bytes": 5247
+  },
+  {
+    "name": "mmlu-machine_learning-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/machine_learning/test-00000-of-00001.parquet",
+    "sha256": "cd3d1ac01f117433bfed153f81425ede65b1d57abd7bebd2a3471b7b22334424",
+    "bytes": 19699
+  },
+  {
+    "name": "mmlu-management-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/management/dev-00000-of-00001.parquet",
+    "sha256": "772b281c0322acf770e8401df72dffe56424c6776b6dd1027467780735b9c430",
+    "bytes": 3609
+  },
+  {
+    "name": "mmlu-management-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/management/test-00000-of-00001.parquet",
+    "sha256": "b5579485f3b83ceabcf2269720c7ce087b76ad473f020336c5ec7e724900767f",
+    "bytes": 14722
+  },
+  {
+    "name": "mmlu-marketing-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/marketing/dev-00000-of-00001.parquet",
+    "sha256": "a00bdec21ca5a867aab6a73e018df31470173e71f2d816a0d27512a77253e7f0",
+    "bytes": 4282
+  },
+  {
+    "name": "mmlu-marketing-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/marketing/test-00000-of-00001.parquet",
+    "sha256": "3c975f1b0dc699b113fe9ac9a438cda04995b5fab8613e949693cd85e360240a",
+    "bytes": 37259
+  },
+  {
+    "name": "mmlu-medical_genetics-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/medical_genetics/dev-00000-of-00001.parquet",
+    "sha256": "a3e66d3e161967c0c331d24b055ac88e87d6d9a459335512b27d74308b39c57e",
+    "bytes": 3766
+  },
+  {
+    "name": "mmlu-medical_genetics-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/medical_genetics/test-00000-of-00001.parquet",
+    "sha256": "f5535475f3afc3479697355679f2b615603fe90a58e8e5b6a98e50ccf07171b9",
+    "bytes": 16379
+  },
+  {
+    "name": "mmlu-miscellaneous-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/miscellaneous/dev-00000-of-00001.parquet",
+    "sha256": "b3a42ee2192256ed52d005db54a03e0029572aaeb098fceee36a1378432a2d3e",
+    "bytes": 3369
+  },
+  {
+    "name": "mmlu-miscellaneous-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/miscellaneous/test-00000-of-00001.parquet",
+    "sha256": "5665dde94d34f04a0310bb2af2f8a27fc09a8a2629fe1e6e9248b11592dbd060",
+    "bytes": 98558
+  },
+  {
+    "name": "mmlu-moral_disputes-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/moral_disputes/dev-00000-of-00001.parquet",
+    "sha256": "7efc2d7512a7e9e9ac8229fade7739f8c8baba7037441551cf6bb12cc6561290",
+    "bytes": 4407
+  },
+  {
+    "name": "mmlu-moral_disputes-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/moral_disputes/test-00000-of-00001.parquet",
+    "sha256": "fc2a4270481cf732dcbce6816231b430bec14e327e28db930b396e7e53c6c775",
+    "bytes": 60902
+  },
+  {
+    "name": "mmlu-moral_scenarios-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/moral_scenarios/dev-00000-of-00001.parquet",
+    "sha256": "c31c54bb7f8c48a935b6955ec1f4e219d148766e7e9b3b5a1dc7b411804bce02",
+    "bytes": 5137
+  },
+  {
+    "name": "mmlu-moral_scenarios-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/moral_scenarios/test-00000-of-00001.parquet",
+    "sha256": "e21cc9d8f5a1898bd4bb080fa5dad2474f67f27ca98d3c7bb8c7f529ea32a9f4",
+    "bytes": 89816
+  },
+  {
+    "name": "mmlu-nutrition-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/nutrition/dev-00000-of-00001.parquet",
+    "sha256": "4727ff1fb9351c82fba7b004b87368dc5fc4385415beced0b551311996753b64",
+    "bytes": 4987
+  },
+  {
+    "name": "mmlu-nutrition-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/nutrition/test-00000-of-00001.parquet",
+    "sha256": "7ba291c21774407b1b27349172c3f85211af81df5047fe92b83b961d7bb7f03f",
+    "bytes": 55041
+  },
+  {
+    "name": "mmlu-philosophy-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/philosophy/dev-00000-of-00001.parquet",
+    "sha256": "40bd9dee29bb8049f9d9f149e5a949737f551f4fce8b8936bbd54e27a00237d9",
+    "bytes": 4202
+  },
+  {
+    "name": "mmlu-philosophy-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/philosophy/test-00000-of-00001.parquet",
+    "sha256": "51a6715bca767d89652f782825610b7acd22dd5feb9331dce53cb52a772e4d22",
+    "bytes": 48556
+  },
+  {
+    "name": "mmlu-prehistory-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/prehistory/dev-00000-of-00001.parquet",
+    "sha256": "9f5ee161a94bd833e3d45683af80276e10ce24cf53f341d39ce730325a4bb151",
+    "bytes": 4615
+  },
+  {
+    "name": "mmlu-prehistory-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/prehistory/test-00000-of-00001.parquet",
+    "sha256": "f4cf1e103e6494dd2f77bd1d732b58d8386cc3182346609b7c04353207122a25",
+    "bytes": 54316
+  },
+  {
+    "name": "mmlu-professional_accounting-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_accounting/dev-00000-of-00001.parquet",
+    "sha256": "03ab250530422076d3dbbda82a33059f19159e3ecb5e280eb9cd8568dacc3e4d",
+    "bytes": 4887
+  },
+  {
+    "name": "mmlu-professional_accounting-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_accounting/test-00000-of-00001.parquet",
+    "sha256": "1fe6da7a3a8647ee70c23543a15ef9b3ad5bf9ec22e68d0583c98dfdf7585e0f",
+    "bytes": 69518
+  },
+  {
+    "name": "mmlu-professional_law-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_law/dev-00000-of-00001.parquet",
+    "sha256": "cb7bf53b1bcf59d2c2c5fab9865da88e1522d0fa96b396af221b05a52d6c89e3",
+    "bytes": 15139
+  },
+  {
+    "name": "mmlu-professional_law-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_law/test-00000-of-00001.parquet",
+    "sha256": "81cfdb63639fe7839da36aa1156e3f772a4521d532027d2c56f1db8fb30c6c7c",
+    "bytes": 1037057
+  },
+  {
+    "name": "mmlu-professional_medicine-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_medicine/dev-00000-of-00001.parquet",
+    "sha256": "899036c8f5d8c035ee3f4dd17b4e2a761a8e507543cbadf40ac8106963725e1e",
+    "bytes": 8445
+  },
+  {
+    "name": "mmlu-professional_medicine-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_medicine/test-00000-of-00001.parquet",
+    "sha256": "8c1c18b16c9865bf52b7cd997c4d05346f914441645459fac8c5b2f78d9ebac9",
+    "bytes": 124933
+  },
+  {
+    "name": "mmlu-professional_psychology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_psychology/dev-00000-of-00001.parquet",
+    "sha256": "c61d4fb24acc54ebce352f601b404f06b3e1c61df1f3bc136482746b9008d03a",
+    "bytes": 4691
+  },
+  {
+    "name": "mmlu-professional_psychology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/professional_psychology/test-00000-of-00001.parquet",
+    "sha256": "91529edc6760dbe5bfa41e9190021041499a15f332f5af8d9bffc9fb252116b9",
+    "bytes": 132551
+  },
+  {
+    "name": "mmlu-public_relations-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/public_relations/dev-00000-of-00001.parquet",
+    "sha256": "7dd78ceeccd2f8aabdc9301d70bfe94cfd941a4ac4c425189b6d143824110426",
+    "bytes": 4435
+  },
+  {
+    "name": "mmlu-public_relations-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/public_relations/test-00000-of-00001.parquet",
+    "sha256": "9ce4ff437b2b6192505d2b5dbe745a5012711ce911ada34f8574fb18411d07cd",
+    "bytes": 20617
+  },
+  {
+    "name": "mmlu-security_studies-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/security_studies/dev-00000-of-00001.parquet",
+    "sha256": "c7ab02234d038834c0d4d79af15f0bea9c46fc21ca3295f603708aff878212f7",
+    "bytes": 7487
+  },
+  {
+    "name": "mmlu-security_studies-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/security_studies/test-00000-of-00001.parquet",
+    "sha256": "38477f527d22bc9f55e92fb7c247f73e301508d547841b591bd0f9f0fc9529d5",
+    "bytes": 114103
+  },
+  {
+    "name": "mmlu-sociology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/sociology/dev-00000-of-00001.parquet",
+    "sha256": "4abb7ebab6f1cd68a4c599961c02ce4f86045b5909cf77845e1b045e7c101702",
+    "bytes": 4205
+  },
+  {
+    "name": "mmlu-sociology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/sociology/test-00000-of-00001.parquet",
+    "sha256": "0cdb1dab92e7d5a8c1b617b1c868ae72dade770eb64d6539b26e256594a5d67a",
+    "bytes": 43920
+  },
+  {
+    "name": "mmlu-us_foreign_policy-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/us_foreign_policy/dev-00000-of-00001.parquet",
+    "sha256": "da27347e8868bd2b5558f4cf3629772cbe764e828c0c231ac89f7b1a6cff34aa",
+    "bytes": 4219
+  },
+  {
+    "name": "mmlu-us_foreign_policy-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/us_foreign_policy/test-00000-of-00001.parquet",
+    "sha256": "8051dfc5f49bc73c4882049cbfe476fea2f57ec1879eb23319ed4bdd8f6b0cd3",
+    "bytes": 19540
+  },
+  {
+    "name": "mmlu-virology-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/virology/dev-00000-of-00001.parquet",
+    "sha256": "2790f42d02f08f6dafb5aa45f28343eb6c79e1ffa184d7737f202f06e96a91d8",
+    "bytes": 3872
+  },
+  {
+    "name": "mmlu-virology-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/virology/test-00000-of-00001.parquet",
+    "sha256": "c59ea23f72b405b180a3135c3a5240f8594af6f3c03e5c7784345914253a4928",
+    "bytes": 27310
+  },
+  {
+    "name": "mmlu-world_religions-dev.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/world_religions/dev-00000-of-00001.parquet",
+    "sha256": "5676e31ed09b7f63c16975a30b88620a02bb415ec2e55bbdcd7cf677bf922082",
+    "bytes": 3303
+  },
+  {
+    "name": "mmlu-world_religions-test.parquet",
+    "repo": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "url": "https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/world_religions/test-00000-of-00001.parquet",
+    "sha256": "b59bdb0cb4b16fd8a0a81362d8bd8241c0013940b877c5c6e76d66f536613aff",
+    "bytes": 18922
+  },
+  {
+    "name": "bbh-causal_judgement.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/causal_judgement.json",
+    "sha256": "6e8bca44dd402008ed41c07a3d0a1d5e7b03db7001a7e002fcdf4c60985ea081",
+    "bytes": 202943
+  },
+  {
+    "name": "bbh-causal_judgement.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/causal_judgement.txt",
+    "sha256": "14377e36cccb084b7d0fe73988d08696f7675d712b02d3ae1f5f7f12c77028ea",
+    "bytes": 3763
+  },
+  {
+    "name": "bbh-disambiguation_qa.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/disambiguation_qa.json",
+    "sha256": "cf06df9ebf911b883671cb1b35d3fbd1a1c306b19b9e9a012407e596c85fe8c6",
+    "bytes": 85255
+  },
+  {
+    "name": "bbh-disambiguation_qa.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/disambiguation_qa.txt",
+    "sha256": "794fd259297972a4c963a5d13a84dc221edde460de27fa5d8fd64299a2001597",
+    "bytes": 3678
+  },
+  {
+    "name": "bbh-dyck_languages.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/dyck_languages.json",
+    "sha256": "3f9badedf15c2be1ce53d94fdf016299bb30ba231ef087ab9f51a7ed6d0bdc25",
+    "bytes": 43814
+  },
+  {
+    "name": "bbh-dyck_languages.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/dyck_languages.txt",
+    "sha256": "b0836603007ec659ed685458647fb6d7543543304e7aca909b995d0c3aff22b2",
+    "bytes": 2515
+  },
+  {
+    "name": "bbh-formal_fallacies.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/formal_fallacies.json",
+    "sha256": "4c1adb664821157faade1d4153685403afcc02648f3c180a608a18f17f589629",
+    "bytes": 145562
+  },
+  {
+    "name": "bbh-formal_fallacies.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/formal_fallacies.txt",
+    "sha256": "10c06cc362520e9b8dddfc4861e263ff668d228a52d958dcc69f09f1d224935a",
+    "bytes": 4587
+  },
+  {
+    "name": "bbh-geometric_shapes.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/geometric_shapes.json",
+    "sha256": "07be68a124420caa2ebc0b2c858ad79fc55c5c8806170e496e1e17ebfb11f31c",
+    "bytes": 77242
+  },
+  {
+    "name": "bbh-geometric_shapes.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/geometric_shapes.txt",
+    "sha256": "f36d9893507eb518d84f388fb677dc0226c74a98873700de0b556548d65d3f76",
+    "bytes": 4941
+  },
+  {
+    "name": "bbh-hyperbaton.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/hyperbaton.json",
+    "sha256": "b6d7f55c75f5d02f2987a4f3123802dfa093872089a56a334144aae8a7264fdc",
+    "bytes": 44706
+  },
+  {
+    "name": "bbh-hyperbaton.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/hyperbaton.txt",
+    "sha256": "19898af91c35cb26bbdf5fdb6f6fb17e138677250332e2994005625ffb50b261",
+    "bytes": 3224
+  },
+  {
+    "name": "bbh-logical_deduction_five_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/logical_deduction_five_objects.json",
+    "sha256": "d2df31394b903b7f0e085d42a69572a092987856eac076799017d70ef266fa8f",
+    "bytes": 155477
+  },
+  {
+    "name": "bbh-logical_deduction_five_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/logical_deduction_five_objects.txt",
+    "sha256": "4ed65246c0c1c4b0b4053d784181892b842bce19cf4358c976f34b1a434ef034",
+    "bytes": 2615
+  },
+  {
+    "name": "bbh-logical_deduction_seven_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/logical_deduction_seven_objects.json",
+    "sha256": "2896c7e3482eea318dd37bcc370d24ec3cc91e8374c1784287b5dbd38a529e33",
+    "bytes": 198404
+  },
+  {
+    "name": "bbh-logical_deduction_seven_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/logical_deduction_seven_objects.txt",
+    "sha256": "4ed65246c0c1c4b0b4053d784181892b842bce19cf4358c976f34b1a434ef034",
+    "bytes": 2615
+  },
+  {
+    "name": "bbh-logical_deduction_three_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/logical_deduction_three_objects.json",
+    "sha256": "e590fae72e3a6041fbd23bd8ff6b74baf44ca563f6ba40a041c55e7b867c1681",
+    "bytes": 112213
+  },
+  {
+    "name": "bbh-logical_deduction_three_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/logical_deduction_three_objects.txt",
+    "sha256": "4ed65246c0c1c4b0b4053d784181892b842bce19cf4358c976f34b1a434ef034",
+    "bytes": 2615
+  },
+  {
+    "name": "bbh-movie_recommendation.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/movie_recommendation.json",
+    "sha256": "a8b53a87ee21a865b7248e694f388a9b8f7cf6b839b11d44796a2dd3fc088983",
+    "bytes": 57684
+  },
+  {
+    "name": "bbh-movie_recommendation.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/movie_recommendation.txt",
+    "sha256": "cdf765634713b057091d541b4773dd2c998f81447b0bd8564ae70be4cdf3f5d0",
+    "bytes": 2231
+  },
+  {
+    "name": "bbh-multistep_arithmetic_two.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/multistep_arithmetic_two.json",
+    "sha256": "c9d5a6433c9b78256422a15c78463949c8bec8d85607aa28b52d7234ad4a8595",
+    "bytes": 18325
+  },
+  {
+    "name": "bbh-multistep_arithmetic_two.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/multistep_arithmetic_two.txt",
+    "sha256": "a546e0b7cde09037bc144ae5c32c9cf78dafdfac929ae76e2051b2dd8f3671ce",
+    "bytes": 2496
+  },
+  {
+    "name": "bbh-navigate.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/navigate.json",
+    "sha256": "b7944dfd3c81da5c4815bd75b00d6fa3c64140823498e78ed496f4c3d36f7f0d",
+    "bytes": 55163
+  },
+  {
+    "name": "bbh-navigate.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/navigate.txt",
+    "sha256": "dc2fd733f1867b8c79685f15b83746064534a94bf73468341c2a9dd335be22fc",
+    "bytes": 2257
+  },
+  {
+    "name": "bbh-object_counting.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/object_counting.json",
+    "sha256": "8acef14dbbdd40d2326ef7755750b6b5fe919fef06276af1bab3f1c297f022ff",
+    "bytes": 35890
+  },
+  {
+    "name": "bbh-object_counting.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/object_counting.txt",
+    "sha256": "e51ffc03fd713a13a379a6c938a523dfc1c2f384f2a8447bd7a12d4458f18833",
+    "bytes": 1528
+  },
+  {
+    "name": "bbh-penguins_in_a_table.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/penguins_in_a_table.json",
+    "sha256": "bb87ee449698eee51215e025a453b1bcb2f5e6589c2063b2c79e68b8f0655228",
+    "bytes": 74516
+  },
+  {
+    "name": "bbh-penguins_in_a_table.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/penguins_in_a_table.txt",
+    "sha256": "33be137e76c2a6af0bbacd17a8e7a92801886c0202a45e35ea9c2a88c1f26d51",
+    "bytes": 2496
+  },
+  {
+    "name": "bbh-reasoning_about_colored_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/reasoning_about_colored_objects.json",
+    "sha256": "0a8850cf95166020fce7a78244026ceedd7ea839302471512b4f8744e85a6a49",
+    "bytes": 98694
+  },
+  {
+    "name": "bbh-reasoning_about_colored_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/reasoning_about_colored_objects.txt",
+    "sha256": "e4ea02d05b13e8ed9ccc3b0d878bc4df4c5a6fb76c65d39d48d6244f7ff0b9d5",
+    "bytes": 2405
+  },
+  {
+    "name": "bbh-ruin_names.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/ruin_names.json",
+    "sha256": "b6f723aef2bafdd4c7bfc3c7e0329c7e8a8279391a609969c8ed76c9319f5f7f",
+    "bytes": 53178
+  },
+  {
+    "name": "bbh-ruin_names.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/ruin_names.txt",
+    "sha256": "731446c6c66bb5258677af1417b599a6a5539be6d74a5afc02cf7a716444ea54",
+    "bytes": 3591
+  },
+  {
+    "name": "bbh-salient_translation_error_detection.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/salient_translation_error_detection.json",
+    "sha256": "becf3eb8dd53c821a555ecd5c1334ecd93eb25f980e63be963c518e7138de5da",
+    "bytes": 286443
+  },
+  {
+    "name": "bbh-salient_translation_error_detection.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/salient_translation_error_detection.txt",
+    "sha256": "2c8367f75092202cc507fdbfaaf037b1c1eed38e91289084439738367f0785f7",
+    "bytes": 6251
+  },
+  {
+    "name": "bbh-snarks.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/snarks.json",
+    "sha256": "54a0661fe2de06167645a4965e6bcf963c4ba307e76262a7c750998b0e3d0d0e",
+    "bytes": 42646
+  },
+  {
+    "name": "bbh-snarks.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/snarks.txt",
+    "sha256": "35084a2a0b86bc4008ab206b838c0b97dd425897dd72198137c3cefc499c0960",
+    "bytes": 3224
+  },
+  {
+    "name": "bbh-sports_understanding.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/sports_understanding.json",
+    "sha256": "63ca262858f6176864515cd8cf53cdaa40839ebecc155b726d77930855d167bf",
+    "bytes": 28617
+  },
+  {
+    "name": "bbh-sports_understanding.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/sports_understanding.txt",
+    "sha256": "2058a9bed717a6edb8ca2f815e88851436a4ee14c8b0d504ccf464865c6d0295",
+    "bytes": 931
+  },
+  {
+    "name": "bbh-temporal_sequences.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/temporal_sequences.json",
+    "sha256": "92a1189faaa84aacc4c405aaa13f13f48c2992eb884772eedb622505252baef5",
+    "bytes": 148176
+  },
+  {
+    "name": "bbh-temporal_sequences.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/temporal_sequences.txt",
+    "sha256": "3e7ebf1e20abe3e219dc6514dcb7474d82db1b2c66acc733cd30af2e9e0b64b0",
+    "bytes": 3133
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_five_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/tracking_shuffled_objects_five_objects.json",
+    "sha256": "2063a46a4fb484236ed4310523606543a3e1dd4a4dc34eda65d407910ece25a5",
+    "bytes": 169722
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_five_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/tracking_shuffled_objects_five_objects.txt",
+    "sha256": "2ef54cb2a72052adc3484a76209cb6a6535f194d677e79bcec2e2e71cf3768af",
+    "bytes": 2714
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_seven_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/tracking_shuffled_objects_seven_objects.json",
+    "sha256": "b59fd05b850c37cf57cb514ae1e6975c00b1638ade2291722056b2af3c54084d",
+    "bytes": 214906
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_seven_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/tracking_shuffled_objects_seven_objects.txt",
+    "sha256": "2ef54cb2a72052adc3484a76209cb6a6535f194d677e79bcec2e2e71cf3768af",
+    "bytes": 2714
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_three_objects.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/tracking_shuffled_objects_three_objects.json",
+    "sha256": "546cc7bf10c6a01a6a4c17ae28a4966485f21f29fd5d111f37858ec78e354f6b",
+    "bytes": 128736
+  },
+  {
+    "name": "bbh-tracking_shuffled_objects_three_objects.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/tracking_shuffled_objects_three_objects.txt",
+    "sha256": "2ef54cb2a72052adc3484a76209cb6a6535f194d677e79bcec2e2e71cf3768af",
+    "bytes": 2714
+  },
+  {
+    "name": "bbh-web_of_lies.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/web_of_lies.json",
+    "sha256": "3e60323f8514a107fdb4edf35f8832a9171c5a09c0eaa47823559de905e8ab8b",
+    "bytes": 52964
+  },
+  {
+    "name": "bbh-web_of_lies.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/web_of_lies.txt",
+    "sha256": "c8025ca65ab7f0897c243504c863bda043d04b6e873777536743e94023c929d0",
+    "bytes": 3055
+  },
+  {
+    "name": "bbh-word_sorting.json",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/bbh/word_sorting.json",
+    "sha256": "2a6132d2c99f00d0d2eb1113ac6b4a918bd969d863c48749210d969713db8d43",
+    "bytes": 66300
+  },
+  {
+    "name": "bbh-word_sorting.txt",
+    "repo": "suzgunmirac/BIG-Bench-Hard",
+    "revision": "9ee07bd481feebf959a6b59d61ea57bdcf30964d",
+    "url": "https://raw.githubusercontent.com/suzgunmirac/BIG-Bench-Hard/9ee07bd481feebf959a6b59d61ea57bdcf30964d/cot-prompts/word_sorting.txt",
+    "sha256": "a2cdbcfe23abaa97b9787f7c03dbf49b1cfd0ff9e63197b7884bb5cd5a096ca6",
+    "bytes": 2274
+  },
+  {
+    "name": "mgsm-bn.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_bn.tsv",
+    "sha256": "6b00bc7cc635547e866989284afa924d789b5affa2eb8de623c385dd943ad977",
+    "bytes": 156684
+  },
+  {
+    "name": "mgsm-de.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_de.tsv",
+    "sha256": "4dfea30fede44b813e2e496f5f0534049e83c7cc8aed6e00600b30ec62053626",
+    "bytes": 69640
+  },
+  {
+    "name": "mgsm-es.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_es.tsv",
+    "sha256": "5bd27ebdf00140cec845c5298dc17715f5cd57d8edda6df1976db40bf3f0750a",
+    "bytes": 66896
+  },
+  {
+    "name": "mgsm-fr.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_fr.tsv",
+    "sha256": "36207c1c03fd7cd3ea491441eb755408199f94e4a647851df531bbaedc99d606",
+    "bytes": 69141
+  },
+  {
+    "name": "mgsm-ja.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_ja.tsv",
+    "sha256": "59a2b50debe77981fd784cb3b2bef1505e3abf2a37116dc9d7a366ab029b4637",
+    "bytes": 81043
+  },
+  {
+    "name": "mgsm-ru.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_ru.tsv",
+    "sha256": "6bd30fd2e80c5bac23f566fb4ae0e6a55a19578401fbf9a01fb21beb3645fef8",
+    "bytes": 110953
+  },
+  {
+    "name": "mgsm-sw.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_sw.tsv",
+    "sha256": "2bac828d77229e65d7c7197b1ad4a2cb5b1fe99b163f2cbdd66501de6a2115c4",
+    "bytes": 67456
+  },
+  {
+    "name": "mgsm-te.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_te.tsv",
+    "sha256": "dd6b1452c244bb2e4ba254c01ea84137f80c1cefc57d69c23b0ed88b9c0f36b7",
+    "bytes": 176547
+  },
+  {
+    "name": "mgsm-th.tsv",
+    "repo": "google-research/url-nlp",
+    "revision": "452a21ad3dae5668c06ceeac21ff073e1e40f9be",
+    "url": "https://raw.githubusercontent.com/google-research/url-nlp/452a21ad3dae5668c06ceeac21ff073e1e40f9be/mgsm/mgsm_th.tsv",
+    "sha256": "f3932dc5ad8e9d0ea82b017adc1e1461dd647af861e7166d6741986602a0cfd6",
+    "bytes": 151921
+  },
+  {
+    "name": "mmlu-pro-validation.parquet",
+    "repo": "TIGER-Lab/MMLU-Pro",
+    "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+    "url": "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/b189ec765aa7ed75c8acfea42df31fdae71f97be/data/validation-00000-of-00001.parquet",
+    "sha256": "139423c23722e480c807ac4a191409a710cfce4eba744c1d641cf88e730e2078",
+    "bytes": 42857
+  },
+  {
+    "name": "mmlu-pro-test.parquet",
+    "repo": "TIGER-Lab/MMLU-Pro",
+    "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+    "url": "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/b189ec765aa7ed75c8acfea42df31fdae71f97be/data/test-00000-of-00001.parquet",
+    "sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+    "bytes": 4144185
+  },
+  {
+    "name": "redux-LICENSE",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 18649,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/LICENSE",
+    "sha256": "95df2e9564862e51d69683a899b6dcc8218d577057bdf67322880769ff85f29e"
+  },
+  {
+    "name": "redux-README.md",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 22839,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/README.md",
+    "sha256": "efcd94c67e758b1a661beedbeb450c8700d57da40e2befe1b8d33e56548b6b5e"
+  },
+  {
+    "name": "redux-anatomy-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 35328,
+    "upstream_sha256": "8948cf78ba0af148bbe27e99479337da2e42b202f3d6316615840d6ad2a04063",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/anatomy/data-00000-of-00001.arrow",
+    "sha256": "8948cf78ba0af148bbe27e99479337da2e42b202f3d6316615840d6ad2a04063"
+  },
+  {
+    "name": "redux-astronomy-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 43944,
+    "upstream_sha256": "61f6f7cea1e266574e5cd37b2ed12d50c0dd3e462915e1ec1fb6864a23b3b124",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/astronomy/data-00000-of-00001.arrow",
+    "sha256": "61f6f7cea1e266574e5cd37b2ed12d50c0dd3e462915e1ec1fb6864a23b3b124"
+  },
+  {
+    "name": "redux-business_ethics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 51816,
+    "upstream_sha256": "be507b6f06e03e17c2442f2e718533fd0120c5b63f4b990a6773406c5923ad20",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/business_ethics/data-00000-of-00001.arrow",
+    "sha256": "be507b6f06e03e17c2442f2e718533fd0120c5b63f4b990a6773406c5923ad20"
+  },
+  {
+    "name": "redux-clinical_knowledge-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 38272,
+    "upstream_sha256": "b0341cdb9761a1a72f35ddad0995d7592bdfdc189361040bed2d05d7cc1b0084",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/clinical_knowledge/data-00000-of-00001.arrow",
+    "sha256": "b0341cdb9761a1a72f35ddad0995d7592bdfdc189361040bed2d05d7cc1b0084"
+  },
+  {
+    "name": "redux-college_chemistry-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 32296,
+    "upstream_sha256": "f6c3c5955ef320051bae52881ffd6006bb1d2d1f187fde18a241111f5b155800",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/college_chemistry/data-00000-of-00001.arrow",
+    "sha256": "f6c3c5955ef320051bae52881ffd6006bb1d2d1f187fde18a241111f5b155800"
+  },
+  {
+    "name": "redux-college_computer_science-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 51160,
+    "upstream_sha256": "f4c2115b5da06e23b5bfcfb5be7d909bb658ac86a1506b564f83339b1163f6ca",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/college_computer_science/data-00000-of-00001.arrow",
+    "sha256": "f4c2115b5da06e23b5bfcfb5be7d909bb658ac86a1506b564f83339b1163f6ca"
+  },
+  {
+    "name": "redux-college_mathematics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 28904,
+    "upstream_sha256": "9957041b5a3d19a186b0fd088baf15459923b1cb61314f934d454a9fa0de6c0b",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/college_mathematics/data-00000-of-00001.arrow",
+    "sha256": "9957041b5a3d19a186b0fd088baf15459923b1cb61314f934d454a9fa0de6c0b"
+  },
+  {
+    "name": "redux-college_medicine-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 57112,
+    "upstream_sha256": "77c854a9268649408cce3dc7b9bac2d7140f01b52b8f6fdf1ee70895ce264802",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/college_medicine/data-00000-of-00001.arrow",
+    "sha256": "77c854a9268649408cce3dc7b9bac2d7140f01b52b8f6fdf1ee70895ce264802"
+  },
+  {
+    "name": "redux-college_physics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 36800,
+    "upstream_sha256": "0d3ed6d717a7b52135f35cf0bf69e7a41f4dde76f6409922dcac58f2de4fe438",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/college_physics/data-00000-of-00001.arrow",
+    "sha256": "0d3ed6d717a7b52135f35cf0bf69e7a41f4dde76f6409922dcac58f2de4fe438"
+  },
+  {
+    "name": "redux-conceptual_physics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 32584,
+    "upstream_sha256": "82f09349d8ffb74646bbbe7ce0fa10e43d9c898ee4370b2799cdc25f7e4dcefc",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/conceptual_physics/data-00000-of-00001.arrow",
+    "sha256": "82f09349d8ffb74646bbbe7ce0fa10e43d9c898ee4370b2799cdc25f7e4dcefc"
+  },
+  {
+    "name": "redux-econometrics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 50848,
+    "upstream_sha256": "99e5b009e7472bd6838cbcddb346903cab8d27ddc4c73910561a859f8ee0bc95",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/econometrics/data-00000-of-00001.arrow",
+    "sha256": "99e5b009e7472bd6838cbcddb346903cab8d27ddc4c73910561a859f8ee0bc95"
+  },
+  {
+    "name": "redux-electrical_engineering-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 20336,
+    "upstream_sha256": "0f4b17a06f974ec37f474b91792f6a346bc1e0a71f0bc49fcaf138ca57201d5e",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/electrical_engineering/data-00000-of-00001.arrow",
+    "sha256": "0f4b17a06f974ec37f474b91792f6a346bc1e0a71f0bc49fcaf138ca57201d5e"
+  },
+  {
+    "name": "redux-formal_logic-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 45808,
+    "upstream_sha256": "9c1b0d50c4c871fe0e8e59d36b53e16f4e241fa6fdb21055336eac180273bb03",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/formal_logic/data-00000-of-00001.arrow",
+    "sha256": "9c1b0d50c4c871fe0e8e59d36b53e16f4e241fa6fdb21055336eac180273bb03"
+  },
+  {
+    "name": "redux-global_facts-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 33552,
+    "upstream_sha256": "7cf3470ee8ba4d54849b15d161da626ea51912eddc96fef34394738fc9e37509",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/global_facts/data-00000-of-00001.arrow",
+    "sha256": "7cf3470ee8ba4d54849b15d161da626ea51912eddc96fef34394738fc9e37509"
+  },
+  {
+    "name": "redux-high_school_chemistry-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 37136,
+    "upstream_sha256": "9956acfd83ac3681b9d8ca0cb346ca0b6947b99ca702bdbb6386e1a603d28e8c",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_chemistry/data-00000-of-00001.arrow",
+    "sha256": "9956acfd83ac3681b9d8ca0cb346ca0b6947b99ca702bdbb6386e1a603d28e8c"
+  },
+  {
+    "name": "redux-high_school_geography-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 29952,
+    "upstream_sha256": "9f965fcfcbb807e80b424f5032d4751584d1d4143ffacf8d5670aaf017c12eb0",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_geography/data-00000-of-00001.arrow",
+    "sha256": "9f965fcfcbb807e80b424f5032d4751584d1d4143ffacf8d5670aaf017c12eb0"
+  },
+  {
+    "name": "redux-high_school_macroeconomics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 44840,
+    "upstream_sha256": "09310b60486609cc45fed8e9bc68821712f5951d89fa8867f4902c9223c21bf3",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_macroeconomics/data-00000-of-00001.arrow",
+    "sha256": "09310b60486609cc45fed8e9bc68821712f5951d89fa8867f4902c9223c21bf3"
+  },
+  {
+    "name": "redux-high_school_mathematics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 23880,
+    "upstream_sha256": "2b738b8cfeab0ded298c13a8dd5de316304148ddbf345134210a5b10cd748143",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_mathematics/data-00000-of-00001.arrow",
+    "sha256": "2b738b8cfeab0ded298c13a8dd5de316304148ddbf345134210a5b10cd748143"
+  },
+  {
+    "name": "redux-high_school_physics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 50688,
+    "upstream_sha256": "645ee034f57fbd95d4200f5ea11303dd0e5a0f059ea6bda6e5b5dd439ae9eec0",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_physics/data-00000-of-00001.arrow",
+    "sha256": "645ee034f57fbd95d4200f5ea11303dd0e5a0f059ea6bda6e5b5dd439ae9eec0"
+  },
+  {
+    "name": "redux-high_school_statistics-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 56680,
+    "upstream_sha256": "d81186a878db7d7cbbe2e0f8c9648eee49cef851ffd83871d3733eb3504f45c6",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_statistics/data-00000-of-00001.arrow",
+    "sha256": "d81186a878db7d7cbbe2e0f8c9648eee49cef851ffd83871d3733eb3504f45c6"
+  },
+  {
+    "name": "redux-high_school_us_history-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 154976,
+    "upstream_sha256": "6268d633394e86b4bf86e0db97d64606ad65361a70b2b533764499add171e2c7",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/high_school_us_history/data-00000-of-00001.arrow",
+    "sha256": "6268d633394e86b4bf86e0db97d64606ad65361a70b2b533764499add171e2c7"
+  },
+  {
+    "name": "redux-human_aging-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 37432,
+    "upstream_sha256": "26c11ebd01133c1cbf003523cd7e0c4b7d7357081499c1c6464fd5404f5d9a67",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/human_aging/data-00000-of-00001.arrow",
+    "sha256": "26c11ebd01133c1cbf003523cd7e0c4b7d7357081499c1c6464fd5404f5d9a67"
+  },
+  {
+    "name": "redux-logical_fallacies-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 41024,
+    "upstream_sha256": "38485e4408802f675196563d3e58f613c53b6481e0c78f54f4bc0411d839ac41",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/logical_fallacies/data-00000-of-00001.arrow",
+    "sha256": "38485e4408802f675196563d3e58f613c53b6481e0c78f54f4bc0411d839ac41"
+  },
+  {
+    "name": "redux-machine_learning-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 40448,
+    "upstream_sha256": "1a5a20a47ca4d615bc78c49f9da16eb0ce68ae074646a50711e7089ae8e5d142",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/machine_learning/data-00000-of-00001.arrow",
+    "sha256": "1a5a20a47ca4d615bc78c49f9da16eb0ce68ae074646a50711e7089ae8e5d142"
+  },
+  {
+    "name": "redux-miscellaneous-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 22256,
+    "upstream_sha256": "e3d8fdbdad279bc920e93ca3584c2ac27e8de61c8eb53c960523e083791e6a73",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/miscellaneous/data-00000-of-00001.arrow",
+    "sha256": "e3d8fdbdad279bc920e93ca3584c2ac27e8de61c8eb53c960523e083791e6a73"
+  },
+  {
+    "name": "redux-philosophy-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 36528,
+    "upstream_sha256": "f0b320014370b16b2036c4c2238c9cccdb83c98fe3a678e031d4eb682a4689ae",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/philosophy/data-00000-of-00001.arrow",
+    "sha256": "f0b320014370b16b2036c4c2238c9cccdb83c98fe3a678e031d4eb682a4689ae"
+  },
+  {
+    "name": "redux-professional_accounting-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 57488,
+    "upstream_sha256": "5bcc48f8dc90f7ca1c6cfcacd2fd2d1912f882008ebd6e80bee77c467793ad69",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/professional_accounting/data-00000-of-00001.arrow",
+    "sha256": "5bcc48f8dc90f7ca1c6cfcacd2fd2d1912f882008ebd6e80bee77c467793ad69"
+  },
+  {
+    "name": "redux-professional_law-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 121408,
+    "upstream_sha256": "96e999ac932c6f16dfabc6a75ca010e4e834df5fc4c232a5111b39ab63cead73",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/professional_law/data-00000-of-00001.arrow",
+    "sha256": "96e999ac932c6f16dfabc6a75ca010e4e834df5fc4c232a5111b39ab63cead73"
+  },
+  {
+    "name": "redux-public_relations-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 38176,
+    "upstream_sha256": "fd73ee7872e32e7b92ad1b17623a6b5267fc25673eacadb2655c7a48e20b4980",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/public_relations/data-00000-of-00001.arrow",
+    "sha256": "fd73ee7872e32e7b92ad1b17623a6b5267fc25673eacadb2655c7a48e20b4980"
+  },
+  {
+    "name": "redux-virology-data-00000-of-00001.arrow",
+    "repo": "edinburgh-dawg/mmlu-redux",
+    "revision": "3720db6aeb3d019de48bf37916c1a54074ff4997",
+    "bytes": 33288,
+    "upstream_sha256": "0582accdff6d056143441c1a1170876f51b09098cbca31cbd0b9ecbca5210c53",
+    "url": "https://huggingface.co/datasets/edinburgh-dawg/mmlu-redux/resolve/3720db6aeb3d019de48bf37916c1a54074ff4997/virology/data-00000-of-00001.arrow",
+    "sha256": "0582accdff6d056143441c1a1170876f51b09098cbca31cbd0b9ecbca5210c53"
+  },
+  {
+    "name": "supergpqa-README.md",
+    "repo": "m-a-p/SuperGPQA",
+    "revision": "4430d4458112c7d4497fdcf94d7cc223313d6acf",
+    "bytes": 4442,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/m-a-p/SuperGPQA/resolve/4430d4458112c7d4497fdcf94d7cc223313d6acf/README.md",
+    "sha256": "0d670692d5f36a066d67c10741d160a5fcf0c2cb97f22c8dc8f453ac930b083a"
+  },
+  {
+    "name": "supergpqa-SuperGPQA-all.jsonl",
+    "repo": "m-a-p/SuperGPQA",
+    "revision": "4430d4458112c7d4497fdcf94d7cc223313d6acf",
+    "bytes": 23957124,
+    "upstream_sha256": "28b998e70205ee95e540317b5adc06a06552a3961fb50b153df126b833f7a910",
+    "url": "https://huggingface.co/datasets/m-a-p/SuperGPQA/resolve/4430d4458112c7d4497fdcf94d7cc223313d6acf/SuperGPQA-all.jsonl",
+    "sha256": "28b998e70205ee95e540317b5adc06a06552a3961fb50b153df126b833f7a910"
+  },
+  {
+    "name": "math-README.md",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 3926,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/README.md",
+    "sha256": "2372e22a154ca3ed5865378e270b32d8ed5b615c4592fad42630a731a950bcc0"
+  },
+  {
+    "name": "math-algebra-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 353114,
+    "upstream_sha256": "0e04a850dac9cfc758eac0c80afd2d0cc65e29ea72f916c8ac1045b12af937f5",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/algebra/test-00000-of-00001.parquet",
+    "sha256": "0e04a850dac9cfc758eac0c80afd2d0cc65e29ea72f916c8ac1045b12af937f5"
+  },
+  {
+    "name": "math-algebra-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 505186,
+    "upstream_sha256": "73347f5b55869f21ff094361025dbd12d291e971aa4d72142eacee10438e449f",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/algebra/train-00000-of-00001.parquet",
+    "sha256": "73347f5b55869f21ff094361025dbd12d291e971aa4d72142eacee10438e449f"
+  },
+  {
+    "name": "math-counting_and_probability-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 175032,
+    "upstream_sha256": "c324818949c75a6227c0328a8499d58023cbbf6757cfc1736f5ab24cc8d87966",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/counting_and_probability/test-00000-of-00001.parquet",
+    "sha256": "c324818949c75a6227c0328a8499d58023cbbf6757cfc1736f5ab24cc8d87966"
+  },
+  {
+    "name": "math-counting_and_probability-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 329354,
+    "upstream_sha256": "d37ae017930df41678edee50dcde18c17fb06afaff9eb505c1b95f1002bfcb31",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/counting_and_probability/train-00000-of-00001.parquet",
+    "sha256": "d37ae017930df41678edee50dcde18c17fb06afaff9eb505c1b95f1002bfcb31"
+  },
+  {
+    "name": "math-geometry-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 263835,
+    "upstream_sha256": "98720f3a8134ad9784fd8951195245264495df03ffc5c9485a9a54ff5ae2431a",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/geometry/test-00000-of-00001.parquet",
+    "sha256": "98720f3a8134ad9784fd8951195245264495df03ffc5c9485a9a54ff5ae2431a"
+  },
+  {
+    "name": "math-geometry-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 549388,
+    "upstream_sha256": "9dbf5e5b55499e696e0ba72da9d85d4f0be3acbf7eaa6cb014b0fc78bb63784f",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/geometry/train-00000-of-00001.parquet",
+    "sha256": "9dbf5e5b55499e696e0ba72da9d85d4f0be3acbf7eaa6cb014b0fc78bb63784f"
+  },
+  {
+    "name": "math-intermediate_algebra-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 394797,
+    "upstream_sha256": "e859f72486c951c2017da880541ca729940eaa986b0364eb23e238983df9bfeb",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/intermediate_algebra/test-00000-of-00001.parquet",
+    "sha256": "e859f72486c951c2017da880541ca729940eaa986b0364eb23e238983df9bfeb"
+  },
+  {
+    "name": "math-intermediate_algebra-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 575154,
+    "upstream_sha256": "0c87f3798ebdfb915b1f9b6fc13c1a8d064c3cb91631ccbe85b83ed5d71150f6",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/intermediate_algebra/train-00000-of-00001.parquet",
+    "sha256": "0c87f3798ebdfb915b1f9b6fc13c1a8d064c3cb91631ccbe85b83ed5d71150f6"
+  },
+  {
+    "name": "math-number_theory-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 182003,
+    "upstream_sha256": "ba156c9c9fa2040836ba12135fd964e6e67d6bccd8c469ec4a3ad941f8f6fbe9",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/number_theory/test-00000-of-00001.parquet",
+    "sha256": "ba156c9c9fa2040836ba12135fd964e6e67d6bccd8c469ec4a3ad941f8f6fbe9"
+  },
+  {
+    "name": "math-number_theory-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 308653,
+    "upstream_sha256": "81c08649149b39811f2d1d7ddf5dfccf6c4c8044a2e169cfb24db09160c941f4",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/number_theory/train-00000-of-00001.parquet",
+    "sha256": "81c08649149b39811f2d1d7ddf5dfccf6c4c8044a2e169cfb24db09160c941f4"
+  },
+  {
+    "name": "math-prealgebra-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 267729,
+    "upstream_sha256": "301e5d8ade5c7b5038032532e498bdc9dca799e7f1061a63f2e7d980803240cc",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/prealgebra/test-00000-of-00001.parquet",
+    "sha256": "301e5d8ade5c7b5038032532e498bdc9dca799e7f1061a63f2e7d980803240cc"
+  },
+  {
+    "name": "math-prealgebra-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 383626,
+    "upstream_sha256": "765b526fb5c0b8385cb7be2c16bf4f6f28cf71f2bc15c826abfbb5fa7f8616cc",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/prealgebra/train-00000-of-00001.parquet",
+    "sha256": "765b526fb5c0b8385cb7be2c16bf4f6f28cf71f2bc15c826abfbb5fa7f8616cc"
+  },
+  {
+    "name": "math-precalculus-test-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 242241,
+    "upstream_sha256": "da37474ba3761ae5727af3844a7ba963a735bd6a14c65e6137593669a4fe3b9c",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/precalculus/test-00000-of-00001.parquet",
+    "sha256": "da37474ba3761ae5727af3844a7ba963a735bd6a14c65e6137593669a4fe3b9c"
+  },
+  {
+    "name": "math-precalculus-train-00000-of-00001.parquet",
+    "repo": "EleutherAI/hendrycks_math",
+    "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3",
+    "bytes": 353745,
+    "upstream_sha256": "28bb1ff95525c8d32521509bef91de76339659f5467a381e6e8deea204538f0e",
+    "url": "https://huggingface.co/datasets/EleutherAI/hendrycks_math/resolve/21a5633873b6a120296cce3e2df9d5550074f4a3/precalculus/train-00000-of-00001.parquet",
+    "sha256": "28bb1ff95525c8d32521509bef91de76339659f5467a381e6e8deea204538f0e"
+  },
+  {
+    "name": "humanevalplus-data-test-00000-of-00001-5973903632b82d40.parquet",
+    "repo": "evalplus/humanevalplus",
+    "revision": "d32357cf319e50e9c8d8dab5ea876c72b0fd321b",
+    "bytes": 2902210,
+    "upstream_sha256": "4436f5c03d77c17e0cbc57543b90665b5c1266f55a43992a5ed7922cd34a7558",
+    "url": "https://huggingface.co/datasets/evalplus/humanevalplus/resolve/d32357cf319e50e9c8d8dab5ea876c72b0fd321b/data/test-00000-of-00001-5973903632b82d40.parquet",
+    "sha256": "4436f5c03d77c17e0cbc57543b90665b5c1266f55a43992a5ed7922cd34a7558"
+  },
+  {
+    "name": "mbppplus-data-test-00000-of-00001-d5781c9c51e02795.parquet",
+    "repo": "evalplus/mbppplus",
+    "revision": "b2d74c91837c3f2a20c1299ae98133cbe7cfa077",
+    "bytes": 1129135,
+    "upstream_sha256": "dc20030b3788fccf617444edcb34138ef13d7e4fafd17bfcb8c1279dbb12399b",
+    "url": "https://huggingface.co/datasets/evalplus/mbppplus/resolve/b2d74c91837c3f2a20c1299ae98133cbe7cfa077/data/test-00000-of-00001-d5781c9c51e02795.parquet",
+    "sha256": "dc20030b3788fccf617444edcb34138ef13d7e4fafd17bfcb8c1279dbb12399b"
+  },
+  {
+    "name": "include-Albanian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 99116,
+    "upstream_sha256": "728958d16df23d55f54a99047a8fcb402351d3d9143b463d95b8ce7fef9eea38",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Albanian/test-00000-of-00001.parquet",
+    "sha256": "728958d16df23d55f54a99047a8fcb402351d3d9143b463d95b8ce7fef9eea38"
+  },
+  {
+    "name": "include-Albanian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 10490,
+    "upstream_sha256": "8b36ef666740c28fa9dc8016b27b724d0a61a20862645aa2aeb6c156883d0c08",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Albanian/validation-00000-of-00001.parquet",
+    "sha256": "8b36ef666740c28fa9dc8016b27b724d0a61a20862645aa2aeb6c156883d0c08"
+  },
+  {
+    "name": "include-Arabic-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 115236,
+    "upstream_sha256": "68cab8d12c41095202d6949fe140d23e4f4dde7729b0fc5121b2c68ae04440e5",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Arabic/test-00000-of-00001.parquet",
+    "sha256": "68cab8d12c41095202d6949fe140d23e4f4dde7729b0fc5121b2c68ae04440e5"
+  },
+  {
+    "name": "include-Arabic-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 20759,
+    "upstream_sha256": "012a5d227625fdf5b665d900f083ff053c0938e2c024013f77269503183a5a68",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Arabic/validation-00000-of-00001.parquet",
+    "sha256": "012a5d227625fdf5b665d900f083ff053c0938e2c024013f77269503183a5a68"
+  },
+  {
+    "name": "include-Armenian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 131713,
+    "upstream_sha256": "21cf3745cfc3adf21c5fb8b340e9170d1dc2a8ef0abb19019a511ab8c5918a05",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Armenian/test-00000-of-00001.parquet",
+    "sha256": "21cf3745cfc3adf21c5fb8b340e9170d1dc2a8ef0abb19019a511ab8c5918a05"
+  },
+  {
+    "name": "include-Armenian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 13712,
+    "upstream_sha256": "d2021d583a840aab2a1115727e277c98baea89e9608be7a7feaca024847d6557",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Armenian/validation-00000-of-00001.parquet",
+    "sha256": "d2021d583a840aab2a1115727e277c98baea89e9608be7a7feaca024847d6557"
+  },
+  {
+    "name": "include-Azerbaijani-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 103135,
+    "upstream_sha256": "c793f94977f0629240c845208c6248bfddcac18e361f62e8ff9ea08afb4ae08a",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Azerbaijani/test-00000-of-00001.parquet",
+    "sha256": "c793f94977f0629240c845208c6248bfddcac18e361f62e8ff9ea08afb4ae08a"
+  },
+  {
+    "name": "include-Azerbaijani-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12856,
+    "upstream_sha256": "d187811149ca1f726833c1a7460b27068bb4c9bd4459e686a6740c3a0bc12931",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Azerbaijani/validation-00000-of-00001.parquet",
+    "sha256": "d187811149ca1f726833c1a7460b27068bb4c9bd4459e686a6740c3a0bc12931"
+  },
+  {
+    "name": "include-Basque-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 129247,
+    "upstream_sha256": "6eabaf7e5666645151b0fcbbf6ffedd8a6754a704930b9362345cee9befc03b0",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Basque/test-00000-of-00001.parquet",
+    "sha256": "6eabaf7e5666645151b0fcbbf6ffedd8a6754a704930b9362345cee9befc03b0"
+  },
+  {
+    "name": "include-Basque-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 8134,
+    "upstream_sha256": "820c2d7b6de28db6393fddc8a1429dec9fcd9bb6999c9ac55d139095e9c4da82",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Basque/validation-00000-of-00001.parquet",
+    "sha256": "820c2d7b6de28db6393fddc8a1429dec9fcd9bb6999c9ac55d139095e9c4da82"
+  },
+  {
+    "name": "include-Belarusian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 122549,
+    "upstream_sha256": "44e7b99f47fd5d3a8d84b8ecf432b28a64e856cb9bd5ec1d5fff5b1f32ea213d",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Belarusian/test-00000-of-00001.parquet",
+    "sha256": "44e7b99f47fd5d3a8d84b8ecf432b28a64e856cb9bd5ec1d5fff5b1f32ea213d"
+  },
+  {
+    "name": "include-Belarusian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9040,
+    "upstream_sha256": "0feef37eba0774804a71bf23d6375c9949cf5685c72cf809ed720cc722949488",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Belarusian/validation-00000-of-00001.parquet",
+    "sha256": "0feef37eba0774804a71bf23d6375c9949cf5685c72cf809ed720cc722949488"
+  },
+  {
+    "name": "include-Bengali-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 73256,
+    "upstream_sha256": "e226c52f265617f02d8e36ce469c181cc7a6bf7f641481d5436698818eafdfe0",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Bengali/test-00000-of-00001.parquet",
+    "sha256": "e226c52f265617f02d8e36ce469c181cc7a6bf7f641481d5436698818eafdfe0"
+  },
+  {
+    "name": "include-Bengali-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9016,
+    "upstream_sha256": "85eb589a213067a395a3ecd114c6971cdc8e832ff4fa4b1222717acc3a8428af",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Bengali/validation-00000-of-00001.parquet",
+    "sha256": "85eb589a213067a395a3ecd114c6971cdc8e832ff4fa4b1222717acc3a8428af"
+  },
+  {
+    "name": "include-Bulgarian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 105018,
+    "upstream_sha256": "5532515dd8a4ece548b57ee53c8f56d67a5e438de1c1e9b58ba603690ea68d35",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Bulgarian/test-00000-of-00001.parquet",
+    "sha256": "5532515dd8a4ece548b57ee53c8f56d67a5e438de1c1e9b58ba603690ea68d35"
+  },
+  {
+    "name": "include-Bulgarian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12291,
+    "upstream_sha256": "d8159c7dfd426afaa45b3447b3cbf4d8c41ad6143178c77fe8fbdc002f04528e",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Bulgarian/validation-00000-of-00001.parquet",
+    "sha256": "d8159c7dfd426afaa45b3447b3cbf4d8c41ad6143178c77fe8fbdc002f04528e"
+  },
+  {
+    "name": "include-Chinese-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 95308,
+    "upstream_sha256": "3a08fbcadd182344691abdeb2d9b86b38866d6f05f7c89530b83046a8e14e596",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Chinese/test-00000-of-00001.parquet",
+    "sha256": "3a08fbcadd182344691abdeb2d9b86b38866d6f05f7c89530b83046a8e14e596"
+  },
+  {
+    "name": "include-Chinese-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 13460,
+    "upstream_sha256": "a08b387019812d86cb9fae6859d2de8956c975ae6d10e4fa7b8a37314370c370",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Chinese/validation-00000-of-00001.parquet",
+    "sha256": "a08b387019812d86cb9fae6859d2de8956c975ae6d10e4fa7b8a37314370c370"
+  },
+  {
+    "name": "include-Croatian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 91001,
+    "upstream_sha256": "83346df0d13ea92ba71ee3ebb633c8767f0760d678778ed802c96f31ff82f3d9",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Croatian/test-00000-of-00001.parquet",
+    "sha256": "83346df0d13ea92ba71ee3ebb633c8767f0760d678778ed802c96f31ff82f3d9"
+  },
+  {
+    "name": "include-Croatian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 7908,
+    "upstream_sha256": "26e807bf46b82e22b14f7481785d65dac1db891dcf0d464bb2316eb20c621984",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Croatian/validation-00000-of-00001.parquet",
+    "sha256": "26e807bf46b82e22b14f7481785d65dac1db891dcf0d464bb2316eb20c621984"
+  },
+  {
+    "name": "include-Dutch-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 124421,
+    "upstream_sha256": "d1c91afaa357825e07de28717671dddffee7cb4e9c8c6b998e9157c18547757f",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Dutch/test-00000-of-00001.parquet",
+    "sha256": "d1c91afaa357825e07de28717671dddffee7cb4e9c8c6b998e9157c18547757f"
+  },
+  {
+    "name": "include-Dutch-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 15949,
+    "upstream_sha256": "3cac8bdb608cecde66d40acff6b64223b35f23237ef7ca3aa4c69f4c213c6f3a",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Dutch/validation-00000-of-00001.parquet",
+    "sha256": "3cac8bdb608cecde66d40acff6b64223b35f23237ef7ca3aa4c69f4c213c6f3a"
+  },
+  {
+    "name": "include-Estonian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 28636,
+    "upstream_sha256": "4dbf437235b656a2bd37b575071049fb4838eb7fc1fb1d8350b763dd1fca18b4",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Estonian/test-00000-of-00001.parquet",
+    "sha256": "4dbf437235b656a2bd37b575071049fb4838eb7fc1fb1d8350b763dd1fca18b4"
+  },
+  {
+    "name": "include-Estonian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 7828,
+    "upstream_sha256": "9ce3c42f00e0b1b7ce1e57af1856d9b934f8d19dafa65e30aa476d095b56a625",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Estonian/validation-00000-of-00001.parquet",
+    "sha256": "9ce3c42f00e0b1b7ce1e57af1856d9b934f8d19dafa65e30aa476d095b56a625"
+  },
+  {
+    "name": "include-Finnish-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 168843,
+    "upstream_sha256": "ecc9415ad07d1d65245327701bd2ced6ac17dbe532e3723ad6e0d7c2e374cfa4",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Finnish/test-00000-of-00001.parquet",
+    "sha256": "ecc9415ad07d1d65245327701bd2ced6ac17dbe532e3723ad6e0d7c2e374cfa4"
+  },
+  {
+    "name": "include-Finnish-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 13357,
+    "upstream_sha256": "4649cce3c11259df43ef178229bcb4ad3272b8287047075eeb5c69d2581a4cd2",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Finnish/validation-00000-of-00001.parquet",
+    "sha256": "4649cce3c11259df43ef178229bcb4ad3272b8287047075eeb5c69d2581a4cd2"
+  },
+  {
+    "name": "include-French-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 63800,
+    "upstream_sha256": "6ab5ba6b2f483b2601adfdc2b886e6a4a8f408025d27917070fdac515410f42f",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/French/test-00000-of-00001.parquet",
+    "sha256": "6ab5ba6b2f483b2601adfdc2b886e6a4a8f408025d27917070fdac515410f42f"
+  },
+  {
+    "name": "include-French-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9277,
+    "upstream_sha256": "39ce0cd801ff41a416058dbb9424af463272efeadd271a33145a9b3145bf369d",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/French/validation-00000-of-00001.parquet",
+    "sha256": "39ce0cd801ff41a416058dbb9424af463272efeadd271a33145a9b3145bf369d"
+  },
+  {
+    "name": "include-Georgian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 138546,
+    "upstream_sha256": "379524c68dcef3a829da035120e25d58c62e47d4bb108e061188c02b84c497d1",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Georgian/test-00000-of-00001.parquet",
+    "sha256": "379524c68dcef3a829da035120e25d58c62e47d4bb108e061188c02b84c497d1"
+  },
+  {
+    "name": "include-Georgian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 10979,
+    "upstream_sha256": "75329686a4061da71a2c2053080736c65e5be57b9842e725496269218ac91ee1",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Georgian/validation-00000-of-00001.parquet",
+    "sha256": "75329686a4061da71a2c2053080736c65e5be57b9842e725496269218ac91ee1"
+  },
+  {
+    "name": "include-German-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 34281,
+    "upstream_sha256": "d49263cd57d8f5ac7504ba972917502e7c283c0df80b6f435275a0116dce003e",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/German/test-00000-of-00001.parquet",
+    "sha256": "d49263cd57d8f5ac7504ba972917502e7c283c0df80b6f435275a0116dce003e"
+  },
+  {
+    "name": "include-German-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 11094,
+    "upstream_sha256": "0dead0c018f0e3e4c5826afa129305aabeb78dd09550e43ee1d52d41b8737f22",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/German/validation-00000-of-00001.parquet",
+    "sha256": "0dead0c018f0e3e4c5826afa129305aabeb78dd09550e43ee1d52d41b8737f22"
+  },
+  {
+    "name": "include-Greek-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 169295,
+    "upstream_sha256": "718415a000f0e52e6d1c93925ff6c5fa028330feaa3b75b032b145ba52de224a",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Greek/test-00000-of-00001.parquet",
+    "sha256": "718415a000f0e52e6d1c93925ff6c5fa028330feaa3b75b032b145ba52de224a"
+  },
+  {
+    "name": "include-Greek-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 19444,
+    "upstream_sha256": "4f37eb56d13f63368d0a40e5793bb87aba301b5ed21b4a5a5bc7e521abe43bfb",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Greek/validation-00000-of-00001.parquet",
+    "sha256": "4f37eb56d13f63368d0a40e5793bb87aba301b5ed21b4a5a5bc7e521abe43bfb"
+  },
+  {
+    "name": "include-Hebrew-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 137036,
+    "upstream_sha256": "b574be4611b744be56877f266bfd9d15dda1c68cc00a348119ef4584d6401021",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hebrew/test-00000-of-00001.parquet",
+    "sha256": "b574be4611b744be56877f266bfd9d15dda1c68cc00a348119ef4584d6401021"
+  },
+  {
+    "name": "include-Hebrew-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12016,
+    "upstream_sha256": "5cbec8730621e900c1bedea0212bcc3f175c881f45140ff59105585d76d84a44",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hebrew/validation-00000-of-00001.parquet",
+    "sha256": "5cbec8730621e900c1bedea0212bcc3f175c881f45140ff59105585d76d84a44"
+  },
+  {
+    "name": "include-Hindi-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 124771,
+    "upstream_sha256": "b694570d8ce03a2f223e0422eac199b90e10fd0b0b980c23c1a35ce8fc7476ec",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hindi/test-00000-of-00001.parquet",
+    "sha256": "b694570d8ce03a2f223e0422eac199b90e10fd0b0b980c23c1a35ce8fc7476ec"
+  },
+  {
+    "name": "include-Hindi-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 17471,
+    "upstream_sha256": "53a9ed6a2a0e28423a52db386b90a4a7efadc13e9097bf8aa9ae18feaedacdcc",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hindi/validation-00000-of-00001.parquet",
+    "sha256": "53a9ed6a2a0e28423a52db386b90a4a7efadc13e9097bf8aa9ae18feaedacdcc"
+  },
+  {
+    "name": "include-Hungarian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 84331,
+    "upstream_sha256": "7bddfb7af4951b87142718f5fdc38702876c0c45cd4becbf4ea5a8bec0cf9d99",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hungarian/test-00000-of-00001.parquet",
+    "sha256": "7bddfb7af4951b87142718f5fdc38702876c0c45cd4becbf4ea5a8bec0cf9d99"
+  },
+  {
+    "name": "include-Hungarian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 8705,
+    "upstream_sha256": "5b5563f83566429ddad7c8ec6db87c78a5007a1db405d9bdf4b4350a63024e62",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Hungarian/validation-00000-of-00001.parquet",
+    "sha256": "5b5563f83566429ddad7c8ec6db87c78a5007a1db405d9bdf4b4350a63024e62"
+  },
+  {
+    "name": "include-Indonesian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 107972,
+    "upstream_sha256": "440fe82bd73185200538ca834d7cb8d8db316113611c3024f05262a748079270",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Indonesian/test-00000-of-00001.parquet",
+    "sha256": "440fe82bd73185200538ca834d7cb8d8db316113611c3024f05262a748079270"
+  },
+  {
+    "name": "include-Indonesian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 19286,
+    "upstream_sha256": "72bb1678168d960fec676f745e07e8c3236100eb41b1a30f390a9e5e76dc127b",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Indonesian/validation-00000-of-00001.parquet",
+    "sha256": "72bb1678168d960fec676f745e07e8c3236100eb41b1a30f390a9e5e76dc127b"
+  },
+  {
+    "name": "include-Italian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 166633,
+    "upstream_sha256": "3b593c9ae9b42a59a651c5acdf3062626257dc52e87ef2e09a2ddb75131d8b12",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Italian/test-00000-of-00001.parquet",
+    "sha256": "3b593c9ae9b42a59a651c5acdf3062626257dc52e87ef2e09a2ddb75131d8b12"
+  },
+  {
+    "name": "include-Italian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 16212,
+    "upstream_sha256": "cc1d2ae3c1f4fd6a05e9e9ebca2f1ff06ebec24774445f52afd951b51c9f117d",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Italian/validation-00000-of-00001.parquet",
+    "sha256": "cc1d2ae3c1f4fd6a05e9e9ebca2f1ff06ebec24774445f52afd951b51c9f117d"
+  },
+  {
+    "name": "include-Japanese-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 170778,
+    "upstream_sha256": "7b26cc9198b55ff0ba86babf6095dafba4ed7deab0fbf86509cf02d927e85615",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Japanese/test-00000-of-00001.parquet",
+    "sha256": "7b26cc9198b55ff0ba86babf6095dafba4ed7deab0fbf86509cf02d927e85615"
+  },
+  {
+    "name": "include-Japanese-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 11044,
+    "upstream_sha256": "19b03f7dea55a17267d013a184ef48885fd128b3c793dd73deb4ad69096bf6b2",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Japanese/validation-00000-of-00001.parquet",
+    "sha256": "19b03f7dea55a17267d013a184ef48885fd128b3c793dd73deb4ad69096bf6b2"
+  },
+  {
+    "name": "include-Kazakh-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 80128,
+    "upstream_sha256": "7936befd8368560e8b1b57556a44f676e269c2c616dfa2e5bb121870b13593b8",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Kazakh/test-00000-of-00001.parquet",
+    "sha256": "7936befd8368560e8b1b57556a44f676e269c2c616dfa2e5bb121870b13593b8"
+  },
+  {
+    "name": "include-Kazakh-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 6720,
+    "upstream_sha256": "9582a2de85dfa1a22c1b8775c02781cf282ab8eb46371790083f2d1164225619",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Kazakh/validation-00000-of-00001.parquet",
+    "sha256": "9582a2de85dfa1a22c1b8775c02781cf282ab8eb46371790083f2d1164225619"
+  },
+  {
+    "name": "include-Korean-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 122238,
+    "upstream_sha256": "2e6c5c460bdec21e9c72a878a938d51b270a328d8384a0908bbc640bbe3de2b9",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Korean/test-00000-of-00001.parquet",
+    "sha256": "2e6c5c460bdec21e9c72a878a938d51b270a328d8384a0908bbc640bbe3de2b9"
+  },
+  {
+    "name": "include-Korean-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 10605,
+    "upstream_sha256": "0098092c1a458bfba2d00a6dece4295faf2bfa75fb04c97812d66ecb3a0df70d",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Korean/validation-00000-of-00001.parquet",
+    "sha256": "0098092c1a458bfba2d00a6dece4295faf2bfa75fb04c97812d66ecb3a0df70d"
+  },
+  {
+    "name": "include-Lithuanian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 97254,
+    "upstream_sha256": "501940d2473231ee0904dc20892a812af298439b7519d1bb02b904d767c407ab",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Lithuanian/test-00000-of-00001.parquet",
+    "sha256": "501940d2473231ee0904dc20892a812af298439b7519d1bb02b904d767c407ab"
+  },
+  {
+    "name": "include-Lithuanian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12445,
+    "upstream_sha256": "fe4f8691a99dae3120ea1b6786252dc71a7f5abad1a1b2c7ec6a38a3a025f53b",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Lithuanian/validation-00000-of-00001.parquet",
+    "sha256": "fe4f8691a99dae3120ea1b6786252dc71a7f5abad1a1b2c7ec6a38a3a025f53b"
+  },
+  {
+    "name": "include-Malay-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 75650,
+    "upstream_sha256": "e9d04babb616c2697537599c4ac29156d4316ba04a48f6750440dd11fabf41d5",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Malay/test-00000-of-00001.parquet",
+    "sha256": "e9d04babb616c2697537599c4ac29156d4316ba04a48f6750440dd11fabf41d5"
+  },
+  {
+    "name": "include-Malay-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 8584,
+    "upstream_sha256": "7e658d2183997ea2e2bb1482a4c271080b7160e3f7d4a8375a17292a6ab1ae36",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Malay/validation-00000-of-00001.parquet",
+    "sha256": "7e658d2183997ea2e2bb1482a4c271080b7160e3f7d4a8375a17292a6ab1ae36"
+  },
+  {
+    "name": "include-Malayalam-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 84276,
+    "upstream_sha256": "f9e6fad01decf3a241f36624d7cacd1ebd2f0716b6fb7600ee73c876eafa61a9",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Malayalam/test-00000-of-00001.parquet",
+    "sha256": "f9e6fad01decf3a241f36624d7cacd1ebd2f0716b6fb7600ee73c876eafa61a9"
+  },
+  {
+    "name": "include-Malayalam-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12417,
+    "upstream_sha256": "cfb31a6b599e44984ec284b42f1b1fefa9c17f4f2775a8cf13eb440845391648",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Malayalam/validation-00000-of-00001.parquet",
+    "sha256": "cfb31a6b599e44984ec284b42f1b1fefa9c17f4f2775a8cf13eb440845391648"
+  },
+  {
+    "name": "include-Nepali-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 85474,
+    "upstream_sha256": "377e5035b2d97f0a75b5d90e4c6abf1b268e658bae649c7fc86ccd2f328855c0",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Nepali/test-00000-of-00001.parquet",
+    "sha256": "377e5035b2d97f0a75b5d90e4c6abf1b268e658bae649c7fc86ccd2f328855c0"
+  },
+  {
+    "name": "include-Nepali-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 7700,
+    "upstream_sha256": "5bed15bdcbd6a7697b63b548386c2ce4113a0267e8e2bb2c9cf4381c43be386c",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Nepali/validation-00000-of-00001.parquet",
+    "sha256": "5bed15bdcbd6a7697b63b548386c2ce4113a0267e8e2bb2c9cf4381c43be386c"
+  },
+  {
+    "name": "include-North Macedonian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 122723,
+    "upstream_sha256": "cafd7f067195739db60f718cde8dea8b14f5261b84bb9c04e459aa535772ee07",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/North%20Macedonian/test-00000-of-00001.parquet",
+    "sha256": "cafd7f067195739db60f718cde8dea8b14f5261b84bb9c04e459aa535772ee07"
+  },
+  {
+    "name": "include-North Macedonian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 11085,
+    "upstream_sha256": "8dddc86fa17c102e5602a671a0eb7b828b75b70a629a12ac5f3f3cb8b267e4a5",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/North%20Macedonian/validation-00000-of-00001.parquet",
+    "sha256": "8dddc86fa17c102e5602a671a0eb7b828b75b70a629a12ac5f3f3cb8b267e4a5"
+  },
+  {
+    "name": "include-Persian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 168852,
+    "upstream_sha256": "198b57d702fcc784b27f9999d6cb32b511f4daebbb8515471af211e9cd38ca05",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Persian/test-00000-of-00001.parquet",
+    "sha256": "198b57d702fcc784b27f9999d6cb32b511f4daebbb8515471af211e9cd38ca05"
+  },
+  {
+    "name": "include-Persian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 15694,
+    "upstream_sha256": "29f7976ca05a6c5fc7c8ac9f84c54cba2f99fe9428a22ac4879f969af19dd117",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Persian/validation-00000-of-00001.parquet",
+    "sha256": "29f7976ca05a6c5fc7c8ac9f84c54cba2f99fe9428a22ac4879f969af19dd117"
+  },
+  {
+    "name": "include-Polish-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 103781,
+    "upstream_sha256": "511e4998214e219e0f8983e7e6e8f20618e9aa503adc50f868903c3f7a8192e2",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Polish/test-00000-of-00001.parquet",
+    "sha256": "511e4998214e219e0f8983e7e6e8f20618e9aa503adc50f868903c3f7a8192e2"
+  },
+  {
+    "name": "include-Polish-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9884,
+    "upstream_sha256": "37eb0b6da220539391cd2a54eccbf778f11ac76bb597c7f0d975065d7a84f611",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Polish/validation-00000-of-00001.parquet",
+    "sha256": "37eb0b6da220539391cd2a54eccbf778f11ac76bb597c7f0d975065d7a84f611"
+  },
+  {
+    "name": "include-Portuguese-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 320928,
+    "upstream_sha256": "8fb80ebb509e638a1aeec12a4a5949a0c3c203d123ef2ded15b160c21ef2b7fe",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Portuguese/test-00000-of-00001.parquet",
+    "sha256": "8fb80ebb509e638a1aeec12a4a5949a0c3c203d123ef2ded15b160c21ef2b7fe"
+  },
+  {
+    "name": "include-Portuguese-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 26640,
+    "upstream_sha256": "579d077c43355aa155e35b14e39e3705e0e8996a186fa7af566304ee740a3eff",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Portuguese/validation-00000-of-00001.parquet",
+    "sha256": "579d077c43355aa155e35b14e39e3705e0e8996a186fa7af566304ee740a3eff"
+  },
+  {
+    "name": "include-README.md",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 40865,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/README.md",
+    "sha256": "47002160b4dfeaea142eb8e11c85d601d4e6f02d2b5e931899e4047b1aa382ab"
+  },
+  {
+    "name": "include-Russian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 119152,
+    "upstream_sha256": "d367f3218c772dea51d21fa932b66e15eda485002d83512a80b4d4878be0fc98",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Russian/test-00000-of-00001.parquet",
+    "sha256": "d367f3218c772dea51d21fa932b66e15eda485002d83512a80b4d4878be0fc98"
+  },
+  {
+    "name": "include-Russian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 19081,
+    "upstream_sha256": "7aa764c53d71c7efff828ff162d583f6a2e16f0b68848b80bd33e0ddd91f4885",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Russian/validation-00000-of-00001.parquet",
+    "sha256": "7aa764c53d71c7efff828ff162d583f6a2e16f0b68848b80bd33e0ddd91f4885"
+  },
+  {
+    "name": "include-Serbian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 131696,
+    "upstream_sha256": "545b5c17677fceb6af0054596e05eb4f41cabc2999eb7551d83a21c6f34b218d",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Serbian/test-00000-of-00001.parquet",
+    "sha256": "545b5c17677fceb6af0054596e05eb4f41cabc2999eb7551d83a21c6f34b218d"
+  },
+  {
+    "name": "include-Serbian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9412,
+    "upstream_sha256": "f2cd9eb4b767310e7f6e9588f20c0c832acc654aea6afca74014dccf66b30a1b",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Serbian/validation-00000-of-00001.parquet",
+    "sha256": "f2cd9eb4b767310e7f6e9588f20c0c832acc654aea6afca74014dccf66b30a1b"
+  },
+  {
+    "name": "include-Spanish-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 97089,
+    "upstream_sha256": "a99d5db9bb677b27d3ce9cee6ec9e156e16b29f9e2186c797b5fcaf8ff54808b",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Spanish/test-00000-of-00001.parquet",
+    "sha256": "a99d5db9bb677b27d3ce9cee6ec9e156e16b29f9e2186c797b5fcaf8ff54808b"
+  },
+  {
+    "name": "include-Spanish-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9400,
+    "upstream_sha256": "0f751a68f62d8fc6776bc282d6281c794a86a8268c2157095a6ad46cd3abb084",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Spanish/validation-00000-of-00001.parquet",
+    "sha256": "0f751a68f62d8fc6776bc282d6281c794a86a8268c2157095a6ad46cd3abb084"
+  },
+  {
+    "name": "include-Tagalog-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 80879,
+    "upstream_sha256": "0a10f3a252a8bc86c7c13cec100f889e99109f54da42b6e74a4d0985d4294e3c",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Tagalog/test-00000-of-00001.parquet",
+    "sha256": "0a10f3a252a8bc86c7c13cec100f889e99109f54da42b6e74a4d0985d4294e3c"
+  },
+  {
+    "name": "include-Tagalog-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 7234,
+    "upstream_sha256": "edbca9325cb5e53ea4ee4f126b3a965251091c37c526d70b8cbbea8adbfef52b",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Tagalog/validation-00000-of-00001.parquet",
+    "sha256": "edbca9325cb5e53ea4ee4f126b3a965251091c37c526d70b8cbbea8adbfef52b"
+  },
+  {
+    "name": "include-Tamil-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 97586,
+    "upstream_sha256": "e417ba60a6b734f07d906e53af3da2113a5e4eeecf9396a7eee794d7157eb8d6",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Tamil/test-00000-of-00001.parquet",
+    "sha256": "e417ba60a6b734f07d906e53af3da2113a5e4eeecf9396a7eee794d7157eb8d6"
+  },
+  {
+    "name": "include-Tamil-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9199,
+    "upstream_sha256": "c4c9e28cf82bae771fcdab9e5a0733868c6c5882916aa04d60905e646e69a663",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Tamil/validation-00000-of-00001.parquet",
+    "sha256": "c4c9e28cf82bae771fcdab9e5a0733868c6c5882916aa04d60905e646e69a663"
+  },
+  {
+    "name": "include-Telugu-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 133083,
+    "upstream_sha256": "51bde5e46ade71c1b761785f4e2bdc44e7a290188a12e7fc492c38cd58704aa0",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Telugu/test-00000-of-00001.parquet",
+    "sha256": "51bde5e46ade71c1b761785f4e2bdc44e7a290188a12e7fc492c38cd58704aa0"
+  },
+  {
+    "name": "include-Telugu-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 12866,
+    "upstream_sha256": "d6e954e1e1eabc7c53c010686d22ff304c8b7c5eb929220fb8751d3099930198",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Telugu/validation-00000-of-00001.parquet",
+    "sha256": "d6e954e1e1eabc7c53c010686d22ff304c8b7c5eb929220fb8751d3099930198"
+  },
+  {
+    "name": "include-Turkish-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 136225,
+    "upstream_sha256": "b6aea9c2c45ea7bb15b903ddb4b813eb5f92353e383be2df3754bfd14db21e63",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Turkish/test-00000-of-00001.parquet",
+    "sha256": "b6aea9c2c45ea7bb15b903ddb4b813eb5f92353e383be2df3754bfd14db21e63"
+  },
+  {
+    "name": "include-Turkish-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 13633,
+    "upstream_sha256": "e90cea483aa51fc27fd19da49635d5f0a75c542fd5421e651b3cfbb811c846ab",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Turkish/validation-00000-of-00001.parquet",
+    "sha256": "e90cea483aa51fc27fd19da49635d5f0a75c542fd5421e651b3cfbb811c846ab"
+  },
+  {
+    "name": "include-Ukrainian-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 150728,
+    "upstream_sha256": "de2f691929a5fba93b5bdd272dd10b71287b8a4c4e7779a20756e7aa64242e25",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Ukrainian/test-00000-of-00001.parquet",
+    "sha256": "de2f691929a5fba93b5bdd272dd10b71287b8a4c4e7779a20756e7aa64242e25"
+  },
+  {
+    "name": "include-Ukrainian-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9934,
+    "upstream_sha256": "b77baad195342d23df8b7ff1a3c6fd62441a949e0f829cd5f2901b8e01df0b4c",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Ukrainian/validation-00000-of-00001.parquet",
+    "sha256": "b77baad195342d23df8b7ff1a3c6fd62441a949e0f829cd5f2901b8e01df0b4c"
+  },
+  {
+    "name": "include-Urdu-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 39227,
+    "upstream_sha256": "d0d327bea8b0dda6d3279f1b198e21ecdc3739a80eca0f981fb8aa981d773c86",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Urdu/test-00000-of-00001.parquet",
+    "sha256": "d0d327bea8b0dda6d3279f1b198e21ecdc3739a80eca0f981fb8aa981d773c86"
+  },
+  {
+    "name": "include-Urdu-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 7536,
+    "upstream_sha256": "fc06febd6a6e5080b4309b0d80769e6f2d92247664609383cf6be3ac9b9e431f",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Urdu/validation-00000-of-00001.parquet",
+    "sha256": "fc06febd6a6e5080b4309b0d80769e6f2d92247664609383cf6be3ac9b9e431f"
+  },
+  {
+    "name": "include-Uzbek-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 83584,
+    "upstream_sha256": "ca4e597a2657a8b31920049da765873c06a74f7bd96492286a1696fcf1aaaf68",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Uzbek/test-00000-of-00001.parquet",
+    "sha256": "ca4e597a2657a8b31920049da765873c06a74f7bd96492286a1696fcf1aaaf68"
+  },
+  {
+    "name": "include-Uzbek-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 9451,
+    "upstream_sha256": "d0cca56c34437f5bff6c1d4ce3d3fe0f3ff4876a3bc2062e64c8314fb6c79da3",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Uzbek/validation-00000-of-00001.parquet",
+    "sha256": "d0cca56c34437f5bff6c1d4ce3d3fe0f3ff4876a3bc2062e64c8314fb6c79da3"
+  },
+  {
+    "name": "include-Vietnamese-test-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 106478,
+    "upstream_sha256": "51a33bd0e0309ab003aa177167355cce72c8e22acd614746b13cbc92365b961a",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Vietnamese/test-00000-of-00001.parquet",
+    "sha256": "51a33bd0e0309ab003aa177167355cce72c8e22acd614746b13cbc92365b961a"
+  },
+  {
+    "name": "include-Vietnamese-validation-00000-of-00001.parquet",
+    "repo": "CohereForAI/include-base-44",
+    "revision": "d2e1f6015f67a43c02a9a68db98e2298e2d6a660",
+    "bytes": 10549,
+    "upstream_sha256": "35b5b5f6d14c19385851a032d0df1a081fb197dab1645e3c6fc008c934be2c17",
+    "url": "https://huggingface.co/datasets/CohereForAI/include-base-44/resolve/d2e1f6015f67a43c02a9a68db98e2298e2d6a660/Vietnamese/validation-00000-of-00001.parquet",
+    "sha256": "35b5b5f6d14c19385851a032d0df1a081fb197dab1645e3c6fc008c934be2c17"
+  },
+  {
+    "name": "redux2-ok-README.md",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 28514,
+    "upstream_sha256": null,
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/README.md",
+    "sha256": "7b7081f5089b70bd8fbf0ea240036f2c9af936f745db4b7fc2f696e2cb0a2fc8"
+  },
+  {
+    "name": "redux2-ok-abstract_algebra-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 32896,
+    "upstream_sha256": "ed3feea7128234dc5f95165d4252b96535cc0305c09979faab789f4bd43e630c",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/abstract_algebra/data-00000-of-00001.arrow",
+    "sha256": "ed3feea7128234dc5f95165d4252b96535cc0305c09979faab789f4bd43e630c"
+  },
+  {
+    "name": "redux2-ok-anatomy-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 35056,
+    "upstream_sha256": "e06e3c6b274ddb325f94cfe893fdc1bfbf818ae2b851321166a3665386b00296",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/anatomy/data-00000-of-00001.arrow",
+    "sha256": "e06e3c6b274ddb325f94cfe893fdc1bfbf818ae2b851321166a3665386b00296"
+  },
+  {
+    "name": "redux2-ok-astronomy-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 36992,
+    "upstream_sha256": "18f74d0725a348ec220bea4be7d2881131a871514e44f39b6d0e567a6f2d8437",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/astronomy/data-00000-of-00001.arrow",
+    "sha256": "18f74d0725a348ec220bea4be7d2881131a871514e44f39b6d0e567a6f2d8437"
+  },
+  {
+    "name": "redux2-ok-business_ethics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 46704,
+    "upstream_sha256": "4a219c26b244090796f1b2fdf3a6e91e868b2cba5449546f6c2b85302c90a9bf",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/business_ethics/data-00000-of-00001.arrow",
+    "sha256": "4a219c26b244090796f1b2fdf3a6e91e868b2cba5449546f6c2b85302c90a9bf"
+  },
+  {
+    "name": "redux2-ok-clinical_knowledge-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 37704,
+    "upstream_sha256": "e21dc0257a9b51405d262bc9a8880a011991b045baf4ba9dab32ae5b5bcc7a21",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/clinical_knowledge/data-00000-of-00001.arrow",
+    "sha256": "e21dc0257a9b51405d262bc9a8880a011991b045baf4ba9dab32ae5b5bcc7a21"
+  },
+  {
+    "name": "redux2-ok-college_biology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 43968,
+    "upstream_sha256": "3cc96cabd7081b51444a4c9af2a94ccea8524b515911e9918ed463a18f2357f7",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_biology/data-00000-of-00001.arrow",
+    "sha256": "3cc96cabd7081b51444a4c9af2a94ccea8524b515911e9918ed463a18f2357f7"
+  },
+  {
+    "name": "redux2-ok-college_chemistry-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 23024,
+    "upstream_sha256": "a4bcfd5ec2e7aee722082834090ce6711a831f4029c112d31ac5cd39013377d8",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_chemistry/data-00000-of-00001.arrow",
+    "sha256": "a4bcfd5ec2e7aee722082834090ce6711a831f4029c112d31ac5cd39013377d8"
+  },
+  {
+    "name": "redux2-ok-college_computer_science-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 49656,
+    "upstream_sha256": "58beb5d46c1143952a81815eba3f5b31ef530a988b5cda8b39c042fd05ba1d71",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_computer_science/data-00000-of-00001.arrow",
+    "sha256": "58beb5d46c1143952a81815eba3f5b31ef530a988b5cda8b39c042fd05ba1d71"
+  },
+  {
+    "name": "redux2-ok-college_mathematics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 28208,
+    "upstream_sha256": "2152f3b4c13c9943ded014048f3d0d5f0f7f5f78af9a08d7b9ba3a4cecb7b0f2",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_mathematics/data-00000-of-00001.arrow",
+    "sha256": "2152f3b4c13c9943ded014048f3d0d5f0f7f5f78af9a08d7b9ba3a4cecb7b0f2"
+  },
+  {
+    "name": "redux2-ok-college_medicine-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 41272,
+    "upstream_sha256": "e1b85dea1b451ab54eaa2515a29728677761e515b1c493ba208202b2768888ea",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_medicine/data-00000-of-00001.arrow",
+    "sha256": "e1b85dea1b451ab54eaa2515a29728677761e515b1c493ba208202b2768888ea"
+  },
+  {
+    "name": "redux2-ok-college_physics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 36792,
+    "upstream_sha256": "888dda438d96828f187b231adb9c26cde94858f568bf8470af18128edccd68b1",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/college_physics/data-00000-of-00001.arrow",
+    "sha256": "888dda438d96828f187b231adb9c26cde94858f568bf8470af18128edccd68b1"
+  },
+  {
+    "name": "redux2-ok-computer_security-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 39968,
+    "upstream_sha256": "b7f0c033fedad04ab100867df2e3737760215a5ceed175bba9e466d5530b6396",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/computer_security/data-00000-of-00001.arrow",
+    "sha256": "b7f0c033fedad04ab100867df2e3737760215a5ceed175bba9e466d5530b6396"
+  },
+  {
+    "name": "redux2-ok-conceptual_physics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 30848,
+    "upstream_sha256": "2eebd97bc28050180f1c2a5c722c3e116fa27416fbd30fcbe0830af6fbbd29c6",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/conceptual_physics/data-00000-of-00001.arrow",
+    "sha256": "2eebd97bc28050180f1c2a5c722c3e116fa27416fbd30fcbe0830af6fbbd29c6"
+  },
+  {
+    "name": "redux2-ok-econometrics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 49264,
+    "upstream_sha256": "1dfd6c25d2c47ad654943731e86e35ad195ddcce392ef35dd18978692b1e636f",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/econometrics/data-00000-of-00001.arrow",
+    "sha256": "1dfd6c25d2c47ad654943731e86e35ad195ddcce392ef35dd18978692b1e636f"
+  },
+  {
+    "name": "redux2-ok-electrical_engineering-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 19696,
+    "upstream_sha256": "b6706bdef63d263a1ddfb60ec73f73ba560d25fa03de48f62fbad5f06fe81e91",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/electrical_engineering/data-00000-of-00001.arrow",
+    "sha256": "b6706bdef63d263a1ddfb60ec73f73ba560d25fa03de48f62fbad5f06fe81e91"
+  },
+  {
+    "name": "redux2-ok-elementary_mathematics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 22872,
+    "upstream_sha256": "e19d0d71029abb400e5c0ee96bf3e578ee97aec2e9b1b151c6e2ec190ea336eb",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/elementary_mathematics/data-00000-of-00001.arrow",
+    "sha256": "e19d0d71029abb400e5c0ee96bf3e578ee97aec2e9b1b151c6e2ec190ea336eb"
+  },
+  {
+    "name": "redux2-ok-formal_logic-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 40208,
+    "upstream_sha256": "5b9be7c918bdbfed44b8e850c1da37d26e1f9860685d25b3d59489768e2cfa14",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/formal_logic/data-00000-of-00001.arrow",
+    "sha256": "5b9be7c918bdbfed44b8e850c1da37d26e1f9860685d25b3d59489768e2cfa14"
+  },
+  {
+    "name": "redux2-ok-global_facts-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 27648,
+    "upstream_sha256": "0df098f85b2db6b6dab8bc5c08c2d2fbb6d159d34b12abc8935963969fdcb3e1",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/global_facts/data-00000-of-00001.arrow",
+    "sha256": "0df098f85b2db6b6dab8bc5c08c2d2fbb6d159d34b12abc8935963969fdcb3e1"
+  },
+  {
+    "name": "redux2-ok-high_school_biology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 44888,
+    "upstream_sha256": "0db0a72d0e7adb20de4e9d49ae9ac0243dd3eae119ea9e7ea6d0aa107071bc04",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_biology/data-00000-of-00001.arrow",
+    "sha256": "0db0a72d0e7adb20de4e9d49ae9ac0243dd3eae119ea9e7ea6d0aa107071bc04"
+  },
+  {
+    "name": "redux2-ok-high_school_chemistry-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 36520,
+    "upstream_sha256": "07b60cdda2af1a3da088daaa4fcabfcd8049e791e6f001aa61303e123e925155",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_chemistry/data-00000-of-00001.arrow",
+    "sha256": "07b60cdda2af1a3da088daaa4fcabfcd8049e791e6f001aa61303e123e925155"
+  },
+  {
+    "name": "redux2-ok-high_school_computer_science-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 49160,
+    "upstream_sha256": "ab55e7a898c16a7a9891f55858fc98b520f16d71c67e27a3bb02d57f695f68e0",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_computer_science/data-00000-of-00001.arrow",
+    "sha256": "ab55e7a898c16a7a9891f55858fc98b520f16d71c67e27a3bb02d57f695f68e0"
+  },
+  {
+    "name": "redux2-ok-high_school_european_history-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 151552,
+    "upstream_sha256": "7764cc4300f669ec5ddfe046fa9e259ac481516f7c1282374044fb9f80d8271a",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_european_history/data-00000-of-00001.arrow",
+    "sha256": "7764cc4300f669ec5ddfe046fa9e259ac481516f7c1282374044fb9f80d8271a"
+  },
+  {
+    "name": "redux2-ok-high_school_geography-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 29944,
+    "upstream_sha256": "b44ccc7cda13b09b35f2ec40b02add736023946aa262e0b10cfd9661d71b2831",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_geography/data-00000-of-00001.arrow",
+    "sha256": "b44ccc7cda13b09b35f2ec40b02add736023946aa262e0b10cfd9661d71b2831"
+  },
+  {
+    "name": "redux2-ok-high_school_government_and_politics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 45944,
+    "upstream_sha256": "c3de0c8068942e69e3560db0f05030d17aeb676065c5d1bde95872072592a8da",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_government_and_politics/data-00000-of-00001.arrow",
+    "sha256": "c3de0c8068942e69e3560db0f05030d17aeb676065c5d1bde95872072592a8da"
+  },
+  {
+    "name": "redux2-ok-high_school_macroeconomics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 43448,
+    "upstream_sha256": "f01a68c494d9d61c9e176534bb02dbe9a46f82041fd5c74262ddeeeed5b51644",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_macroeconomics/data-00000-of-00001.arrow",
+    "sha256": "f01a68c494d9d61c9e176534bb02dbe9a46f82041fd5c74262ddeeeed5b51644"
+  },
+  {
+    "name": "redux2-ok-high_school_mathematics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 23872,
+    "upstream_sha256": "6cebc23913f3bb76587bdb1da4458fa632a2d3fcd20d21cc74369592d1d94952",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_mathematics/data-00000-of-00001.arrow",
+    "sha256": "6cebc23913f3bb76587bdb1da4458fa632a2d3fcd20d21cc74369592d1d94952"
+  },
+  {
+    "name": "redux2-ok-high_school_microeconomics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 40152,
+    "upstream_sha256": "e951f33e457eb65cecc913fa09e2ac5ec79cdaaeca1f4f9d57f43db3cafc771a",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_microeconomics/data-00000-of-00001.arrow",
+    "sha256": "e951f33e457eb65cecc913fa09e2ac5ec79cdaaeca1f4f9d57f43db3cafc771a"
+  },
+  {
+    "name": "redux2-ok-high_school_physics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 49176,
+    "upstream_sha256": "503be9691d29878b458538bbb7c97e0d3a94c86be51fb1ab168c58b82bc15d47",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_physics/data-00000-of-00001.arrow",
+    "sha256": "503be9691d29878b458538bbb7c97e0d3a94c86be51fb1ab168c58b82bc15d47"
+  },
+  {
+    "name": "redux2-ok-high_school_psychology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 36280,
+    "upstream_sha256": "d0838cfad20fc68e8b3085b1f9199110b54a6ba2bd7f0029d47bc17f5ed74f65",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_psychology/data-00000-of-00001.arrow",
+    "sha256": "d0838cfad20fc68e8b3085b1f9199110b54a6ba2bd7f0029d47bc17f5ed74f65"
+  },
+  {
+    "name": "redux2-ok-high_school_statistics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 54856,
+    "upstream_sha256": "a1d920b874dfb4c2d8c787e98b465069456e0a9ba5c2b8b63d0d0e997ccbedaa",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_statistics/data-00000-of-00001.arrow",
+    "sha256": "a1d920b874dfb4c2d8c787e98b465069456e0a9ba5c2b8b63d0d0e997ccbedaa"
+  },
+  {
+    "name": "redux2-ok-high_school_us_history-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 154968,
+    "upstream_sha256": "1519053436c69a8cb07262133fe004559f463fbacab30587586745e0aae10526",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_us_history/data-00000-of-00001.arrow",
+    "sha256": "1519053436c69a8cb07262133fe004559f463fbacab30587586745e0aae10526"
+  },
+  {
+    "name": "redux2-ok-high_school_world_history-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 159320,
+    "upstream_sha256": "556191a5f9db0f8bf84732f5d2f343fc76a69c55182682b42a5aaf2606feef51",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/high_school_world_history/data-00000-of-00001.arrow",
+    "sha256": "556191a5f9db0f8bf84732f5d2f343fc76a69c55182682b42a5aaf2606feef51"
+  },
+  {
+    "name": "redux2-ok-human_aging-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 32640,
+    "upstream_sha256": "a478c21ed57336008d98be68c877a0504cd4e20baad954f53206d19ab62e84d3",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/human_aging/data-00000-of-00001.arrow",
+    "sha256": "a478c21ed57336008d98be68c877a0504cd4e20baad954f53206d19ab62e84d3"
+  },
+  {
+    "name": "redux2-ok-human_sexuality-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 26168,
+    "upstream_sha256": "39bf31f711c4ae8d4f0340ff2fd40839f725a95787c20864dc10dd63dc769ee0",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/human_sexuality/data-00000-of-00001.arrow",
+    "sha256": "39bf31f711c4ae8d4f0340ff2fd40839f725a95787c20864dc10dd63dc769ee0"
+  },
+  {
+    "name": "redux2-ok-international_law-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 44240,
+    "upstream_sha256": "3e3428dcb87dc008dfefea1abab444d9fbfef411d90e00dc1870d6263072a66c",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/international_law/data-00000-of-00001.arrow",
+    "sha256": "3e3428dcb87dc008dfefea1abab444d9fbfef411d90e00dc1870d6263072a66c"
+  },
+  {
+    "name": "redux2-ok-jurisprudence-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 34504,
+    "upstream_sha256": "015a406b5964b66d1c0d1d87183904f5041a991c6db8bcbed94e12c627bfc4fa",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/jurisprudence/data-00000-of-00001.arrow",
+    "sha256": "015a406b5964b66d1c0d1d87183904f5041a991c6db8bcbed94e12c627bfc4fa"
+  },
+  {
+    "name": "redux2-ok-logical_fallacies-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 27328,
+    "upstream_sha256": "401ca21446744ac5e069e33fdab9ed340e0ac62612a81e281e2e6ac65177b0f3",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/logical_fallacies/data-00000-of-00001.arrow",
+    "sha256": "401ca21446744ac5e069e33fdab9ed340e0ac62612a81e281e2e6ac65177b0f3"
+  },
+  {
+    "name": "redux2-ok-machine_learning-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 35808,
+    "upstream_sha256": "f8ed7aff4ecd8be28752085e1a14f346a270b152efa3ec812a1e3eb3eee20c76",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/machine_learning/data-00000-of-00001.arrow",
+    "sha256": "f8ed7aff4ecd8be28752085e1a14f346a270b152efa3ec812a1e3eb3eee20c76"
+  },
+  {
+    "name": "redux2-ok-management-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 30696,
+    "upstream_sha256": "0d1146ea11bf17a34d6d462599a8cb00237a641091cabf4cc38187e0412ada2f",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/management/data-00000-of-00001.arrow",
+    "sha256": "0d1146ea11bf17a34d6d462599a8cb00237a641091cabf4cc38187e0412ada2f"
+  },
+  {
+    "name": "redux2-ok-marketing-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 33520,
+    "upstream_sha256": "0b8d6afb4d38d9fa32a5e430cb54c10c2607b3d50bba8421139a969cc6981f31",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/marketing/data-00000-of-00001.arrow",
+    "sha256": "0b8d6afb4d38d9fa32a5e430cb54c10c2607b3d50bba8421139a969cc6981f31"
+  },
+  {
+    "name": "redux2-ok-medical_genetics-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 29656,
+    "upstream_sha256": "6d5fea7f42b37af5a66b883f974243b0da7c11cc470b639274aaebdcb29e35d5",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/medical_genetics/data-00000-of-00001.arrow",
+    "sha256": "6d5fea7f42b37af5a66b883f974243b0da7c11cc470b639274aaebdcb29e35d5"
+  },
+  {
+    "name": "redux2-ok-miscellaneous-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 19448,
+    "upstream_sha256": "a973f1098ca682f15096b00327184d3227cf0a5356d685bc030e604b5467ffd1",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/miscellaneous/data-00000-of-00001.arrow",
+    "sha256": "a973f1098ca682f15096b00327184d3227cf0a5356d685bc030e604b5467ffd1"
+  },
+  {
+    "name": "redux2-ok-moral_disputes-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 34824,
+    "upstream_sha256": "6e470cc6fe3542ddc015a4513b34adbf4eafca927a407afe0242ea6d8de912ab",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/moral_disputes/data-00000-of-00001.arrow",
+    "sha256": "6e470cc6fe3542ddc015a4513b34adbf4eafca927a407afe0242ea6d8de912ab"
+  },
+  {
+    "name": "redux2-ok-moral_scenarios-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 43608,
+    "upstream_sha256": "b339e2560c9227282b8cbefe5786df1bb5bb0eeaa7ae39b9178cb43b5079c03f",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/moral_scenarios/data-00000-of-00001.arrow",
+    "sha256": "b339e2560c9227282b8cbefe5786df1bb5bb0eeaa7ae39b9178cb43b5079c03f"
+  },
+  {
+    "name": "redux2-ok-nutrition-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 39192,
+    "upstream_sha256": "2cb687ebca1cd8fbba4cfaa5d5dff803ced00eed75a3b69342ba654551d1b2b6",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/nutrition/data-00000-of-00001.arrow",
+    "sha256": "2cb687ebca1cd8fbba4cfaa5d5dff803ced00eed75a3b69342ba654551d1b2b6"
+  },
+  {
+    "name": "redux2-ok-philosophy-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 33240,
+    "upstream_sha256": "9a6616181dc0bbdc158201c5b83a03031eaa3ca798cba9984ac0f32ffe4cce0f",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/philosophy/data-00000-of-00001.arrow",
+    "sha256": "9a6616181dc0bbdc158201c5b83a03031eaa3ca798cba9984ac0f32ffe4cce0f"
+  },
+  {
+    "name": "redux2-ok-prehistory-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 37560,
+    "upstream_sha256": "a7946932d0648e8bc7f89b566955a925fbd70f7bc190139ecec4b314c9f069f4",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/prehistory/data-00000-of-00001.arrow",
+    "sha256": "a7946932d0648e8bc7f89b566955a925fbd70f7bc190139ecec4b314c9f069f4"
+  },
+  {
+    "name": "redux2-ok-professional_accounting-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 52288,
+    "upstream_sha256": "75d6de7881e855561529326db2b4143a1a9ff918a7e4316c68faaf5a58943fba",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/professional_accounting/data-00000-of-00001.arrow",
+    "sha256": "75d6de7881e855561529326db2b4143a1a9ff918a7e4316c68faaf5a58943fba"
+  },
+  {
+    "name": "redux2-ok-professional_law-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 96904,
+    "upstream_sha256": "8beebdfa2363c83f20c36d4980b4915a3a2c5e286e2d1331912a4e968176a11b",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/professional_law/data-00000-of-00001.arrow",
+    "sha256": "8beebdfa2363c83f20c36d4980b4915a3a2c5e286e2d1331912a4e968176a11b"
+  },
+  {
+    "name": "redux2-ok-professional_medicine-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 89504,
+    "upstream_sha256": "7cecb817b8a62a2bbcab7a72b781da4ed57f13126a7875f106b8b925790b0572",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/professional_medicine/data-00000-of-00001.arrow",
+    "sha256": "7cecb817b8a62a2bbcab7a72b781da4ed57f13126a7875f106b8b925790b0572"
+  },
+  {
+    "name": "redux2-ok-professional_psychology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 46464,
+    "upstream_sha256": "ea17b6486a00d607195deca8030726608811b30647835db243866fcd96bb2a5a",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/professional_psychology/data-00000-of-00001.arrow",
+    "sha256": "ea17b6486a00d607195deca8030726608811b30647835db243866fcd96bb2a5a"
+  },
+  {
+    "name": "redux2-ok-public_relations-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 35048,
+    "upstream_sha256": "ba53207a7241a4c2fbcb854c1f30f60a23e970b1968af9751b2a7e519b18ddb6",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/public_relations/data-00000-of-00001.arrow",
+    "sha256": "ba53207a7241a4c2fbcb854c1f30f60a23e970b1968af9751b2a7e519b18ddb6"
+  },
+  {
+    "name": "redux2-ok-security_studies-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 88824,
+    "upstream_sha256": "30aa63e5a1c610f677a27c14e9fab7cace13c07bcc9e4a8cf3ce69b90beee80d",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/security_studies/data-00000-of-00001.arrow",
+    "sha256": "30aa63e5a1c610f677a27c14e9fab7cace13c07bcc9e4a8cf3ce69b90beee80d"
+  },
+  {
+    "name": "redux2-ok-sociology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 42320,
+    "upstream_sha256": "871b96e56fcc750c19a91e4432edef68a031afc5ee3f6b0a3294adc1dcc0d86c",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/sociology/data-00000-of-00001.arrow",
+    "sha256": "871b96e56fcc750c19a91e4432edef68a031afc5ee3f6b0a3294adc1dcc0d86c"
+  },
+  {
+    "name": "redux2-ok-us_foreign_policy-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 39456,
+    "upstream_sha256": "dfab7ef364d88fa2195c83a6591980353047f51919cbecfcc3214ca5f307c810",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/us_foreign_policy/data-00000-of-00001.arrow",
+    "sha256": "dfab7ef364d88fa2195c83a6591980353047f51919cbecfcc3214ca5f307c810"
+  },
+  {
+    "name": "redux2-ok-virology-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 13088,
+    "upstream_sha256": "1698dbe6ebcb451299d2b27a1f06d59c2cde5e49f1043dd23ec565ec49da28de",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/virology/data-00000-of-00001.arrow",
+    "sha256": "1698dbe6ebcb451299d2b27a1f06d59c2cde5e49f1043dd23ec565ec49da28de"
+  },
+  {
+    "name": "redux2-ok-world_religions-data-00000-of-00001.arrow",
+    "repo": "fxmarty/mmlu-redux-2.0-ok",
+    "revision": "8dd06e599d20d57e83b590d497c95869a2d18781",
+    "bytes": 27944,
+    "upstream_sha256": "d69a5c9641db389d693d329187cfa1e2e8e2fa0082f9764b26f1293eb946c7f1",
+    "url": "https://huggingface.co/datasets/fxmarty/mmlu-redux-2.0-ok/resolve/8dd06e599d20d57e83b590d497c95869a2d18781/world_religions/data-00000-of-00001.arrow",
+    "sha256": "d69a5c9641db389d693d329187cfa1e2e8e2fa0082f9764b26f1293eb946c7f1"
+  },
+  {
+    "name": "HumanEvalPlus-v0.1.10.jsonl.gz",
+    "repo": "evalplus/humanevalplus_release",
+    "revision": "v0.1.10",
+    "url": "https://github.com/evalplus/humanevalplus_release/releases/download/v0.1.10/HumanEvalPlus.jsonl.gz",
+    "sha256": "272720b90ac375502c8ed23cd791c2a93dfb22a911641a494da74a426c09f101",
+    "bytes": 925932
+  },
+  {
+    "name": "MbppPlus-v0.2.0.jsonl.gz",
+    "repo": "evalplus/mbppplus_release",
+    "revision": "v0.2.0",
+    "url": "https://github.com/evalplus/mbppplus_release/releases/download/v0.2.0/MbppPlus.jsonl.gz",
+    "sha256": "af43697e8791c4c149bdfd6b489d8b5412507551ac20e28a439f650b8225db63",
+    "bytes": 336032
+  }
+]

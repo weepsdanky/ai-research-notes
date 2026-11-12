@@ -1,0 +1,137 @@
+[
+  {
+    "name": "evaluation--src--main.py",
+    "path": "evaluation/src/main.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/main.py",
+    "bytes": 7722,
+    "sha256": "a564e933d06344065028338372173c4e3551cc0b8ab159c9b0bea7417da01dd2"
+  },
+  {
+    "name": "evaluation--Dockerfile",
+    "path": "evaluation/Dockerfile",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/Dockerfile",
+    "bytes": 4157,
+    "sha256": "149513ea171ed19be5ce2e9d0f038f91884f6f996c332afc835518537687ff2d"
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/README.md",
+    "bytes": 19554,
+    "sha256": "cb5e8914a6c9ac943b8e825406419864a15436f2e2eb151881341ddb3cde30a6"
+  },
+  {
+    "name": "evaluation--src--eval_cpp.py",
+    "path": "evaluation/src/eval_cpp.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_cpp.py",
+    "bytes": 1161,
+    "sha256": "899ac7e515010d9106c4e8c3a331619adef747664aebb5d9040236d287431cc6"
+  },
+  {
+    "name": "evaluation--src--containerized_eval.py",
+    "path": "evaluation/src/containerized_eval.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/containerized_eval.py",
+    "bytes": 3508,
+    "sha256": "db43a8bbea0050e7d6017dd163a971db9230c329906899fd87c9c3a0941efc49"
+  },
+  {
+    "name": "evaluation--src--eval_java.py",
+    "path": "evaluation/src/eval_java.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_java.py",
+    "bytes": 1516,
+    "sha256": "f0c6976d0dda2900d930d93cc18d08f53c46a2836bc43cc69f12289d37c06328"
+  },
+  {
+    "name": "evaluation--src--eval_python.py",
+    "path": "evaluation/src/eval_python.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_python.py",
+    "bytes": 462,
+    "sha256": "c1227ee1eaaf1d46f40bafbadf8fb23ab0c4062fbb8c20c970df67feb37bf1c0"
+  },
+  {
+    "name": "evaluation--src--eval_php.py",
+    "path": "evaluation/src/eval_php.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_php.py",
+    "bytes": 443,
+    "sha256": "76d6e98d33dbe46c3ec8a4c691809e69ed857f1395eada8e3e3dc1f79fa6f990"
+  },
+  {
+    "name": "evaluation--src--eval_cs.py",
+    "path": "evaluation/src/eval_cs.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_cs.py",
+    "bytes": 2038,
+    "sha256": "8ad3861b02d13303bf9bc73645e31674e7722f24bbec7488a66dd6c8cc947e85"
+  },
+  {
+    "name": "evaluation--src--eval_sh.py",
+    "path": "evaluation/src/eval_sh.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_sh.py",
+    "bytes": 578,
+    "sha256": "33abb3c1447aff88a8b7a27d9697295d02f20b3aa9f5c8726306e6a8bea54f9d"
+  },
+  {
+    "name": "evaluation--src--eval_ts.py",
+    "path": "evaluation/src/eval_ts.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_ts.py",
+    "bytes": 909,
+    "sha256": "573485fba7f26b72837cb5ac92259208eb7fe20c94a23a65687dff7c8542e4b5"
+  },
+  {
+    "name": "evaluation--src--eval_javascript.py",
+    "path": "evaluation/src/eval_javascript.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/eval_javascript.py",
+    "bytes": 1583,
+    "sha256": "c7f8d55c6661de05c48aefdf488b41d8cbfa99b7fda2ff31370337ad18d58762"
+  },
+  {
+    "name": "evaluation--src--generic_eval.py",
+    "path": "evaluation/src/generic_eval.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/evaluation/src/generic_eval.py",
+    "bytes": 4799,
+    "sha256": "5066edd53e80f8a4dc005f207ee20523e482ebc3211492d27d52c669641cdb83"
+  },
+  {
+    "name": "datasets--originals-with-cleaned-doctests--HumanEval_0_has_close_elements.py",
+    "path": "datasets/originals-with-cleaned-doctests/HumanEval_0_has_close_elements.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/datasets/originals-with-cleaned-doctests/HumanEval_0_has_close_elements.py",
+    "bytes": 1242,
+    "sha256": "2b49fe22565cb04a50188d5882b36df26bfa25a7f78b5f00e63e33c28c825064"
+  },
+  {
+    "name": "dataset_builder--humaneval_to_py.py",
+    "path": "dataset_builder/humaneval_to_py.py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "url": "https://raw.githubusercontent.com/nuprl/MultiPL-E/3025a531af7450e7df8b96fe0440e9804480bbad/dataset_builder/humaneval_to_py.py",
+    "bytes": 3595,
+    "sha256": "11ae50c2aa71543ccbc146f09a5be5114cf4ca3916ddd94edb4355efd34ce50d"
+  }
+]

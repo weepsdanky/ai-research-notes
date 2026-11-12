@@ -1,0 +1,15 @@
+{
+  "scope": "Public Mac benchmark mappings for paper Tables 5, 7, 8, 9 and 10. Languages are counted individually.",
+  "paper": ".cache/references/paper.html",
+  "paper_sha256": "bb9d98e6d11b9efbb9cb8c9b5bd483d609b321d24d666018bbf5e2851abf14c8",
+  "text_protocol": "profiles/qwen35_quality_protocol.json",
+  "chinese_protocol": "profiles/chinese_eval_mac.json",
+  "common_jobs": ["mmlu", "mmlu-pro", "supergpqa", "math", "gsm8k", "bbh"],
+  "families": {
+    "table5": {"prefix": "runs/table5-public", "extra_jobs": ["code", "multipl"]},
+    "table7": {"prefix": "runs/round37-table7", "extra_jobs": ["code", "multipl"], "aliases": {"gsm8k": "gsm8k-bounded"}},
+    "table8": {"prefix": "runs/round38-table8", "extra_jobs": ["ceval", "cmmlu"], "unavailable_columns": ["uncheatable PPL"]},
+    "table9": {"prefix": "runs/round38-table9", "extra_jobs": ["ceval", "cmmlu"]},
+    "table10": {"prefix": "runs/table10-public", "extra_jobs": []}
+  }
+}

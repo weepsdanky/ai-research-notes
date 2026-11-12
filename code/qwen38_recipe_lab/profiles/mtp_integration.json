@@ -1,0 +1,23 @@
+{
+  "declared_at": "2026-11-10T05:31:28.985324+08:00",
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "data": "data/owt/val.bin",
+  "data_sha256": "614978f4946a03303978d85c6e217aaac156ee6ca5e8b2a36503ff40499023da",
+  "dtype": "<u4",
+  "offset": 0,
+  "prompt_tokens": 64,
+  "max_new_tokens": 24,
+  "draft_tokens": 4,
+  "draft_seed": 194,
+  "devices": [
+    "cpu",
+    "mps"
+  ],
+  "stages": [
+    "pretrain",
+    "sparse"
+  ],
+  "threads": 1,
+  "scope": "Real frozen trained target plus untrained MTP integration, not Table4 or a trained acceptance-length experiment"
+}

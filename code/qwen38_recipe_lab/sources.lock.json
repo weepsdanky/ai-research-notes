@@ -1,0 +1,322 @@
+[
+  {
+    "name": "modeling_qwen4_exp.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/models/qwen4_exp/modeling_qwen4_exp.py",
+    "sha256": "3424f1b7a7e4d690c87a43758d791f37cede3fcb7e75f52e80ca498f9b84276e",
+    "bytes": 120891
+  },
+  {
+    "name": "configuration_qwen4_exp.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/models/qwen4_exp/configuration_qwen4_exp.py",
+    "sha256": "8dfb0ef09612a7eea896672798d9a3e735b1d00e0caf935072d2cffe5afce9ab",
+    "bytes": 16150
+  },
+  {
+    "name": "config.official.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/config.json",
+    "sha256": "889658f2508e8c61d409b02e70e0d78d8d4452ec65aaafbe129805d213d2e74b",
+    "bytes": 4745
+  },
+  {
+    "name": "paper.html",
+    "repo": "arxiv",
+    "revision": "2608.30320v1",
+    "url": "https://arxiv.org/html/2608.30320v1",
+    "sha256": "bb9d98e6d11b9efbb9cb8c9b5bd483d609b321d24d666018bbf5e2851abf14c8",
+    "bytes": 521063
+  },
+  {
+    "name": "polar_express.py",
+    "repo": "NoahAmsel/PolarExpress",
+    "revision": "f717e2c6b3ef6f67a5e00ab7f5371a85377e6fbe",
+    "url": "https://raw.githubusercontent.com/NoahAmsel/PolarExpress/f717e2c6b3ef6f67a5e00ab7f5371a85377e6fbe/polar_express.py",
+    "sha256": "6b6b5dbe7d59422995a7eb3694af74ba5acad7a230705933650a37a56ad75d09",
+    "bytes": 3781
+  },
+  {
+    "name": "LICENSE",
+    "repo": "NoahAmsel/PolarExpress",
+    "revision": "f717e2c6b3ef6f67a5e00ab7f5371a85377e6fbe",
+    "url": "https://raw.githubusercontent.com/NoahAmsel/PolarExpress/f717e2c6b3ef6f67a5e00ab7f5371a85377e6fbe/LICENSE",
+    "sha256": "d54176e99ae8b4d371aff1bc699bfac01bb4e0ff56278914e6282015df96b453",
+    "bytes": 1067
+  },
+  {
+    "name": "tokenizer.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/tokenizer.json",
+    "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+    "bytes": 12809320
+  },
+  {
+    "name": "tokenizer_config.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/tokenizer_config.json",
+    "sha256": "207c03c41a06a9c3b0cc527d8a56115159c1eac6b59a4ffae85b646e773d074e",
+    "bytes": 9984
+  },
+  {
+    "name": "vllm_mtp.py",
+    "repo": "vllm-project/vllm",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/models/qwen4_exp/nvidia/mtp.py",
+    "bytes": 20674,
+    "sha256": "a19e7f2404e0a2d4885d9461aa980f042132b5da2d429d153ae9694b39433713"
+  },
+  {
+    "name": "vision_utils.py",
+    "repo": "huggingface/transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/vision_utils.py",
+    "sha256": "bcecd5a92b3266b9926272a549d2b1a0f1fe7646c698c0fa19bd96f976085356",
+    "bytes": 19192
+  },
+  {
+    "name": "canzona_muon.py",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/optimizers/muon.py",
+    "sha256": "4fd66893296d9512de2d62a4a9ed2bdb2f8811f43f05abe384712ad4c5df9558",
+    "bytes": 6713
+  },
+  {
+    "name": "canzona_base_optim.py",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/optimizers/base_optim.py",
+    "bytes": 9747,
+    "sha256": "e723c89d779a85bdf9223ee61134d98d274b605bc0aefdeef4291de52962ecce"
+  },
+  {
+    "name": "canzona_matrix_README.md",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/README.md",
+    "sha256": "95071a56aee53cc3535d35534e69f278af8cd240da53526b6d1405eeebf0256e",
+    "bytes": 22763
+  },
+  {
+    "name": "canzona_optim_README.md",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/optimizers/README.md",
+    "sha256": "31a11115210078c4a91039fb25eea7619f85e6ffee3328b5e14643ed0cd354be",
+    "bytes": 13584
+  },
+  {
+    "name": "canzona_split.py",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/split_grad_and_state.py",
+    "sha256": "3d93112d613a370023918c130f43cc8e55f4dc8aebfc3ffe8a8f0a70f1f3d147",
+    "bytes": 11558
+  },
+  {
+    "name": "canzona_optimizer_config.py",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/optimizer_config.py",
+    "sha256": "017593cde23513ed7437edaafbdcc6e8d6731e81def546106017a90b0bb4ca1d",
+    "bytes": 12556
+  },
+  {
+    "name": "canzona_factory.py",
+    "repo": "liangyuwang/Megatron-Canzona",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/optimizer/matrix_based_optimizer/__init__.py",
+    "sha256": "c69292c3e170a43603c763053069e868dc1f841ee15f9d9ef3cc891ac77052d0",
+    "bytes": 331
+  },
+  {
+    "name": "preprocessor_config.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/preprocessor_config.json",
+    "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "bytes": 390
+  },
+  {
+    "name": "video_preprocessor_config.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/video_preprocessor_config.json",
+    "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+    "bytes": 385
+  },
+  {
+    "name": "image_processing_qwen2_vl.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/models/qwen2_vl/image_processing_qwen2_vl.py",
+    "sha256": "ebdb484798a6aefebc5dbe5431d3e4af8f460404d95d4cb67165fdff624ed333",
+    "bytes": 12023
+  },
+  {
+    "name": "video_processing_qwen3_vl.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/models/qwen3_vl/video_processing_qwen3_vl.py",
+    "sha256": "1d7be665171c8441108b43f179759fa39a35a5a132c14a142a296fc295299b7a",
+    "bytes": 16865
+  },
+  {
+    "name": "image_processing_backends.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/image_processing_backends.py",
+    "sha256": "08ab5a408a11b96bc9401a5dc6254b4d4ecdec4f5502a44f452d16814eb46a49",
+    "bytes": 27759
+  },
+  {
+    "name": "processing_qwen3_vl.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/models/qwen3_vl/processing_qwen3_vl.py",
+    "sha256": "69479e7daed178cc475578fdbc0ef598c4f7f56b6fa24a4e0c21ecaa048dc95f",
+    "bytes": 9741
+  },
+  {
+    "name": "image_transforms.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/image_transforms.py",
+    "sha256": "6d2d50fc6db756211a1f6ff0119fcf7e9116ff80ba314562376ed06a7fc76837",
+    "bytes": 49410
+  },
+  {
+    "name": "evalplus_humaneval.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/data/humaneval.py",
+    "sha256": "105969e0c700fa77f18b1ae7dd06230e22f81540cf030ddca2cbfeb2630055b4",
+    "bytes": 3454
+  },
+  {
+    "name": "evalplus_mbpp.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/data/mbpp.py",
+    "sha256": "186e09b7b14dcf12ed259dfca1d6644a1c266c1bbac41c917fd3c0449a734b24",
+    "bytes": 5504
+  },
+  {
+    "name": "evalplus_evaluate.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/evaluate.py",
+    "sha256": "47f766df2dbb2280f7dd2c1040bfff0396c2b414a8d44b639424aa941bee7eab",
+    "bytes": 12935
+  },
+  {
+    "name": "evalplus_eval.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/eval/__init__.py",
+    "sha256": "3c833c39b842e33f251c83db4347e0a95191909f23b390c12d73ab29a28a4daf",
+    "bytes": 10651
+  },
+  {
+    "name": "math_equivalence.py",
+    "repo": "hendrycks/math",
+    "revision": "985bdc1696e88e8643f081a0ff4719da39f2ae2a",
+    "url": "https://raw.githubusercontent.com/hendrycks/math/985bdc1696e88e8643f081a0ff4719da39f2ae2a/modeling/math_equivalence.py",
+    "sha256": "c4101b1f51a2bb65665194aecd9f761d668c0c248a0350f196c2950e87488527",
+    "bytes": 4471
+  },
+  {
+    "name": "math_LICENSE",
+    "repo": "hendrycks/math",
+    "revision": "985bdc1696e88e8643f081a0ff4719da39f2ae2a",
+    "url": "https://raw.githubusercontent.com/hendrycks/math/985bdc1696e88e8643f081a0ff4719da39f2ae2a/LICENSE",
+    "sha256": "8f6401fb0b1fbfcac17aac8d61e4e1b0d2de9aa190d8aa655fedc5fd783b2ace",
+    "bytes": 1070
+  },
+  {
+    "name": "supergpqa-five-shot.yaml",
+    "repo": "SuperGPQA/SuperGPQA",
+    "revision": "e31e8bf3e7089aef808be5ddecafd4538dee6e41",
+    "url": "https://raw.githubusercontent.com/SuperGPQA/SuperGPQA/e31e8bf3e7089aef808be5ddecafd4538dee6e41/config/prompt/five-shot.yaml",
+    "sha256": "cfeef83f0cf6b17a80bf34ce018afaae2b06763aab64d234cd73d7de843f4ec6",
+    "bytes": 5103
+  },
+  {
+    "name": "redux-generative.yaml",
+    "repo": "EleutherAI/lm-evaluation-harness",
+    "revision": "d6de81643928d653435c431bae19945d41d32520",
+    "url": "https://raw.githubusercontent.com/EleutherAI/lm-evaluation-harness/d6de81643928d653435c431bae19945d41d32520/lm_eval/tasks/mmlu-redux/generative/_mmlu.yaml",
+    "sha256": "42e4792499756d2cc41e870e5cfcb9335f7668b362002f1d13523a3cff092623",
+    "bytes": 946
+  },
+  {
+    "name": "evalplus_data_utils.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/data/utils.py",
+    "sha256": "15dc36203f078cdf6c213b5ff55469e23e166e4fe898d46e7287fa4a0e100fbc",
+    "bytes": 6105
+  },
+  {
+    "name": "redux-default-template.yaml",
+    "repo": "EleutherAI/lm-evaluation-harness",
+    "revision": "d6de81643928d653435c431bae19945d41d32520",
+    "url": "https://raw.githubusercontent.com/EleutherAI/lm-evaluation-harness/d6de81643928d653435c431bae19945d41d32520/lm_eval/tasks/mmlu-redux/generative/_default_template_yaml",
+    "sha256": "d15bb38d898fd11fed7ccd00e300a0031ab65a6d69de4a77caef337a63db6866",
+    "bytes": 911
+  },
+  {
+    "name": "evalplus_gen_util.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/gen/util/__init__.py",
+    "bytes": 953,
+    "sha256": "81a7f0ee32dda4b5794f9645cc1199dc4b5ad8f187c6bd36fca32892ac2b8eef"
+  },
+  {
+    "name": "evalplus_eval_utils.py",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/evalplus/eval/utils.py",
+    "bytes": 5467,
+    "sha256": "5bf8925c8dd7c8f06b05c0ff4f28672e8e3b61d1b567b6a86b90e80bd8b780a4"
+  },
+  {
+    "name": "evalplus_pyproject.toml",
+    "repo": "evalplus/evalplus",
+    "revision": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "url": "https://raw.githubusercontent.com/evalplus/evalplus/26d6d00bb1fd0fa37f39c99d5290da67891d1c5e/pyproject.toml",
+    "sha256": "39083b726dc4b931974c3defb886352a23b1c1a887e36fdb025d138a2cf1ee81",
+    "bytes": 246
+  },
+  {
+    "name": "evalplus-0.3.1-py3-none-any.whl",
+    "repo": "evalplus/evalplus",
+    "revision": "PyPI-0.3.1",
+    "url": "https://files.pythonhosted.org/packages/13/66/de5ac13e00c681cff679c981b1bae98ab3b940fa3db2f0d8d70a0213424d/evalplus-0.3.1-py3-none-any.whl",
+    "sha256": "cd601debb67419113d10ac5c3317689d847f27de5d8cf3837975f3cab571b75d",
+    "bytes": 68572
+  },
+  {
+    "name": "processing_utils.py",
+    "repo": "transformers",
+    "revision": "a6f5c8676b158c367dc3389f68dde7a97fb619d6",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/a6f5c8676b158c367dc3389f68dde7a97fb619d6/src/transformers/processing_utils.py",
+    "sha256": "a368c8f32d3e5bdccce47fd9235cb89cbd2f0d91f7bf09c44c06a83fed9b1d9f",
+    "bytes": 142420
+  },
+  {
+    "name": "generation_config.json",
+    "repo": "Qwen/Qwen3.8-Flash-Next",
+    "revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next/resolve/812d96e10a0dd82b69d749e68693698cf6c36daa/generation_config.json",
+    "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+    "bytes": 202
+  }
+]

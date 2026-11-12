@@ -1,0 +1,12 @@
+{
+  "vm_memory_gb": 3,
+  "cpus": 2,
+  "container_memory_mb": 2048,
+  "tasks_per_container": 1,
+  "wall_seconds": 120,
+  "cpu_seconds": 90,
+  "file_bytes": 1048576,
+  "tmpfs_bytes": 67108864,
+  "oracle_cache": "discard optional on-disk cache only; unchanged official oracle computation",
+  "reason": "Mbpp/255 reference outputs require >=1321093440 bytes before SDK/other overhead; bounded sequential execution on 16GB host"
+}

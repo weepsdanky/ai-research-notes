@@ -1,0 +1,26 @@
+[
+  {
+    "file": ".cache/mtp-loader-sources/vllm/config/speculative.py",
+    "upstream_path": "vllm/config/speculative.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/config/speculative.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 78099,
+    "sha256": "75e243cee629a9be5c50b591060a5753faf5193da5e0efd5e807e384229c6218"
+  },
+  {
+    "file": ".cache/mtp-loader-sources/vllm/v1/worker/gpu/spec_decode/eagle/utils.py",
+    "upstream_path": "vllm/v1/worker/gpu/spec_decode/eagle/utils.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/v1/worker/gpu/spec_decode/eagle/utils.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 6930,
+    "sha256": "b46baa2d2c3bb68d4ff69bfe11ccf3547afb60eddbe7fe064ab554d3e0280dc4"
+  },
+  {
+    "file": ".cache/mtp-loader-sources/tests/models/qwen4_exp/test_config.py",
+    "upstream_path": "tests/models/qwen4_exp/test_config.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/tests/models/qwen4_exp/test_config.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 13459,
+    "sha256": "e8e20fb9d5eb4501a9bb56656ecb10be7fe44ee9a6dc67f7569aa9082878996c"
+  }
+]

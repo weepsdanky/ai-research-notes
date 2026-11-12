@@ -1,0 +1,9 @@
+FROM sha256:813de4a18b376e4d4bda2727878f178737d64aaf967e7cf1fbfd200d60f3ec72 AS python_deps
+FROM python@sha256:65bd3d9f1d7fa268dd1909973ba7eb4bdf41f6dcf2cfbe76ba9528b170f3fd79
+COPY apt-keep-cache.conf /etc/apt/apt.conf.d/docker-clean
+# Native arm64, eight-language subset. Publisher's all-language Ubuntu image
+# is not used. Immutable snapshot + final package manifest document this gap.
+RUN . /etc/os-release && rm -f /etc/apt/sources.list.d/* && printf 'deb [check-valid-until=no] https://snapshot-cloudflare.debian.org/archive/debian/20261107T000000Z/ %s main\n' "$VERSION_CODENAME" > /etc/apt/sources.list && apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 update && apt-get --print-uris --yes --no-install-recommends install g++ default-jdk-headless php-cli nodejs node-typescript mono-devel gawk ca-certificates > /tmp/uris && python -c 'import re; s=open("/tmp/uris").read(); n=sum(int(x) for x in re.findall(r"^\x27[^\x27]+\x27 \S+ (\d+) ",s,re.M)); print("APT download bytes",n); assert 0<n<=450000000' && apt-get -o Acquire::https::Timeout=30 --yes --no-install-recommends install g++ default-jdk-headless php-cli nodejs node-typescript mono-devel gawk ca-certificates && rm -rf /var/lib/apt/lists/* && test -x /usr/bin/mono-csc && ln -s /usr/bin/mono-csc /usr/local/bin/csc && mkdir -p /usr/multiple && dpkg-query -W > /usr/multiple/packages.tsv
+COPY javatuples-1.2.jar /usr/multiple/javatuples-1.2.jar
+COPY --from=python_deps /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
+ENV JAVA_TOOL_OPTIONS="-Xmx256m -XX:+UseSerialGC -XX:ActiveProcessorCount=1" OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "qwen-release-README.md",
+    "repo": "QwenLM/Qwen3.8-Flash-Next",
+    "revision": "69885871a64393807d988b27b1b5e380e8f28526",
+    "upstream_path": "README.md",
+    "url": "https://raw.githubusercontent.com/QwenLM/Qwen3.8-Flash-Next/69885871a64393807d988b27b1b5e380e8f28526/README.md",
+    "sha256": "34d45d3486c29dcc23dade1472b5cbf1347ffe0a1adc3334aec83b3dc4e08c50",
+    "git_blob_sha1": "ac30ee1326238cc88d8bea22cc2c776e9f431647",
+    "bytes": 9735
+  },
+  {
+    "name": "qwen-release-tech_report.pdf",
+    "repo": "QwenLM/Qwen3.8-Flash-Next",
+    "revision": "69885871a64393807d988b27b1b5e380e8f28526",
+    "upstream_path": "tech_report.pdf",
+    "url": "https://raw.githubusercontent.com/QwenLM/Qwen3.8-Flash-Next/69885871a64393807d988b27b1b5e380e8f28526/tech_report.pdf",
+    "sha256": "04f263446d74a35cb7cea368574e0c561f3b05c133be2c777ac884404063655d",
+    "git_blob_sha1": "f26e9dd6ea957f375eafee1af515a3b6b7c86ae3",
+    "bytes": 2366146
+  }
+]

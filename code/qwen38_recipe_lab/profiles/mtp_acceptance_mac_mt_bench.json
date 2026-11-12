@@ -1,0 +1,16 @@
+{
+  "scope": "All 80 public MT-Bench conversations, both turns. Mac greedy draft acceptance with plain User/Assistant labels and up to 24 new tokens per turn.",
+  "revision": "b494d0c6b4e7935f1764f8439e75da3e66beccc7",
+  "question_source": "https://raw.githubusercontent.com/lm-sys/FastChat/b494d0c6b4e7935f1764f8439e75da3e66beccc7/fastchat/llm_judge/data/mt_bench/question.jsonl",
+  "license_source": "https://raw.githubusercontent.com/lm-sys/FastChat/b494d0c6b4e7935f1764f8439e75da3e66beccc7/LICENSE",
+  "conversation_source": "data/eval-source/mt-bench-question.jsonl",
+  "conversation_count": 80,
+  "turns_per_conversation": 2,
+  "tokenizer": ".cache/references/tokenizer.json",
+  "tokenizer_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+  "new_tokens": 24,
+  "source_hashes": {
+    "data/eval-source/mt-bench-question.jsonl": "119565adbab82227089cefdb44c8d7e2cf04dc0a0ec233634c82e7d4e2a944f7",
+    "data/eval-source/mt-bench-FastChat-LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "status": "three_4k_phases_complete_gdn32k_partial_quality_pending",
+  "reference": "profiles/qwen35_released_reference.json",
+  "reference_sha256": "ae10e52e1a79f80ed08f5870adfbff9f47cf96426acc60b0c65e1a1a676c6aa9",
+  "sources": {
+    "qwen35_controls.py": "3a03ce66cd22e2a330bc37536cb71dd326df633fbc1d0f3e1fd179bf4029e0d4",
+    "test_qwen35_controls.py": "0f4187c4c1f8aed342ca061bdc31e3289842d0ddfba33366410a77336eb71efe",
+    "model.py": "dca1a61fac55d2a118b8125ae94880ed56a299affae38eb9607594fa3363e8fc",
+    "optim.py": "63ced8c21804b8185fb6c90a4af3c12d77626fe7368a87c4a3ab6a255490e011",
+    "test_qwen35_checkpoint_memory.py": "3f84f0492576a0798d7966d9ec5421c845c67b3463a27dbce9076657f5b3acde"
+  },
+  "scope": "Independent text-only public-family Mac controls, not the private28-layer Table1 checkpoint/config",
+  "arms": [
+    "full",
+    "swa",
+    "gdn"
+  ],
+  "ordinary_residual": true,
+  "ngram": false,
+  "qsa": false,
+  "gdn_output_gate": "silu",
+  "attention_output_gate": "sigmoid",
+  "window128_semantics": "0 <= query_position - key_position <128, current token included",
+  "initialization": "Mac name-local seeds for shared tensor equality; not a claimed production RNG stream",
+  "precision": "float32",
+  "numerical_tests_executed": true,
+  "training_executed": true,
+  "long_4k_32k_training_feasibility_proven": false,
+  "table1_completed": false,
+  "numerical_tests_receipt": "runs/round30-checkpoint-mask-tests.json",
+  "numerical_tests_sha256": "6b1c656491c5a7a76506e196ed4050153ac424b8f3fe9e2169e5273be3814e13",
+  "tests_per_device": 8,
+  "reference_execution": "Published PyTorch fallback bodies; hub dispatch wrappers excluded, no fused-kernel claim",
+  "parameter_counts_receipt": "runs/round29-qwen35-parameter-counts.json",
+  "parameter_counts_sha256": "9122b20e3aeeb0baa9d2980fae1abaea65b6080c765ec7c1c969f1e65f32c56f",
+  "optimizer_state_sizes_verified": true,
+  "tokenizer_compatibility_verified": false,
+  "preferred_for_next_resource_probe": "projection_ratios_preserved",
+  "preference_reason": "Preserves released attention/GDN projection-to-residual ratios, GQA/GVA ratios and expert sparsity; not a finalized training profile",
+  "candidates": [
+    {
+      "name": "physical_head_dimensions_preserved",
+      "config": {
+        "vocab_size": 248320,
+        "width": 64,
+        "layers": 4,
+        "heads": 8,
+        "kv_heads": 1,
+        "head_dim": 256,
+        "rotary_dim": 64,
+        "gdn_k_heads": 1,
+        "gdn_v_heads": 2,
+        "gdn_k_dim": 128,
+        "gdn_v_dim": 128,
+        "hidden": 16,
+        "experts": 64,
+        "top_k": 2,
+        "rope_theta": 10000000.0,
+        "window": 128,
+        "query_chunk": 128,
+        "scan_chunk": 128,
+        "activation_checkpoint": true
+      },
+      "counts": {
+        "full": {
+          "actual_total": 34306880,
+          "total": 34306880,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 1705984,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 17652608,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        },
+        "swa": {
+          "actual_total": 34306880,
+          "total": 34306880,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 1705984,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 17652608,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        },
+        "gdn": {
+          "actual_total": 33231308,
+          "total": 33231308,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 630412,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 16577036,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        }
+      },
+      "ratios": {
+        "attention_projection_to_width": 32.0,
+        "gdn_key_to_width": 2.0,
+        "gdn_value_to_width": 4.0,
+        "expert_hidden_to_width": 0.25,
+        "selected_expert_fraction": 0.03125,
+        "gqa": 8.0,
+        "gva": 2.0
+      }
+    },
+    {
+      "name": "projection_ratios_preserved",
+      "config": {
+        "vocab_size": 248320,
+        "width": 64,
+        "layers": 4,
+        "heads": 8,
+        "kv_heads": 1,
+        "head_dim": 16,
+        "rotary_dim": 4,
+        "gdn_k_heads": 1,
+        "gdn_v_heads": 2,
+        "gdn_k_dim": 64,
+        "gdn_v_dim": 64,
+        "hidden": 16,
+        "experts": 64,
+        "top_k": 2,
+        "rope_theta": 10000000.0,
+        "window": 128,
+        "query_chunk": 128,
+        "scan_chunk": 128,
+        "activation_checkpoint": true
+      },
+      "counts": {
+        "full": {
+          "actual_total": 32707520,
+          "total": 32707520,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 106624,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 16053248,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        },
+        "swa": {
+          "actual_total": 32707520,
+          "total": 32707520,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 106624,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 16053248,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        },
+        "gdn": {
+          "actual_total": 32729900,
+          "total": 32729900,
+          "input_embedding": 15892480,
+          "output_head": 15892480,
+          "mixers": 129004,
+          "moe": 815360,
+          "outer_norms": 576,
+          "active_parameters_with_one_input_embedding_row": 16075628,
+          "active_definition": "All dense head/mixer/norm/router/shared and selected routed experts, plus one embedding row; not an official active-parameter convention"
+        }
+      },
+      "ratios": {
+        "attention_projection_to_width": 2.0,
+        "gdn_key_to_width": 1.0,
+        "gdn_value_to_width": 2.0,
+        "expert_hidden_to_width": 0.25,
+        "selected_expert_fraction": 0.03125,
+        "gqa": 8.0,
+        "gva": 2.0
+      }
+    }
+  ],
+  "tokenizer_compatibility_scope": "Global raw-text/chat equivalence unproven: distinct tokenizer JSON/added tokens. Four bounded proxy splits independently retokenized and byte-identical, with new Base-specific provenance.",
+  "bounded_tokenizer_data_verified": true,
+  "bounded_tokenizer_data_receipt": "runs/round29-qwen35-retokenization-audit.json",
+  "bounded_tokenizer_data_receipt_sha256": "d7ec14c96a9843416ce5b12cad16818368f9b3621ffcc9097a983497a91eb38b",
+  "tokenizer_sources_lock": "qwen35_tokenizer_sources.lock.json",
+  "tokenizer_sources_lock_sha256": "f50bc4ff208344c35b1e02e745aa3c645a9eb4644bf186433cf3e75fd29c5ce4",
+  "data_directories": {
+    "owt": "data/qwen35_controls_owt",
+    "shakespeare": "data/qwen35_controls_shakespeare"
+  },
+  "chunked_loss_component": {
+    "source": "chunked_lm_loss.py",
+    "source_sha256": "e24688a049e9bd369282bf6b14c5f6a9846b3da35e4798bd6ee02d03f311def7",
+    "receipt": "runs/round29-chunked-loss-tests.json",
+    "receipt_sha256": "fce42696bc3a5e10e593a6f0e3e451b2489cbe7e5d2dc81a447b3877cabce3e0",
+    "cpu_mps_loss_and_gradients_verified": true,
+    "training_integration_verified": false,
+    "long_context_memory_measured": false
+  },
+  "mask_checkpoint_regression": {
+    "receipt": "runs/round30-mask-regression-control.json",
+    "sha256": "82d291ca364c519a1f9da9e685af2aa05179cb142ed65149ff7d6cbc34dcf8dd",
+    "old_source_archived": "runs/qwen35_controls-before-mask-recompute.py",
+    "scope": "No bool attention masks retained as checkpoint inputs; actual4K/32K training memory still unproven"
+  },
+  "mps_strict_resume_comparison_passed": false,
+  "mps_numerical_diagnostics": "runs/round30-mps-training-numerical-diagnostics.json",
+  "mps_numerical_limitation": "Original strict comparison fails; same-scale divergence also occurs between two uninterrupted8-step runs. CPU exact comparisons separately recorded. No tolerance was increased.",
+  "training_scope": "Independent Mac CPU4K short phase in progress; plan profiles retain creation-time candidate metadata. Authoritative execution is guard/checkpoint audits; not private Table1 completion.",
+  "cpu_4k_completed_arms": [
+    "full",
+    "swa",
+    "gdn"
+  ],
+  "cpu_4k_live_progress": "runs/round30-controls-cpu-state.json",
+  "cpu_checkpoint_resume_receipt": "runs/round30-control-resume-tests-v3-cpu.json",
+  "cpu_checkpoint_resume_receipt_sha256": "f762919f6a846a31ce9416bde525ed0c80596e531ec88b12fc5feb4ed9d7fd3a",
+  "optimizer_state_size_scope": "All three audited4K checkpoints equal calculated full-coverage tensor buffer capacity; excludes activation/Python/allocator overhead and is not total training memory.",
+  "observed_optimizer_tensor_bytes": {
+    "full": 258170368,
+    "swa": 258170368,
+    "gdn": 258275680
+  },
+  "cpu_4k_completed_receipts": {
+    "full": {
+      "audit": "runs/round30c-full-4k-cpu-001-audit.json",
+      "audit_sha256": "2f1c41cbbb6683abb8df67503302059f35341c3f8eca9fac42f82fa5fc55260a",
+      "checkpoint_sha256": "4a293c0b9f7366852f230fdedbb220068c002cf64387bbdb3edadc8185994f8a"
+    },
+    "swa": {
+      "audit": "runs/round30c-swa-4k-cpu-001-audit.json",
+      "audit_sha256": "0bdb300463b7211657754cf6cacbfa803b168cd727ca7e013ecc03d9d6138833",
+      "checkpoint_sha256": "35d3e3baf2d3ccdba815a2610f46a8838a400c697b84d0d3213aa5b8d0f205f7"
+    }
+  },
+  "gdn_32k_one_update_verified": true,
+  "matched_three_arm_32k_training_completed": false,
+  "final_receipt": "runs/round30-controls-final.json",
+  "final_receipt_sha256": "270d512861ae6f7f80e159aa8d029e500be2b7e6c9c1399d08c26a7f26ece2e3",
+  "full_coverage_optimizer_tensor_capacity_bytes": {
+    "full": 258170368,
+    "swa": 258170368,
+    "gdn": 258275680
+  }
+}

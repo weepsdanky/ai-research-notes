@@ -1,0 +1,14 @@
+{
+  "core_and_extra_source_bytes_cap": 64000000,
+  "actual_core_and_extra_source_bytes": 60812624,
+  "mmmlu_cache_bytes_cap": 128000000,
+  "mmmlu_actual_published_source_bytes": 124869536,
+  "mmmlu_file_bytes_cap": 20000000,
+  "mmmlu_invocation_bytes_cap": 32000000,
+  "training_corpus": "existing bounded 20MB train + 1MB validation OWT proxy and Shakespeare",
+  "mmmlu_note": "14 complete language test CSVs; separate bounded evaluation cache; publisher LFS SHA256 or Git blob SHA1 verified before recording raw SHA256",
+  "mmmlu_context": 8192,
+  "mmmlu_new_tokens": 64,
+  "mmmlu_actual_max_prompt_tokens": 4197,
+  "mmmlu_context_reason": "Yoruba has 10 prompts that exceed context4096 after reserving 64 output tokens; all 196588 fit context8192 with no few-shot truncation"
+}

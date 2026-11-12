@@ -1,0 +1,74 @@
+[
+  {
+    "name": "humaneval-cpp.parquet",
+    "language": "cpp",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-cpp/test-00000-of-00001.parquet",
+    "bytes": 83221,
+    "sha256": "f4492dd06d3280dd32aa6245d806f00553350be3fc45454aeff3c71b29196ce6"
+  },
+  {
+    "name": "humaneval-java.parquet",
+    "language": "java",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-java/test-00000-of-00001.parquet",
+    "bytes": 86178,
+    "sha256": "b9cce8fdfc46963aa9c9db85eaa8411d151fb9cb82e94b57b4106884eab28b6c"
+  },
+  {
+    "name": "humaneval-php.parquet",
+    "language": "php",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-php/test-00000-of-00001.parquet",
+    "bytes": 75195,
+    "sha256": "d3fe53578f7fbb76db944237b011f52ab61982601b6e7971de183836d97f0428"
+  },
+  {
+    "name": "humaneval-ts.parquet",
+    "language": "ts",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-ts/test-00000-of-00001.parquet",
+    "bytes": 70294,
+    "sha256": "b9090cc4e5a0c06e671811f63d7c35737f8393f1b9d44685472d5a7b1877d136"
+  },
+  {
+    "name": "humaneval-cs.parquet",
+    "language": "cs",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-cs/test-00000-of-00001.parquet",
+    "bytes": 82080,
+    "sha256": "cfbfb0bf7d899a3f01f7a130274abf85c46cad678305a98143310abaf2759c54"
+  },
+  {
+    "name": "humaneval-sh.parquet",
+    "language": "sh",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-sh/test-00000-of-00001.parquet",
+    "bytes": 67691,
+    "sha256": "a472100ae3a45b51ee445ab40343aa19950b58081565f3e75bbe0f0979012901"
+  },
+  {
+    "name": "humaneval-js.parquet",
+    "language": "js",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "28441b6024e71d4a1c1c0f6bf171c935cd5a43f2",
+    "url": "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/28441b6024e71d4a1c1c0f6bf171c935cd5a43f2/humaneval-js/test-00000-of-00001.parquet",
+    "bytes": 70034,
+    "sha256": "037debd61e3e98ee9da684054ef522d45200ce622ae36b2fab3bbb27769fa51d"
+  },
+  {
+    "name": "humaneval-py.jsonl",
+    "language": "py",
+    "repo": "nuprl/MultiPL-E",
+    "revision": "3025a531af7450e7df8b96fe0440e9804480bbad",
+    "derivation": "Public Python translator; transform doctests/reworded; complete cleaned-originals161 (publisher omits32/38/50), no canonical in prompt",
+    "bytes": 171996,
+    "sha256": "ff260e038c0116701385f22e883304381e33a09fe9e36b10cecaf75236710f4b"
+  }
+]

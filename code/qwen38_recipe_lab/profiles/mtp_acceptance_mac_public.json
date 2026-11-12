@@ -1,0 +1,42 @@
+{
+  "scope": "Complete Mac public benchmark prompts for B1 greedy MTP acceptance. No quality scoring.",
+  "benchmark_protocol": "profiles/qwen35_quality_protocol.json",
+  "tokenizer": ".cache/references/tokenizer.json",
+  "tokenizer_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+  "new_tokens": 24,
+  "context_limit": 8192,
+  "draft_tokens": 4,
+  "jobs": {
+    "gsm8k": {
+      "benchmark_job": "gsm8k",
+      "items": 1319
+    },
+    "math": {
+      "benchmark_job": "math",
+      "items": 5000
+    },
+    "humaneval": {
+      "benchmark_job": "code",
+      "task": "evalplus-humaneval",
+      "items": 164
+    },
+    "mbpp": {
+      "benchmark_job": "code",
+      "task": "evalplus-mbpp",
+      "items": 378
+    }
+  },
+  "source_hashes": {
+    "profiles/qwen35_quality_protocol.json": "700f112e6ae562c864914ae31e854f68b012e8f8bb422be2fd3976fface44626",
+    "qwen35_quality_data.py": "681749f2528aa397ed2342743137d965441ed3eb29e7def95d62b777655638fe",
+    "eval_tasks.py": "cad1edf2eba3f7fe26b385fc2d2bb817dd7df2f7331dfa4386afb0fb7fbea611",
+    "eval_extra_tasks.py": "78d147f1c209c97577c590cd433d289cf66961d37573afad42770b242b16f384",
+    "eval_code_tasks.py": "68bd43ac36cc53bdc18e9a4fbeff29298c0819b569a790b186698c145f2d9963",
+    "eval_sources.lock.json": "db26440c797e22ab086f6ddcb9c2279d2855fa8c58362716a668deb3b0c02906",
+    "eval_suites.json": "fe3cf0a17e53485a93689d44eaf8a946923dbe5a58a2202fdb975feba8e5251d",
+    "sources.lock.json": "7809ca188c2c6e625c431be43f13b726f65f28854ed36ef3f2d86932844a2f0a"
+  },
+  "draft_training_profile": "profiles/mtp_frozen_draft_mac.json",
+  "eos": 248044,
+  "vocab_size": 248320
+}

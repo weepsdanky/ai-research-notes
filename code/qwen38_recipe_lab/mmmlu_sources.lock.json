@@ -1,0 +1,142 @@
+[
+  {
+    "language": "AR-XY",
+    "name": "AR-XY.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 9829263,
+    "sha256": "3c60bb57926cc33dc58d57f70884c8199142944b971659753edfab54b90e51d4",
+    "git_blob_sha1": "ca35928987560ab64f68aba55d44055e0b518189",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_AR-XY.csv"
+  },
+  {
+    "language": "BN-BD",
+    "name": "BN-BD.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 16286391,
+    "sha256": "c2054362b43ca2d2a2d4544ee0c64c6eb1fae5d461d0a460c8e40aaefda4bbbf",
+    "git_blob_sha1": null,
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_BN-BD.csv"
+  },
+  {
+    "language": "DE-DE",
+    "name": "DE-DE.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7813137,
+    "sha256": "819cb422a3bcae4fabc302d3a938f1fd17be368770c8cb1d6cd299784a0f80c1",
+    "git_blob_sha1": "7a78d56f71ae9fb056f9fc3cfad4e8a0a236f777",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_DE-DE.csv"
+  },
+  {
+    "language": "ES-LA",
+    "name": "ES-LA.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7638282,
+    "sha256": "7026c2120f3a4b68641f725818e47f35529f61c094f280c52fa019fadb060071",
+    "git_blob_sha1": "b2ce1d0d80832c7ecf6d2d220cc450490a2854aa",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_ES-LA.csv"
+  },
+  {
+    "language": "FR-FR",
+    "name": "FR-FR.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 8110686,
+    "sha256": "9e306e122e61513f2f0cdfae7eaceaaebac86e5bfa1ddbe63ec4e8562729ca50",
+    "git_blob_sha1": "3f31b972dd590af6feadeeb86e4dd5f1efe830a8",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_FR-FR.csv"
+  },
+  {
+    "language": "HI-IN",
+    "name": "HI-IN.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 16190141,
+    "sha256": "2901b1633e80d66c47ea3fc5d38fcb5c545d00d741b7c7d7705a559227143109",
+    "git_blob_sha1": null,
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_HI-IN.csv"
+  },
+  {
+    "language": "ID-ID",
+    "name": "ID-ID.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7112650,
+    "sha256": "4270643b50bfde7812db5d5c26c273e773d4cbc32868d001195caab0217120e1",
+    "git_blob_sha1": "b66895072cd8ec565c41ed3566861ca213913423",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_ID-ID.csv"
+  },
+  {
+    "language": "IT-IT",
+    "name": "IT-IT.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7599360,
+    "sha256": "42c59e0902f0915b0e172aaa7d2e8f3bbf91f469983e900bba7441082d859996",
+    "git_blob_sha1": "b77f5c4cdc39a1c0fe12e5d13c5f9c9ec58d56e6",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_IT-IT.csv"
+  },
+  {
+    "language": "JA-JP",
+    "name": "JA-JP.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 8019567,
+    "sha256": "b2daf62034489b88411af91ad955e8ec513bd7d3129c9eb0319036160bd18032",
+    "git_blob_sha1": "1eb68f5e9f8344b6dadca93520ca56a0130f17b1",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_JA-JP.csv"
+  },
+  {
+    "language": "KO-KR",
+    "name": "KO-KR.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7666949,
+    "sha256": "432e06531c26ca68374ba3fc460e5889e5add58341d179bc19ea6cb46b14aaa5",
+    "git_blob_sha1": "4668121b92cbd69bba7366222ed6e096595b31c3",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_KO-KR.csv"
+  },
+  {
+    "language": "PT-BR",
+    "name": "PT-BR.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 7211320,
+    "sha256": "926107573af1491c0e77df2bd6815c521f2203dd4a4a5b54fad5ea1733ce9c9c",
+    "git_blob_sha1": "4f08947d37f5bb7f0af72506de6f3dc0527963b4",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_PT-BR.csv"
+  },
+  {
+    "language": "SW-KE",
+    "name": "SW-KE.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 6886483,
+    "sha256": "41bd52c6cc68e07afab298a3611e08d4745f18d884fd635b72faab55f769fb53",
+    "git_blob_sha1": "9bd59bad447455328907735d0768b738a558b448",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_SW-KE.csv"
+  },
+  {
+    "language": "YO-NG",
+    "name": "YO-NG.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 8922419,
+    "sha256": "0193d8dcb83e1f443a7459bc2a1f171e951781256c83611c64468e9ee8407711",
+    "git_blob_sha1": "3e0a53cf88226c2a81c177f37791aa0c04985b55",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_YO-NG.csv"
+  },
+  {
+    "language": "ZH-CN",
+    "name": "ZH-CN.csv",
+    "repo": "openai/MMMLU",
+    "revision": "325a01dc3e173cac1578df94120499aaca2e2504",
+    "bytes": 5582888,
+    "sha256": "cb4354776463e0414597a4685588d72eb5cb6a1d79caf3efa0c9e0c2764786f1",
+    "git_blob_sha1": "75e31970f91ec751d50d58f2fa11b2af78f948ab",
+    "url": "https://huggingface.co/datasets/openai/MMMLU/resolve/325a01dc3e173cac1578df94120499aaca2e2504/test/mmlu_ZH-CN.csv"
+  }
+]

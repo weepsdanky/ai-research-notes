@@ -1,0 +1,48 @@
+{
+  "declared_at": "2026-11-09T23:45:30.348664+08:00",
+  "status": "preparation; no inference launched",
+  "dataset": "openai/mrcr",
+  "revision": "f4c69fae7cf81f7ca26b9fee34b392a50f6b8a1d",
+  "variant": "8needle",
+  "expected_source_rows": 800,
+  "raw_download_cap_bytes": 500000000,
+  "prepared_cap_bytes": 32000000,
+  "shards": [
+    {
+      "file": "8needle/8needle_0.parquet",
+      "bytes": 192087758,
+      "sha256": "65df601a2e0ae4a3cfb56920a6ef99f26c0de37c6b1018695e8aed684e6a94c1"
+    },
+    {
+      "file": "8needle/8needle_1.parquet",
+      "bytes": 269372117,
+      "sha256": "c80b19573bff1d38e1c157d6a0bdf9cfd1a8ab6372296174c9a7015e164189e3"
+    }
+  ],
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "context": 8192,
+  "tokens": 1024,
+  "selection": "All original rows whose complete locked released Qwen chat template plus 1024 generation allowance fit8192; no prompt truncation, score-based selection or needle removal. Freeze selected IDs and count before any generation.",
+  "chat": {
+    "source": ".cache/long-context-sources/qwen-chat-template.jinja",
+    "sha256": "af16f654968d47d09a6c604e00370b12dbc21f76456f59c9e98b82e84d9f6375",
+    "add_generation_prompt": true,
+    "enable_thinking": false
+  },
+  "tokenizer_revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+  "metric": "Exact original author grade: required random prefix then difflib.SequenceMatcher ratio",
+  "comparisons": [
+    "sparse",
+    "same-weight dense"
+  ],
+  "device": "cpu",
+  "batch_size": 1,
+  "seconds_per_call": 1200,
+  "pressure_guard": 2,
+  "no_parallel_model": true,
+  "full_paper_protocol": false,
+  "limitations": "Short-context bounded eligible cohort; not original Table3 128K-1M evaluation, not private Qwen harness or independently trained dense model",
+  "preparation_peak_rss_cap_bytes": 2000000000,
+  "source_index_convention": "Inferred from raw source: desired_msg_index points to the user request; the next assistant content plus required prefix must equal the original answer. Require the same rule and exactly8 asks across all800 before accepting."
+}

@@ -1,0 +1,20 @@
+{
+  "scope": "Prepared-text image/video reference API, not complete HF chat/URL/streaming API",
+  "max_text_tokens": 512,
+  "max_text_batch": 2,
+  "pad_token": "<|endoftext|> (locked tokenizer_config)",
+  "max_images": 8,
+  "max_videos": 4,
+  "max_local_file_bytes": 16000000,
+  "max_local_image_side": 2048,
+  "video_decode": {
+    "backend": "PyAV 16.1.0 / bundled FFmpeg",
+    "source_frames": 1024,
+    "max_side": 2048,
+    "selected_rgb_pixels": 16777216,
+    "passes": 2,
+    "timestamps": "original selected frame indices / average FPS; not VFR PTS"
+  },
+  "pixels": "profiles/mac_pixels.json",
+  "note": "Explicit Mac limits and decoder backend; public replacement/patch/timestamp semantics tested. Vision/text connected fixture is random scaled weights, not multimodal training."
+}

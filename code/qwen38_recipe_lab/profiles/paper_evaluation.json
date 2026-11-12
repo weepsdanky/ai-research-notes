@@ -1,0 +1,43 @@
+{
+  "declared_at": "2026-11-09T02:54:50.571274+08:00",
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "lineage": "literal paper score, accepted batch8 distillation then8000 sparse steps; Mac scale/sequence/batch/data differences preserved",
+  "outputs_prefix": "runs/eval-paper-",
+  "scope": "Full publicly available declared datasets, separate from all existing HF variant results; original HF MMMLU full14 target retained, not silently dropped",
+  "task_catalog": "EVALUATION.md and evaluation_catalog.json; exact private Qwen harness unknown",
+  "targets": {
+    "mmlu": 14042,
+    "mmlu-pro": 12032,
+    "mmlu-redux2-ok": 5330,
+    "bbh": 6511,
+    "supergpqa": 26529,
+    "gpqa": "gated; authorized access pending, exact paper version unconfirmed",
+    "gsm8k": 1319,
+    "math": 5000,
+    "evalplus": 542,
+    "multipl-e": 1277,
+    "swebench-pretrain": "private construct unknown, not replaced with ordinary SWE-bench",
+    "mgsm": 2750,
+    "mmmlu": 196588,
+    "include": 22639
+  },
+  "text_generation": {
+    "tokens": 64,
+    "decoding": "greedy",
+    "batch_size": 8,
+    "prefill_chunk": 128,
+    "gdn_scan": "chunk",
+    "prefix_cache": true,
+    "grouped_gqa": true,
+    "stop_pressure": 4,
+    "seconds_per_call": 1200,
+    "device": "cpu",
+    "mmlu_context": 4096,
+    "mmmlu_context": 8192
+  },
+  "code_generation": "Existing declared EvalPlus768/MultiPL-E1024 budgets and isolated published judging; do not reassign old checkpoint predictions",
+  "engine_sha256": "18ccfca7f5884cc868c330ca671e1aa3f351b0bc78664ee2ccabff62ab61dcee",
+  "trained_equivalence_proof": "runs/paper-inference-equivalence.json",
+  "no_official_score_claim": true
+}

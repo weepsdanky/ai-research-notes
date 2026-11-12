@@ -1,0 +1,11 @@
+--- a/code/qwen38_recipe_lab/evaluate_batched.py
++++ b/code/qwen38_recipe_lab/evaluate_batched.py
+@@ -112,7 +112,7 @@
+                     if (r['task'], r['index'], r['prompt'], r['input_ids'], r['gold']) != (t.name, i, prompt, ids, gold):
+                         raise ValueError('Stored input prefix mismatch')
+                     if r['correct'] != adapter.correct(r['prediction'], gold, t.kind):raise ValueError('Stored score mismatch')
+-                    existing.append(r);count(r);completed += 1
++                    existing.append(dict(output_ids=r['output_ids'], prediction=r['prediction']));count(r);completed += 1
+         else:
+             if out.exists() or meta_path.exists():raise FileExistsError('Use a new path or explicit --resume')
+             out.touch(exist_ok=False)

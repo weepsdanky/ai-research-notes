@@ -1,0 +1,16 @@
+{
+  "scope": "Full public MMLU-Pro 14 categories, 12032 test items",
+  "shots": 5,
+  "cot": true,
+  "max_new_tokens": 64,
+  "decoding": "greedy",
+  "context": 4096,
+  "max_audited_prompt_tokens": 2862,
+  "prefill_chunk": 128,
+  "batch_size": 8,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "seconds_per_call": 1200,
+  "note": "Public validation rationales, explicit Mac greedy/token/runtime choices; private Qwen protocol unknown. Same fixed step8000 checkpoint."
+}

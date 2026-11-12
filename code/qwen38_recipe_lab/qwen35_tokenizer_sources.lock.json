@@ -1,0 +1,10 @@
+[
+  {
+    "model": "Qwen/Qwen3.5-35B-A3B-Base",
+    "revision": "0f0813072d2358973511097385626f21fcb6d422",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-35B-A3B-Base/resolve/0f0813072d2358973511097385626f21fcb6d422/tokenizer.json",
+    "file": ".cache/references/qwen35-base-0f0813072d2358973511097385626f21fcb6d422-tokenizer.json",
+    "bytes": 12807196,
+    "sha256": "fe000e3ed39ed12b8d2481d527d44f93c65d37e87645d2dcc80d1bf9d50d2927"
+  }
+]

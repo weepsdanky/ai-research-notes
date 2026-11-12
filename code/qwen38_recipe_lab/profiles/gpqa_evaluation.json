@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "gpqa-author-main": 448,
+    "gpqa-author-diamond": 198,
+    "gpqa-clean-main": 448,
+    "gpqa-clean-diamond": 198
+  },
+  "shots": 5,
+  "cot": true,
+  "choice_seed": 42,
+  "max_new_tokens": 600,
+  "token_budget_source": "Pinned author non-chat completion max_tokens600; private Qwen budget unknown; differs from earlier Mac text64",
+  "context": 8192,
+  "fewshot_policy": "Retain all448/198 test rows. Separate unchanged author CoT template from clean Mac variant replacing exactly examples2,3 with first two Record-ID-sorted human-explained extended-only questions; no synthetic explanations.",
+  "status": "Protocol fixed before first prediction; five controls passed; execution evidence in paper-gpqa-completed-audit.json",
+  "device": "cpu",
+  "threads": 1,
+  "batch_size": 8,
+  "prefill_chunk": 128,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "stop_pressure": 2,
+  "decoding": "One greedy completion; no chat/system wrapper; author non-chat max600; native tokenizer EOS only"
+}

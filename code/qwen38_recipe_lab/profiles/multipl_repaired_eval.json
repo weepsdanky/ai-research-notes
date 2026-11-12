@@ -1,0 +1,16 @@
+{
+  "scope": "Mac-only repaired variant of three independently invalid original fixtures; originals retained",
+  "target": 3,
+  "max_new_tokens": 1024,
+  "shots": 0,
+  "decoding": "greedy",
+  "context": 4096,
+  "batch_size": 8,
+  "prefill_chunk": 128,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "not_official_protocol": true,
+  "selection": "Only the three failed preflight fixtures, never selected by model score",
+  "checkpoint_sha256": "996f1abf6540637b63da742077db4bd7d49f2f13bbe247f8aca2710c3a072cb8"
+}

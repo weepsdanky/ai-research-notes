@@ -1,0 +1,40 @@
+{
+  "declared_at": "2026-11-10T03:13:15.787704+08:00",
+  "source_revision": "db43f92ff634bbce1c33d1fb15858aec4bba509a",
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "lengths": [
+    4096,
+    8192
+  ],
+  "samples_per_configuration_per_length": 500,
+  "expected_configurations": 13,
+  "expected_total": 13000,
+  "seed": 42,
+  "raw_data_cap_bytes": 120000000,
+  "prepared_cap_bytes": 64000000,
+  "preparation_peak_rss_cap_bytes": 2000000000,
+  "tokenizer_revision": "812d96e10a0dd82b69d749e68693698cf6c36daa",
+  "template": "published RULER base plus task answer_prefix",
+  "generation_budgets": {
+    "niah": 128,
+    "variable_tracking": 30,
+    "common_words_extraction": 120,
+    "freq_words_extraction": 50,
+    "qa": 32
+  },
+  "comparisons": [
+    "sparse",
+    "same-weight dense"
+  ],
+  "no_parallel_model_or_conversion": true,
+  "full_paper_protocol": false,
+  "scope": "Original500 target remains unfinished; independent repair keeps all500,4K/8K,budgets,all original10 Hotpot documents,first16 byte identity; not unchanged upstream harness",
+  "status": "declared before preparation; no500-sample model outputs",
+  "scratch_cap_bytes": 32000000,
+  "transport": "Lossless reproducible gzip of unchanged author JSONL; uncompressed SHA retained,500-row file first16 bytes must equal accepted16-row corpus",
+  "variant": "Mac QA retry-clamp repair",
+  "repair": "Only Hotpotqa used_docs decrement clamped to minimum10, avoiding negative random.sample; source file untouched, effective AST SHA recorded",
+  "original_failure": "runs/ruler500-hotpot-retry-underflow.json",
+  "admission_proof": "runs/ruler500-hotpot-minimum10-admission.json"
+}

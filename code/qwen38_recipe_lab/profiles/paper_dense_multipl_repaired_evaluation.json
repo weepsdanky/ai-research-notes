@@ -1,0 +1,25 @@
+{
+  "suite": "multipl_repaired",
+  "tasks": [
+    "multipl-repaired-cpp",
+    "multipl-repaired-js",
+    "multipl-repaired-php"
+  ],
+  "tokens": 1024,
+  "context": 4096,
+  "batch_size": 8,
+  "prefill_chunk": 128,
+  "gdn_scan": "chunk",
+  "grouped_gqa": true,
+  "name": "multipl-repaired",
+  "target_items": 3,
+  "prefix_cache": true,
+  "primary_meta": "runs/eval-paper-multipl-repaired.jsonl.meta.json",
+  "primary_meta_sha256": "bd3b9fb9e05dd784c4649c0346b4fcbda13127ca00c52b6509b9208b37880274",
+  "primary_content_sha256": "11b03b2b1c8e479e495b4d10e997c7116c1a7c1835f73cc71dfa2c5ba7637a4a",
+  "primary_audit": "runs/paper-multipl-repaired-generation-audit.json",
+  "primary_audit_sha256": "aca5f463b594a239d9c7a2370b752098f44d166f4c60546d7b5700fa021590d0",
+  "repair_lock_sha256": "0a71bb07790ffab8d45e770132c49faa14e6065e985d25c935b1532580bf71e8",
+  "output": "runs/eval-paper-dense-bounded-multipl-repaired.jsonl",
+  "scope": "Three Mac repaired fixtures only, separate from the original 1277 raw evaluations."
+}

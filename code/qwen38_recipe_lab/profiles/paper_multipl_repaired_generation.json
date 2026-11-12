@@ -1,0 +1,25 @@
+{
+  "declared_at": "2026-11-09T10:35:25.325796+08:00",
+  "checkpoint": "runs/qwen-sparse-paper/last.pt",
+  "checkpoint_sha256": "1b0127c8d93ae879f041f202e789623de837a8fe7e56a557d06da98aa3afcb5e",
+  "suite": "multipl_repaired",
+  "tasks": [
+    "multipl-repaired-*"
+  ],
+  "items": 3,
+  "max_new_tokens": 1024,
+  "context": 4096,
+  "decoding": "greedy",
+  "batch_size": 8,
+  "prefill_chunk": 128,
+  "gdn_scan": "chunk",
+  "prefix_cache": true,
+  "grouped_gqa": true,
+  "device": "cpu",
+  "torch_threads": 1,
+  "stop_pressure": 2,
+  "generation_archive": "15e8accbf1b67588e359c3d37fdc9a6470711103",
+  "deadline": "2026-11-09T11:44:27+08:00",
+  "seconds_per_call": 1200,
+  "note": "Separate nonofficial Mac repaired fixtures, only original CPP137/JS51/PHP23 independently invalid controls. Fresh paper-checkpoint greedy1024 outputs; never replace original1277 file. Run after full generation finishes, before isolated judging. Reuse only model-independent scaffold/positive-negative controls verified against locked sources; never old HF model outputs."
+}

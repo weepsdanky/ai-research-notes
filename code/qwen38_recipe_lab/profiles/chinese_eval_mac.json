@@ -1,0 +1,39 @@
+{
+  "source_lock_sha256": "4e5aa76f328f52840ba43b8b6f41542475e29b7908e2507935d041843f7f355f",
+  "tokenizer_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+  "shots": 5,
+  "cot": false,
+  "decoding": "argmax over standalone A/B/C/D next-token logits",
+  "jobs": [
+    {
+      "name": "ceval",
+      "suite": "chinese",
+      "tasks": [
+        "ceval"
+      ],
+      "target_items": 1346,
+      "subjects": 52,
+      "max_prompt_tokens": 1187,
+      "tokens": 1,
+      "context": 4096,
+      "batch_size": 8,
+      "prefill_chunk": 128,
+      "prefix_cache": true
+    },
+    {
+      "name": "cmmlu",
+      "suite": "chinese",
+      "tasks": [
+        "cmmlu"
+      ],
+      "target_items": 11582,
+      "subjects": 67,
+      "max_prompt_tokens": 797,
+      "tokens": 1,
+      "context": 4096,
+      "batch_size": 8,
+      "prefill_chunk": 128,
+      "prefix_cache": true
+    }
+  ]
+}

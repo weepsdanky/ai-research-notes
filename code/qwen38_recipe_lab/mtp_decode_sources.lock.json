@@ -1,0 +1,23 @@
+[
+  {
+    "file": ".cache/mtp-decode-sources/model.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/models/qwen4_exp/nvidia/model.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 46853,
+    "sha256": "8b241c75e38b33c1b82f93e9b925a468272d193abfe898d397132fb31c4f768c"
+  },
+  {
+    "file": ".cache/mtp-decode-sources/qsa.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/models/qwen4_exp/nvidia/qsa.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 24393,
+    "sha256": "130488cfe025bfc03f2cfde76766ea464cbb739b9469327d42b1639525322c7a"
+  },
+  {
+    "file": ".cache/mtp-decode-sources/qsa_indexer.py",
+    "url": "https://raw.githubusercontent.com/vllm-project/vllm/aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592/vllm/models/qwen4_exp/nvidia/qsa_indexer.py",
+    "revision": "aac1b2a4f36e742c1f55bcb34ca9aaa5e6e02592",
+    "bytes": 17474,
+    "sha256": "27c377e98cb3de52776a56e58660f1a7d747ef6fb4c8f62d4e95dedf1e54199f"
+  }
+]

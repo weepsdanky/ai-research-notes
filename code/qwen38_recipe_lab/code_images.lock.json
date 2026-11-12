@@ -1,0 +1,37 @@
+{
+  "python": {
+    "image_id": "sha256:65bd3d9f1d7fa268dd1909973ba7eb4bdf41f6dcf2cfbe76ba9528b170f3fd79",
+    "repo_digests": [
+      "python@sha256:65bd3d9f1d7fa268dd1909973ba7eb4bdf41f6dcf2cfbe76ba9528b170f3fd79"
+    ],
+    "architecture": "arm64",
+    "os": "linux",
+    "source_tag": "docker.io/library/python:3.11-slim"
+  },
+  "evalplus": {
+    "image_id": "sha256:813de4a18b376e4d4bda2727878f178737d64aaf967e7cf1fbfd200d60f3ec72",
+    "architecture": "arm64",
+    "os": "linux",
+    "size_bytes": 258827577,
+    "source_tag": "local qwen38-evalplus:0.3.1",
+    "package_version": "0.3.1",
+    "recipe_sha256": {
+      "Dockerfile.evalplus": "7545b74ad853f0cbe336812e0ecc3264e424b28a7aa999bb4009120ea6ff54fe",
+      "code_requirements.lock": "1390468b34b4265b3258bad34c33c82329f26132a09b9be912d3652b0f932975",
+      "code_build_requirements.lock": "b537c90004f9b2d38789eb7ae186cdc3e09b99934250b22404b04dd76e940c6d"
+    }
+  },
+  "multipl": {
+    "image_id": "sha256:1c931414d6cb98a80821fd8bf8349e7c29937f297efd8446ba1ba7874ff95121",
+    "architecture": "arm64",
+    "os": "linux",
+    "size_bytes": 965026124,
+    "source_tag": "local qwen38-multipl:locked",
+    "dependency_image_id": "sha256:10baaf29cebf33ca373aaa1d430fedbeb7aaac44a70422eb77be8c661b489b48",
+    "recipe_sha256": {
+      "Dockerfile.multipl": "ee1a08080f04936f518c00ad5c663ef44d5f6aa9bf7b1ba7e88f4e03bf4d2f75",
+      "apt-keep-cache.conf": "abd36bbe77a04dc555763df6c0203ccfe02919a4214d42894e325f3c75f7988d",
+      "multipl_runtime_sources.lock.json": "a2abacff0aaf107bdd5b8fad3fd77d444ef81d27aa795292e2981fa93a4ff424"
+    }
+  }
+}

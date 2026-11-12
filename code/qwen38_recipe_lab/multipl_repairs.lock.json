@@ -1,0 +1,36 @@
+{
+  "version": "mac-repair-v1",
+  "not_official_protocol": true,
+  "selection": "Only independently identified invalid scaffolds; no answer-quality selection",
+  "original_source_lock_sha256": "7d20bd1bf6359d99c3b9754c0cd9fbdd260051c3d85ef8cc6f886327be4dd9d7",
+  "data_sha256": "99eddfcb8f07723fe8aec63e7ad683084cd7a9754c28b0391d9316babaa123d7",
+  "changes": [
+    {
+      "language": "cpp",
+      "name": "HumanEval_137_compare_one",
+      "reason": "Replace malformed untagged unions/nullopt type with tagged variant/optional, explicit typed literals; preserve all eight published input/expected-value pairs and return type distinctions. Not the official C++ prompt.",
+      "original_prompt_sha256": "d3d23c65ab4cf4a9c56486c8e63c1cd6b3ce23b266a70e3a906b9e814ea00723",
+      "original_tests_sha256": "5cd1d8cca42965a90f64989230ad0d25a57974ff43eadd02795471e1b3b3ca71",
+      "repaired_prompt_sha256": "d94d1f419ff2f2c9bdabc2ea43a9a37591b00631a8eb45d79afef98510701913",
+      "repaired_tests_sha256": "64a2cf0d8dd73cdc3e3db2d121703b141afae28e9784628ec3020dfd6dac418f"
+    },
+    {
+      "language": "js",
+      "name": "HumanEval_51_remove_vowels",
+      "reason": "Escape literal newlines inside JS string literals, preserving the actual newline-valued input/expected strings; prompt unchanged.",
+      "original_prompt_sha256": "b399bacb0300e45abf58caf7d182affc43c03ec9c6e1413c46c282c02e5acc83",
+      "original_tests_sha256": "f4cc643e6241b4874dd13fbd4bb024444aebd846df394bae828eaae9f58fff9a",
+      "repaired_prompt_sha256": "b399bacb0300e45abf58caf7d182affc43c03ec9c6e1413c46c282c02e5acc83",
+      "repaired_tests_sha256": "de20044aab9e4b06fae481d79fb91d40bf67101cacc7d5da99c6fbab3bc6b8e8"
+    },
+    {
+      "language": "php",
+      "name": "HumanEval_23_strlen",
+      "reason": "Rename the candidate to avoid redeclaring PHP builtin strlen; preserve all three inputs/expected lengths. Not the official PHP prompt.",
+      "original_prompt_sha256": "15dc770298597a9e4e694e8c7b9d6c946565333553fb7fa2406e8dadaa8f7f2c",
+      "original_tests_sha256": "e653539d50c72276b9eadf9a9dbd5d52cb01bb6f0ebcaacae5fa8277a18749ec",
+      "repaired_prompt_sha256": "8b35422ae6d5122ceaa5c723d1dcf7cb5bb41918a1008e6f6978b73da0a2c09e",
+      "repaired_tests_sha256": "8de60b177897402187040b7019cdb5b8db49d5f4a6de3c951f0871e09224dcee"
+    }
+  ]
+}

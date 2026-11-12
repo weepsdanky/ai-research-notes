@@ -1,0 +1,62 @@
+{
+  "dataset_repo": "Idavidrein/gpqa",
+  "dataset_license": "cc-by-4.0",
+  "author_repo": "idavidrein/gpqa",
+  "author_revision": "56686c06f5e19865c153de0fdb11be3890014df7",
+  "author_code_license": "MIT",
+  "data": [
+    {
+      "path": "data/gpqa/gpqa_main.csv",
+      "sha256": "acdeeac8f622267f2cd727d7d474202ea08dec80f7d3c3593b3ef8644f19b8e3",
+      "bytes": 3214603,
+      "rows": 448,
+      "revision": "83022cefff930aea54f654c0b282e74b9eeda5c6"
+    },
+    {
+      "path": "data/gpqa/gpqa_diamond.csv",
+      "sha256": "41d1213cd7a4998605a26c2798500652572007161b3a92817ba46b35befcd305",
+      "bytes": 1373492,
+      "rows": 198,
+      "revision": "83022cefff930aea54f654c0b282e74b9eeda5c6"
+    },
+    {
+      "path": "data/gpqa/gpqa_extended.csv",
+      "sha256": "0926ee24949d02ed6748eb75a2611546c34479e30ddc42efd01d6f1681aaa48a",
+      "bytes": 4091077,
+      "rows": 546,
+      "revision": "83022cefff930aea54f654c0b282e74b9eeda5c6"
+    }
+  ],
+  "references": [
+    {
+      "path": ".cache/references/gpqa-author/baselines__closed_book.py",
+      "sha256": "7815b8617dd6bac9f964a9b61520b6e07e9ccba0c20edf6003e8206486946ead",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/baselines/closed_book.py"
+    },
+    {
+      "path": ".cache/references/gpqa-author/baselines__utils.py",
+      "sha256": "63189efa76292b0f67d80ecf416f38d3db582b6570bdec433df8869868a136d4",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/baselines/utils.py"
+    },
+    {
+      "path": ".cache/references/gpqa-author/baselines__run_baseline.py",
+      "sha256": "8d9225c2446b215dcb5fd5230491ee7f49cc4a40ba836c3f379693a7d74d0660",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/baselines/run_baseline.py"
+    },
+    {
+      "path": ".cache/references/gpqa-author/prompts__chain_of_thought.txt",
+      "sha256": "30810f126241974f45470530f980ff750170eafe98a72f152ca4dc6b9f5c34b7",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/prompts/chain_of_thought.txt"
+    },
+    {
+      "path": ".cache/references/gpqa-author/prompts__chain_of_thought_examples.json",
+      "sha256": "3c4cc0d4641a86d26bfe2d28f195c93593b0cfd562ab17cb1832c31db4019e98",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/prompts/chain_of_thought_examples.json"
+    },
+    {
+      "path": ".cache/references/gpqa-author/LICENSE",
+      "sha256": "09c64e279464e54aa88696bcb73dc77722f905a028313c48a17e16572db00d8a",
+      "url": "https://raw.githubusercontent.com/idavidrein/gpqa/56686c06f5e19865c153de0fdb11be3890014df7/LICENSE"
+    }
+  ]
+}

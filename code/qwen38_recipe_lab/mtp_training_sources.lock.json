@@ -1,0 +1,26 @@
+[
+  {
+    "file": ".cache/canzona-mtp-sources/docs/source/api-guide/multi_token_prediction.md",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/docs/source/api-guide/multi_token_prediction.md",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "upstream_path": "docs/source/api-guide/multi_token_prediction.md",
+    "bytes": 2172,
+    "sha256": "44c1aa980d31b4033087de2d7b86cf5ae7b05da9af1791b86f209964b3453e23"
+  },
+  {
+    "file": ".cache/canzona-mtp-sources/megatron/core/transformer/multi_token_prediction.py",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/megatron/core/transformer/multi_token_prediction.py",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "upstream_path": "megatron/core/transformer/multi_token_prediction.py",
+    "bytes": 39515,
+    "sha256": "106259fbd8b2513443c38c1e4466ef81c2f93d0d3b5d5bb63b1173961f82fa31"
+  },
+  {
+    "file": ".cache/canzona-mtp-sources/tests/unit_tests/transformer/test_multi_token_prediction.py",
+    "url": "https://raw.githubusercontent.com/liangyuwang/Megatron-Canzona/a892689c51f5e6cfce29340e7fc3f5fcaed5672a/tests/unit_tests/transformer/test_multi_token_prediction.py",
+    "revision": "a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+    "upstream_path": "tests/unit_tests/transformer/test_multi_token_prediction.py",
+    "bytes": 19440,
+    "sha256": "f895c71a595d28a6d3f55df1706bec5f3677eefbbb02b4b4ef4dac9d9e6bb8ea"
+  }
+]

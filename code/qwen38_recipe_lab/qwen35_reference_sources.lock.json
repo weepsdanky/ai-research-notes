@@ -1,0 +1,20 @@
+[
+  {
+    "project": "huggingface/transformers",
+    "revision": "863d2620210d72fc0a9a03fdfe200bc9699154f6",
+    "path": "src/transformers/models/qwen3_5_moe/modeling_qwen3_5_moe.py",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/863d2620210d72fc0a9a03fdfe200bc9699154f6/src/transformers/models/qwen3_5_moe/modeling_qwen3_5_moe.py",
+    "file": ".cache/references/qwen35-863d2620210d72fc0a9a03fdfe200bc9699154f6-modeling_qwen3_5_moe.py",
+    "bytes": 96070,
+    "sha256": "fbe84f0517639ba6025c98737f43f31699605e6d02297e4642dc3bd326f45249"
+  },
+  {
+    "project": "huggingface/transformers",
+    "revision": "863d2620210d72fc0a9a03fdfe200bc9699154f6",
+    "path": "src/transformers/models/qwen3_5_moe/configuration_qwen3_5_moe.py",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/863d2620210d72fc0a9a03fdfe200bc9699154f6/src/transformers/models/qwen3_5_moe/configuration_qwen3_5_moe.py",
+    "file": ".cache/references/qwen35-863d2620210d72fc0a9a03fdfe200bc9699154f6-configuration_qwen3_5_moe.py",
+    "bytes": 8565,
+    "sha256": "b4292600803686a2d0aca86f39309177cc5564cc751ec81479594369a6b88416"
+  }
+]

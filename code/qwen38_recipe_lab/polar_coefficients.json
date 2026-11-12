@@ -1,0 +1,47 @@
+{
+  "source": "liangyuwang/Megatron-Canzona@a892689c51f5e6cfce29340e7fc3f5fcaed5672a",
+  "selector": "qwen_express",
+  "production_selector_status": "Author-published Qwen-tuned table; production launch selector not disclosed in report.",
+  "coefficients": [
+    [
+      8.3865,
+      -24.3696,
+      17.7251
+    ],
+    [
+      4.1414,
+      -3.0173,
+      0.5524
+    ],
+    [
+      3.9226,
+      -2.8672,
+      0.5357
+    ],
+    [
+      3.254,
+      -2.3922,
+      0.4827
+    ],
+    [
+      2.2512,
+      -1.5963,
+      0.396
+    ],
+    [
+      1.87,
+      -1.2279,
+      0.3582
+    ],
+    [
+      1.8564,
+      -1.2132,
+      0.3568
+    ],
+    [
+      1.875,
+      -1.25,
+      0.375
+    ]
+  ]
+}

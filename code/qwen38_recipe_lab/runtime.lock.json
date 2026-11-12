@@ -1,0 +1,18 @@
+[
+  {
+    "repo": "abiosoft/colima",
+    "version": "v0.10.3",
+    "name": "colima-Darwin-arm64",
+    "url": "https://github.com/abiosoft/colima/releases/download/v0.10.3/colima-Darwin-arm64",
+    "bytes": 15656320,
+    "sha256": "980ad8bf61a4ca370243f4cb41401a61276dcd2c2502bee7b9b86f9250169f34"
+  },
+  {
+    "repo": "lima-vm/lima",
+    "version": "v2.3.0",
+    "name": "lima-2.3.0-Darwin-arm64.tar.gz",
+    "url": "https://github.com/lima-vm/lima/releases/download/v2.3.0/lima-2.3.0-Darwin-arm64.tar.gz",
+    "bytes": 50317981,
+    "sha256": "b7af444bd8f91d3c307477e562f2cf3bd7595d62b9429185e4fa841563578cfc"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "languages": ["py", "cpp", "java", "php", "ts", "cs", "sh", "js"],
+  "tasks": 1277,
+  "scope": "All tasks in the eight locked public configurations",
+  "max_new_tokens": 1024,
+  "token_limit_source": "Pinned MultiPL-E multipl_e/completions.py --max-tokens default",
+  "samples_per_task": 1,
+  "decoding": "greedy",
+  "difference": "Publisher suggests 20 samples at temperature 0.2 for estimated pass@1; this Mac run uses one greedy completion and reports its test pass fraction, not that sampling estimate. Qwen private evaluator is unknown.",
+  "context": 4096,
+  "prefill_chunk": 128,
+  "batch_size": 8,
+  "gdn_scan": "chunk",
+  "seconds_per_call": 1200,
+  "data_cap_bytes": 16000000,
+  "archive_expanded_cap_bytes": 128000000
+}

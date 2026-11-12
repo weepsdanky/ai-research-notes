@@ -1,0 +1,23 @@
+{
+  "status": "core3 only;218 essay inputs pending",
+  "files": [
+    {
+      "file": "data/ruler-source/english_words.json",
+      "url": "https://media.githubusercontent.com/media/NVIDIA/RULER/db43f92ff634bbce1c33d1fb15858aec4bba509a/scripts/data/synthetic/json/english_words.json",
+      "bytes": 8564991,
+      "sha256": "affcd6d45fdf3cc843d585c99c97ad615094e760e6c4756b654bab6c73bc2eca"
+    },
+    {
+      "file": "data/ruler-source/squad.json",
+      "url": "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json",
+      "bytes": 4370528,
+      "sha256": "80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8"
+    },
+    {
+      "file": "data/ruler-source/hotpotqa.json",
+      "url": "https://huggingface.co/datasets/namlh2004/hotpotqa/resolve/7e54db4656209750ff487f6fdf8e39a66dba136b/hotpot_dev_distractor_v1.json",
+      "bytes": 61065698,
+      "sha256": "e3da074df24e8369009918aa5cdbdd254dadcde4c63f7569d36afd6f2268caa8"
+    }
+  ]
+}

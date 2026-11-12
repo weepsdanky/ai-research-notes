@@ -1,0 +1,20 @@
+[
+  {
+    "model": "Qwen/Qwen3.5-35B-A3B",
+    "revision": "59d61f3ce65a6d9863b86d2e96597125219dc754",
+    "file": ".cache/references/qwen35-instruct-59d61f3ce65a6d9863b86d2e96597125219dc754-config.json",
+    "bytes": 3544,
+    "sha256": "5e4d7f74fec2f360eb9cfbfcd6ec0c4c76e684d3a11caaed259d9fd9bfbc7944",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-35B-A3B/resolve/59d61f3ce65a6d9863b86d2e96597125219dc754/config.json",
+    "api_metadata_sha256": "bb2bfe27b3d9e35e010dd4622ef6d25541bb33e76915ecdbaae91767bf6a3483"
+  },
+  {
+    "model": "Qwen/Qwen3.5-35B-A3B-Base",
+    "revision": "0f0813072d2358973511097385626f21fcb6d422",
+    "file": ".cache/references/qwen35-base-0f0813072d2358973511097385626f21fcb6d422-config.json",
+    "bytes": 3544,
+    "sha256": "5e4d7f74fec2f360eb9cfbfcd6ec0c4c76e684d3a11caaed259d9fd9bfbc7944",
+    "url": "https://huggingface.co/Qwen/Qwen3.5-35B-A3B-Base/resolve/0f0813072d2358973511097385626f21fcb6d422/config.json",
+    "api_metadata_sha256": "97a2c084c084bc40a9ed149d5a461d99f4d1cc36f852f9c6568104cb8fcdf770"
+  }
+]

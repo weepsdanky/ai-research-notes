@@ -1,0 +1,41 @@
+{
+  "declared_at": "2026-11-09T00:42:20.052226+08:00",
+  "purpose": "Independent literal-paper-score sparse training from accepted batch-eight distillation; retains declared Mac sparse phase budget",
+  "init": "runs/qwen-distill-paper-batch8/last.pt",
+  "init_sha256": "21b750734f34d8e0b0d21c8637aade929476ff0e75e1fcbf7c95614e8c127f00",
+  "out": "runs/qwen-sparse-paper",
+  "score_mode": "paper",
+  "steps": 8000,
+  "seq": 128,
+  "batch": 1,
+  "accum": 1,
+  "phase_tokens": 1024000,
+  "lr": 2.5e-05,
+  "schedule": "constant",
+  "seed": 42,
+  "eval_every": 100,
+  "eval_batches": 8,
+  "data": [
+    "data/owt",
+    "data/shakespeare"
+  ],
+  "mix_probability": 0.1,
+  "production_differences": {
+    "sequence_length": "128 rather than 256K",
+    "sequences_per_step": "1 rather than 96; explicit original Mac sparse budget, not production token equivalence",
+    "model": "Same scaled 32,978,962 parameter model; production width/depth/expert count not reproduced",
+    "data": "Bounded existing proxy corpora; production corpus unknown",
+    "execution": "MPS eager gather reference, not GPU fused sparse kernel"
+  },
+  "acceptance": [
+    "8000 completed, no shortened step target",
+    "finite model and optimizer, exact training source hashes, checkpoint continuity",
+    "fixed LM/KL validation on both corpora and same-weight dense reference",
+    "actual historical token pruning, useful nondegenerate indexer",
+    "real generated samples from final checkpoint; source/checkpoint identities separate from existing HF evaluation"
+  ],
+  "round_deadline": "2026-11-09T01:21:37+08:00",
+  "seconds_per_call": 1200,
+  "runtime_basis": "Prior HF same-size sparse median .34945 s/step, ~47min before validation; save partial at round deadline without marking complete",
+  "preserve": "Existing HF checkpoint, all completed evaluation predictions, failed paper runs and qwen_next_lab unchanged"
+}

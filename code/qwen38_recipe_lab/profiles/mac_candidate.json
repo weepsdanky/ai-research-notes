@@ -1,0 +1,58 @@
+{
+  "status": "candidate_probe_completed",
+  "model": {
+    "vocab_size": 248320,
+    "eos": 248044,
+    "width": 64,
+    "layers": 4,
+    "heads": 12,
+    "kv_heads": 1,
+    "head_dim": 256,
+    "rotary_dim": 64,
+    "gdn_k_heads": 1,
+    "gdn_v_heads": 3,
+    "gdn_k_dim": 128,
+    "gdn_v_dim": 128,
+    "hidden": 16,
+    "experts": 8,
+    "top_k": 2,
+    "branches": 4,
+    "rank": 8,
+    "index_heads": 4,
+    "index_dim": 128,
+    "block": 4,
+    "budget": 32,
+    "score_mode": "paper",
+    "ngram_base": 1024,
+    "ngram_heads": 2,
+    "ngram_layer": 2,
+    "hash_seed": 1234,
+    "rope_theta": 10000000.0
+  },
+  "parameters": 32978962,
+  "components": {
+    "embedding": 15892480,
+    "output_head": 15892480,
+    "ngram": 67584
+  },
+  "immutable_source": "sources.lock.json",
+  "optimizer": {
+    "muon_steps": 8,
+    "momentum": 0.95,
+    "epsilon": 1e-14,
+    "safety_factor": 1.01,
+    "coefficient_interpretation": "first8_of_upstream_default10",
+    "adam_betas": [
+      0.9,
+      0.95
+    ],
+    "adam_epsilon": 1e-08,
+    "weight_decay": 0.01,
+    "unpublished_production_fields": [
+      "exact coefficient list",
+      "Adam hyperparameters",
+      "weight decay",
+      "indexer optimizer ownership"
+    ]
+  }
+}
